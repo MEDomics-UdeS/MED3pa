@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10' 
+        
+    - name: Install Miniconda on Ubuntu
+      if: runner.os == 'Linux'
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+
+    - name: Install Miniconda on Windows
+      if: runner.os == 'Windows'
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+
+    - name: Install Miniconda on macOS
+      if: runner.os == 'macOS'
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        auto-update-conda: true
+
+    - name: Create Conda environment
+      run: |
+        conda env create -f environment.yml
+        conda activate det3pa
+
+    - name: Run tests
+      run: |
+        conda activate det3pa
+        python -m unittest discover -s tests
