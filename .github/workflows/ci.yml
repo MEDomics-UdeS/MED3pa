@@ -9,11 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -24,20 +20,7 @@ jobs:
       with:
         python-version: '3.10'  # Specify the Python version you are using
 
-    - name: Install Miniconda on Ubuntu
-      if: matrix.os == 'ubuntu-latest'
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        auto-update-conda: true
-
     - name: Install Miniconda on Windows
-      if: matrix.os == 'windows-latest'
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        auto-update-conda: true
-
-    - name: Install Miniconda on macOS
-      if: matrix.os == 'macos-latest'
       uses: conda-incubator/setup-miniconda@v2
       with:
         auto-update-conda: true
