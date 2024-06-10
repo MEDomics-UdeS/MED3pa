@@ -1,31 +1,9 @@
-from abc import ABC, abstractmethod
+"""
+This module defines a comprehensive list of Evaluation metrics for regression tasks.
+"""
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-
-class RegressionEvaluationMetric(ABC):
-    """
-    Abstract base class for regression evaluation metrics.
-    """
-    @abstractmethod
-    def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        """
-        Calculates the metric value.
-
-        Parameters
-        ----------
-        y_true : np.ndarray
-            True values.
-        y_pred : np.ndarray
-            Predicted values.
-        sample_weight : np.ndarray, optional
-            Sample weights.
-
-        Returns
-        -------
-        float
-            Calculated metric value.
-        """
-        pass
+from .abstract_metrics import RegressionEvaluationMetric
 
 class MeanSquaredError(RegressionEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:

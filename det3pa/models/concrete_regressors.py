@@ -1,3 +1,4 @@
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 import numpy as np
@@ -12,13 +13,12 @@ class RandomForestRegressorModel(RegressionModel):
     """
     def __init__(self, params: Dict[str, Any]) -> None:
         """
-        Initializes the RandomForestRegressorModel with a sklearn RandomForestRegressor.
+        Initializes the RandomForestRegressorModel with a scikit-learn RandomForestRegressor.
 
-        Parameters
-        ----------
-        params : dict
-            Parameters for initializing the RandomForestRegressor.
+        Args:
+            params (dict): Parameters for initializing the RandomForestRegressor.
         """
+
         self.params = params
         self.model = RandomForestRegressor(**params)
         self.model_class = RandomForestRegressor
@@ -27,46 +27,35 @@ class RandomForestRegressorModel(RegressionModel):
 
     def _ensure_numpy_arrays(self, features: Any, labels: Optional[np.ndarray] = None) -> tuple:
         """
-        Ensures that the input data is converted to NumPy array format.
+        Ensures that the input data is converted to NumPy array format, using the defined data preparation strategy.
+        This method is used internally to standardize input data before training, predicting, or evaluating.
 
-        Parameters
-        ----------
-        features : Any
-            Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.
-        labels : np.ndarray, optional
-            Labels data, similar to features in that it can be in various formats.
+        Args:
+            features (Any): Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.
+            labels (np.ndarray, optional): Labels data, similar to features in that it can be in various formats. If labels are not provided,
+                                        only features are converted and returned.
 
-        Returns
-        -------
-        tuple
-            The features and labels (if provided) as NumPy arrays.
+        Returns:
+            tuple: The features and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.
         """
         if not isinstance(features, np.ndarray) or (labels is not None and not isinstance(labels, np.ndarray)):
             return self.data_preparation_strategy.execute(features, labels)
         else:
             return features, labels
 
-    def train(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray, y_validation: np.ndarray, training_parameters: Optional[Dict[str, Any]]) -> None:
+    def train(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray = None, y_validation: np.ndarray = None, training_parameters: Optional[Dict[str, Any]] = None) -> None:
         """
         Trains the model on the provided dataset.
 
-        Parameters
-        ----------
-        x_train : np.ndarray
-            Features for training.
-        y_train : np.ndarray
-            Labels for training.
-        x_validation : np.ndarray
-            Features for validation.
-        y_validation : np.ndarray
-            Labels for validation.
-        training_parameters : dict, optional
-            Additional training parameters.
+        Args:
+            x_train (np.ndarray): Features for training.
+            y_train (np.ndarray): Labels for training.
+            x_validation (np.ndarray, optional): Features for validation.
+            y_validation (np.ndarray, optional): Labels for validation.
+            training_parameters (dict, optional): Additional training parameters.
 
-        Raises
-        ------
-        ValueError
-            If the RandomForestRegressor has not been initialized before training.
+        Raises:
+            ValueError: If the RandomForestRegressor has not been initialized before training.
         """
         if self.model is None:
             raise ValueError("The RandomForestRegressor has not been initialized.")
@@ -93,20 +82,14 @@ class RandomForestRegressorModel(RegressionModel):
         """
         Makes predictions with the model for the given input.
 
-        Parameters
-        ----------
-        X : np.ndarray
-            Features for prediction.
+        Args:
+            X (np.ndarray): Features for prediction.
 
-        Returns
-        -------
-        np.ndarray
-            Predictions made by the model.
+        Returns:
+            np.ndarray: Predictions made by the model.
 
-        Raises
-        ------
-        ValueError
-            If the RandomForestRegressor has not been initialized before training.
+        Raises:
+            ValueError: If the RandomForestRegressor has not been initialized before training.
         """
         if self.model is None:
             raise ValueError("The RandomForestRegressor has not been initialized.")
@@ -118,26 +101,17 @@ class RandomForestRegressorModel(RegressionModel):
         """
         Evaluates the model using specified metrics.
 
-        Parameters
-        ----------
-        X : np.ndarray
-            Features for evaluation.
-        y : np.ndarray
-            True labels for evaluation.
-        eval_metrics : list of str
-            Metrics to use for evaluation.
-        print_results : bool, optional
-            Whether to print the evaluation results. Defaults to False.
+        Args:
+            X (np.ndarray): Features for evaluation.
+            y (np.ndarray): True labels for evaluation.
+            eval_metrics (List[str]): Metrics to use for evaluation.
+            print_results (bool, optional): Whether to print the evaluation results.
 
-        Returns
-        -------
-        dict
-            A dictionary with metric names and their evaluated scores.
+        Returns:
+            Dict[str, float]: A dictionary with metric names and their evaluated scores.
 
-        Raises
-        ------
-        ValueError
-            If the model has not been trained before evaluation.
+        Raises:
+            ValueError: If the model has not been trained before evaluation.
         """
         if self.model is None:
             raise ValueError("Model must be trained before evaluation.")
@@ -164,12 +138,10 @@ class DecisionTreeRegressorModel(RegressionModel):
     """
     def __init__(self, params: Dict[str, Any]) -> None:
         """
-        Initializes the DecisionTreeRegressorModel with a sklearn DecisionTreeRegressor.
+        Initializes the DecisionTreeRegressorModel with a scikit-learn DecisionTreeRegressor.
 
-        Parameters
-        ----------
-        params : dict
-            Parameters for initializing the DecisionTreeRegressor.
+        Args:
+            params (dict): Parameters for initializing the DecisionTreeRegressor.
         """
         self.params = params
         self.model = DecisionTreeRegressor(**params)
@@ -179,46 +151,35 @@ class DecisionTreeRegressorModel(RegressionModel):
 
     def _ensure_numpy_arrays(self, features: Any, labels: Optional[np.ndarray] = None) -> tuple:
         """
-        Ensures that the input data is converted to NumPy array format.
+        Ensures that the input data is converted to NumPy array format, using the defined data preparation strategy.
+        This method is used internally to standardize input data before training, predicting, or evaluating.
 
-        Parameters
-        ----------
-        features : Any
-            Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.
-        labels : np.ndarray, optional
-            Labels data, similar to features in that it can be in various formats.
+        Args:
+            features (Any): Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.
+            labels (np.ndarray, optional): Labels data, similar to features in that it can be in various formats. If labels are not provided,
+                                        only features are converted and returned.
 
-        Returns
-        -------
-        tuple
-            The features and labels (if provided) as NumPy arrays.
+        Returns:
+            tuple: The features and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.
         """
         if not isinstance(features, np.ndarray) or (labels is not None and not isinstance(labels, np.ndarray)):
             return self.data_preparation_strategy.execute(features, labels)
         else:
             return features, labels
 
-    def train(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray, y_validation: np.ndarray, training_parameters: Optional[Dict[str, Any]]) -> None:
+    def train(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray = None, y_validation: np.ndarray = None, training_parameters: Optional[Dict[str, Any]] = None) -> None:
         """
         Trains the model on the provided dataset.
 
-        Parameters
-        ----------
-        x_train : np.ndarray
-            Features for training.
-        y_train : np.ndarray
-            Labels for training.
-        x_validation : np.ndarray
-            Features for validation.
-        y_validation : np.ndarray
-            Labels for validation.
-        training_parameters : dict, optional
-            Additional training parameters.
+        Args:
+            x_train (np.ndarray): Features for training.
+            y_train (np.ndarray): Labels for training.
+            x_validation (np.ndarray, optional): Features for validation.
+            y_validation (np.ndarray, optional): Labels for validation.
+            training_parameters (dict, optional): Additional training parameters.
 
-        Raises
-        ------
-        ValueError
-            If the DecisionTreeRegressor has not been initialized before training.
+        Raises:
+            ValueError: If the DecisionTreeRegressor has not been initialized before training.
         """
         if self.model is None:
             raise ValueError("The RandomForestRegressor has not been initialized.")
@@ -245,20 +206,14 @@ class DecisionTreeRegressorModel(RegressionModel):
         """
         Makes predictions with the model for the given input.
 
-        Parameters
-        ----------
-        X : np.ndarray
-            Features for prediction.
+        Args:
+            X (np.ndarray): Features for prediction.
 
-        Returns
-        -------
-        np.ndarray
-            Predictions made by the model.
+        Returns:
+            np.ndarray: Predictions made by the model.
 
-        Raises
-        ------
-        ValueError
-            If the DecisionTreeRegressor has not been initialized before training.
+        Raises:
+            ValueError: If the DecisionTreeRegressor has not been initialized before training.
         """
         if self.model is None:
             raise ValueError("The DecisionTreeRegressor has not been initialized.")
@@ -270,26 +225,17 @@ class DecisionTreeRegressorModel(RegressionModel):
         """
         Evaluates the model using specified metrics.
 
-        Parameters
-        ----------
-        X : np.ndarray
-            Features for evaluation.
-        y : np.ndarray
-            True labels for evaluation.
-        eval_metrics : list of str
-            Metrics to use for evaluation.
-        print_results : bool, optional
-            Whether to print the evaluation results. Defaults to False.
+        Args:
+            X (np.ndarray): Features for evaluation.
+            y (np.ndarray): True labels for evaluation.
+            eval_metrics (List[str]): Metrics to use for evaluation.
+            print_results (bool, optional): Whether to print the evaluation results.
 
-        Returns
-        -------
-        dict
-            A dictionary with metric names and their evaluated scores.
+        Returns:
+            Dict[str, float]: A dictionary with metric names and their evaluated scores.
 
-        Raises
-        ------
-        ValueError
-            If the model has not been trained before evaluation.
+        Raises:
+            ValueError: If the model has not been trained before evaluation.
         """
         if self.model is None:
             raise ValueError("Model must be trained before evaluation.")

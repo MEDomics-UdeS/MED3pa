@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>datasets package &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="det3pa.detectron package" href="det3pa.detectron.html" />
+    <link rel="prev" title="det3pa package" href="det3pa.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="det3pa.html">det3pa package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="det3pa.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">datasets package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#det3pa-datasets-loading-context-module">det3pa.datasets.loading_context module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets.loading_strategies">det3pa.datasets.loading_strategies module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets.manager">det3pa.datasets.manager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="det3pa.detectron.html">det3pa.detectron package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="det3pa.med3pa.html">det3pa.med3pa package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="det3pa.models.html">det3pa.models package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="det3pa.html">det3pa package</a></li>
+      <li class="breadcrumb-item active">datasets package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/det3pa.datasets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="datasets-package">
+<h1>datasets package<a class="headerlink" href="#datasets-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="det3pa-datasets-loading-context-module">
+<h2>det3pa.datasets.loading_context module<a class="headerlink" href="#det3pa-datasets-loading-context-module" title="Permalink to this heading"></a></h2>
+<p>This module represents a context class for loading datasets using different strategies, such as .csv files.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_context.</span></span><span class="sig-name descname"><span class="pre">DataLoadingContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A context class for managing data loading strategies. It supports setting and getting the current
+data loading strategy, as well as loading data as a NumPy array from a specified file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">selected_strategy</span></span></dt>
+<dd><p>The currently selected data loading strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy">DataLoadingStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_strategy(strategy</span></span></dt>
+<dd><p>DataLoadingStrategy): Sets a new data loading strategy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.get_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Returns the currently selected data loading strategy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load_as_np(file_path</span></span></dt>
+<dd><p>str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:
+Loads data from the specified file path and returns column labels, features, and target data as NumPy arrays.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.get_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Returns the currently selected data loading strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The currently selected data loading strategy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy">DataLoadingStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load_as_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.load_as_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Loads data from the given file path and returns it as a NumPy array, along with column labels and the target data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – The path to the dataset file.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column, such as true labels or values in case of regression.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the column labels, features as a NumPy array,
+and the target as a NumPy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[List[str], np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.set_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sets a new data loading strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>strategy</strong> (<a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><em>DataLoadingStrategy</em></a>) – The new data loading strategy to be used.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-det3pa.datasets.loading_strategies">
+<span id="det3pa-datasets-loading-strategies-module"></span><h2>det3pa.datasets.loading_strategies module<a class="headerlink" href="#module-det3pa.datasets.loading_strategies" title="Permalink to this heading"></a></h2>
+<p>This module provides different strategies for loading datasets, specifically focusing on how to read data from files and convert them into usable formats in Python.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.CSVDataLoadingStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_strategies.</span></span><span class="sig-name descname"><span class="pre">CSVDataLoadingStrategy</span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#CSVDataLoadingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoadingStrategy</span></code></a></p>
+<p>Strategy class for loading CSV data. Implements the abstract execute method to handle CSV files.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute(path_to_file</span></span></dt>
+<dd><p>str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:
+Loads CSV data from the given path, separates features and target, and converts them to NumPy arrays.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#CSVDataLoadingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Loads CSV data from the given path, separates features and target, and converts them to NumPy arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_to_file</strong> (<em>str</em>) – The path to the CSV file to be loaded.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Column labels, features as a NumPy array, and target as a NumPy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[List[str], np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.DataLoadingStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_strategies.</span></span><span class="sig-name descname"><span class="pre">DataLoadingStrategy</span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#DataLoadingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for data loading strategies. Defines a common interface for all data loading strategies.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute(path_to_file</span></span></dt>
+<dd><p>str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:
+Abstract method to execute the data loading strategy, to be implemented by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.DataLoadingStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#DataLoadingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract method to execute the data loading strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_to_file</strong> (<em>str</em>) – The path to the file to be loaded.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the column labels, features as a NumPy array,
+and the target as a NumPy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[List[str], np.ndarray, np.ndarray]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If this method is not overridden by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-det3pa.datasets.manager">
+<span id="det3pa-datasets-manager-module"></span><h2>det3pa.datasets.manager module<a class="headerlink" href="#module-det3pa.datasets.manager" title="Permalink to this heading"></a></h2>
+<p>This module provides classes for managing datasets.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.manager.</span></span><span class="sig-name descname"><span class="pre">DatasetsManager</span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages various datasets for execution of detectron and med3pa methods.</p>
+<p>This manager is responsible for loading and holding different sets of data, including training, validation,
+reference (or domain dataset), and testing datasets (or new encountered data).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.get_base_model_training_data">
+<span class="sig-name descname"><span class="pre">get_base_model_training_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_instance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.get_base_model_training_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.get_base_model_training_data" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the training dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_instance</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns the MaskedDataset instance; otherwise, returns the features and true labels. Defaults to False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The features and true labels if return_instance is False, otherwise the MaskedDataset instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[tuple, <a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the base model training set is not initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.get_base_model_validation_data">
+<span class="sig-name descname"><span class="pre">get_base_model_validation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_instance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.get_base_model_validation_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.get_base_model_validation_data" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the validation dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_instance</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns the MaskedDataset instance; otherwise, returns the features and true labels. Defaults to False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The features and true labels if return_instance is False, otherwise the MaskedDataset instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[tuple, <a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the base model validation set is not initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.get_reference_data">
+<span class="sig-name descname"><span class="pre">get_reference_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_instance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.get_reference_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.get_reference_data" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the reference dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_instance</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns the MaskedDataset instance; otherwise, returns the features and true labels. Defaults to False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The features and true labels if return_instance is False, otherwise the MaskedDataset instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[tuple, <a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the reference set is not initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.get_testing_data">
+<span class="sig-name descname"><span class="pre">get_testing_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_instance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.get_testing_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.get_testing_data" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the testing dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_instance</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns the MaskedDataset instance; otherwise, returns the features and true labels. Defaults to False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The features and true labels if return_instance is False, otherwise the MaskedDataset instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[tuple, <a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the testing set is not initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.set_base_model_training_data">
+<span class="sig-name descname"><span class="pre">set_base_model_training_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.set_base_model_training_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.set_base_model_training_data" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and sets the base model training dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training_file</strong> (<em>str</em>) – The file path to the training data.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.set_base_model_validation_data">
+<span class="sig-name descname"><span class="pre">set_base_model_validation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.set_base_model_validation_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.set_base_model_validation_data" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and sets the base model validation dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>validation_file</strong> (<em>str</em>) – The file path to the validation data.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.set_reference_data">
+<span class="sig-name descname"><span class="pre">set_reference_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.set_reference_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.set_reference_data" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and sets the reference dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reference_file</strong> (<em>str</em>) – The file path to the reference data.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.set_testing_data">
+<span class="sig-name descname"><span class="pre">set_testing_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testing_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.set_testing_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.set_testing_data" title="Permalink to this definition"></a></dt>
+<dd><p>Loads and sets the testing dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>testing_file</strong> (<em>str</em>) – The file path to the testing data.</p></li>
+<li><p><strong>target_column_name</strong> (<em>str</em>) – The name of the target column in the dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.manager.</span></span><span class="sig-name descname"><span class="pre">MaskedDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>A dataset wrapper for PyTorch that supports masking and sampling of data points.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.features">
+<span class="sig-name descname"><span class="pre">features</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.features" title="Permalink to this definition"></a></dt>
+<dd><p>The feature vectors of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.true_labels">
+<span class="sig-name descname"><span class="pre">true_labels</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.true_labels" title="Permalink to this definition"></a></dt>
+<dd><p>The true labels of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.pseudo_labels">
+<span class="sig-name descname"><span class="pre">pseudo_labels</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.pseudo_labels" title="Permalink to this definition"></a></dt>
+<dd><p>The pseudo labels predicted by a model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.pseudo_probabilities">
+<span class="sig-name descname"><span class="pre">pseudo_probabilities</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.pseudo_probabilities" title="Permalink to this definition"></a></dt>
+<dd><p>The pseudo probabilities associated with the pseudo labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.indices">
+<span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.indices" title="Permalink to this definition"></a></dt>
+<dd><p>The current indices of the dataset after applying masking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.original_indices">
+<span class="sig-name descname"><span class="pre">original_indices</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.original_indices" title="Permalink to this definition"></a></dt>
+<dd><p>The original indices of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.sample_counts">
+<span class="sig-name descname"><span class="pre">sample_counts</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.sample_counts" title="Permalink to this definition"></a></dt>
+<dd><p>Tracks the number of times each point is sampled, after using the sample() method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset"><span class="pre">MaskedDataset</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.clone" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a clone of the current MaskedDataset instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new instance of MaskedDataset containing the same data and configurations as the current instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.get_features">
+<span class="sig-name descname"><span class="pre">get_features</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.get_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.get_features" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the pseudo labels of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The pseudo labels of the dataset.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.get_pseudo_labels">
+<span class="sig-name descname"><span class="pre">get_pseudo_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.get_pseudo_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.get_pseudo_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the pseudo labels of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The pseudo labels of the dataset.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.get_pseudo_probabilities">
+<span class="sig-name descname"><span class="pre">get_pseudo_probabilities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.get_pseudo_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.get_pseudo_probabilities" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the pseudo probabilities of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The pseudo probabilities of the dataset.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.get_true_labels">
+<span class="sig-name descname"><span class="pre">get_true_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.get_true_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.get_true_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the true labels of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The true labels of the dataset.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.original">
+<span class="sig-name descname"><span class="pre">original</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset"><span class="pre">MaskedDataset</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.original"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.original" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new MaskedDataset instance with the original dataset without any applied mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new instance of the dataset with the original data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.refine">
+<span class="sig-name descname"><span class="pre">refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.refine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.refine" title="Permalink to this definition"></a></dt>
+<dd><p>Refines the dataset by applying a mask to select specific data points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mask</strong> (<em>np.ndarray</em>) – A boolean array indicating which data points to keep.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of data points remaining after applying the mask.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the length of the mask doesn’t match the number of data points.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.reset_indices">
+<span class="sig-name descname"><span class="pre">reset_indices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.reset_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.reset_indices" title="Permalink to this definition"></a></dt>
+<dd><p>Resets the indices of the dataset to the original indices.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset"><span class="pre">MaskedDataset</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.sample" title="Permalink to this definition"></a></dt>
+<dd><p>Samples N data points from the dataset, prioritizing the least sampled points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>) – The number of samples to return.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – The seed for random number generator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new instance of the dataset containing N random samples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset">MaskedDataset</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If N is greater than the current number of data points in the dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.set_pseudo_probs_labels">
+<span class="sig-name descname"><span class="pre">set_pseudo_probs_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudo_probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.set_pseudo_probs_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.set_pseudo_probs_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by
+applying a threshold to the probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pseudo_probabilities</strong> (<em>np.ndarray</em>) – The pseudo probabilities array to be set.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – The threshold to convert probabilities to binary labels. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the shape of pseudo_probabilities does not match the number of samples in the features array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-det3pa.datasets">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-det3pa.datasets" title="Permalink to this heading"></a></h2>
+<p>The <cite>datasets</cite> sub-package provides various classes and functions for managing and loading datasets.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>loading_context: Contains the DataLoadingContext class which manages the context in which data is loaded.
+loading_strategies: Includes the DataLoadingStrategy base class and CSVDataLoadingStrategy for handling different file extenstions.
+manager: Provides the DatasetsManager for managing datasets and MaskedDataset for dataset operations with masked data.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="det3pa.html" class="btn btn-neutral float-left" title="det3pa package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="det3pa.detectron.html" class="btn btn-neutral float-right" title="det3pa.detectron package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Lyna Chikouche, Ludmila Amriou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

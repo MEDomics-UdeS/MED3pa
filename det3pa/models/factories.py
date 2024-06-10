@@ -1,16 +1,13 @@
 """
-Module: model_factories
-This module provides factory classes for creating and managing machine learning models, 
-specifically focusing on XGBoost models.
+This module provides factory classes for creating machine learning models. using the factory design pattern. 
 """
 
 import pickle
 import json
 import re
 import xgboost as xgb
-from .concrete_classifiers import Model, XGBoostModel
-from .abstract_models import Model, ClassificationModel, RegressionModel
-
+from .concrete_classifiers import XGBoostModel
+from .abstract_models import Model
 
 class ModelFactory:
     """
@@ -31,20 +28,14 @@ class ModelFactory:
         """
         Retrieves the factory object for the given model type.
 
-        Parameters
-        ----------
-        model_type : str
-            The type of model for which the factory is to be retrieved.
+        Args:
+            model_type (str): The type of model for which the factory is to be retrieved.
 
-        Returns
-        -------
-        ModelFactory
-            An instance of the factory associated with the given model type.
+        Returns:
+            ModelFactory: An instance of the factory associated with the given model type.
 
-        Raises
-        ------
-        ValueError
-            If no factory is available for the given model type.
+        Raises:
+            ValueError: If no factory is available for the given model type.
         """
         factory_initializer = ModelFactory.factories.get(model_type)
         if factory_initializer:
@@ -57,17 +48,12 @@ class ModelFactory:
         """
         Creates a model of the specified type with the given hyperparameters.
 
-        Parameters
-        ----------
-        model_type : str
-            The type of model to create.
-        hyperparams : dict
-            A dictionary of hyperparameters for the model.
+        Args:
+            model_type (str): The type of model to create.
+            hyperparams (dict): A dictionary of hyperparameters for the model.
 
-        Returns
-        -------
-        Model
-            A model instance of the specified type, initialized with the given hyperparameters.
+        Returns:
+            Model: A model instance of the specified type, initialized with the given hyperparameters.
         """
         factory = ModelFactory.get_factory(model_type)
         return factory.create_model_with_hyperparams(hyperparams)
@@ -77,22 +63,15 @@ class ModelFactory:
         """
         Creates a model by loading it from a pickled file.
 
-        Parameters
-        ----------
-        pickled_file_path : str
-            The file path to the pickled model file.
+        Args:
+            pickled_file_path (str): The file path to the pickled model file.
 
-        Returns
-        -------
-        Model
-            A model instance loaded from the pickled file.
+        Returns:
+            Model: A model instance loaded from the pickled file.
 
-        Raises
-        ------
-        IOError
-            If there is an error loading the model from the file.
-        TypeError
-            If the loaded model is not of a supported type.
+        Raises:
+            IOError: If there is an error loading the model from the file.
+            TypeError: If the loaded model is not of a supported type.
         """
         try:
             with open(pickled_file_path, 'rb') as file:
@@ -118,15 +97,11 @@ class XGBoostFactory(ModelFactory):
         """
         Creates an XGBoostModel with the given hyperparameters.
 
-        Parameters
-        ----------
-        hyperparams : dict
-            A dictionary of hyperparameters for the XGBoost model.
+        Args:
+            hyperparams (dict): A dictionary of hyperparameters for the XGBoost model.
 
-        Returns
-        -------
-        XGBoostModel
-            An instance of XGBoostModel initialized with the given hyperparameters.
+        Returns:
+            XGBoostModel: An instance of XGBoostModel initialized with the given hyperparameters.
         """
         return XGBoostModel(params=hyperparams)
 
@@ -134,22 +109,15 @@ class XGBoostFactory(ModelFactory):
         """
         Recreates an XGBoostModel from a loaded pickled model.
 
-        Parameters
-        ----------
-        loaded_model : xgb.Booster | xgb.XGBClassifier
-            The loaded model object, expected to be an instance of xgb.Booster or xgb.XGBClassifier.
+        Args:
+            loaded_model (xgb.Booster | xgb.XGBClassifier): The loaded model object, expected to be an instance of xgb.Booster or xgb.XGBClassifier.
 
-        Returns
-        -------
-        XGBoostModel
-            An instance of XGBoostModel created from the loaded model.
+        Returns:
+            XGBoostModel: An instance of XGBoostModel created from the loaded model.
 
-        Raises
-        ------
-        TypeError
-            If the loaded model is not a supported implementation of the XGBoost model.
-        ValueError
-            If the XGBoost model version is not supported.
+        Raises:
+            TypeError: If the loaded model is not a supported implementation of the XGBoost model.
+            ValueError: If the XGBoost model version is not supported.
         """
         if isinstance(loaded_model, (xgb.Booster, xgb.XGBClassifier)):
             if self.check_version(loaded_model):
@@ -164,15 +132,11 @@ class XGBoostFactory(ModelFactory):
         """
         Checks the version of the loaded XGBoost model to ensure it is supported.
 
-        Parameters
-        ----------
-        loaded_model : xgb.Booster | xgb.XGBClassifier
-            The loaded model object.
+        Args:
+            loaded_model (xgb.Booster | xgb.XGBClassifier): The loaded model object.
 
-        Returns
-        -------
-        bool
-            True if the model version is supported, False otherwise.
+        Returns:
+            bool: True if the model version is supported, False otherwise.
         """
         config_json = loaded_model.save_config()
         config = json.loads(config_json)
@@ -194,15 +158,11 @@ class XGBoostFactory(ModelFactory):
         """
         Extracts the parameters from a loaded XGBoost model.
 
-        Parameters
-        ----------
-        loaded_model : xgb.Booster | xgb.XGBClassifier
-            The loaded model object.
+        Args:
+            loaded_model (xgb.Booster | xgb.XGBClassifier): The loaded model object.
 
-        Returns
-        -------
-        dict
-            A dictionary of extracted parameters.
+        Returns:
+            dict: A dictionary of extracted parameters.
         """
         try:
             boosted_rounds = loaded_model.num_boosted_rounds()

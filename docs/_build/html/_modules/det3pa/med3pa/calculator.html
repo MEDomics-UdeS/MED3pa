@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>det3pa.med3pa.calculator &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.html">det3pa package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">det3pa.med3pa.calculator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for det3pa.med3pa.calculator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">this module allows for calculation of metrics by declaration rates, problematic profiles, metric by profiles..etc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">det3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">det3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
+<span class="kn">from</span> <span class="nn">det3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">ProfilesManager</span>
+
+<div class="viewcode-block" id="MDRCalculator"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.calculator.MDRCalculator">[docs]</a><span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to calculate various metrics and profiles for the MED3PA method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.calculator.MDRCalculator.calc_metrics_by_dr">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_metrics_by_dr</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_accuracies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            y_true (np.ndarray): True labels.</span>
+<span class="sd">            y_pred (np.ndarray): Predicted labels.</span>
+<span class="sd">            predicted_prob (np.ndarray): Predicted probabilities for the positive class.</span>
+<span class="sd">            predicted_accuracies (np.ndarray): Predicted accuracies (confidence scores) for each prediction.</span>
+<span class="sd">            metrics_list (list): List of metric names to be calculated (e.g., &#39;AUC&#39;, &#39;Accuracy&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing metrics computed for each declaration rate from 100% to 1%, including metrics and population percentage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metrics_by_dr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sorted_accuracies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">predicted_accuracies</span><span class="p">)</span>
+        <span class="n">last_dr_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">sorted_accuracies</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_accuracies</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dr</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))]</span>
+            <span class="k">if</span> <span class="n">last_min_confidence_level</span> <span class="o">!=</span> <span class="n">min_confidence_level</span><span class="p">:</span>
+                <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="n">min_confidence_level</span>
+                <span class="n">dr_values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;min_confidence_level&#39;</span><span class="p">:</span> <span class="n">min_confidence_level</span><span class="p">}</span>
+                <span class="n">dr_values</span><span class="p">[</span><span class="s1">&#39;population_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">predicted_accuracies</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+                
+                <span class="c1"># Calculate the metrics for the current DR</span>
+                <span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">metrics_list</span><span class="p">:</span>
+                    <span class="n">metric</span> <span class="o">=</span> <span class="n">metrics_mappings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="p">(</span><span class="n">RocAuc</span><span class="p">,</span> <span class="n">AveragePrecision</span><span class="p">):</span>
+                        <span class="n">metrics_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span>
+                            <span class="n">y_true</span><span class="p">[</span><span class="n">predicted_accuracies</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">],</span>
+                            <span class="n">predicted_prob</span><span class="p">[</span><span class="n">predicted_accuracies</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">metrics_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span>
+                            <span class="n">y_true</span><span class="p">[</span><span class="n">predicted_accuracies</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">],</span>
+                            <span class="n">y_pred</span><span class="p">[</span><span class="n">predicted_accuracies</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span>
+                
+                <span class="n">dr_values</span><span class="p">[</span><span class="s1">&#39;Metrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_dict</span>
+                <span class="n">last_dr_values</span> <span class="o">=</span> <span class="n">dr_values</span>
+                <span class="n">metrics_by_dr</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">dr_values</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metrics_by_dr</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_dr_values</span>
+
+        <span class="k">return</span> <span class="n">metrics_by_dr</span></div>
+
+<div class="viewcode-block" id="MDRCalculator.calc_profiles"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.calculator.MDRCalculator.calc_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">predicted_accuracies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change</span>
+<span class="sd">        across different confidence levels derived from predicted accuracies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            profiles_manager (ProfilesManager): Manager for storing and retrieving profile information.</span>
+<span class="sd">            tree (TreeRepresentation): Tree structure from which profiles are derived.</span>
+<span class="sd">            predicted_accuracies (np.ndarray): Array of predicted accuracy values used for thresholding profiles.</span>
+<span class="sd">            min_samples_ratio (int): Minimum sample ratio to consider for including a profile.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sorted_accuracies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">predicted_accuracies</span><span class="p">)</span>
+        <span class="n">last_profiles</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_all_profiles</span><span class="p">(</span><span class="n">sorted_accuracies</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_samples_ratio</span><span class="p">)</span>
+        <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">last_dr</span> <span class="o">=</span> <span class="mi">100</span>
+
+        <span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="mf">1.01</span> <span class="k">if</span> <span class="n">dr</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">sorted_accuracies</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_accuracies</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dr</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))]</span>
+            <span class="k">if</span> <span class="n">last_min_confidence_level</span> <span class="o">!=</span> <span class="n">min_confidence_level</span><span class="p">:</span>
+                <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="n">min_confidence_level</span>
+                <span class="n">profiles_current</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_all_profiles</span><span class="p">(</span><span class="n">min_confidence_level</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">)</span>
+                <span class="n">profiles_ins</span> <span class="o">=</span> <span class="n">ProfilesManager</span><span class="o">.</span><span class="n">transform_to_profiles</span><span class="p">(</span><span class="n">profiles_current</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">profiles_ins</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">last_profiles</span> <span class="o">!=</span> <span class="n">profiles_current</span><span class="p">:</span>
+                    <span class="n">lost_profiles</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_list_difference_by_key</span><span class="p">(</span><span class="n">last_profiles</span><span class="p">,</span> <span class="n">profiles_current</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+                    <span class="n">lost_profiles_ins</span> <span class="o">=</span> <span class="n">ProfilesManager</span><span class="o">.</span><span class="n">transform_to_profiles</span><span class="p">(</span><span class="n">lost_profiles</span><span class="p">,</span> <span class="n">to_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">last_dr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">lost_profiles_ins</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="n">last_dr</span> <span class="o">=</span> <span class="n">dr</span>
+                <span class="n">last_profiles</span> <span class="o">=</span> <span class="n">profiles_current</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">profiles_ins</span><span class="p">)</span>
+                <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="p">[])</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_list_difference_by_key</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the difference between two lists of dictionaries based on a specific key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list1 (list): First list of dictionaries.</span>
+<span class="sd">            list2 (list): Second list of dictionaries.</span>
+<span class="sd">            key (str): Key to compare for differences (default is &#39;id&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list containing elements from list1 that do not appear in list2 based on the specified key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">set1</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list1</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span>
+        <span class="n">set2</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list2</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">d</span><span class="p">}</span>
+        <span class="n">unique_to_list1</span> <span class="o">=</span> <span class="n">set1</span> <span class="o">-</span> <span class="n">set2</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list1</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unique_to_list1</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_filter_by_profile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y_true</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">,</span> <span class="n">mpc_values</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filters datasets based on specific profile conditions described by a path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (np.ndarray): Dataset of features.</span>
+<span class="sd">            Y_true (np.ndarray): True labels.</span>
+<span class="sd">            predicted_prob (np.ndarray): Predicted probabilities.</span>
+<span class="sd">            Y_pred (np.ndarray): Predicted labels.</span>
+<span class="sd">            mpc_values (np.ndarray): Model predicted confidence values.</span>
+<span class="sd">            features (list): List of feature names.</span>
+<span class="sd">            path (list): Conditions describing the profile path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Filtered datasets including features, true labels, predicted probabilities, predicted labels, and mpc values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Start with a mask that selects all rows</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">condition</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># Skip the root node indicator</span>
+
+            <span class="c1"># Parse the condition string</span>
+            <span class="n">column_name</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">value_str</span> <span class="o">=</span> <span class="n">condition</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">column_index</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>  <span class="c1"># Map feature name to index</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value_str</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c1"># If conversion fails, the string is not a number. Handle it appropriately.</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value_str</span>  <span class="c1"># If it&#39;s supposed to be a string, leave it as string</span>
+                        
+            <span class="c1"># Apply the condition to update the mask</span>
+            <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&gt;=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&lt;=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;==&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;!=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported operator &#39;</span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2">&#39; in condition &#39;</span><span class="si">{</span><span class="n">condition</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Filter the data</span>
+        <span class="n">filtered_x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_y_true</span> <span class="o">=</span> <span class="n">Y_true</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_prob</span> <span class="o">=</span> <span class="n">predicted_prob</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_y_pred</span> <span class="o">=</span> <span class="n">Y_pred</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_mpc_values</span> <span class="o">=</span> <span class="n">mpc_values</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">filtered_x</span><span class="p">,</span> <span class="n">filtered_y_true</span><span class="p">,</span> <span class="n">filtered_prob</span><span class="p">,</span> <span class="n">filtered_y_pred</span><span class="p">,</span> <span class="n">filtered_mpc_values</span>
+    
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.calculator.MDRCalculator.calc_metrics_by_profiles">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">calc_metrics_by_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">all_x</span><span class="p">,</span> <span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_pred_prob</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">,</span> <span class="n">all_mpc_values</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates various metrics for different profiles and declaration rates based on provided datasets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            profiles_manager (ProfilesManager): Manager handling profiles.</span>
+<span class="sd">            all_x (np.ndarray): Complete dataset of features.</span>
+<span class="sd">            all_y_true (np.ndarray): Complete dataset of true labels.</span>
+<span class="sd">            all_pred_prob (np.ndarray): Complete dataset of predicted probabilities.</span>
+<span class="sd">            all_y_pred (np.ndarray): Complete dataset of predicted labels.</span>
+<span class="sd">            all_mpc_values (np.ndarray): Complete dataset of model prediction confidence values.</span>
+<span class="sd">            metrics_list (list): List of metrics to calculate.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">min_samp_ratio</span><span class="p">,</span> <span class="n">dr_dict</span> <span class="ow">in</span> <span class="n">profiles_manager</span><span class="o">.</span><span class="n">profiles_records</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">profiles</span> <span class="ow">in</span> <span class="n">dr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">sorted_accuracies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">all_mpc_values</span><span class="p">)</span>
+                <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="mf">1.01</span> <span class="k">if</span> <span class="n">dr</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">sorted_accuracies</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_accuracies</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dr</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))]</span>
+                <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="n">profiles</span><span class="p">:</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">mpc_values</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_filter_by_profile</span><span class="p">(</span>
+                        <span class="n">all_x</span><span class="p">,</span> <span class="n">all_y_true</span><span class="p">,</span> <span class="n">all_pred_prob</span><span class="p">,</span> <span class="n">all_y_pred</span><span class="p">,</span> <span class="n">all_mpc_values</span><span class="p">,</span> <span class="n">profiles_manager</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">profile</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                    <span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">metrics_list</span><span class="p">:</span>
+                        <span class="n">metric</span> <span class="o">=</span> <span class="n">metrics_mappings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">metric</span> <span class="ow">in</span> <span class="p">(</span><span class="n">RocAuc</span><span class="p">,</span> <span class="n">AveragePrecision</span><span class="p">)</span> <span class="p">:</span>
+                            <span class="n">metrics_dict</span><span class="p">[</span><span class="s1">&#39;RocAuc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">],</span> <span class="n">pred_prob</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">metrics_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span>
+
+                    <span class="n">perc_node</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+                    <span class="n">perc_pop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">)</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="s1">&#39;Node%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perc_node</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="s1">&#39;Population%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">perc_pop</span>
+                    <span class="n">mean_ca</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mpc_values</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> \
+                        <span class="n">mpc_values</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+                    <span class="n">pos_class_occurence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> \
+                        <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">mpc_values</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="s1">&#39;Mean CA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_ca</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="s1">&#39;Positive%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos_class_occurence</span>
+                    <span class="n">profile</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics_dict</span></div></div>
+
+    
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Lyna Chikouche, Ludmila Amriou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
