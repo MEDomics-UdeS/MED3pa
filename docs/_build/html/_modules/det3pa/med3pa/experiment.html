@@ -6,6 +6,7 @@
   <title>det3pa.med3pa.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -39,9 +40,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.html">det3pa package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -70,7 +74,8 @@
              
   <h1>Source code for det3pa.med3pa.experiment</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module include classes and methods to run and store the results of med3pa and med3pa-detectron experiments.</span>
+<span class="sd">Orchestrates the execution of the med3pa method and integrates the functionality of other modules to run comprehensive experiments. </span>
+<span class="sd">It includes classes to manage and store results ``Med3paResults``, execute experiments like ``Med3paExperiment`` and ``Med3paDetectronExperiment``, and integrate results from the Detectron method ``Med3paDetectronResults``</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -82,7 +87,7 @@
 <span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">det3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">det3pa.med3pa.models</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.calculator</span> <span class="kn">import</span> <span class="n">MDRCalculator</span>
+<span class="kn">from</span> <span class="nn">det3pa.med3pa.mdr</span> <span class="kn">import</span> <span class="n">MDRCalculator</span>
 <span class="kn">from</span> <span class="nn">det3pa.detectron.experiment</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DisagreementStrategy_z_mean</span><span class="p">,</span> <span class="n">DetectronResult</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -182,7 +187,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to run the MED3PA method experiment.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Med3paExperiment.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Med3paExperiment.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment.run">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
             <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
             <span class="n">features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -349,7 +354,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">med3pa_testing</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">med3pa_testing_path</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Med3paDetectron"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectron">[docs]</a><span class="k">class</span> <span class="nc">Med3paDetectron</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paDetectron"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectron">[docs]</a><span class="k">class</span> <span class="nc">Med3paDetectron</span><span class="p">(</span><span class="n">Med3paExperiment</span><span class="p">):</span>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_filter_profiles</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mpc_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">min_confidence_level</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Filters datasets based on a given path of conditions derived from a profile. This method allows for the selection of subsets of data corresponding to specific criteria defined in the path.</span>
@@ -516,8 +521,7 @@
 
         <span class="k">return</span> <span class="n">dr_dict</span></div>
     
-<div class="viewcode-block" id="Med3paDetectron.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectron.run">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+<div class="viewcode-block" id="Med3paDetectron.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectron.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
             <span class="n">training_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
             <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
             <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">],</span>

@@ -1,10 +1,39 @@
-det3pa.detectron package
+detectron subpackage
 ========================
+Overview
+---------
+The ``detectron`` subpackage is a modular implementation of the Detectron method, as described in the paper  `"A learning-based hypothesis test for harmful covariate shift" <https://arxiv.org/abs/2212.02742>`__. 
+This method is designed to detect potentially harmful shifts in data distributions that could undermine the reliability and performance of machine learning models in critical applications.
 
-Submodules
-----------
+**Detectron** employs a set of classifiers called (CDCs) trained to agree on domain data but explicitly designed to disagree on this possibly shifted data. 
+This unique strategy allows it to effectively identify and quantify shifts in data distributions that pose a risk to the model's generalization capabilities. 
 
-det3pa.detectron.ensemble module
+The ``detectron`` subpackage offers a fully-featured suite for seamlessly incorporating the Detectron method into existing machine learning pipelines. 
+It enables the robust and automated detection of harmful covariate shifts through an array of functional modules. 
+
+These include sophisticated tools for managing ensemble classifiers, meticulously recording results, and applying diverse statistical strategies for shift evaluation:
+
+- **ensemble.py**: Manages the ensemble of Constrained Disagreement Classifiers (CDCs) that challenge the predictions of a primary base model.
+
+- **record.py**: Handles the storage and management of Detectron results across different runs, tracking metrics and probabilities.
+
+- **stopper.py**: Provides a utility for early stopping to prevent overfitting by halting training when improvements cease.
+
+- **strategies.py**: Defines various strategies for evaluating the presence of covariate shifts between calibration and testing datasets using statistical tests.
+
+- **experiment.py**: Orchestrates the setup and execution of Detectron method, managing the flow of data, model training, and evaluations.
+
+this subpackage includes the following classes:
+
+.. image:: ./diagrams/detectron.svg
+   :alt: UML class diagram of the subpackage.
+   :align: center
+
+.. raw:: html
+
+   <div style="margin-bottom: 30px;"></div>
+
+ensemble module
 --------------------------------
 
 .. automodule:: det3pa.detectron.ensemble
@@ -12,16 +41,7 @@ det3pa.detectron.ensemble module
    :undoc-members:
    :show-inheritance:
 
-det3pa.detectron.experiment module
-----------------------------------
-
-.. automodule:: det3pa.detectron.experiment
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :noindex:
-
-det3pa.detectron.record module
+record module
 ------------------------------
 
 .. automodule:: det3pa.detectron.record
@@ -29,7 +49,7 @@ det3pa.detectron.record module
    :undoc-members:
    :show-inheritance:
 
-det3pa.detectron.stopper module
+stopper module
 -------------------------------
 
 .. automodule:: det3pa.detectron.stopper
@@ -37,7 +57,7 @@ det3pa.detectron.stopper module
    :undoc-members:
    :show-inheritance:
 
-det3pa.detectron.strategies module
+strategies module
 ----------------------------------
 
 .. automodule:: det3pa.detectron.strategies
@@ -46,10 +66,11 @@ det3pa.detectron.strategies module
    :show-inheritance:
    :noindex:
 
-Module contents
----------------
+experiment module
+----------------------------------
 
-.. automodule:: det3pa.detectron
+.. automodule:: det3pa.detectron.experiment
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

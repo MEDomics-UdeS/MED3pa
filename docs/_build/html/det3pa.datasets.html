@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>datasets package &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>datasets subpackage &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="det3pa.detectron package" href="det3pa.detectron.html" />
-    <link rel="prev" title="det3pa package" href="det3pa.html" /> 
+    <link rel="next" title="models subpackage" href="det3pa.models.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="det3pa.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,25 +43,18 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="det3pa.html">det3pa package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="det3pa.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">datasets package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#det3pa-datasets-loading-context-module">det3pa.datasets.loading_context module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets.loading_strategies">det3pa.datasets.loading_strategies module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets.manager">det3pa.datasets.manager module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.datasets">Module contents</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">datasets subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.datasets.loading_context"><strong>loading_context module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.datasets.loading_strategies"><strong>loading_strategies module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.datasets.manager"><strong>manager module</strong></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="det3pa.detectron.html">det3pa.detectron package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="det3pa.med3pa.html">det3pa.med3pa package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="det3pa.models.html">det3pa.models package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -77,8 +71,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="det3pa.html">det3pa package</a></li>
-      <li class="breadcrumb-item active">datasets package</li>
+          <li class="breadcrumb-item"><a href="det3pa.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">datasets subpackage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/det3pa.datasets.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,53 +82,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="datasets-package">
-<h1>datasets package<a class="headerlink" href="#datasets-package" title="Permalink to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
-</section>
-<section id="det3pa-datasets-loading-context-module">
-<h2>det3pa.datasets.loading_context module<a class="headerlink" href="#det3pa-datasets-loading-context-module" title="Permalink to this heading"></a></h2>
-<p>This module represents a context class for loading datasets using different strategies, such as .csv files.</p>
+  <section id="datasets-subpackage">
+<h1>datasets subpackage<a class="headerlink" href="#datasets-subpackage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">datasets</span></code> subpackage is a core component designed to manage the complexities of data handling and preparation.
+It provides a structured and extensible way to load, process, and manipulate datasets from various sources,
+ensuring they are ready for use in machine learning models or data analysis tasks. The subpackage is built to accommodate a variety of data formats and includes functionalities for masking,
+sampling, and managing multiple datasets, making it versatile for different phases of data-driven projects.</p>
+<p>This subpackage is composed of the following modules:</p>
+<ul class="simple">
+<li><p><strong>loading_context</strong>: Manages the strategy for loading data, allowing flexibility in the source file format.</p></li>
+<li><p><strong>loading_strategies</strong>: Implements specific strategies for different file formats.</p></li>
+<li><p><strong>manager</strong>: Coordinates access and manipulations across multiple datasets.</p></li>
+</ul>
+<p>The package includes the following classes:</p>
+<img alt="UML class diagram of the subpackage." class="align-center" src="_images/datasets.svg" /><div style="margin-bottom: 30px;"></div></section>
+<section id="module-det3pa.datasets.loading_context">
+<span id="loading-context-module"></span><h2><strong>loading_context module</strong><a class="headerlink" href="#module-det3pa.datasets.loading_context" title="Permalink to this heading"></a></h2>
+<p>This module provides a flexible framework for loading datasets from various file formats by utilizing the <strong>strategy design pattern</strong>.
+It supports dynamic selection of data loading strategies based on the file extension, enabling easy extension and maintenance.
+It includes the <code class="docutils literal notranslate"><span class="pre">DataLoadingContext</span></code> class, responsible for selecting and setting the right <strong>loading strategy</strong> based on the loaded file ectension.</p>
 <dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_context.</span></span><span class="sig-name descname"><span class="pre">DataLoadingContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="det3pa.datasets.loading_context.DataLoadingContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_context.</span></span><span class="sig-name descname"><span class="pre">DataLoadingContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_context.DataLoadingContext" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A context class for managing data loading strategies. It supports setting and getting the current
 data loading strategy, as well as loading data as a NumPy array from a specified file.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">selected_strategy</span></span></dt>
-<dd><p>The currently selected data loading strategy.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy">DataLoadingStrategy</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_strategy(strategy</span></span></dt>
-<dd><p>DataLoadingStrategy): Sets a new data loading strategy.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.get_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Returns the currently selected data loading strategy.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">load_as_np(file_path</span></span></dt>
-<dd><p>str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:
-Loads data from the specified file path and returns column labels, features, and target data as NumPy arrays.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.get_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="det3pa.datasets.loading_context.DataLoadingContext.get_strategy">
+<span class="sig-name descname"><span class="pre">get_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.get_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_context.DataLoadingContext.get_strategy" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the currently selected data loading strategy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -147,8 +124,8 @@ Loads data from the specified file path and returns column labels, features, and
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">load_as_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.load_as_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="det3pa.datasets.loading_context.DataLoadingContext.load_as_np">
+<span class="sig-name descname"><span class="pre">load_as_np</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.load_as_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_context.DataLoadingContext.load_as_np" title="Permalink to this definition"></a></dt>
 <dd><p>Loads data from the given file path and returns it as a NumPy array, along with column labels and the target data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -168,8 +145,8 @@ and the target as a NumPy array.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.set_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="det3pa.datasets.loading_context.DataLoadingContext.set_strategy">
+<span class="sig-name descname"><span class="pre">set_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy" title="det3pa.datasets.loading_strategies.DataLoadingStrategy"><span class="pre">DataLoadingStrategy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_context.html#DataLoadingContext.set_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_context.DataLoadingContext.set_strategy" title="Permalink to this definition"></a></dt>
 <dd><p>Sets a new data loading strategy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -182,8 +159,10 @@ and the target as a NumPy array.</p>
 
 </section>
 <section id="module-det3pa.datasets.loading_strategies">
-<span id="det3pa-datasets-loading-strategies-module"></span><h2>det3pa.datasets.loading_strategies module<a class="headerlink" href="#module-det3pa.datasets.loading_strategies" title="Permalink to this heading"></a></h2>
-<p>This module provides different strategies for loading datasets, specifically focusing on how to read data from files and convert them into usable formats in Python.</p>
+<span id="loading-strategies-module"></span><h2><strong>loading_strategies module</strong><a class="headerlink" href="#module-det3pa.datasets.loading_strategies" title="Permalink to this heading"></a></h2>
+<p>This module provides strategies for loading data from files into usable Python formats, focusing on converting data into <strong>NumPy</strong> arrays.
+It includes an abstract base class <code class="docutils literal notranslate"><span class="pre">DataLoadingStrategy</span></code> for defining common interfaces and concrete implementations of this class, such as <code class="docutils literal notranslate"><span class="pre">CSVDataLoadingStrategy</span></code> for handling CSV files.
+This setup allows easy extension to support additional file types as needed.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.CSVDataLoadingStrategy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.loading_strategies.</span></span><span class="sig-name descname"><span class="pre">CSVDataLoadingStrategy</span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#CSVDataLoadingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy" title="Permalink to this definition"></a></dt>
@@ -224,13 +203,6 @@ Loads CSV data from the given path, separates features and target, and converts 
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract base class for data loading strategies. Defines a common interface for all data loading strategies.</p>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">execute(path_to_file</span></span></dt>
-<dd><p>str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:
-Abstract method to execute the data loading strategy, to be implemented by subclasses.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="det3pa.datasets.loading_strategies.DataLoadingStrategy.execute">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/datasets/loading_strategies.html#DataLoadingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.loading_strategies.DataLoadingStrategy.execute" title="Permalink to this definition"></a></dt>
 <dd><p>Abstract method to execute the data loading strategy.</p>
@@ -258,8 +230,10 @@ and the target as a NumPy array.</p>
 
 </section>
 <section id="module-det3pa.datasets.manager">
-<span id="det3pa-datasets-manager-module"></span><h2>det3pa.datasets.manager module<a class="headerlink" href="#module-det3pa.datasets.manager" title="Permalink to this heading"></a></h2>
-<p>This module provides classes for managing datasets.</p>
+<span id="manager-module"></span><h2><strong>manager module</strong><a class="headerlink" href="#module-det3pa.datasets.manager" title="Permalink to this heading"></a></h2>
+<p>The manager.py module manages datasets for machine learning workflows, particularly for <code class="docutils literal notranslate"><span class="pre">Detectron</span></code> and <code class="docutils literal notranslate"><span class="pre">Med3pa</span></code> methods.
+It includes the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> class for handling training, validation, reference, and testing datasets, and the <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code> class for data masking and sampling.
+This module streamlines data organization for various training and validation stages.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.manager.</span></span><span class="sig-name descname"><span class="pre">DatasetsManager</span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager" title="Permalink to this definition"></a></dt>
@@ -303,6 +277,20 @@ reference (or domain dataset), and testing datasets (or new encountered data).</
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the base model validation set is not initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.datasets.manager.DatasetsManager.get_column_labels">
+<span class="sig-name descname"><span class="pre">get_column_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#DatasetsManager.get_column_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.DatasetsManager.get_column_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the column labels of the manager</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of the column labels extracted from the files.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -410,83 +398,6 @@ reference (or domain dataset), and testing datasets (or new encountered data).</
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.datasets.manager.</span></span><span class="sig-name descname"><span class="pre">MaskedDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudo_probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 <p>A dataset wrapper for PyTorch that supports masking and sampling of data points.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.features">
-<span class="sig-name descname"><span class="pre">features</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.features" title="Permalink to this definition"></a></dt>
-<dd><p>The feature vectors of the dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.true_labels">
-<span class="sig-name descname"><span class="pre">true_labels</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.true_labels" title="Permalink to this definition"></a></dt>
-<dd><p>The true labels of the dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.pseudo_labels">
-<span class="sig-name descname"><span class="pre">pseudo_labels</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.pseudo_labels" title="Permalink to this definition"></a></dt>
-<dd><p>The pseudo labels predicted by a model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.pseudo_probabilities">
-<span class="sig-name descname"><span class="pre">pseudo_probabilities</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.pseudo_probabilities" title="Permalink to this definition"></a></dt>
-<dd><p>The pseudo probabilities associated with the pseudo labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.indices">
-<span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.indices" title="Permalink to this definition"></a></dt>
-<dd><p>The current indices of the dataset after applying masking.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.original_indices">
-<span class="sig-name descname"><span class="pre">original_indices</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.original_indices" title="Permalink to this definition"></a></dt>
-<dd><p>The original indices of the dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.sample_counts">
-<span class="sig-name descname"><span class="pre">sample_counts</span></span><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.sample_counts" title="Permalink to this definition"></a></dt>
-<dd><p>Tracks the number of times each point is sampled, after using the sample() method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.datasets.manager.MaskedDataset.clone">
 <span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.datasets.manager.MaskedDataset" title="det3pa.datasets.manager.MaskedDataset"><span class="pre">MaskedDataset</span></a></span></span><a class="reference internal" href="_modules/det3pa/datasets/manager.html#MaskedDataset.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.datasets.manager.MaskedDataset.clone" title="Permalink to this definition"></a></dt>
@@ -641,24 +552,14 @@ applying a threshold to the probabilities.</p>
 </dd></dl>
 
 </section>
-<section id="module-det3pa.datasets">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-det3pa.datasets" title="Permalink to this heading"></a></h2>
-<p>The <cite>datasets</cite> sub-package provides various classes and functions for managing and loading datasets.</p>
-<dl class="simple">
-<dt>Modules:</dt><dd><p>loading_context: Contains the DataLoadingContext class which manages the context in which data is loaded.
-loading_strategies: Includes the DataLoadingStrategy base class and CSVDataLoadingStrategy for handling different file extenstions.
-manager: Provides the DatasetsManager for managing datasets and MaskedDataset for dataset operations with masked data.</p>
-</dd>
-</dl>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="det3pa.html" class="btn btn-neutral float-left" title="det3pa package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="det3pa.detectron.html" class="btn btn-neutral float-right" title="det3pa.detectron package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="det3pa.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="det3pa.models.html" class="btn btn-neutral float-right" title="models subpackage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

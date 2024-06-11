@@ -30,11 +30,8 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.napoleon', 'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc'
+extensions = ['sphinx.ext.napoleon', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc',
 ]
-
-napoleon_google_docstring = True
-napoleon_numpy_docstring = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,4 +52,10 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
+# This is usually at the top of conf.py
 html_static_path = ['_static']
+
+# Append this to include your custom CSS
+html_css_files = [
+    'custom.css',
+]

@@ -6,6 +6,7 @@
   <title>det3pa.med3pa.profiles &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -39,9 +40,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.html">det3pa package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -70,7 +74,8 @@
              
   <h1>Source code for det3pa.med3pa.profiles</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">this module handles and manages the profiles information.</span>
+<span class="sd">Handles the management and storage of profiles derived from the tree representation. </span>
+<span class="sd">It defines a ``Profile`` class to encapsulate metrics and values associated with a specific node in the tree and a ``ProfilesManager`` class to manage collections of profiles and track lost profiles during analysis.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Profile"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.Profile">[docs]</a><span class="k">class</span> <span class="nc">Profile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

@@ -6,6 +6,7 @@
   <title>det3pa.datasets.loading_context &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -39,9 +40,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.html">det3pa package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -70,7 +74,9 @@
              
   <h1>Source code for det3pa.datasets.loading_context</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module represents a context class for loading datasets using different strategies, such as .csv files.</span>
+<span class="sd">This module provides a flexible framework for loading datasets from various file formats by utilizing the **strategy design pattern**.</span>
+<span class="sd">It supports dynamic selection of data loading strategies based on the file extension, enabling easy extension and maintenance.</span>
+<span class="sd">It includes the ``DataLoadingContext`` class, responsible for selecting and setting the right **loading strategy** based on the loaded file ectension.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">.loading_strategies</span> <span class="kn">import</span> <span class="n">DataLoadingStrategy</span><span class="p">,</span> <span class="n">CSVDataLoadingStrategy</span>
@@ -80,20 +86,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A context class for managing data loading strategies. It supports setting and getting the current</span>
 <span class="sd">    data loading strategy, as well as loading data as a NumPy array from a specified file.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        selected_strategy (DataLoadingStrategy): The currently selected data loading strategy.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        set_strategy(strategy: DataLoadingStrategy): Sets a new data loading strategy.</span>
-<span class="sd">        get_strategy() -&gt; DataLoadingStrategy: Returns the currently selected data loading strategy.</span>
-<span class="sd">        load_as_np(file_path: str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]: </span>
-<span class="sd">            Loads data from the specified file path and returns column labels, features, and target data as NumPy arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">__strategies</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;csv&#39;</span><span class="p">:</span> <span class="n">CSVDataLoadingStrategy</span><span class="p">,</span>
-        <span class="c1"># Add more strategies here as needed</span>
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>

@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.detectron package &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>detectron subpackage &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="det3pa.med3pa package" href="det3pa.med3pa.html" />
-    <link rel="prev" title="datasets package" href="det3pa.datasets.html" /> 
+    <link rel="next" title="med3pa subpackage" href="det3pa.med3pa.html" />
+    <link rel="prev" title="models subpackage" href="det3pa.models.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,27 +43,20 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="det3pa.html">det3pa package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="det3pa.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="det3pa.datasets.html">datasets package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">det3pa.detectron package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.detectron.ensemble">det3pa.detectron.ensemble module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#det3pa-detectron-experiment-module">det3pa.detectron.experiment module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.detectron.record">det3pa.detectron.record module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.detectron.stopper">det3pa.detectron.stopper module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#det3pa-detectron-strategies-module">det3pa.detectron.strategies module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-det3pa.detectron">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">detectron subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.detectron.ensemble">ensemble module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.detectron.record">record module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-det3pa.detectron.stopper">stopper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#strategies-module">strategies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experiment-module">experiment module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="det3pa.med3pa.html">det3pa.med3pa package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="det3pa.models.html">det3pa.models package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -79,8 +73,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="det3pa.html">det3pa package</a></li>
-      <li class="breadcrumb-item active">det3pa.detectron package</li>
+          <li class="breadcrumb-item"><a href="det3pa.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">detectron subpackage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/det3pa.detectron.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -90,14 +84,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="det3pa-detectron-package">
-<h1>det3pa.detectron package<a class="headerlink" href="#det3pa-detectron-package" title="Permalink to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
-</section>
+  <section id="detectron-subpackage">
+<h1>detectron subpackage<a class="headerlink" href="#detectron-subpackage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">detectron</span></code> subpackage is a modular implementation of the Detectron method, as described in the paper  <a class="reference external" href="https://arxiv.org/abs/2212.02742">“A learning-based hypothesis test for harmful covariate shift”</a>.
+This method is designed to detect potentially harmful shifts in data distributions that could undermine the reliability and performance of machine learning models in critical applications.</p>
+<p><strong>Detectron</strong> employs a set of classifiers called (CDCs) trained to agree on domain data but explicitly designed to disagree on this possibly shifted data.
+This unique strategy allows it to effectively identify and quantify shifts in data distributions that pose a risk to the model’s generalization capabilities.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">detectron</span></code> subpackage offers a fully-featured suite for seamlessly incorporating the Detectron method into existing machine learning pipelines.
+It enables the robust and automated detection of harmful covariate shifts through an array of functional modules.</p>
+<p>These include sophisticated tools for managing ensemble classifiers, meticulously recording results, and applying diverse statistical strategies for shift evaluation:</p>
+<ul class="simple">
+<li><p><strong>ensemble.py</strong>: Manages the ensemble of Constrained Disagreement Classifiers (CDCs) that challenge the predictions of a primary base model.</p></li>
+<li><p><strong>record.py</strong>: Handles the storage and management of Detectron results across different runs, tracking metrics and probabilities.</p></li>
+<li><p><strong>stopper.py</strong>: Provides a utility for early stopping to prevent overfitting by halting training when improvements cease.</p></li>
+<li><p><strong>strategies.py</strong>: Defines various strategies for evaluating the presence of covariate shifts between calibration and testing datasets using statistical tests.</p></li>
+<li><p><strong>experiment.py</strong>: Orchestrates the setup and execution of Detectron method, managing the flow of data, model training, and evaluations.</p></li>
+</ul>
+<p>this subpackage includes the following classes:</p>
+<img alt="UML class diagram of the subpackage." class="align-center" src="_images/detectron.svg" /><div style="margin-bottom: 30px;"></div></section>
 <section id="module-det3pa.detectron.ensemble">
-<span id="det3pa-detectron-ensemble-module"></span><h2>det3pa.detectron.ensemble module<a class="headerlink" href="#module-det3pa.detectron.ensemble" title="Permalink to this heading"></a></h2>
-<p>This module manages the detectron cdcs ensemble</p>
+<span id="ensemble-module"></span><h2>ensemble module<a class="headerlink" href="#module-det3pa.detectron.ensemble" title="Permalink to this heading"></a></h2>
+<p>This module houses the <code class="docutils literal notranslate"><span class="pre">DetectronEnsemble</span></code> class, responsible for managing the Constrained Disagreement Classifiers (CDCs) ensemble.
+It coordinates the training and evaluation of multiple CDCs, aiming to disagree with the predictions of a primary base model under specified conditions.
+The ensemble leverages a base model, provided by <code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code>, to generate models that are designed to systematically disagree with it in a controlled fashion.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.detectron.ensemble.DetectronEnsemble">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.ensemble.</span></span><span class="sig-name descname"><span class="pre">DetectronEnsemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_model_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="det3pa.models.html#det3pa.models.base.BaseModelManager" title="det3pa.models.base.BaseModelManager"><span class="pre">BaseModelManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ens_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/ensemble.html#DetectronEnsemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.ensemble.DetectronEnsemble" title="Permalink to this definition"></a></dt>
@@ -142,155 +153,11 @@ and ensemble are considered significant, if allow_margin is True.</p></li>
 </dd></dl>
 
 </section>
-<section id="det3pa-detectron-experiment-module">
-<h2>det3pa.detectron.experiment module<a class="headerlink" href="#det3pa-detectron-experiment-module" title="Permalink to this heading"></a></h2>
-<p>This module include the execution of the detectron method and the handling of the results</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronExperiment</span></span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Abstract base class that defines the protocol for running Detectron experiments.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_params:</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_model_manager:</span> <span class="pre">~det3pa.models.base.BaseModelManager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detectron_result:</span> <span class="pre">~det3pa.detectron.experiment.DetectronResult</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_result:</span> <span class="pre">~det3pa.detectron.record.DetectronRecordsManager</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_calibration_runs=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_strategy=&lt;class</span> <span class="pre">'det3pa.detectron.strategies.DisagreementStrategy_z_mean'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate_detectron=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_margin:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin=0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>datasets</strong> (<a class="reference internal" href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager" title="det3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – Manages the datasets used in the experiment.</p></li>
-<li><p><strong>training_params</strong> (<em>dict</em>) – Parameters for training the cdcs within the ensembles.</p></li>
-<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="det3pa.models.html#det3pa.models.base.BaseModelManager" title="det3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a>) – Manager for the base model operations.</p></li>
-<li><p><strong>samples_size</strong> (<em>int</em>) – Number of samples to use in each Detectron run. Defaults to 20.</p></li>
-<li><p><strong>detectron_result</strong> (<em>Optional</em><em>[</em><em>DetectronResult</em><em>]</em>) – Pre-existing results to bypass training phase. Defaults to None.</p></li>
-<li><p><strong>calib_result</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a><em>]</em>) – Calibration results, if provided. Defaults to None.</p></li>
-<li><p><strong>ensemble_size</strong> (<em>int</em>) – Number of models in each ensemble. Defaults to 10.</p></li>
-<li><p><strong>num_calibration_runs</strong> (<em>int</em>) – Number of calibration runs. Defaults to 100.</p></li>
-<li><p><strong>patience</strong> (<em>int</em>) – Number of iterations with no improvement before stopping. Defaults to 3.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – Significance level for statistical tests. Defaults to 0.05.</p></li>
-<li><p><strong>test_strategy</strong> (<em>Any</em>) – Strategy for evaluating the Detectron results. Defaults to DisagreementStrategy_z_mean.</p></li>
-<li><p><strong>evaluate_detectron</strong> (<em>bool</em>) – Whether to perform an evaluation of the Detectron. Defaults to False.</p></li>
-<li><p><strong>allow_margin</strong> (<em>bool</em>) – Allow a margin of error when comparing model outputs. Defaults to False.</p></li>
-<li><p><strong>margin</strong> (<em>float</em>) – Threshold for considering differences significant when margin is allowed. Defaults to 0.05.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cal_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A class to store the results of a Detectron test</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">calibration_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.calibration_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Retrieves the results for each run and each model in the ensemble from the reference set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the calibration records.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">evaluate_detectron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectronStrategy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.evaluate_detectron"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Evaluates the Detectron using the specified strategy.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>strategy</strong> (<em>DetectronStrategy</em>) – The strategy to evaluate.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The significance level for the evaluation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Results from evaluating the Detectron.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_experiments_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectronStrategy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.get_experiments_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Executes the Detectron tests using the specified strategy and records.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>strategy</strong> (<em>DetectronStrategy</em>) – The strategy to use for detecting discrepancies.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The significance level for the statistical tests.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Results from executing the Detectron test.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Saves the Detectron results to JSON format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The file path where the results should be saved.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_experiments_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.set_experiments_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Stores the results of the Detectron tests.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>results</strong> (<em>dict</em>) – The results to store.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">test_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.test_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Retrieves the results for each run and each model in the ensemble from the testing set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the test records.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-det3pa.detectron.record">
-<span id="det3pa-detectron-record-module"></span><h2>det3pa.detectron.record module<a class="headerlink" href="#module-det3pa.detectron.record" title="Permalink to this heading"></a></h2>
-<p>This module stores and manages the detectron results accross runs.</p>
+<span id="record-module"></span><h2>record module<a class="headerlink" href="#module-det3pa.detectron.record" title="Permalink to this heading"></a></h2>
+<p>This module is crucial for tracking and managing the results across multiple runs of the Detectron method.
+It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run.
+The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecord">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.record.</span></span><span class="sig-name descname"><span class="pre">DetectronRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecord" title="Permalink to this definition"></a></dt>
@@ -497,8 +364,8 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 </section>
 <section id="module-det3pa.detectron.stopper">
-<span id="det3pa-detectron-stopper-module"></span><h2>det3pa.detectron.stopper module<a class="headerlink" href="#module-det3pa.detectron.stopper" title="Permalink to this heading"></a></h2>
-<p>This module defines the early stopping class.</p>
+<span id="stopper-module"></span><h2>stopper module<a class="headerlink" href="#module-det3pa.detectron.stopper" title="Permalink to this heading"></a></h2>
+<p>This module introduces the <code class="docutils literal notranslate"><span class="pre">EarlyStopper</span></code> class, a utility designed to prevent overfitting and reduce computational overhead by halting the training process when improvement in a monitored metric ceases.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.detectron.stopper.EarlyStopper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.stopper.</span></span><span class="sig-name descname"><span class="pre">EarlyStopper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'min'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/stopper.html#EarlyStopper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.stopper.EarlyStopper" title="Permalink to this definition"></a></dt>
@@ -530,9 +397,11 @@ the monitored metric has stopped improving.</p>
 </dd></dl>
 
 </section>
-<section id="det3pa-detectron-strategies-module">
-<h2>det3pa.detectron.strategies module<a class="headerlink" href="#det3pa-detectron-strategies-module" title="Permalink to this heading"></a></h2>
-<p>this module defines multiple strategies to assess the presence of covariate shift</p>
+<section id="strategies-module">
+<h2>strategies module<a class="headerlink" href="#strategies-module" title="Permalink to this heading"></a></h2>
+<p>In this module, various strategies to assess the presence of covariate shift are defined.
+Each strategy class, deriving from the original <strong>Disagreement test</strong>, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches,
+such as empirical cumulative distribution functions (ECDF) and hypothesis tests like the Mann-Whitney U or Kolmogorov-Smirnov tests.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DetectronStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DetectronStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -738,9 +607,154 @@ This strategy calculates the probability of a shift based on the counts where te
 </dd></dl>
 
 </section>
-<section id="module-det3pa.detectron">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-det3pa.detectron" title="Permalink to this heading"></a></h2>
-<p>The detectron sub-package provides a learning based method for detecting covariate shift, for classification models.</p>
+<section id="experiment-module">
+<h2>experiment module<a class="headerlink" href="#experiment-module" title="Permalink to this heading"></a></h2>
+<p>This module encapsulates the execution logic for the Detectron method, managing the orchestration of the entire pipeline. It includes the <code class="docutils literal notranslate"><span class="pre">DetectronExperiment</span></code> abstract class,
+which outlines the protocol for setting up and running experiments.
+Additionally, the <code class="docutils literal notranslate"><span class="pre">DetectronResult</span></code> class is responsible for storing and managing the outcomes of these experiments,
+providing methods to access and analyze the trajectories and outcomes of this method’s evaluation.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronExperiment</span></span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class that defines the protocol for running Detectron experiments.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_params:</span> <span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_model_manager:</span> <span class="pre">~det3pa.models.base.BaseModelManager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detectron_result:</span> <span class="pre">~det3pa.detectron.experiment.DetectronResult</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_result:</span> <span class="pre">~det3pa.detectron.record.DetectronRecordsManager</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_size=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_calibration_runs=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level=0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_strategy=&lt;class</span> <span class="pre">'det3pa.detectron.strategies.DisagreementStrategy_z_mean'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate_detectron=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_margin:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin=0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets</strong> (<a class="reference internal" href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager" title="det3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – Manages the datasets used in the experiment.</p></li>
+<li><p><strong>training_params</strong> (<em>dict</em>) – Parameters for training the cdcs within the ensembles.</p></li>
+<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="det3pa.models.html#det3pa.models.base.BaseModelManager" title="det3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a>) – Manager for the base model operations.</p></li>
+<li><p><strong>samples_size</strong> (<em>int</em>) – Number of samples to use in each Detectron run. Defaults to 20.</p></li>
+<li><p><strong>detectron_result</strong> (<em>Optional</em><em>[</em><em>DetectronResult</em><em>]</em>) – Pre-existing results to bypass training phase. Defaults to None.</p></li>
+<li><p><strong>calib_result</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a><em>]</em>) – Calibration results, if provided. Defaults to None.</p></li>
+<li><p><strong>ensemble_size</strong> (<em>int</em>) – Number of models in each ensemble. Defaults to 10.</p></li>
+<li><p><strong>num_calibration_runs</strong> (<em>int</em>) – Number of calibration runs. Defaults to 100.</p></li>
+<li><p><strong>patience</strong> (<em>int</em>) – Number of iterations with no improvement before stopping. Defaults to 3.</p></li>
+<li><p><strong>significance_level</strong> (<em>float</em>) – Significance level for statistical tests. Defaults to 0.05.</p></li>
+<li><p><strong>test_strategy</strong> (<em>Any</em>) – Strategy for evaluating the Detectron results. Defaults to DisagreementStrategy_z_mean.</p></li>
+<li><p><strong>evaluate_detectron</strong> (<em>bool</em>) – Whether to perform an evaluation of the Detectron. Defaults to False.</p></li>
+<li><p><strong>allow_margin</strong> (<em>bool</em>) – Allow a margin of error when comparing model outputs. Defaults to False.</p></li>
+<li><p><strong>margin</strong> (<em>float</em>) – Threshold for considering differences significant when margin is allowed. Defaults to 0.05.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cal_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to store the results of a Detectron test</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">calibration_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.calibration_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Retrieves the results for each run and each model in the ensemble from the reference set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the calibration records.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">evaluate_detectron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectronStrategy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.evaluate_detectron"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Evaluates the Detectron using the specified strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strategy</strong> (<em>DetectronStrategy</em>) – The strategy to evaluate.</p></li>
+<li><p><strong>significance_level</strong> (<em>float</em>) – The significance level for the evaluation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from evaluating the Detectron.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_experiments_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectronStrategy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significance_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.get_experiments_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the Detectron tests using the specified strategy and records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strategy</strong> (<em>DetectronStrategy</em>) – The strategy to use for detecting discrepancies.</p></li>
+<li><p><strong>significance_level</strong> (<em>float</em>) – The significance level for the statistical tests.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results from executing the Detectron test.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Saves the Detectron results to JSON format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The file path where the results should be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_experiments_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.set_experiments_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Stores the results of the Detectron tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<em>dict</em>) – The results to store.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">test_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.test_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Retrieves the results for each run and each model in the ensemble from the testing set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the test records.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -748,8 +762,8 @@ This strategy calculates the probability of a shift based on the counts where te
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="det3pa.datasets.html" class="btn btn-neutral float-left" title="datasets package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="det3pa.med3pa.html" class="btn btn-neutral float-right" title="det3pa.med3pa package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="det3pa.models.html" class="btn btn-neutral float-left" title="models subpackage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="det3pa.med3pa.html" class="btn btn-neutral float-right" title="med3pa subpackage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -6,6 +6,7 @@
   <title>det3pa.models.abstract_models &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -39,9 +40,12 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.html">det3pa package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 
         </div>
@@ -70,7 +74,10 @@
              
   <h1>Source code for det3pa.models.abstract_models</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module defines the abstract structures of models in a machine learning framework. It provides abstract classes for different model types including general, classification, and regression models.</span>
+<span class="sd">The abstract_models.py module defines core abstract classes that serve as the foundation for model management in the system. </span>
+<span class="sd">It includes ``Model``, which standardizes basic operations like evaluation and parameter validation across all models. </span>
+<span class="sd">It also introduces specialized abstract classes such as ``ClassificationModel`` and ``RegressionModel``, </span>
+<span class="sd">each adapting these operations to specific needs of classification and regression tasks.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -88,7 +95,90 @@
 <span class="sd">        params (dict): The params used for initializinf the model.</span>
 <span class="sd">        data_preparation_strategy (DataPreparingStrategy): Strategy for preparing data before training or evaluation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span> <span class="o">=</span> <span class="kc">False</span>
 
+<div class="viewcode-block" id="Model.get_model"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the underlying model instance, which is typically a machine learning model object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The underlying model instance if set, None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+    
+<div class="viewcode-block" id="Model.get_model_type"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.get_model_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the class type of the underlying model instance, which indicates the specific </span>
+<span class="sd">        implementation of the model used.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            type: The class of the model if set, None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span></div>
+    
+<div class="viewcode-block" id="Model.get_data_strategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.get_data_strategy">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataPreparingStrategy</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the data preparation strategy associated with the model. This strategy handles </span>
+<span class="sd">        how data should be formatted before being passed to the model for training or evaluation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[DataPreparingStrategy]: The current data preparation strategy if set, None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span></div>
+
+<div class="viewcode-block" id="Model.get_params"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the underlying model&#39;s parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: the model&#39;s parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div>
+    
+<div class="viewcode-block" id="Model.set_model"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.set_model">[docs]</a>    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the underlying model instance and updates the model class to match the type of the given model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (Any): The model instance to be set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Model.set_params"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the parameters for the model. These parameters are typically used for model initialization or configuration.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (Dict[str, Any]): A dictionary of parameters for the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span></div>
+    
+<div class="viewcode-block" id="Model.update_params"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.update_params">[docs]</a>    <span class="k">def</span> <span class="nf">update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the current model parameters by merging new parameter values from the given dictionary.</span>
+<span class="sd">        This method allows for dynamic adjustment of model configuration during runtime.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (Dict[str, Any]): A dictionary containing parameter names and values to be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Model.set_data_strategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.set_data_strategy">[docs]</a>    <span class="k">def</span> <span class="nf">set_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">DataPreparingStrategy</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the underlying model&#39;s data preparation strategy.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            strategy (DataPreparingStrategy): strategy to be used to prepare the data for training, validation...etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="o">=</span> <span class="n">strategy</span></div>
+    
 <div class="viewcode-block" id="Model.evaluate"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">print_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -134,26 +224,7 @@
         <span class="n">invalid_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">invalid_params</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid parameters found: </span><span class="si">{</span><span class="n">invalid_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">}</span></div>
-
-<div class="viewcode-block" id="Model.get_data_strategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.get_data_strategy">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataPreparingStrategy</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the data preparation strategy used by the model.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DataPreparingStrategy: The data preparation strategy.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span></div>
-
-<div class="viewcode-block" id="Model.set_model"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.set_model">[docs]</a>    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the underlying model instance.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            model (Any): The model instance to be used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">}</span></div></div>
 
 <div class="viewcode-block" id="ClassificationModel"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.ClassificationModel">[docs]</a><span class="k">class</span> <span class="nc">ClassificationModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
