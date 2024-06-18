@@ -1,5 +1,6 @@
 """
-This module provides strategies for preparing data in different formats for model training and prediction.
+This module is crucial for data handling, utilizing the **Strategy design pattern** and therefor offering multiple strategies to transform raw data into formats that enhance model training and evaluation.
+According to the model type.
 """
 
 import numpy as np

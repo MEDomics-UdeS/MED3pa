@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -82,6 +86,7 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
 <span class="kn">from</span> <span class="nn">.concrete_classifiers</span> <span class="kn">import</span> <span class="n">XGBoostModel</span>
 <span class="kn">from</span> <span class="nn">.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
@@ -120,6 +125,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No factory available for model type: </span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
         
+<div class="viewcode-block" id="ModelFactory.get_supported_models"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.factories.ModelFactory.get_supported_models">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_supported_models</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list of all supported model types.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list containing the keys from model_mapping which represent the supported model types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">ModelFactory</span><span class="o">.</span><span class="n">model_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+        
 <div class="viewcode-block" id="ModelFactory.create_model_with_hyperparams"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.factories.ModelFactory.create_model_with_hyperparams">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">create_model_with_hyperparams</span><span class="p">(</span><span class="n">model_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -150,6 +165,7 @@
 <span class="sd">            IOError: If there is an error loading the model from the file.</span>
 <span class="sd">            TypeError: If the loaded model is not of a supported type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;.*WARNING.*&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s2">&quot;xgboost.core&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pickled_file_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
                 <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
@@ -199,7 +215,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="p">(</span><span class="n">xgb</span><span class="o">.</span><span class="n">Booster</span><span class="p">,</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBClassifier</span><span class="p">)):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_version</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">):</span>
                 <span class="n">extracted_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_params</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">XGBoostModel</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">extracted_params</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">model_class</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">XGBoostModel</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">extracted_params</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">loaded_model</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;XGBoost model version is not supported. Please use version 2.0.0 or later.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -223,7 +239,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">version_str</span> <span class="o">=</span> <span class="n">version_list</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="n">version_str</span><span class="p">)</span>
         <span class="n">version_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)\.(\d+)\.(\d+)&#39;</span><span class="p">,</span> <span class="n">version_str</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">version_match</span><span class="p">:</span>
             <span class="n">major</span><span class="p">,</span> <span class="n">minor</span><span class="p">,</span> <span class="n">patch</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">version_match</span><span class="o">.</span><span class="n">groups</span><span class="p">())</span>

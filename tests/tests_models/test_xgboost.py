@@ -29,7 +29,8 @@ class TestXGBoostModel(unittest.TestCase):
             'num_boost_rounds': 10
         }
         self.model.train(self.features, self.labels, self.validation_features, self.validation_labels, training_parameters, False)
-        self.assertTrue(self.model.model is not None)
+        trained_model = self.model.get_model()
+        self.assertTrue(trained_model is not None)
     
     def test_predict_with_trained_model(self):
         self.model.set_model(xgb.Booster())

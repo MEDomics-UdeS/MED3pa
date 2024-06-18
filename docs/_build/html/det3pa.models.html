@@ -62,6 +62,10 @@
 <li class="toctree-l1"><a class="reference internal" href="det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -191,6 +195,20 @@ It supports creating models based on hyperparameters or loading them from pickle
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.factories.ModelFactory.get_supported_models">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/det3pa/models/factories.html#ModelFactory.get_supported_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.factories.ModelFactory.get_supported_models" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves a list of all supported model types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the keys from model_mapping which represent the supported model types.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="det3pa.models.factories.ModelFactory.model_mapping">
 <span class="sig-name descname"><span class="pre">model_mapping</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'XGBoostModel':</span> <span class="pre">[&lt;class</span> <span class="pre">'xgboost.core.Booster'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'xgboost.sklearn.XGBClassifier'&gt;]}</span></em><a class="headerlink" href="#det3pa.models.factories.ModelFactory.model_mapping" title="Permalink to this definition"></a></dt>
@@ -284,7 +302,7 @@ Inherits from ModelFactory and specifies creation methods for XGBoost models.</p
 <section id="module-det3pa.models.abstract_models">
 <span id="abstract-models-module"></span><h2><strong>abstract_models module</strong><a class="headerlink" href="#module-det3pa.models.abstract_models" title="Permalink to this heading"></a></h2>
 <p>The abstract_models.py module defines core abstract classes that serve as the foundation for model management in the system.
-It includes <code class="docutils literal notranslate"><span class="pre">Model</span></code>, which standardizes basic operations like evaluation and parameter validation across all models.
+It includes <code class="docutils literal notranslate"><span class="pre">Model</span></code>, which standardizes basic operations like evaluation and parameter validation..etc across all models.
 It also introduces specialized abstract classes such as <code class="docutils literal notranslate"><span class="pre">ClassificationModel</span></code> and <code class="docutils literal notranslate"><span class="pre">RegressionModel</span></code>,
 each adapting these operations to specific needs of classification and regression tasks.</p>
 <dl class="py class">
@@ -408,6 +426,17 @@ each adapting these operations to specific needs of classification and regressio
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.pickled_model">
+<span class="sig-name descname"><span class="pre">pickled_model</span></span><a class="headerlink" href="#det3pa.models.abstract_models.Model.pickled_model" title="Permalink to this definition"></a></dt>
+<dd><p>A boolean indicating whether or not the model has been loaded from a pickled file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.evaluate">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.evaluate" title="Permalink to this definition"></a></dt>
@@ -432,15 +461,33 @@ each adapting these operations to specific needs of classification and regressio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.get_data_strategy">
-<span class="sig-name descname"><span class="pre">get_data_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#det3pa.models.data_strategies.DataPreparingStrategy" title="det3pa.models.data_strategies.DataPreparingStrategy"><span class="pre">DataPreparingStrategy</span></a></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.get_data_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.get_data_strategy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_data_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.get_data_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.get_data_strategy" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the data preparation strategy associated with the model. This strategy handles
 how data should be formatted before being passed to the model for training or evaluation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The current data preparation strategy if set, None otherwise.</p>
+<dd class="field-odd"><p>The name of the current data preparation strategy if set, None otherwise.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Optional[<a class="reference internal" href="#det3pa.models.data_strategies.DataPreparingStrategy" title="det3pa.models.data_strategies.DataPreparingStrategy">DataPreparingStrategy</a>]</p>
+<dd class="field-even"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.get_info">
+<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.get_info" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves detailed information about the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary containing information about the model’s type, parameters,</dt><dd><p>data preparation strategy, and whether it’s a pickled model.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -461,7 +508,7 @@ how data should be formatted before being passed to the model for training or ev
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.get_model_type">
-<span class="sig-name descname"><span class="pre">get_model_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.get_model_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.get_model_type" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_model_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.get_model_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.get_model_type" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the class type of the underlying model instance, which indicates the specific
 implementation of the model used.</p>
 <dl class="field-list simple">
@@ -469,7 +516,7 @@ implementation of the model used.</p>
 <dd class="field-odd"><p>The class of the model if set, None otherwise.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>type</p>
+<dd class="field-even"><p>Optional[str]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -484,6 +531,20 @@ implementation of the model used.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.is_pickled">
+<span class="sig-name descname"><span class="pre">is_pickled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.is_pickled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.is_pickled" title="Permalink to this definition"></a></dt>
+<dd><p>Returns whether or not the model has been loaded from a pickled file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>has the model been loaded from a pickled file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Boolean</p>
 </dd>
 </dl>
 </dd></dl>
@@ -623,47 +684,10 @@ This method allows for dynamic adjustment of model configuration during runtime.
 It adapts the abstract interfaces defined in <code class="docutils literal notranslate"><span class="pre">abstract_models.py</span></code> to provide fully functional models ready for training and prediction.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.models.concrete_classifiers.XGBoostModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.concrete_classifiers.</span></span><span class="sig-name descname"><span class="pre">XGBoostModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Booster</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">XGBClassifier</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/concrete_classifiers.html#XGBoostModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.concrete_classifiers.</span></span><span class="sig-name descname"><span class="pre">XGBoostModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Booster</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">XGBClassifier</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/concrete_classifiers.html#XGBoostModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_models.ClassificationModel" title="det3pa.models.abstract_models.ClassificationModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationModel</span></code></a></p>
 <p>A concrete implementation of the ClassificationModel class for XGBoost models.
 This class provides functionalities to train, predict, and evaluate models built with the XGBoost library.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.models.concrete_classifiers.XGBoostModel.params">
-<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel.params" title="Permalink to this definition"></a></dt>
-<dd><p>Parameters for configuring the XGBoost model. These can be hyperparameters
-or any other parameters supported by xgb.train or xgb.XGBClassifier.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[Dict[str, Any]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.models.concrete_classifiers.XGBoostModel.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel.model" title="Permalink to this definition"></a></dt>
-<dd><p>An existing trained model. If provided, this model
-will be used for predictions; otherwise, a new model
-will be trained based on the provided parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[Union[xgb.Booster, xgb.XGBClassifier]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="det3pa.models.concrete_classifiers.XGBoostModel.model_class">
-<span class="sig-name descname"><span class="pre">model_class</span></span><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel.model_class" title="Permalink to this definition"></a></dt>
-<dd><p>The class of the model to use. It can be either xgb.Booster or xgb.XGBClassifier,
-depending on the provided model type if the model is created from hyperparameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Any</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.concrete_classifiers.XGBoostModel.evaluate">
 <span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/concrete_classifiers.html#XGBoostModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel.evaluate" title="Permalink to this definition"></a></dt>
@@ -745,7 +769,7 @@ depending on the provided model type if the model is created from hyperparameter
 <span class="sig-name descname"><span class="pre">train_to_disagree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balance_train_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/models/concrete_classifiers.html#XGBoostModel.train_to_disagree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.concrete_classifiers.XGBoostModel.train_to_disagree" title="Permalink to this definition"></a></dt>
 <dd><p>Trains the model to disagree with another model using a specified dataset.</p>
 <p>This method is intended for scenarios where the model is trained to produce outputs that
-intentionally diverge from those of another model, typically for robustness testing or adversarial training.</p>
+intentionally diverge from those of another model, to be used in the <code class="docutils literal notranslate"><span class="pre">detectron</span></code> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -923,9 +947,9 @@ It provides practical, ready-to-use models that comply with the abstract definit
 </section>
 <section id="module-det3pa.models.abstract_metrics">
 <span id="abstract-metrics-module"></span><h2><strong>abstract_metrics module</strong><a class="headerlink" href="#module-det3pa.models.abstract_metrics" title="Permalink to this heading"></a></h2>
-<p>The abstract_metrics.py module defines the EvaluationMetric abstract base class,
+<p>The <code class="docutils literal notranslate"><span class="pre">abstract_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">EvaluationMetric</span></code> abstract base class,
 providing a standard interface for calculating metric values for model evaluations.
-It includes specialized subclasses like ClassificationEvaluationMetric and RegressionEvaluationMetric to cater to specific needs of classification and regression tasks,
+It includes specialized subclasses like <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code> and <code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code> to cater to specific needs of classification and regression tasks,
 facilitating the integration and extension of new evaluation metrics.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.models.abstract_metrics.ClassificationEvaluationMetric">
@@ -942,7 +966,7 @@ facilitating the integration and extension of new evaluation metrics.</p>
 metric values across different types of tasks, ensuring consistency and reusability.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_metrics.EvaluationMetric.calculate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric.calculate" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric.calculate" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1341,11 +1365,16 @@ samples, mainly used in averaging the metric.</p></li>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.supported_classification_metrics">
+<span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">supported_classification_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#supported_classification_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.supported_classification_metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-det3pa.models.regression_metrics">
 <span id="regression-metrics-module"></span><h2><strong>regression_metrics module</strong><a class="headerlink" href="#module-det3pa.models.regression_metrics" title="Permalink to this heading"></a></h2>
 <p>Focused on regression tasks, this module provides implementations of key evaluation metrics such as Mean Squared Error (MSE),
-Root Mean Squared Error (RMSE), and R2 Score. Similar to classification_metrics.py,
+Root Mean Squared Error (RMSE), and R2 Score. Similar to`` classification_metrics.py``,
 these metrics are structured to offer a consistent approach for evaluating regression models.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.models.regression_metrics.MeanAbsoluteError">
@@ -1458,6 +1487,11 @@ samples, mainly used in averaging the metric.</p></li>
 </dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.supported_classification_metrics">
+<span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">supported_classification_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#supported_classification_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.supported_classification_metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-det3pa.models.data_strategies">

@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -102,7 +106,7 @@
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;randome_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
             <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_class</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
@@ -176,6 +180,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
+            
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeRegressorModel</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span> <span class="o">=</span> <span class="n">TreeRepresentation</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span> <span class="o">=</span> <span class="n">ToDataframesStrategy</span><span class="p">()</span>

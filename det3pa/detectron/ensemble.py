@@ -1,5 +1,7 @@
 """
-This module manages the detectron cdcs ensemble
+This module houses the ``DetectronEnsemble`` class, responsible for managing the Constrained Disagreement Classifiers (CDCs) ensemble. 
+It coordinates the training and evaluation of multiple CDCs, aiming to disagree with the predictions of a primary base model under specified conditions.
+The ensemble leverages a base model, provided by ``BaseModelManager``, to generate models that are designed to systematically disagree with it in a controlled fashion.
 """
 from tqdm import tqdm
 from det3pa.models.base import BaseModelManager
@@ -69,12 +71,12 @@ class DetectronEnsemble:
             ValueError: If the specified set is neither 'reference' nor 'testing'.
         """
         # set up the training, validation and testing sets
-        training_data = datasets.get_base_model_training_data(return_instance=True)
-        validation_data = datasets.get_base_model_validation_data(return_instance=True)
+        training_data = datasets.get_dataset_by_type(dataset_type="training", return_instance=True)
+        validation_data = datasets.get_dataset_by_type(dataset_type="validation", return_instance=True)
         if set=='reference':
-            testing_data = datasets.get_reference_data(return_instance=True)
+            testing_data = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
         elif set == 'testing':
-            testing_data = datasets.get_testing_data(return_instance=True)
+            testing_data = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True)
         else:
             raise ValueError("The set used to evaluate the ensemble must be either the reference set or the testing set")
 
@@ -114,7 +116,10 @@ class DetectronEnsemble:
                 # save the model id
                 model_id = i
                 # update the training params with the current seed which is the model id
-                training_params.update({'seed':i})
+                if training_params is not None :
+                    training_params.update({'seed':i})
+                else:
+                    training_params = {'seed':i}
                 # train this cdc to disagree
                 cdc.train_to_disagree(x_train=training_data.get_features(), y_train=training_data.get_true_labels(), 
                                       x_validation=validation_data.get_features(), y_validation=validation_data.get_true_labels(), 

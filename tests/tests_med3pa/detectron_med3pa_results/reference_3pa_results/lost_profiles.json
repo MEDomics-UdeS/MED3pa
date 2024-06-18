@@ -1,0 +1,2212 @@
+{
+    "-5": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [
+            {
+                "id": 13,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 > 2.799999952316284"
+                ],
+                "value": 0.3579227565973997,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 100.0,
+                    "Population%": 0.9345794392523364,
+                    "Mean confidence level": 35.79227565973997,
+                    "Positive%": 100.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [],
+        "27": [],
+        "26": [],
+        "25": [
+            {
+                "id": 4,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 <= 36.0"
+                ],
+                "value": 0.38873897524178025,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 4.672897196261682,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "24": [],
+        "23": [
+            {
+                "id": 12,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 > 267.5"
+                ],
+                "value": 0.7232165524673958,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 66.66666666666667,
+                    "Population%": 5.607476635514018,
+                    "Mean confidence level": 69.01867321924367,
+                    "Positive%": 75.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "22": [],
+        "21": [],
+        "20": [],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "8": [],
+        "7": [],
+        "6": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 7,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 <= 126.5"
+                ],
+                "value": 0.6808397730364679,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 53.84615384615385,
+                    "Population%": 12.149532710280374,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 14.285714285714285
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 8,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 > 126.5"
+                ],
+                "value": 0.8166789149357717,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 76.19047619047619,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 25.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 <= 267.5"
+                ],
+                "value": 0.8469936903286724,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 13.08411214953271,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284"
+                ],
+                "value": 0.8098605489702896,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.69158878504673,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "feature5 > 168.5"
+                ],
+                "value": 0.7883397017144376,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "0": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [
+            {
+                "id": 13,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 > 2.799999952316284"
+                ],
+                "value": 0.3579227565973997,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 100.0,
+                    "Population%": 0.9345794392523364,
+                    "Mean confidence level": 35.79227565973997,
+                    "Positive%": 100.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "87": [],
+        "86": [],
+        "85": [
+            {
+                "id": 4,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 <= 36.0"
+                ],
+                "value": 0.38873897524178025,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 20.0,
+                    "Population%": 4.672897196261682,
+                    "Mean confidence level": 60.180139125888964,
+                    "Positive%": 100.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [
+            {
+                "id": 7,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 <= 126.5"
+                ],
+                "value": 0.6808397730364679,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 53.84615384615385,
+                    "Population%": 12.149532710280374,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 14.285714285714285
+                },
+                "detectron_results": null
+            }
+        ],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [
+            {
+                "id": 12,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 > 267.5"
+                ],
+                "value": 0.7232165524673958,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 66.66666666666667,
+                    "Population%": 5.607476635514018,
+                    "Mean confidence level": 69.01867321924367,
+                    "Positive%": 75.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "23": [],
+        "22": [
+            {
+                "id": 8,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 > 126.5"
+                ],
+                "value": 0.8166789149357717,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 76.19047619047619,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 25.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "21": [],
+        "20": [],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "8": [],
+        "7": [],
+        "6": [
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 <= 267.5"
+                ],
+                "value": 0.8469936903286724,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 13.08411214953271,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284"
+                ],
+                "value": 0.8098605489702896,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.69158878504673,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "feature5 > 168.5"
+                ],
+                "value": 0.7883397017144376,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "5": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [
+            {
+                "id": 7,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 <= 126.5"
+                ],
+                "value": 0.6808397730364679,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 53.84615384615385,
+                    "Population%": 12.149532710280374,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 14.285714285714285
+                },
+                "detectron_results": null
+            }
+        ],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [
+            {
+                "id": 12,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 > 267.5"
+                ],
+                "value": 0.7232165524673958,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 66.66666666666667,
+                    "Population%": 5.607476635514018,
+                    "Mean confidence level": 69.01867321924367,
+                    "Positive%": 75.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "23": [],
+        "22": [
+            {
+                "id": 8,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 > 126.5"
+                ],
+                "value": 0.8166789149357717,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 76.19047619047619,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 25.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "21": [],
+        "20": [],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "8": [],
+        "7": [],
+        "6": [
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 <= 267.5"
+                ],
+                "value": 0.8469936903286724,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 13.08411214953271,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284"
+                ],
+                "value": 0.8098605489702896,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.69158878504673,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "feature5 > 168.5"
+                ],
+                "value": 0.7883397017144376,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "10": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [
+            {
+                "id": 7,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 <= 126.5"
+                ],
+                "value": 0.6808397730364679,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 53.84615384615385,
+                    "Population%": 12.149532710280374,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 14.285714285714285
+                },
+                "detectron_results": null
+            }
+        ],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "23": [],
+        "22": [
+            {
+                "id": 8,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 > 126.5"
+                ],
+                "value": 0.8166789149357717,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 76.19047619047619,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 25.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "21": [],
+        "20": [],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "8": [],
+        "7": [],
+        "6": [
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284",
+                    "feature4 <= 267.5"
+                ],
+                "value": 0.8469936903286724,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 13.08411214953271,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284"
+                ],
+                "value": 0.8098605489702896,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.69158878504673,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "feature5 > 168.5"
+                ],
+                "value": 0.7883397017144376,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "15": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "33": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "feature5 > 168.5",
+                    "feature6 <= 2.799999952316284"
+                ],
+                "value": 0.8098605489702896,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.69158878504673,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "feature5 > 168.5"
+                ],
+                "value": 0.7883397017144376,
+                "metrics": {
+                    "Auc": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Auprc": NaN,
+                    "F1Score": NaN,
+                    "Node%": 0.0,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "24": [],
+        "23": [],
+        "22": [],
+        "21": [],
+        "20": [],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "13": [
+            {
+                "id": 8,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929",
+                    "feature3 > 126.5"
+                ],
+                "value": 0.8166789149357717,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 76.19047619047619,
+                    "Population%": 19.626168224299064,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 25.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "12": [],
+        "11": [],
+        "10": [],
+        "9": [],
+        "8": [],
+        "7": [],
+        "6": [],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "20": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "33": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "22": [],
+        "21": [],
+        "20": [
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "9": [],
+        "8": [],
+        "7": [],
+        "6": [],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "25": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "33": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "22": [],
+        "21": [],
+        "20": [
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "9": [],
+        "8": [],
+        "7": [],
+        "6": [],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    },
+    "30": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "69": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929",
+                    "feature1 > 36.0"
+                ],
+                "value": 0.6244676057287948,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 53.191489361702125,
+                    "Population%": 43.925233644859816,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 <= 1.550000011920929"
+                ],
+                "value": 0.6018013912588897,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 0.9999999999999999,
+                    "F1Score": 1.0,
+                    "Node%": 48.07692307692308,
+                    "Population%": 48.598130841121495,
+                    "Mean confidence level": 62.44676057287948,
+                    "Positive%": 48.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "64": [],
+        "63": [],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
+        "57": [],
+        "56": [],
+        "55": [],
+        "54": [],
+        "53": [],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "41": [],
+        "40": [],
+        "39": [],
+        "38": [],
+        "37": [],
+        "36": [],
+        "35": [],
+        "34": [],
+        "33": [],
+        "32": [],
+        "31": [],
+        "30": [],
+        "29": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "22": [],
+        "21": [],
+        "20": [
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5",
+                    "feature6 > 1.550000011920929"
+                ],
+                "value": 0.7647404195036849,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 67.6470588235294,
+                    "Population%": 31.77570093457944,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "feature5 <= 168.5"
+                ],
+                "value": 0.666219146611483,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 26.74418604651163,
+                    "Population%": 80.37383177570094,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6901867321924366,
+                "metrics": {
+                    "Auc": 1.0,
+                    "BalancedAccuracy": 1.0,
+                    "Auprc": 1.0,
+                    "F1Score": 1.0,
+                    "Node%": 21.49532710280374,
+                    "Population%": 100.0,
+                    "Mean confidence level": 76.47404195036849,
+                    "Positive%": 21.73913043478261
+                },
+                "detectron_results": null
+            }
+        ],
+        "19": [],
+        "18": [],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "9": [],
+        "8": [],
+        "7": [],
+        "6": [],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    }
+}

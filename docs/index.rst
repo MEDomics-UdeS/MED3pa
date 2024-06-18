@@ -38,7 +38,6 @@ The ``det3pa`` package is constructed with a strong emphasis on **software engin
 - **Modular Design**: The package is structured into four distinct **subpackages** (detectron, med3pa, models, and datasets), each focusing on different aspects of model training and evaluation. This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.
 - **Extensibility**: Thanks to its modular architecture, the package can be effortlessly extended to include more functionalities or adapt to different use cases. New models, methods, or data handling procedures can be added with minimal impact on the existing system structure.
 - **Use of Design Patterns**: det3pa employs various design patterns that enhance its maintainability and usability. For example, the use of factory patterns in model creation and strategy patterns in handling different file extensions ensures that the system remains flexible and adaptable to new requirements.
-- **Integration Friendly**: The package is designed to be compatible with other data processing and machine learning frameworks, facilitating its incorporation into existing pipelines. This integration capability is vital for users who need to augment their current systems with advanced model evaluation and diagnostic tools.
 
 Subpackages
 ============
@@ -59,6 +58,11 @@ This modularity allows users to easily integrate and utilize specific functional
    
    det3pa
 
+.. toctree::
+   :maxdepth: 4
+   :caption: Tutorials
+   
+   tutorials
 
 
 Indices and tables

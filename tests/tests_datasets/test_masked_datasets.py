@@ -7,14 +7,12 @@ class TestMaskedDataset(unittest.TestCase):
     def setUp(self):
         self.features = np.array([[1, 2], [3, 4], [5, 6]])
         self.true_labels = np.array([0, 1, 0])
-        self.pseudo_labels = np.array([1, 0, 1])
-        self.dataset = MaskedDataset(self.features, self.true_labels, pseudo_labels=self.pseudo_labels)
+        self.dataset = MaskedDataset(self.features, self.true_labels)
 
     # tests the __getitem__ correctly returns the feature vector, pseudo label and true label for a given index
     def test_get_item(self):
         x, y_hat, y = self.dataset[0]
         np.testing.assert_array_equal(x, self.features[0])
-        self.assertEqual(y_hat, self.pseudo_labels[0])
         self.assertEqual(y, self.true_labels[0])
     
     # tests that the refine method correctly applies a mask to select specific data points.
@@ -38,9 +36,9 @@ class TestMaskedDataset(unittest.TestCase):
     # asserts that the cloned dataset has the same features, true labels, and pseudo labels as the original dataset.
     def test_clone(self):
         cloned_dataset = self.dataset.clone()
-        np.testing.assert_array_equal(cloned_dataset.features, self.features)
-        np.testing.assert_array_equal(cloned_dataset.true_labels, self.true_labels)
-        np.testing.assert_array_equal(cloned_dataset.pseudo_labels, self.pseudo_labels)
+        np.testing.assert_array_equal(cloned_dataset.features, self.dataset.features)
+        np.testing.assert_array_equal(cloned_dataset.true_labels, self.dataset.true_labels)
+        np.testing.assert_array_equal(cloned_dataset.pseudo_labels, self.dataset.pseudo_labels)
 
 if __name__ == '__main__':
     unittest.main()

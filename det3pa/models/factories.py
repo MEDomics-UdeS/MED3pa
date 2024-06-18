@@ -1,10 +1,13 @@
 """
-This module provides factory classes for creating machine learning models. using the factory design pattern. 
-"""
+This module utilizes the **Factory design pattern** to abstract the creation process of machine learning models. 
+It defines a general factory class and specialized factories for different model types, such as XGBoost. 
+This setup allows for dynamic model instantiation based on provided specifications or configurations. 
+By decoupling model creation from usage"""
 
 import pickle
 import json
 import re
+import warnings
 import xgboost as xgb
 from .concrete_classifiers import XGBoostModel
 from .abstract_models import Model
@@ -44,6 +47,16 @@ class ModelFactory:
             raise ValueError(f"No factory available for model type: {model_type}")
         
     @staticmethod
+    def get_supported_models() -> list:
+        """
+        Retrieves a list of all supported model types.
+
+        Returns:
+            list: A list containing the keys from model_mapping which represent the supported model types.
+        """
+        return list(ModelFactory.model_mapping.keys())
+        
+    @staticmethod
     def create_model_with_hyperparams(model_type: str, hyperparams: dict) -> Model:
         """
         Creates a model of the specified type with the given hyperparameters.
@@ -73,6 +86,7 @@ class ModelFactory:
             IOError: If there is an error loading the model from the file.
             TypeError: If the loaded model is not of a supported type.
         """
+        warnings.filterwarnings("ignore", message=r".*WARNING.*", category=UserWarning, module="xgboost.core")
         try:
             with open(pickled_file_path, 'rb') as file:
                 loaded_model = pickle.load(file)
@@ -122,7 +136,7 @@ class XGBoostFactory(ModelFactory):
         if isinstance(loaded_model, (xgb.Booster, xgb.XGBClassifier)):
             if self.check_version(loaded_model):
                 extracted_params = self.extract_params(loaded_model)
-                return XGBoostModel(params=extracted_params, model=loaded_model, model_class=type(loaded_model))
+                return XGBoostModel(params=extracted_params, model=loaded_model)
             else:
                 raise ValueError("XGBoost model version is not supported. Please use version 2.0.0 or later.")
         else:
@@ -146,7 +160,6 @@ class XGBoostFactory(ModelFactory):
         else:
             version_str = version_list
 
-        print(version_str)
         version_match = re.match(r'(\d+)\.(\d+)\.(\d+)', version_str)
         if version_match:
             major, minor, patch = map(int, version_match.groups())

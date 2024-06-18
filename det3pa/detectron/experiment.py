@@ -1,14 +1,18 @@
 """
-This module include the execution of the detectron method and the handling of the results
+This module encapsulates the execution logic for the Detectron method, managing the orchestration of the entire pipeline. It includes the ``DetectronExperiment`` abstract class, 
+which outlines the protocol for setting up and running experiments. 
+Additionally, the ``DetectronResult`` class is responsible for storing and managing the outcomes of these experiments, 
+providing methods to access and analyze the trajectories and outcomes of this method's evaluation.
 """
 from __future__ import annotations
 import json
 from typing import Optional
 from warnings import warn
+import os
 
-from det3pa.detectron.record import DetectronRecordsManager
-from det3pa.detectron.ensemble import DetectronEnsemble, BaseModelManager, DatasetsManager
-from det3pa.detectron.strategies import *
+from .record import DetectronRecordsManager
+from .ensemble import DetectronEnsemble, BaseModelManager, DatasetsManager
+from .strategies import *
 
 from abc import ABC, abstractmethod
 
@@ -49,49 +53,38 @@ class DetectronResult:
         rec = self.test_record.get_record()
         return rec[['seed', 'model_id', 'rejection_rate']]
 
-    def get_experiments_results(self, strategy : DetectronStrategy, significance_level):
+    def get_experiments_results(self):
         """
         Executes the Detectron tests using the specified strategy and records.
 
-        Args:
-            strategy (DetectronStrategy): The strategy to use for detecting discrepancies.
-            significance_level (float): The significance level for the statistical tests.
-
         Returns:
             dict: Results from executing the Detectron test.
-        """        
-        return(strategy.execute(self.cal_record, self.test_record, significance_level))
+        """
+        return(self.test_results)
     
-    def set_experiments_results(self, results : dict):
+    def analyze_results(self, strategy : DetectronStrategy) -> dict:
         """
         Stores the results of the Detectron tests.
 
         Args:
-            results (dict): The results to store.
+            strategy (DetectronStrategy): The strategy to use for detecting covariate shift.
         """
+        results = strategy.execute(self.cal_record, self.test_record)
         self.test_results = results
+        self.test_results.update({'Strategy': strategy().__class__.__name__})
+        return self.test_results
 
-    def evaluate_detectron(self, strategy:DetectronStrategy, significance_level):
-        """
-        Evaluates the Detectron using the specified strategy.
-
-        Args:
-            strategy (DetectronStrategy): The strategy to evaluate.
-            significance_level (float): The significance level for the evaluation.
-
-        Returns:
-            dict: Results from evaluating the Detectron.
-        """
-        return(strategy.evaluate(self.cal_record, self.test_record, significance_level))
-    
-    def save(self, file_path: str):
+    def save(self, file_path: str, file_name: str = 'detectron_results'):
         """
         Saves the Detectron results to JSON format.
 
         Args:
             file_path (str): The file path where the results should be saved.
+            file_name (str): The file name.
         """
-        with open(f'{file_path}/detectron_results.json', 'w') as file:
+        # Ensure the main directory exists
+        os.makedirs(file_path, exist_ok=True)
+        with open(f'{file_path}/{file_name}.json', 'w') as file:
             json.dump(self.test_results, file, indent=4)
         
     
@@ -102,19 +95,15 @@ class DetectronExperiment:
     Methods:
         run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.
     """
-    @abstractmethod
+    @staticmethod
     def run(    datasets: DatasetsManager,
-                training_params: dict,
                 base_model_manager: BaseModelManager,
+                training_params: dict=None,
                 samples_size : int = 20,
-                detectron_result: DetectronResult = None,
                 calib_result:DetectronRecordsManager=None,
                 ensemble_size=10,
                 num_calibration_runs=100,
                 patience=3,
-                significance_level=0.05, 
-                test_strategy=DisagreementStrategy_z_mean,
-                evaluate_detectron=False, 
                 allow_margin : bool = False, 
                 margin = 0.05):
         """
@@ -125,14 +114,10 @@ class DetectronExperiment:
             training_params (dict): Parameters for training the cdcs within the ensembles.
             base_model_manager (BaseModelManager): Manager for the base model operations.
             samples_size (int): Number of samples to use in each Detectron run. Defaults to 20.
-            detectron_result (Optional[DetectronResult]): Pre-existing results to bypass training phase. Defaults to None.
             calib_result (Optional[DetectronRecordsManager]): Calibration results, if provided. Defaults to None.
             ensemble_size (int): Number of models in each ensemble. Defaults to 10.
             num_calibration_runs (int): Number of calibration runs. Defaults to 100.
             patience (int): Number of iterations with no improvement before stopping. Defaults to 3.
-            significance_level (float): Significance level for statistical tests. Defaults to 0.05.
-            test_strategy (Any): Strategy for evaluating the Detectron results. Defaults to DisagreementStrategy_z_mean.
-            evaluate_detectron (bool): Whether to perform an evaluation of the Detectron. Defaults to False.
             allow_margin (bool): Allow a margin of error when comparing model outputs. Defaults to False.
             margin (float): Threshold for considering differences significant when margin is allowed. Defaults to 0.05.
 
@@ -144,39 +129,38 @@ class DetectronExperiment:
         # create a testing ensemble
         testing_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
         # ensure the reference set is larger compared to testing set
-        reference_set = datasets.get_reference_data(return_instance=True)
-        if detectron_result is None:
-            if reference_set is not None:
-                test_size = len(reference_set)
-                assert test_size > samples_size, \
-                    "The reference set must be larger than the testing set to perform statistical bootstrapping"
-                if test_size < 2 * samples_size:
-                    warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
-                if calib_result is not None:
-                    cal_record = calib_result
-                else:
-                # evaluate the calibration ensemble
-                    cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                                        n_runs=num_calibration_runs,
-                                                                        samples_size=samples_size, 
-                                                                        training_params=training_params, 
-                                                                        set='reference', 
-                                                                        patience=patience, 
-                                                                        allow_margin=allow_margin,
-                                                                        margin=margin)
-                
-                test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                                n_runs=num_calibration_runs, 
-                                                                samples_size=samples_size, 
-                                                                training_params=training_params,
-                                                                set='testing', 
-                                                                patience=patience,
-                                                                allow_margin=allow_margin,
-                                                                margin=margin)
+        reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
+        if reference_set is not None:
+            test_size = len(reference_set)
+            assert test_size > samples_size, \
+                "The reference set must be larger than the testing set to perform statistical bootstrapping"
+            if test_size < 2 * samples_size:
+                warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
+            if calib_result is not None:
+                print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
+                cal_record = calib_result
+            else:
+            # evaluate the calibration ensemble
+                cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
+                                                                    n_runs=num_calibration_runs,
+                                                                    samples_size=samples_size, 
+                                                                    training_params=training_params, 
+                                                                    set='reference', 
+                                                                    patience=patience, 
+                                                                    allow_margin=allow_margin,
+                                                                    margin=margin)
+                print("Detectron execution on reference set completed.")
+            test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
+                                                            n_runs=num_calibration_runs, 
+                                                            samples_size=samples_size, 
+                                                            training_params=training_params,
+                                                            set='testing', 
+                                                            patience=patience,
+                                                            allow_margin=allow_margin,
+                                                            margin=margin)
+            print("Detectron execution on testing set completed.")
 
-        else:
-            cal_record = detectron_result.cal_record
-            test_record = detectron_result.test_record
+
             assert cal_record.sample_size == test_record.sample_size, \
                 "The calibration record must have been generated with the same sample size as the observation set"
             
@@ -184,13 +168,6 @@ class DetectronExperiment:
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
         # calculate the detectron test
-        experiment_results = detectron_results.get_experiments_results(test_strategy, significance_level)
-        detectron_results.set_experiments_results(experiment_results)
-        # evaluate the detectron if needed
-        if evaluate_detectron:
-            evaluation_results = detectron_results.evaluate_detectron(test_strategy, significance_level)
-        else:
-            evaluation_results = None
-        return detectron_results, experiment_results, evaluation_results
+        return detectron_results
     
 

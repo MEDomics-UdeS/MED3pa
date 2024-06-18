@@ -1,6 +1,8 @@
 """
-This module defines the abstract structures of evaluation metrics, for classification tasks and for regression tasks.
-"""
+The ``abstract_metrics.py`` module defines the ``EvaluationMetric`` abstract base class, 
+providing a standard interface for calculating metric values for model evaluations. 
+It includes specialized subclasses like ``ClassificationEvaluationMetric`` and ``RegressionEvaluationMetric`` to cater to specific needs of classification and regression tasks, 
+facilitating the integration and extension of new evaluation metrics."""
 
 from abc import ABC, abstractmethod
 import numpy as np
@@ -12,7 +14,7 @@ class EvaluationMetric(ABC):
     """
 
     @abstractmethod
-    def calculate(self, y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
+    def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
         """
         Calculates the metric value based on true labels/values and predicted labels/values.
 

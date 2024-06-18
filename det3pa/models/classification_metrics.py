@@ -1,7 +1,8 @@
 """
-This module defines a comprehensive list of Evaluation metrics for classification tasks.
-"""
-from abc import ABC, abstractmethod
+This module implements a range of evaluation metrics specifically for classification tasks. It defines classes for metrics like accuracy, recall, precision, and F1 score, among others. 
+Each metric class extends from a common ``EvaluationMetric`` abstract class, ensuring they adhere to a unified method for computation. 
+This setup facilitates easy addition of new metrics and their application across various classification models without altering the core model logic."""
+
 import numpy as np
 from sklearn.metrics import (accuracy_score, recall_score, roc_auc_score,
                              average_precision_score, matthews_corrcoef,
@@ -17,13 +18,13 @@ class Accuracy(ClassificationEvaluationMetric):
 
 class Recall(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return recall_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
 
 class RocAuc(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if len(np.unique(y_true)) == 1:
+        if len(np.unique(y_true)) == 1 or len(np.unique(y_true)) == 1:
             return np.nan
         if y_true.size == 0 or y_pred.size == 0:
             return np.nan
@@ -31,7 +32,7 @@ class RocAuc(ClassificationEvaluationMetric):
 
 class AveragePrecision(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return average_precision_score(y_true, y_pred, sample_weight=sample_weight)
 
@@ -43,37 +44,37 @@ class MatthewsCorrCoef(ClassificationEvaluationMetric):
 
 class Precision(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return precision_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
 
 class F1Score(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return f1_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
 
 class Sensitivity(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return recall_score(y_true, y_pred, pos_label=1, zero_division=0)
 
 class Specificity(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return recall_score(y_true, y_pred, pos_label=0, zero_division=0)
 
 class PPV(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return precision_score(y_true, y_pred, pos_label=1, zero_division=0)
 
 class NPV(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         return precision_score(y_true, y_pred, pos_label=0, zero_division=0)
 
@@ -87,7 +88,7 @@ class BalancedAccuracy(ClassificationEvaluationMetric):
 
 class LogLoss(ClassificationEvaluationMetric):
     def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return np.nan
         y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
         return log_loss(y_true, y_pred, sample_weight=sample_weight)
@@ -107,3 +108,6 @@ metrics_mappings = {
     'PPV': PPV,
     'MCC': MatthewsCorrCoef
 }
+
+def supported_classification_metrics():
+    return list(metrics_mappings.keys())

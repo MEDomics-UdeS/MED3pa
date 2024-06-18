@@ -1,5 +1,8 @@
 """
-this module defines the different models used in med3pa method.
+Defines the models used within the med3pa framework. It includes classes for Individualized Predictive Confidence (IPC) models that predict uncertainty at an individual level, 
+where the regressor type can be specified by the user. 
+Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points, 
+and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.
 """
 import numpy as np
 from sklearn.model_selection import GridSearchCV
@@ -24,7 +27,7 @@ class IPCModel:
         if params is None:
             params = {'random_state': 54288}
         else:
-            random_state_params = {'randome_state': 54288}
+            random_state_params = {'random_state': 54288}
             params.update(random_state_params)
         self.model = model_class(params)
 
@@ -98,6 +101,10 @@ class APCModel:
         """
         if params is None:
             params = {'max_depth': 3, 'min_samples_leaf': 1, 'random_state': 54288}
+        else:
+            random_state_params = {'random_state': 54288}
+            params.update(random_state_params)
+            
         self.model = DecisionTreeRegressorModel(params)
         self.treeRepresentation = TreeRepresentation(features=features)
         self.dataPreparationStrategy = ToDataframesStrategy()

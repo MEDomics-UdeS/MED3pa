@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -146,12 +150,12 @@
 <span class="sd">            ValueError: If the specified set is neither &#39;reference&#39; nor &#39;testing&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># set up the training, validation and testing sets</span>
-        <span class="n">training_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_base_model_training_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">validation_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_base_model_validation_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">training_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">validation_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">set</span><span class="o">==</span><span class="s1">&#39;reference&#39;</span><span class="p">:</span>
-            <span class="n">testing_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_reference_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">testing_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
-            <span class="n">testing_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_testing_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">testing_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The set used to evaluate the ensemble must be either the reference set or the testing set&quot;</span><span class="p">)</span>
 
@@ -191,7 +195,10 @@
                 <span class="c1"># save the model id</span>
                 <span class="n">model_id</span> <span class="o">=</span> <span class="n">i</span>
                 <span class="c1"># update the training params with the current seed which is the model id</span>
-                <span class="n">training_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;seed&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">})</span>
+                <span class="k">if</span> <span class="n">training_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+                    <span class="n">training_params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;seed&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">training_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;seed&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">}</span>
                 <span class="c1"># train this cdc to disagree</span>
                 <span class="n">cdc</span><span class="o">.</span><span class="n">train_to_disagree</span><span class="p">(</span><span class="n">x_train</span><span class="o">=</span><span class="n">training_data</span><span class="o">.</span><span class="n">get_features</span><span class="p">(),</span> <span class="n">y_train</span><span class="o">=</span><span class="n">training_data</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">(),</span> 
                                       <span class="n">x_validation</span><span class="o">=</span><span class="n">validation_data</span><span class="o">.</span><span class="n">get_features</span><span class="p">(),</span> <span class="n">y_validation</span><span class="o">=</span><span class="n">validation_data</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">(),</span> 

@@ -1,5 +1,7 @@
 """
-This module defines a comprehensive list of Evaluation metrics for regression tasks.
+Focused on regression tasks, this module provides implementations of key evaluation metrics such as Mean Squared Error (MSE), 
+Root Mean Squared Error (RMSE), and R2 Score. Similar to`` classification_metrics.py``, 
+these metrics are structured to offer a consistent approach for evaluating regression models.
 """
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
@@ -35,3 +37,6 @@ regression_metrics_mappings = {
     'MAE': MeanAbsoluteError,
     'R2': R2Score
 }
+
+def supported_classification_metrics():
+    return list(regression_metrics_mappings.keys())

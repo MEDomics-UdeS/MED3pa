@@ -1,5 +1,7 @@
 """
-This module represents a context class for loading datasets using different strategies, such as .csv files.
+This module provides a flexible framework for loading datasets from various file formats by utilizing the **strategy design pattern**.
+It supports dynamic selection of data loading strategies based on the file extension, enabling easy extension and maintenance.
+It includes the ``DataLoadingContext`` class, responsible for selecting and setting the right **loading strategy** based on the loaded file extension.
 """
 from typing import Tuple, List
 from .loading_strategies import DataLoadingStrategy, CSVDataLoadingStrategy
@@ -9,20 +11,10 @@ class DataLoadingContext:
     """
     A context class for managing data loading strategies. It supports setting and getting the current
     data loading strategy, as well as loading data as a NumPy array from a specified file.
-
-    Attributes:
-        selected_strategy (DataLoadingStrategy): The currently selected data loading strategy.
-
-    Methods:
-        set_strategy(strategy: DataLoadingStrategy): Sets a new data loading strategy.
-        get_strategy() -> DataLoadingStrategy: Returns the currently selected data loading strategy.
-        load_as_np(file_path: str, target_column_name: str) -> Tuple[List[str], np.ndarray, np.ndarray]: 
-            Loads data from the specified file path and returns column labels, features, and target data as NumPy arrays.
     """
 
-    __strategies = {
+    strategies = {
         'csv': CSVDataLoadingStrategy,
-        # Add more strategies here as needed
     }
 
     def __init__(self, file_path: str):
@@ -36,7 +28,7 @@ class DataLoadingContext:
             ValueError: If the file extension is not supported.
         """
         file_extension = file_path.split('.')[-1]
-        strategy_class = self.__strategies.get(file_extension, None)
+        strategy_class = self.strategies.get(file_extension, None)
         if strategy_class is None:
             raise ValueError(f"This file extension is not supported yet: '{file_extension}'")
         self.selected_strategy = strategy_class()
@@ -72,3 +64,14 @@ class DataLoadingContext:
             and the target as a NumPy array.
         """
         return self.selected_strategy.execute(file_path, target_column_name)
+
+
+
+def supported_file_formats() -> List[str]:
+    """
+    Returns a list of supported file formats.
+
+    Returns:
+        List[str]: A list of supported file formats.
+    """
+    return list(DataLoadingContext.strategies.keys())

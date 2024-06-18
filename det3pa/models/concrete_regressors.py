@@ -1,4 +1,7 @@
-
+"""
+Similar to ``concrete_classifiers.py``, this module contains implementations of regression models like RandomForestRegressor and DecisionTreeRegressor. 
+It provides practical, ready-to-use models that comply with the abstract definitions, making it easier to integrate and use these models in ``med3pa`` and ``detectron``.
+"""
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 import numpy as np
@@ -63,20 +66,15 @@ class RandomForestRegressorModel(RegressionModel):
         np_X_train, np_y_train = self._ensure_numpy_arrays(x_train, y_train)
 
         if training_parameters:
-            valid_params = self.model.get_params()
-            for k in training_parameters.keys():
-                if k not in valid_params:
-                    raise ValueError(f"Invalid parameter: {k}")
-            self.params.update(training_parameters)
+            valid_param_sets = [set(self.model.get_params().keys())]
+            validated_params = self.validate_params(training_parameters, valid_param_sets)
+            self.params.update(validated_params)
             self.model.set_params(**self.params)
-
+        
         self.model.fit(np_X_train, np_y_train)
 
         if x_validation is not None and y_validation is not None:
-            np_X_val, np_y_val = self._ensure_numpy_arrays(x_validation, y_validation)
-            val_predictions = self.model.predict(np_X_val)
-            val_score = self.model.score(np_X_val, np_y_val)
-            print(f"Validation score: {val_score}")
+            self.evaluate(x_validation, y_validation, ['RMSE', 'MSE'], True)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
@@ -187,20 +185,15 @@ class DecisionTreeRegressorModel(RegressionModel):
         np_X_train, np_y_train = self._ensure_numpy_arrays(x_train, y_train)
 
         if training_parameters:
-            valid_params = self.model.get_params()
-            for k in training_parameters.keys():
-                if k not in valid_params:
-                    raise ValueError(f"Invalid parameter: {k}")
-            self.params.update(training_parameters)
+            valid_param_sets = [set(self.model.get_params().keys())]
+            validated_params = self.validate_params(training_parameters, valid_param_sets)
+            self.params.update(validated_params)
             self.model.set_params(**self.params)
-
+        
         self.model.fit(np_X_train, np_y_train)
 
         if x_validation is not None and y_validation is not None:
-            np_X_val, np_y_val = self._ensure_numpy_arrays(x_validation, y_validation)
-            val_predictions = self.model.predict(np_X_val)
-            val_score = self.model.score(np_X_val, np_y_val)
-            print(f"Validation score: {val_score}")
+            self.evaluate(x_validation, y_validation, ['RMSE', 'MSE'], True)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """

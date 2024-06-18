@@ -1,0 +1,13 @@
+{
+    "shift_probability": 0.7,
+    "test_statistic": 9.62,
+    "baseline_mean": 7.8,
+    "baseline_std": 2.7712812921102037,
+    "significance_description": {
+        "no shift": 37.88,
+        "small": 18.56,
+        "moderate": 24.52,
+        "large": 19.040000000000003
+    },
+    "Strategy": "DisagreementStrategy_z_mean"
+}

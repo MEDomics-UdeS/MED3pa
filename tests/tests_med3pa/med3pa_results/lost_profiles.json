@@ -1,6 +1,5 @@
 {
     "0": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -12,10 +11,18 @@
                     "*",
                     "x1 > 13.791605949401855",
                     "x2 <= -0.24683260917663574",
-                    "x2 > -3.583574891090393"
+                    "x2 > -4.019257068634033"
                 ],
-                "value": 0.21678564775254394,
-                "metrics": null,
+                "value": 0.2549022392656033,
+                "metrics": {
+                    "Auc": 0.72,
+                    "Accuracy": 0.5,
+                    "BalancedAccuracy": 0.5,
+                    "Node%": 16.666666666666668,
+                    "Population%": 6.0,
+                    "Mean confidence level": 46.93889641923647,
+                    "Positive%": 50.0
+                },
                 "detectron_results": null
             }
         ],
@@ -23,7 +30,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -37,57 +43,45 @@
                     "x2 > -0.24683260917663574",
                     "x2 <= 1.2807047963142395"
                 ],
-                "value": 0.5844604524848068,
-                "metrics": null,
+                "value": 0.5979480926603525,
+                "metrics": {
+                    "Auc": 0.2,
+                    "Accuracy": 0.9090909090909091,
+                    "BalancedAccuracy": 0.5,
+                    "Node%": 23.91304347826087,
+                    "Population%": 4.6,
+                    "Mean confidence level": 62.75367990858259,
+                    "Positive%": 9.090909090909092
+                },
                 "detectron_results": null
             }
         ],
-        "82": [],
-        "81": [],
-        "80": [
+        "83": [],
+        "81": [
             {
                 "id": 5,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
+                    "x2 <= 0.36811283230781555",
                     "x2 > -1.306367039680481"
                 ],
-                "value": 0.7083862818309081,
-                "metrics": null,
+                "value": 0.6023355471834615,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 21.05263157894737,
+                    "Population%": 9.5,
+                    "Mean confidence level": 86.74106853606386,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
-        "79": [],
+        "80": [],
         "78": [],
-        "77": [],
-        "76": [],
-        "75": [],
-        "74": [],
-        "72": [
-            {
-                "id": 11,
-                "path": [
-                    "*",
-                    "x1 > 13.791605949401855",
-                    "x2 <= -0.24683260917663574",
-                    "x2 <= -3.583574891090393"
-                ],
-                "value": 0.772372500887695,
-                "metrics": null,
-                "detectron_results": null
-            },
-            {
-                "id": 10,
-                "path": [
-                    "*",
-                    "x1 > 13.791605949401855",
-                    "x2 <= -0.24683260917663574"
-                ],
-                "value": 0.26887191523396436,
-                "metrics": null,
-                "detectron_results": null
-            },
+        "77": [
             {
                 "id": 15,
                 "path": [
@@ -96,8 +90,16 @@
                     "x2 > -0.24683260917663574",
                     "x2 > 1.2807047963142395"
                 ],
-                "value": 0.7092175782141925,
-                "metrics": null,
+                "value": 0.6875253698173832,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 3.7,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -107,8 +109,57 @@
                     "x1 > 13.791605949401855",
                     "x2 > -0.24683260917663574"
                 ],
-                "value": 0.6400750747979065,
-                "metrics": null,
+                "value": 0.6378801318749324,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 8.3,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "75": [
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "x1 > 13.791605949401855",
+                    "x2 <= -0.24683260917663574",
+                    "x2 <= -4.019257068634033"
+                ],
+                "value": 0.8551264816188107,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 0.4,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "x1 > 13.791605949401855",
+                    "x2 <= -0.24683260917663574"
+                ],
+                "value": 0.2924162544126787,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 6.4,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -117,46 +168,68 @@
                     "*",
                     "x1 > 13.791605949401855"
                 ],
-                "value": 0.4784628148517005,
-                "metrics": null,
+                "value": 0.4874740899866042,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 14.7,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             }
         ],
+        "74": [],
+        "73": [],
+        "72": [],
         "71": [],
+        "70": [],
         "69": [],
-        "68": [],
-        "67": [],
-        "66": [],
-        "65": [],
-        "64": [],
-        "63": [
+        "67": [
             {
                 "id": 7,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 <= 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 <= 0.8694652020931244"
                 ],
-                "value": 0.9516118384575123,
-                "metrics": null,
+                "value": 0.9144863005159107,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 26.582278481012658,
+                    "Population%": 7.9,
+                    "Mean confidence level": 94.77831416796454,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
-        "62": [],
-        "61": [],
-        "60": [],
-        "58": [
+        "66": [],
+        "64": [],
+        "63": [
             {
                 "id": 4,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
+                    "x2 <= 0.36811283230781555",
                     "x2 <= -1.306367039680481"
                 ],
-                "value": 0.9633523325633333,
-                "metrics": null,
+                "value": 0.9604358885821531,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 12.1,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -164,22 +237,33 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
+                    "x2 <= 0.36811283230781555"
                 ],
-                "value": 0.8230736132012554,
-                "metrics": null,
+                "value": 0.8029380532447655,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 21.6,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             }
         ],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
         "57": [],
         "56": [],
-        "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
+        "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -187,25 +271,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -213,10 +301,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -225,8 +321,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -234,11 +338,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -272,7 +386,6 @@
         "1": []
     },
     "5": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -284,10 +397,18 @@
                     "*",
                     "x1 > 13.791605949401855",
                     "x2 <= -0.24683260917663574",
-                    "x2 > -3.583574891090393"
+                    "x2 > -4.019257068634033"
                 ],
-                "value": 0.21678564775254394,
-                "metrics": null,
+                "value": 0.2549022392656033,
+                "metrics": {
+                    "Auc": 0.72,
+                    "Accuracy": 0.5,
+                    "BalancedAccuracy": 0.5,
+                    "Node%": 16.666666666666668,
+                    "Population%": 6.0,
+                    "Mean confidence level": 46.93889641923647,
+                    "Positive%": 50.0
+                },
                 "detectron_results": null
             }
         ],
@@ -299,23 +420,53 @@
                     "x1 > 13.791605949401855",
                     "x2 <= -0.24683260917663574"
                 ],
-                "value": 0.26887191523396436,
-                "metrics": null,
+                "value": 0.2924162544126787,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 9.375,
+                    "Population%": 6.4,
+                    "Mean confidence level": 72.66084336180353,
+                    "Positive%": 100.0
+                },
                 "detectron_results": null
             }
         ],
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
         "85": [],
         "84": [],
-        "83": [],
-        "82": [],
-        "81": [
+        "83": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "x1 <= 13.791605949401855",
+                    "x2 <= 0.36811283230781555",
+                    "x2 > -1.306367039680481"
+                ],
+                "value": 0.6023355471834615,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 23.157894736842106,
+                    "Population%": 9.5,
+                    "Mean confidence level": 84.73702243240496,
+                    "Positive%": 0.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [
             {
                 "id": 13,
                 "path": [
@@ -323,8 +474,16 @@
                     "x1 > 13.791605949401855",
                     "x2 > -0.24683260917663574"
                 ],
-                "value": 0.6400750747979065,
-                "metrics": null,
+                "value": 0.6378801318749324,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 8.3,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -333,67 +492,70 @@
                     "*",
                     "x1 > 13.791605949401855"
                 ],
-                "value": 0.4784628148517005,
-                "metrics": null,
+                "value": 0.4874740899866042,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 14.7,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             }
         ],
-        "80": [],
-        "79": [],
         "77": [],
-        "76": [
-            {
-                "id": 5,
-                "path": [
-                    "*",
-                    "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
-                    "x2 > -1.306367039680481"
-                ],
-                "value": 0.7083862818309081,
-                "metrics": null,
-                "detectron_results": null
-            }
-        ],
-        "75": [],
+        "76": [],
         "74": [],
         "73": [],
         "72": [],
         "71": [],
+        "70": [],
         "69": [],
-        "68": [],
-        "67": [],
-        "66": [],
-        "65": [],
-        "64": [],
-        "63": [
+        "67": [
             {
                 "id": 7,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 <= 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 <= 0.8694652020931244"
                 ],
-                "value": 0.9516118384575123,
-                "metrics": null,
+                "value": 0.9144863005159107,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 26.582278481012658,
+                    "Population%": 7.9,
+                    "Mean confidence level": 94.77831416796454,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
-        "62": [],
-        "61": [],
-        "60": [],
-        "58": [
+        "66": [],
+        "64": [],
+        "63": [
             {
                 "id": 4,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
+                    "x2 <= 0.36811283230781555",
                     "x2 <= -1.306367039680481"
                 ],
-                "value": 0.9633523325633333,
-                "metrics": null,
+                "value": 0.9604358885821531,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 12.1,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -401,22 +563,33 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
+                    "x2 <= 0.36811283230781555"
                 ],
-                "value": 0.8230736132012554,
-                "metrics": null,
+                "value": 0.8029380532447655,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 21.6,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             }
         ],
+        "62": [],
+        "61": [],
+        "60": [],
+        "59": [],
+        "58": [],
         "57": [],
         "56": [],
-        "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
+        "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -424,25 +597,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -450,10 +627,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -462,8 +647,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -471,11 +664,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -509,78 +712,76 @@
         "1": []
     },
     "10": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
         "96": [],
         "95": [],
         "94": [],
-        "93": [],
-        "92": [],
-        "91": [],
-        "90": [
+        "93": [
             {
                 "id": 9,
                 "path": [
                     "*",
                     "x1 > 13.791605949401855"
                 ],
-                "value": 0.4784628148517005,
-                "metrics": null,
+                "value": 0.4874740899866042,
+                "metrics": {
+                    "Auc": 0.5952380952380952,
+                    "Accuracy": 0.9054054054054054,
+                    "BalancedAccuracy": 0.6818181818181819,
+                    "Node%": 50.34013605442177,
+                    "Population%": 14.7,
+                    "Mean confidence level": 66.54313977957361,
+                    "Positive%": 14.864864864864865
+                },
                 "detectron_results": null
             }
         ],
+        "92": [],
+        "91": [],
+        "90": [],
         "89": [],
         "88": [],
         "87": [],
         "86": [],
-        "85": [],
         "84": [],
         "83": [],
-        "81": [],
+        "82": [],
         "80": [],
         "79": [],
         "78": [],
         "77": [],
-        "76": [
-            {
-                "id": 5,
-                "path": [
-                    "*",
-                    "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
-                    "x2 > -1.306367039680481"
-                ],
-                "value": 0.7083862818309081,
-                "metrics": null,
-                "detectron_results": null
-            }
-        ],
-        "75": [],
+        "76": [],
         "74": [],
         "73": [],
         "72": [],
         "71": [],
+        "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
         "64": [],
-        "63": [],
-        "62": [],
-        "61": [
+        "63": [
             {
                 "id": 4,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059",
+                    "x2 <= 0.36811283230781555",
                     "x2 <= -1.306367039680481"
                 ],
-                "value": 0.9633523325633333,
-                "metrics": null,
+                "value": 0.9604358885821531,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 12.1,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             },
             {
@@ -588,25 +789,33 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
+                    "x2 <= 0.36811283230781555"
                 ],
-                "value": 0.8230736132012554,
-                "metrics": null,
+                "value": 0.8029380532447655,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 21.6,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
                 "detectron_results": null
             }
         ],
+        "62": [],
+        "61": [],
         "60": [],
         "59": [],
         "58": [],
         "57": [],
         "56": [],
-        "55": [],
         "54": [],
+        "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -614,25 +823,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -640,10 +853,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -652,8 +873,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -661,11 +890,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -699,7 +938,6 @@
         "1": []
     },
     "15": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -710,7 +948,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -729,10 +966,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
+                    "x2 <= 0.36811283230781555"
                 ],
-                "value": 0.8230736132012554,
-                "metrics": null,
+                "value": 0.8029380532447655,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 44.907407407407405,
+                    "Population%": 21.6,
+                    "Mean confidence level": 93.40822451837349,
+                    "Positive%": 100.0
+                },
                 "detectron_results": null
             }
         ],
@@ -748,7 +993,6 @@
         "66": [],
         "65": [],
         "64": [],
-        "63": [],
         "62": [],
         "61": [],
         "60": [],
@@ -759,10 +1003,8 @@
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -770,25 +1012,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -796,10 +1042,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -808,8 +1062,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -817,11 +1079,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -855,7 +1127,6 @@
         "1": []
     },
     "20": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -866,7 +1137,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -885,10 +1155,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
+                    "x2 <= 0.36811283230781555"
                 ],
-                "value": 0.8230736132012554,
-                "metrics": null,
+                "value": 0.8029380532447655,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 44.907407407407405,
+                    "Population%": 21.6,
+                    "Mean confidence level": 93.40822451837349,
+                    "Positive%": 100.0
+                },
                 "detectron_results": null
             }
         ],
@@ -904,7 +1182,6 @@
         "66": [],
         "65": [],
         "64": [],
-        "63": [],
         "62": [],
         "61": [],
         "60": [],
@@ -915,10 +1192,8 @@
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -926,25 +1201,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -952,10 +1231,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -964,8 +1251,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -973,11 +1268,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1011,7 +1316,6 @@
         "1": []
     },
     "25": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1022,7 +1326,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1035,19 +1338,7 @@
         "79": [],
         "78": [],
         "77": [],
-        "76": [
-            {
-                "id": 3,
-                "path": [
-                    "*",
-                    "x1 <= 13.791605949401855",
-                    "x2 <= 0.7667306959629059"
-                ],
-                "value": 0.8230736132012554,
-                "metrics": null,
-                "detectron_results": null
-            }
-        ],
+        "76": [],
         "75": [],
         "74": [],
         "73": [],
@@ -1055,7 +1346,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1065,16 +1355,14 @@
         "61": [],
         "60": [],
         "59": [],
-        "57": [],
+        "58": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1082,25 +1370,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1108,10 +1400,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1120,8 +1420,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1129,11 +1437,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1167,7 +1485,6 @@
         "1": []
     },
     "30": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1178,7 +1495,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1199,7 +1515,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1210,16 +1525,13 @@
         "60": [],
         "59": [],
         "58": [],
-        "57": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1227,25 +1539,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1253,10 +1569,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1265,8 +1589,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1274,11 +1606,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1312,7 +1654,6 @@
         "1": []
     },
     "35": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1323,7 +1664,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1344,7 +1684,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1355,16 +1694,13 @@
         "60": [],
         "59": [],
         "58": [],
-        "57": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1372,25 +1708,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1398,10 +1738,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1410,8 +1758,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1419,11 +1775,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1457,7 +1823,6 @@
         "1": []
     },
     "40": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1468,7 +1833,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1489,7 +1853,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1500,16 +1863,13 @@
         "60": [],
         "59": [],
         "58": [],
-        "57": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1517,25 +1877,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1543,10 +1907,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1555,8 +1927,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1564,11 +1944,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1602,7 +1992,6 @@
         "1": []
     },
     "45": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1613,7 +2002,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1634,7 +2022,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1645,16 +2032,13 @@
         "60": [],
         "59": [],
         "58": [],
-        "57": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1662,25 +2046,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1688,10 +2076,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1700,8 +2096,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1709,11 +2113,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],
@@ -1747,7 +2161,6 @@
         "1": []
     },
     "50": {
-        "100": [],
         "99": [],
         "98": [],
         "97": [],
@@ -1758,7 +2171,6 @@
         "92": [],
         "91": [],
         "90": [],
-        "89": [],
         "88": [],
         "87": [],
         "86": [],
@@ -1779,7 +2191,6 @@
         "71": [],
         "70": [],
         "69": [],
-        "68": [],
         "67": [],
         "66": [],
         "65": [],
@@ -1790,16 +2201,13 @@
         "60": [],
         "59": [],
         "58": [],
-        "57": [],
         "56": [],
         "55": [],
         "54": [],
         "53": [],
         "52": [],
-        "51": [],
         "50": [],
         "49": [],
-        "48": [],
         "47": [],
         "46": [],
         "45": [],
@@ -1807,25 +2215,29 @@
         "43": [],
         "42": [],
         "41": [],
-        "40": [],
         "39": [],
         "38": [],
         "37": [],
         "36": [],
-        "35": [],
-        "34": [],
-        "33": [],
-        "32": [
+        "34": [
             {
                 "id": 8,
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059",
-                    "x2 > 1.1743160486221313"
+                    "x2 > 0.36811283230781555",
+                    "x2 > 0.8694652020931244"
                 ],
-                "value": 0.9899756362261762,
-                "metrics": null,
+                "value": 0.9876220750897843,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 63.62007168458781,
+                    "Population%": 55.8,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1833,10 +2245,18 @@
                 "path": [
                     "*",
                     "x1 <= 13.791605949401855",
-                    "x2 > 0.7667306959629059"
+                    "x2 > 0.36811283230781555"
                 ],
-                "value": 0.9853772358086995,
-                "metrics": null,
+                "value": 0.9785518612886288,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 55.72998430141287,
+                    "Population%": 63.7,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1845,8 +2265,16 @@
                     "*",
                     "x1 <= 13.791605949401855"
                 ],
-                "value": 0.9341935611528935,
-                "metrics": null,
+                "value": 0.9340822451837351,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 41.61781946072685,
+                    "Population%": 85.3,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             },
             {
@@ -1854,11 +2282,21 @@
                 "path": [
                     "*"
                 ],
-                "value": 0.8672011414466181,
-                "metrics": null,
+                "value": 0.8684308463697569,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 35.5,
+                    "Population%": 100.0,
+                    "Mean confidence level": 98.76220750897843,
+                    "Positive%": 0.0
+                },
                 "detectron_results": null
             }
         ],
+        "33": [],
+        "32": [],
         "31": [],
         "30": [],
         "29": [],

@@ -1,5 +1,8 @@
 """
-This module defines the abstract structures of models in a machine learning framework. It provides abstract classes for different model types including general, classification, and regression models.
+The abstract_models.py module defines core abstract classes that serve as the foundation for model management in the system. 
+It includes ``Model``, which standardizes basic operations like evaluation and parameter validation..etc across all models. 
+It also introduces specialized abstract classes such as ``ClassificationModel`` and ``RegressionModel``, 
+each adapting these operations to specific needs of classification and regression tasks.
 """
 
 import numpy as np
@@ -16,7 +19,115 @@ class Model(ABC):
         model_class (type): The class type of the underlying model instance.
         params (dict): The params used for initializinf the model.
         data_preparation_strategy (DataPreparingStrategy): Strategy for preparing data before training or evaluation.
+        pickled_model (Boolean): A boolean indicating whether or not the model has been loaded from a pickled file.
     """
+    def __init__(self) -> None:
+        super().__init__()
+        self.model = None
+        self.model_class = None
+        self.params = None
+        self.data_preparation_strategy = None
+        self.pickled_model = False
+
+    def get_model(self) -> Any:
+        """
+        Retrieves the underlying model instance, which is typically a machine learning model object.
+
+        Returns:
+            Any: The underlying model instance if set, None otherwise.
+        """
+        return self.model
+    
+    def get_model_type(self)-> Optional[str]:
+        """
+        Retrieves the class type of the underlying model instance, which indicates the specific 
+        implementation of the model used.
+
+        Returns:
+            Optional[str]: The class of the model if set, None otherwise.
+        """
+        return self.model_class.__name__ if self.model_class else None
+    
+    def get_data_strategy(self) -> Optional[str]:
+        """
+        Retrieves the data preparation strategy associated with the model. This strategy handles 
+        how data should be formatted before being passed to the model for training or evaluation.
+
+        Returns:
+            Optional[str]: The name of the current data preparation strategy if set, None otherwise.
+        """
+        return self.data_preparation_strategy.__class__.__name__ if self.data_preparation_strategy else None
+
+    def get_params(self):
+        """
+        Retrieves the underlying model's parameters.
+
+        Returns:
+            Dict[str, Any]: the model's parameters.
+        """
+        return self.params
+    
+    def is_pickled(self):
+        """
+        Returns whether or not the model has been loaded from a pickled file.
+        
+        Returns:
+            Boolean: has the model been loaded from a pickled file.
+        """
+
+    def set_model(self, model: Any) -> None:
+        """
+        Sets the underlying model instance and updates the model class to match the type of the given model.
+
+        Args:
+            model (Any): The model instance to be set.
+        """
+        self.model = model
+        self.model_class = type(model)
+    
+    def set_params(self, params : dict):
+        """
+        Sets the parameters for the model. These parameters are typically used for model initialization or configuration.
+
+        Args:
+            params (Dict[str, Any]): A dictionary of parameters for the model.
+        """
+        self.params = params
+    
+    def update_params(self, params : dict):
+        """
+        Updates the current model parameters by merging new parameter values from the given dictionary.
+        This method allows for dynamic adjustment of model configuration during runtime.
+
+        Args:
+            params (Dict[str, Any]): A dictionary containing parameter names and values to be updated.
+        """
+        self.params.update(params)
+
+    def set_data_strategy(self, strategy: DataPreparingStrategy):
+        """
+        Sets the underlying model's data preparation strategy.
+
+        Args:
+            strategy (DataPreparingStrategy): strategy to be used to prepare the data for training, validation...etc.
+        """
+        self.data_preparation_strategy = strategy
+    
+    def get_info(self) -> Dict[str, Any]:
+        """
+        Retrieves detailed information about the model.
+
+        Returns:
+            Dict[str, Any]: A dictionary containing information about the model's type, parameters, 
+                            data preparation strategy, and whether it's a pickled model.
+        """
+        return {
+            "model": self.__class__.__name__,
+            "model_type": self.get_model_type(),
+            "params": self.get_params(),
+            "data_preparation_strategy": self.get_data_strategy() if self.get_data_strategy() else None,
+            "pickled_model": self.pickled_model
+        }
 
     @abstractmethod
     def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[str, float]:
@@ -64,26 +175,7 @@ class Model(ABC):
         if invalid_params:
             raise ValueError(f"Invalid parameters found: {invalid_params}")
         return {k: v for k, v in params.items() if k in combined_valid_params}
-
-    def get_data_strategy(self) -> DataPreparingStrategy:
-        """
-        Retrieves the data preparation strategy used by the model.
-
-        Returns:
-            DataPreparingStrategy: The data preparation strategy.
-        """
-        return self.data_preparation_strategy
-
-    def set_model(self, model: Any) -> None:
-        """
-        Sets the underlying model instance.
-
-        Args:
-            model (Any): The model instance to be used.
-        """
-        self.model = model
-        self.model_class = type(model)
-
+    
 class ClassificationModel(Model):
     """
     Abstract base class for classification models, extending the generic Model class with additional classification-specific methods.

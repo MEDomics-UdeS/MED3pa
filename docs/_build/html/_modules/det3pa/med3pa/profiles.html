@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -82,7 +86,7 @@
 <span class="sd">    Represents a profile containing metrics and values associated with a specific node.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mean_value</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mean_value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a Profile instance with node details and associated metrics.</span>
 
@@ -95,7 +99,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span> <span class="o">=</span> <span class="n">node_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean_value</span> <span class="o">=</span> <span class="n">mean_value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Profile.to_dict"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -114,14 +118,24 @@
             <span class="s1">&#39;detectron_results&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span>
         <span class="p">}</span></div>
     
-<div class="viewcode-block" id="Profile.update_detectron_results"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">update_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detectron_results</span><span class="p">):</span>
+<div class="viewcode-block" id="Profile.update_detectron_results"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">update_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detectron_results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the detectron results associated with this profile.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            detectron_results (dict): The results from the Detectron experiment to be added to the profile.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span> <span class="o">=</span> <span class="n">detectron_results</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span> <span class="o">=</span> <span class="n">detectron_results</span></div>
+
+<div class="viewcode-block" id="Profile.update_metrics_results"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_metrics_results">[docs]</a>    <span class="k">def</span> <span class="nf">update_metrics_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the metrics associated with this profile.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            detectron_results (dict): The results from the Detectron experiment to be added to the profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span></div></div>
+
 
 <div class="viewcode-block" id="ProfilesManager"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.profiles.ProfilesManager">[docs]</a><span class="k">class</span> <span class="nc">ProfilesManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -76,7 +80,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module provides a flexible framework for loading datasets from various file formats by utilizing the **strategy design pattern**.</span>
 <span class="sd">It supports dynamic selection of data loading strategies based on the file extension, enabling easy extension and maintenance.</span>
-<span class="sd">It includes the ``DataLoadingContext`` class, responsible for selecting and setting the right **loading strategy** based on the loaded file ectension.</span>
+<span class="sd">It includes the ``DataLoadingContext`` class, responsible for selecting and setting the right **loading strategy** based on the loaded file extension.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">.loading_strategies</span> <span class="kn">import</span> <span class="n">DataLoadingStrategy</span><span class="p">,</span> <span class="n">CSVDataLoadingStrategy</span>
@@ -88,7 +92,7 @@
 <span class="sd">    data loading strategy, as well as loading data as a NumPy array from a specified file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">__strategies</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">strategies</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;csv&#39;</span><span class="p">:</span> <span class="n">CSVDataLoadingStrategy</span><span class="p">,</span>
     <span class="p">}</span>
 
@@ -103,7 +107,7 @@
 <span class="sd">            ValueError: If the file extension is not supported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">file_extension</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">strategy_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__strategies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_extension</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">strategy_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_extension</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">strategy_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;This file extension is not supported yet: &#39;</span><span class="si">{</span><span class="n">file_extension</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selected_strategy</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="p">()</span>
@@ -139,6 +143,17 @@
 <span class="sd">            and the target as a NumPy array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span></div></div>
+
+
+
+<div class="viewcode-block" id="supported_file_formats"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_context.supported_file_formats">[docs]</a><span class="k">def</span> <span class="nf">supported_file_formats</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a list of supported file formats.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[str]: A list of supported file formats.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">DataLoadingContext</span><span class="o">.</span><span class="n">strategies</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 </pre></div>
 
            </div>

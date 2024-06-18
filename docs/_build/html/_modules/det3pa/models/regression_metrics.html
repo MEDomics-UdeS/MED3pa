@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -75,7 +79,7 @@
   <h1>Source code for det3pa.models.regression_metrics</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Focused on regression tasks, this module provides implementations of key evaluation metrics such as Mean Squared Error (MSE), </span>
-<span class="sd">Root Mean Squared Error (RMSE), and R2 Score. Similar to classification_metrics.py, </span>
+<span class="sd">Root Mean Squared Error (RMSE), and R2 Score. Similar to`` classification_metrics.py``, </span>
 <span class="sd">these metrics are structured to offer a consistent approach for evaluating regression models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -112,6 +116,9 @@
     <span class="s1">&#39;MAE&#39;</span><span class="p">:</span> <span class="n">MeanAbsoluteError</span><span class="p">,</span>
     <span class="s1">&#39;R2&#39;</span><span class="p">:</span> <span class="n">R2Score</span>
 <span class="p">}</span>
+
+<div class="viewcode-block" id="supported_classification_metrics"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.supported_classification_metrics">[docs]</a><span class="k">def</span> <span class="nf">supported_classification_metrics</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">regression_metrics_mappings</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 </pre></div>
 
            </div>

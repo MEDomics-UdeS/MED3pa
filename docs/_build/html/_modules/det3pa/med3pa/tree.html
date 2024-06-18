@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -82,6 +86,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressorModel</span>
+<span class="kn">from</span> <span class="nn">.profiles</span> <span class="kn">import</span> <span class="n">Profile</span>
 
 <div class="viewcode-block" id="TreeRepresentation"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.tree.TreeRepresentation">[docs]</a><span class="k">class</span> <span class="nc">TreeRepresentation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -155,7 +160,7 @@
 <span class="sd">            min_samples_ratio (float): Minimum sample ratio threshold for profiles. Defaults to 0.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[dict]: A list of profiles meeting the specified criteria.</span>
+<span class="sd">            List[Profile]: A list of Profile instances meeting the specified criteria.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Tree has not been built yet.&quot;</span><span class="p">)</span>
@@ -242,8 +247,8 @@
 <span class="sd">            min_ca (float): The minimum value a node must have to be included in the output profiles.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[dict]: A list of profile information dictionaries, each representing a node that meets the criteria.</span>
-<span class="sd">                        Profiles include node id, path, value, and sample ratio.</span>
+<span class="sd">            List[Profile]: A list of Profile instances representing nodes that meet the criteria.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">profiles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_left</span><span class="o">.</span><span class="n">samples_ratio</span> <span class="o">&gt;=</span> <span class="n">min_samples_ratio</span><span class="p">:</span>
@@ -261,14 +266,8 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">min_ca</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">profiles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
 
-        <span class="n">profile_info</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span>
-            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-            <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples_ratio</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="n">profile_info</span><span class="p">]</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mean_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">profiles</span> <span class="o">+</span> <span class="p">[</span><span class="n">profile</span><span class="p">]</span>
 </pre></div>
 
            </div>

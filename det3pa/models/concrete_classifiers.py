@@ -1,5 +1,6 @@
 """
-This module provides implementations of different machine learning models, specialized in classification tasks.
+This module offers concrete implementations of specific classification models, such as XGBoost. 
+It adapts the abstract interfaces defined in ``abstract_models.py`` to provide fully functional models ready for training and prediction.
 """
 
 import xgboost as xgb
@@ -15,30 +16,25 @@ class XGBoostModel(ClassificationModel):
     """
     A concrete implementation of the ClassificationModel class for XGBoost models.
     This class provides functionalities to train, predict, and evaluate models built with the XGBoost library.
-
-    Attributes:
-        params (Optional[Dict[str, Any]]): Parameters for configuring the XGBoost model. These can be hyperparameters 
-                                           or any other parameters supported by xgb.train or xgb.XGBClassifier.
-        model (Optional[Union[xgb.Booster, xgb.XGBClassifier]]): An existing trained model. If provided, this model 
-                                                                will be used for predictions; otherwise, a new model 
-                                                                will be trained based on the provided parameters.
-        model_class (Any): The class of the model to use. It can be either xgb.Booster or xgb.XGBClassifier, 
-                           depending on the provided model type if the model is created from hyperparameters.
     """
-    def __init__(self, params: Optional[Dict[str, Any]] = None, model: Optional[Union[xgb.Booster, xgb.XGBClassifier]] = None, model_class: Optional[Any] = None) -> None:
+    def __init__(self, params: Optional[Dict[str, Any]] = None, model: Optional[Union[xgb.Booster, xgb.XGBClassifier]] = None) -> None:
         """
         Initializes the XGBoostModel either with parameters for a new model or a loaded pickled model.
 
         Args:
             params (Optional[Dict[str, Any]]): A dictionary of parameters for the booster model.
             model (Optional[Union[xgb.Booster, xgb.XGBClassifier]]): A loaded pickled model.
-            model_class (Optional[Any]): Specifies the class of the model, either xgb.XGBClassifier or xgb.Booster.
         """
-        self.params = params
-        self.model = model
-        self.model_class = model_class if model_class else xgb.Booster
+        super().__init__()
+        self.set_params(params)
+        # if the model is loaded from a pickled file
+        if model is not None:
+            self.set_model(model)
+        # if it's a new model, use xgb.Booster by default
+        else:
+            self.model_class = xgb.Booster
         self.pickled_model = model is not None
-        self.data_preparation_strategy = ToDmatrixStrategy()
+        self.set_data_strategy(ToDmatrixStrategy())
 
     def _ensure_dmatrix(self, features: Any, labels: Optional[np.ndarray] = None, weights: Optional[np.ndarray] = None) -> xgb.DMatrix:
         """
@@ -73,37 +69,45 @@ class XGBoostModel(ClassificationModel):
             ValueError: If parameters for xgb.Booster are not initialized before training.
             NotImplementedError: If the model_class is not supported for training.
         """
+        # if additional training parameters are provided
         if training_parameters:
+            # ensure the provided training parameters are valid
             valid_param_sets = [valid_xgboost_params, valid_xgboost_custom_params]
             valid_training_params = self.validate_params(training_parameters, valid_param_sets)
+            # update the model's params with the validated training params
             if self.params is not None :
                 self.params.update(valid_training_params) 
+            else:
+                self.params = valid_training_params
             weights = self.balance_train_weights(y_train) if balance_train_classes else training_parameters.get('training_weights', np.ones_like(y_train))
             evaluation_metrics = training_parameters.get('custom_eval_metrics', self.params.get('eval_metric', ["Accuracy"]) if self.params else ["Accuracy"])
             num_boost_rounds = training_parameters.get('num_boost_rounds', self.params.get('num_boost_rounds', 10) if self.params else 10)
-
+        
+        # if not additional training parameters were provided, use the model's params
         else:
-            weights = np.ones_like(y_train)
+            weights = self.balance_train_weights(y_train) if balance_train_classes else np.ones_like(y_train)
             evaluation_metrics = self.params.get('eval_metric', ["Accuracy"]) if self.params else ["Accuracy"]
             num_boost_rounds = self.params.get('num_boost_rounds', 10) if self.params else 10
 
         if not self.params:
             raise ValueError("Parameters must be initialized before training.")
         
+        # take off the custom training parameters
         filtered_params = {k: v for k, v in self.params.items() if k not in valid_xgboost_custom_params}
 
         if self.model_class is xgb.Booster:
-            if not self.params:
-                raise ValueError("Parameters for xgb.Booster must be initialized before training.")
+            # train the xgb.Booster
             dtrain = self._ensure_dmatrix(x_train, y_train, weights)
             dval = self._ensure_dmatrix(x_validation, y_validation)
             self.model = xgb.train(filtered_params, dtrain, num_boost_round=num_boost_rounds, evals=[(dval, 'eval')], verbose_eval=False)
             self.evaluate(x_validation, y_validation, eval_metrics=evaluation_metrics, print_results=True)
         elif self.model_class is xgb.XGBClassifier:
+            # train the xgb.XGBClassifier
             self.model = self.model_class(**filtered_params)
             self.model.fit(x_train, y_train, sample_weight=weights, eval_set=[(x_validation, y_validation)])
             self.evaluate(x_validation, y_validation, eval_metrics=evaluation_metrics, print_results=True)
         else:
+            # if the class is neither xgb.XGBClassifier or xgb.Booster, raise an error.
             raise NotImplementedError(f"Training not implemented for model class {self.model_class}")
 
     def predict(self, X: np.ndarray, return_proba: bool = False, threshold: float = 0.5) -> np.ndarray:
@@ -140,7 +144,7 @@ class XGBoostModel(ClassificationModel):
         Trains the model to disagree with another model using a specified dataset.
 
         This method is intended for scenarios where the model is trained to produce outputs that
-        intentionally diverge from those of another model, typically for robustness testing or adversarial training.
+        intentionally diverge from those of another model, to be used in the ``detectron`` method
 
         Args:
             x_train (np.ndarray): Features for training.
@@ -166,23 +170,21 @@ class XGBoostModel(ClassificationModel):
                 self.params = valid_training_params
             training_weights = self.balance_train_weights(y_train) if balance_train_classes else training_parameters.get('training_weights', np.ones_like(y_train))
             evaluation_metrics = training_parameters.get('custom_eval_metrics', self.params.get('eval_metric', ["Accuracy"]) if self.params else ["Accuracy"])
-            num_boost_rounds = training_parameters.get('num_boost_rounds', self.params.get('num_boost_rounds', 10) if self.params else 10)
         else:
             training_weights = np.ones_like(y_train)
             evaluation_metrics = self.params.get('eval_metric', ["Accuracy"]) if self.params else ["Accuracy"]
-            num_boost_rounds = self.params.get('num_boost_rounds', 10) if self.params else 10
         
         if not self.params:
             raise ValueError("Parameters must be initialized before training.")
 
         filtered_params = {k: v for k, v in self.params.items() if k not in valid_xgboost_custom_params}
+        
+        # prepare the data for training
         data = np.concatenate([x_train, x_test])
         label = np.concatenate([y_train, 1 - y_test])
         weight = np.concatenate([training_weights, 1 / (N + 1) * np.ones(N)])
 
         if self.model_class is xgb.Booster:
-            if not self.params:
-                raise ValueError("Parameters for xgb.Booster must be initialized before training.")
             dtrain = self._ensure_dmatrix(data, label, weight)
             dval = self._ensure_dmatrix(x_validation, y_validation)
             self.model = xgb.train(filtered_params, dtrain, num_boost_round=10, evals=[(dval, 'eval')], verbose_eval=False)
@@ -193,8 +195,7 @@ class XGBoostModel(ClassificationModel):
             self.evaluate(x_validation, y_validation, eval_metrics=evaluation_metrics)
         else:
             raise NotImplementedError(f"Training not implemented for model class {self.model_class}")
-
-    
+   
     def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: Union[str, List[str]], print_results: bool = False) -> Dict[str, float]:
         """
         Evaluates the model using specified metrics.

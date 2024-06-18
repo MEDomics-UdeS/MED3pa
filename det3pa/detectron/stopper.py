@@ -1,5 +1,5 @@
 """
-This module defines the early stopping class.
+This module introduces the ``EarlyStopper`` class, a utility designed to prevent overfitting and reduce computational overhead by halting the training process when improvement in a monitored metric ceases. 
 """
 class EarlyStopper:
     """

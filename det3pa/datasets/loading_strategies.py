@@ -1,21 +1,19 @@
 """
-This module provides different strategies for loading datasets, specifically focusing on how to read data from files and convert them into usable formats in Python.
+This module provides strategies for loading data from files into usable Python formats, focusing on converting data into **NumPy** arrays. 
+It includes an abstract base class ``DataLoadingStrategy`` for defining common interfaces and concrete implementations of this class, such as ``CSVDataLoadingStrategy`` for handling CSV files.
+This setup allows easy extension to support additional file types as needed.
 """
 
 import pandas as pd
 import numpy as np
 from typing import List, Tuple
+from abc import ABC, abstractmethod
 
-class DataLoadingStrategy:
+class DataLoadingStrategy(ABC):
     """
     Abstract base class for data loading strategies. Defines a common interface for all data loading strategies.
-
-    Methods:
-        execute(path_to_file: str, target_column_name: str) -> Tuple[List[str], np.ndarray, np.ndarray]:
-            Abstract method to execute the data loading strategy, to be implemented by subclasses.
     """
-
-    @staticmethod
+    @abstractmethod
     def execute(path_to_file: str, target_column_name: str) -> Tuple[List[str], np.ndarray, np.ndarray]:
         """
         Abstract method to execute the data loading strategy.
@@ -28,10 +26,8 @@ class DataLoadingStrategy:
             Tuple[List[str], np.ndarray, np.ndarray]: A tuple containing the column labels, features as a NumPy array, 
             and the target as a NumPy array.
 
-        Raises:
-            NotImplementedError: If this method is not overridden by subclasses.
         """
-        raise NotImplementedError("This method should be overridden by subclasses")
+        pass
 
 class CSVDataLoadingStrategy(DataLoadingStrategy):
     """

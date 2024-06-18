@@ -144,6 +144,5 @@ xgboost_params = [
 xgboost_metrics = {
     'auc': 'Auc',
     'logloss': 'LogLoss',
-    'map': 'AveragePrecision',
     'aucpr': 'Auprc',
 }

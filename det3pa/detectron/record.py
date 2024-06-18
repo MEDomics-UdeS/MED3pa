@@ -1,5 +1,7 @@
 """
-This module stores and manages the detectron results accross runs.
+This module is crucial for tracking and managing the results across multiple runs of the Detectron method. 
+It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run. 
+The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.
 """
 import pandas as pd
 import numpy as np

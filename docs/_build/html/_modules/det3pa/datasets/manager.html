@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+</ul>
 
         </div>
       </div>
@@ -75,11 +79,11 @@
   <h1>Source code for det3pa.datasets.manager</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The manager.py module manages datasets for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. </span>
-<span class="sd">It includes the ``DatasetsManager`` class for handling training, validation, reference, and testing datasets, and the ``MaskedDataset`` class for data masking and sampling.</span>
-<span class="sd">This module streamlines data organization for various training and validation stages.</span>
+<span class="sd">It includes the ``DatasetsManager`` class for handling training, validation, reference, and testing datasets, and the ``MaskedDataset`` class for different data operations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
 <span class="kn">from</span> <span class="nn">.loading_context</span> <span class="kn">import</span> <span class="n">DataLoadingContext</span>
 
@@ -88,24 +92,24 @@
 <span class="sd">    A dataset wrapper for PyTorch that supports masking and sampling of data points.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pseudo_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the MaskedDataset.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            features (np.ndarray): The feature vectors of the dataset.</span>
 <span class="sd">            true_labels (np.ndarray): The true labels of the dataset.</span>
-<span class="sd">            mask (bool, optional): Indicates if the dataset is masked. Defaults to True.</span>
-<span class="sd">            pseudo_labels (np.ndarray, optional): The pseudo labels for masked data points. Defaults to None.</span>
-<span class="sd">            pseudo_probabilities (np.ndarray, optional): The pseudo probabilities associated with the pseudo labels. Defaults to None.</span>
+<span class="sd">            column_labels (list, optional): The column labels for the feature vectors. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span> <span class="o">=</span> <span class="n">true_labels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">pseudo_labels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="n">pseudo_probabilities</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="kc">None</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">column_labels</span> <span class="k">if</span> <span class="n">column_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;feature_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -123,6 +127,15 @@
         <span class="n">y_hat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span>
 
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the number of data points in the dataset.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The number of data points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">)</span>
+    
 <div class="viewcode-block" id="MaskedDataset.refine"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.refine">[docs]</a>    <span class="k">def</span> <span class="nf">refine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refines the dataset by applying a mask to select specific data points.</span>
@@ -146,7 +159,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MaskedDataset.original"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.original">[docs]</a>    <span class="k">def</span> <span class="nf">original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
@@ -156,21 +173,12 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            MaskedDataset: A new instance of the dataset with the original data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MaskedDataset.reset_indices"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.reset_indices">[docs]</a>    <span class="k">def</span> <span class="nf">reset_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets the indices of the dataset to the original indices.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_indices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the number of data points in the dataset.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The number of data points.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">)</span>
-    
 <div class="viewcode-block" id="MaskedDataset.sample"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Samples N data points from the dataset, prioritizing the least sampled points.</span>
@@ -190,7 +198,7 @@
         
         <span class="c1"># Find the indices of the least sampled points</span>
         <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_counts</span><span class="p">)</span>
-        <span class="n">least_sampled_indices</span> <span class="o">=</span> <span class="n">sorted_indices</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>  <span class="c1"># Take more than needed to add randomness</span>
+        <span class="n">least_sampled_indices</span> <span class="o">=</span> <span class="n">sorted_indices</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
         
         <span class="c1"># Set the seed for reproducibility and shuffle the least sampled indices</span>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -205,16 +213,22 @@
         <span class="n">sampled_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">sampled_indices</span><span class="p">,</span> <span class="p">:]</span>
         <span class="n">sampled_true_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span><span class="p">[</span><span class="n">sampled_indices</span><span class="p">]</span>
         <span class="n">sampled_pseudo_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="p">[</span><span class="n">sampled_indices</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">sampled_confidence_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span><span class="p">[</span><span class="n">sampled_indices</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">sampled_pseudo_probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span><span class="p">[</span><span class="n">sampled_indices</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="c1"># Return a new MaskedDataset instance containing the sampled data</span>
-        <span class="k">return</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">sampled_features</span><span class="p">,</span> <span class="n">sampled_true_labels</span><span class="p">,</span> <span class="n">sampled_pseudo_labels</span><span class="p">)</span></div>
+        <span class="n">sampled_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">sampled_features</span><span class="p">,</span> <span class="n">true_labels</span><span class="o">=</span><span class="n">sampled_true_labels</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+        <span class="n">sampled_set</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">sampled_pseudo_labels</span>
+        <span class="n">sampled_set</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="n">sampled_pseudo_probs</span>
+        <span class="n">sampled_set</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">sampled_confidence_scores</span>
+        <span class="k">return</span> <span class="n">sampled_set</span></div>
     
 <div class="viewcode-block" id="MaskedDataset.get_features"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_features">[docs]</a>    <span class="k">def</span> <span class="nf">get_features</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets the pseudo labels of the dataset.</span>
+<span class="sd">        Gets the feature vectors of the dataset.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: The pseudo labels of the dataset.</span>
+<span class="sd">            np.ndarray: The feature vectors of the dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span></div>
     
@@ -245,6 +259,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span></div>
     
+<div class="viewcode-block" id="MaskedDataset.get_confidence_scores"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">get_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the confidence scores of the dataset.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: The confidence scores of the dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span></div>
+       
 <div class="viewcode-block" id="MaskedDataset.set_pseudo_probs_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_pseudo_probs_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_probs_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by</span>
@@ -263,6 +286,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="n">pseudo_probabilities</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">pseudo_probabilities</span> <span class="o">&gt;</span> <span class="n">threshold</span></div>
         
+<div class="viewcode-block" id="MaskedDataset.set_confidence_scores"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">set_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the confidence scores for the dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            confidence_scores (np.ndarray): The confidence scores array to be set.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the shape of confidence_scores does not match the number of samples in the features array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">confidence_scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The shape of confidence_scores must match the number of samples in the features array.&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">confidence_scores</span></div>
+
+<div class="viewcode-block" id="MaskedDataset.set_pseudo_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_pseudo_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds pseudo labels to the dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pseudo_labels (np.ndarray): The pseudo labels to add.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the length of pseudo_labels does not match the number of samples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pseudo_labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The length of pseudo_labels must match the number of samples in the dataset.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">pseudo_labels</span></div>
+
 <div class="viewcode-block" id="MaskedDataset.clone"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a clone of the current MaskedDataset instance.</span>
@@ -270,12 +322,77 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            MaskedDataset: A new instance of MaskedDataset containing the same data and configurations as the current instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">MaskedDataset</span><span class="p">(</span>
-            <span class="n">features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-            <span class="n">true_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
-            <span class="n">pseudo_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">pseudo_probabilities</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span></div></div>
+        <span class="n">cloned_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">true_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+        <span class="n">cloned_set</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">cloned_set</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">cloned_set</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">cloned_set</span></div>
+    
+<div class="viewcode-block" id="MaskedDataset.get_info"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information about the MaskedDataset.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing dataset information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;num_samples&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">),</span>
+            <span class="s1">&#39;num_features&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;has_pseudo_labels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;has_pseudo_probabilities&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;has_confidence_scores&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">info</span></div>
+        
+<div class="viewcode-block" id="MaskedDataset.summary"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a summary of the dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of samples: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;num_samples&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of features: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;num_features&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has pseudo labels: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;has_pseudo_labels&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has pseudo probabilities: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;has_pseudo_probabilities&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has confidence scores: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;has_confidence_scores&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskedDataset.to_dataframe"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the dataset to a pandas DataFrame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: The dataset as a pandas DataFrame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert features to DataFrame</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+        
+        <span class="c1"># Add true labels</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;true_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_labels</span>
+        
+        <span class="c1"># Add pseudo labels if available</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pseudo_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_labels</span>
+        
+        <span class="c1"># Add pseudo probabilities if available</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;pseudo_probabilities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pseudo_probabilities</span>
+        
+        <span class="c1"># Add confidence scores if available</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;confidence_scores&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence_scores</span>
+        
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="MaskedDataset.save_to_csv"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.save_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the dataset to a CSV file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): The file path to save the dataset to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="DatasetsManager"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager">[docs]</a><span class="k">class</span> <span class="nc">DatasetsManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -293,74 +410,97 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span>
     
-<div class="viewcode-block" id="DatasetsManager.set_base_model_training_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_base_model_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_model_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">training_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.set_from_file"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads and sets the base model training dataset from a file.</span>
+<span class="sd">        Loads and sets the specified dataset from a file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            training_file (str): The file path to the training data.</span>
+<span class="sd">            dataset_type (str): The type of dataset to set (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            file (str): The file path to the data.</span>
 <span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided or if the shape of features does not match column labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">training_file</span><span class="p">)</span>
-        <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">training_file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">column_labels</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">column_labels</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels extracted from the training dataset do not match the existing column labels.&quot;</span><span class="p">)</span></div>
-
-    
-<div class="viewcode-block" id="DatasetsManager.set_base_model_validation_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_base_model_validation_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_model_validation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads and sets the base model validation dataset from a file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            validation_file (str): The file path to the validation data.</span>
-<span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">validation_file</span><span class="p">)</span>
-        <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">validation_file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">column_labels</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">column_labels</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels extracted from the validation dataset do not match the existing column labels.&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DatasetsManager.set_reference_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_reference_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_reference_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads and sets the reference dataset from a file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            reference_file (str): The file path to the reference data.</span>
-<span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">reference_file</span><span class="p">)</span>
-        <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">reference_file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">column_labels</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">column_labels</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels extracted from the reference dataset do not match the existing column labels.&quot;</span><span class="p">)</span></div>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
         
-<div class="viewcode-block" id="DatasetsManager.set_testing_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_testing_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_testing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testing_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_column_labels</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span>
+
+        <span class="c1"># Check if the number of columns in features matches the length of column_labels</span>
+        <span class="k">if</span> <span class="n">features_np</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shape of features </span><span class="si">{</span><span class="n">features_np</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> does not match the length of column labels </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="DatasetsManager.set_from_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_from_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads and sets the testing dataset from a file.</span>
+<span class="sd">        Sets the specified dataset using numpy arrays for features and true labels.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            testing_file (str): The file path to the testing data.</span>
-<span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
+<span class="sd">            dataset_type (str): The type of dataset to set (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            features (np.ndarray): The feature vectors of the dataset.</span>
+<span class="sd">            true_labels (np.ndarray): The true labels of the dataset.</span>
+<span class="sd">            column_labels (list, optional): The list of column labels for the dataset. Defaults to None.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided or if column labels do not match existing column labels.</span>
+<span class="sd">            ValueError: If column_labels and target_column_name are not provided when column_labels are not set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">testing_file</span><span class="p">)</span>
-        <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">testing_file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">column_labels</span>
+        <span class="k">if</span> <span class="n">column_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_column_labels</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels must be provided when setting a dataset for the first time.&quot;</span><span class="p">)</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="n">dataset</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">column_labels</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels extracted from the testing dataset do not match the existing column labels.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.set_column_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the column labels for the datasets, excluding the target column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            columns (list): The list of columns excluding the target column.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the target column is not found in the list of columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provided column labels do not match the existing column labels.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span></div>
 
 <div class="viewcode-block" id="DatasetsManager.get_column_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -372,7 +512,97 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span></div>
     
-<div class="viewcode-block" id="DatasetsManager.get_base_model_training_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_base_model_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_base_model_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetsManager.get_info"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information about all the datasets managed by the DatasetsManager.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            detailed (bool): If True, includes detailed information about each dataset. If False, only indicates whether each dataset is set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing information about each dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">show_details</span><span class="p">:</span>
+            <span class="n">datasets_info</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;training_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;validation_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reference_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;testing_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;column_labels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">datasets_info</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;training_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;validation_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reference_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;testing_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;column_labels&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">datasets_info</span></div>
+    
+<div class="viewcode-block" id="DatasetsManager.summary"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a summary of the manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;training_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;training_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validation_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;validation_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reference_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;reference_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;testing_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;testing_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;column_labels: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;column_labels&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.reset_datasets"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.reset_datasets">[docs]</a>    <span class="k">def</span> <span class="nf">reset_datasets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets all datasets in the manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.get_dataset_by_type"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_dataset_by_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataset_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MaskedDataset</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper method to get a dataset by type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to retrieve (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            MaskedDataset: The corresponding MaskedDataset instance.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_base_model_training_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_base_model_validation_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_reference_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_testing_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.save_dataset_to_csv"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.save_dataset_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_dataset_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the specified dataset to a CSV file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to save (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            file_path (str): The file path to save the dataset to.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset &#39;</span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&#39; is not set.&quot;</span><span class="p">)</span>
+        
+        <span class="n">dataset</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_base_model_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the training dataset.</span>
 
@@ -390,9 +620,9 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">true_labels</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model training set not initialized.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model training set not initialized.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DatasetsManager.get_base_model_validation_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_base_model_validation_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_base_model_validation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__get_base_model_validation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the validation dataset.</span>
 
@@ -410,9 +640,9 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">true_labels</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model validation set not initialized.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model validation set not initialized.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DatasetsManager.get_reference_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_reference_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_reference_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__get_reference_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the reference dataset.</span>
 
@@ -430,9 +660,9 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">true_labels</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Reference set not initialized.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Reference set not initialized.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DatasetsManager.get_testing_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_testing_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_testing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__get_testing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the testing dataset.</span>
 
@@ -450,7 +680,7 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">true_labels</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Testing set not initialized.&quot;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Testing set not initialized.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

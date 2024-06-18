@@ -1,10 +1,13 @@
 """
-This module includes the tree representation of the aggregated profiles
+Manages the tree representation for the APC model. It includes the ``TreeRepresentation`` class which handles the construction and manipulation of decision trees 
+and ``TreeNode`` class that represents a node in the tree. 
+This module is crucial for profiling aggregated data and extracting valuable insights
 """
 from pandas import DataFrame, Series
 import numpy as np
 from typing import Union
 from det3pa.models.concrete_regressors import DecisionTreeRegressorModel
+from .profiles import Profile
 
 class TreeRepresentation:
     """
@@ -78,7 +81,7 @@ class TreeRepresentation:
             min_samples_ratio (float): Minimum sample ratio threshold for profiles. Defaults to 0.
 
         Returns:
-            List[dict]: A list of profiles meeting the specified criteria.
+            List[Profile]: A list of Profile instances meeting the specified criteria.
         """
         if self.head is None:
             raise ValueError("Tree has not been built yet.")
@@ -165,8 +168,8 @@ class _TreeNode:
             min_ca (float): The minimum value a node must have to be included in the output profiles.
 
         Returns:
-            List[dict]: A list of profile information dictionaries, each representing a node that meets the criteria.
-                        Profiles include node id, path, value, and sample ratio.
+            List[Profile]: A list of Profile instances representing nodes that meet the criteria.
+        
         """
         profiles = []
         if self.c_left is not None and self.c_left.samples_ratio >= min_samples_ratio:
@@ -184,11 +187,5 @@ class _TreeNode:
             if self.value < min_ca and len(profiles) == 0:
                 return []
 
-        profile_info = {
-            "id": self.node_id,
-            "path": self.path,
-            "value": self.value,
-            "ratio": self.samples_ratio
-        }
-
-        return [*profiles, profile_info]
+        profile = Profile(node_id=self.node_id, path=self.path, mean_value=self.value)
+        return profiles + [profile]

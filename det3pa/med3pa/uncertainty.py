@@ -1,5 +1,8 @@
 """
-This module handle the uncertainty calculations of the base model
+This module handles the computation of uncertainty metrics. 
+It defines an abstract base class ``UncertaintyMetric`` and concrete implementations such as ``AbsoluteError`` for calculating uncertainty based on the difference between predicted probabilities and actual outcomes. 
+An ``UncertaintyCalculator`` class is provided, which allows users to specify which uncertainty metric to use, 
+thereby facilitating the use of customized uncertainty metrics for different analytical needs.
 """
 from abc import ABC, abstractmethod
 import numpy as np

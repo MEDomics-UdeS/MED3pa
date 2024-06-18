@@ -17,38 +17,37 @@ class TestDatasetsManager(unittest.TestCase):
         self.patcher.stop()
     
     def test_set_training_data(self):
-        self.manager.set_base_model_training_data('training.csv', 'target')
-        features, labels = self.manager.get_base_model_training_data()
+        self.manager.set_from_file('training','training.csv', 'target')
+        features, labels = self.manager.get_dataset_by_type('training')
         np.testing.assert_array_equal(features, self.features)
         np.testing.assert_array_equal(labels, self.true_labels)
-    '''
+    
     def test_set_validation_data(self):
-        self.manager.set_base_model_validation_data('validation.csv', 'target')
-        features, labels = self.manager.get_base_model_validation_data()
+        self.manager.set_from_file('validation','validation.csv', 'target')
+        features, labels = self.manager.get_dataset_by_type('validation')
         np.testing.assert_array_equal(features, self.features)
         np.testing.assert_array_equal(labels, self.true_labels)
-    '''
     
     def test_set_reference_data(self):
-        self.manager.set_reference_data('reference.csv', 'target')
-        features, labels = self.manager.get_reference_data()
+        self.manager.set_from_file('reference','reference.csv', 'target')
+        features, labels = self.manager.get_dataset_by_type('reference')
         np.testing.assert_array_equal(features, self.features)
         np.testing.assert_array_equal(labels, self.true_labels)
     
     def test_set_testing_data(self):
-        self.manager.set_testing_data('testing.csv', 'target')
-        features, labels = self.manager.get_testing_data()
+        self.manager.set_from_file('testing','testing.csv', 'target')
+        features, labels = self.manager.get_dataset_by_type('testing')
         np.testing.assert_array_equal(features, self.features)
         np.testing.assert_array_equal(labels, self.true_labels)
     
     def test_column_label_mismatch(self):
         # Set the training data with consistent column labels
-        self.manager.set_base_model_training_data('training.csv', 'target')
+        self.manager.set_from_file('training','training.csv', 'target')
         
         # Now, mock the load_as_np to return different column labels for the validation call
         with patch('det3pa.datasets.loading_context.DataLoadingContext.load_as_np', return_value=(['feature1', 'feature2', 'extra'], self.features, self.true_labels)):
             with self.assertRaises(ValueError):
-                self.manager.set_base_model_validation_data('validation.csv', 'target')
+                self.manager.set_from_file('validation', 'validation.csv', 'target')
 
 if __name__ == '__main__':
     unittest.main()

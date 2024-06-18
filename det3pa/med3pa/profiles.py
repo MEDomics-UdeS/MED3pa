@@ -1,12 +1,13 @@
 """
-this module handles and manages the profiles information.
+Handles the management and storage of profiles derived from the tree representation. 
+It defines a ``Profile`` class to encapsulate metrics and values associated with a specific node in the tree and a ``ProfilesManager`` class to manage collections of profiles and track lost profiles during analysis.
 """
 class Profile:
     """
     Represents a profile containing metrics and values associated with a specific node.
     """
 
-    def __init__(self, node_id, path, mean_value, metrics=None):
+    def __init__(self, node_id, path, mean_value):
         """
         Initializes a Profile instance with node details and associated metrics.
 
@@ -19,7 +20,7 @@ class Profile:
         self.node_id = node_id
         self.path = path
         self.mean_value = mean_value
-        self.metrics = metrics
+        self.metrics = None
         self.detectron_results = None
 
     def to_dict(self):
@@ -38,7 +39,7 @@ class Profile:
             'detectron_results' : self.detectron_results
         }
     
-    def update_detectron_results(self, detectron_results):
+    def update_detectron_results(self, detectron_results: dict):
         """
         Updates the detectron results associated with this profile.
 
@@ -46,6 +47,16 @@ class Profile:
             detectron_results (dict): The results from the Detectron experiment to be added to the profile.
         """
         self.detectron_results = detectron_results
+
+    def update_metrics_results(self, metrics : dict):
+        """
+        Updates the metrics associated with this profile.
+
+        Args:
+            detectron_results (dict): The results from the Detectron experiment to be added to the profile.
+        """
+        self.metrics = metrics
+
 
 class ProfilesManager:
     """
