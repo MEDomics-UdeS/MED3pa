@@ -1,0 +1,374 @@
+{
+    "1": {
+        "99": [],
+        "98": [],
+        "97": [],
+        "96": [],
+        "95": [],
+        "94": [],
+        "93": [],
+        "92": [],
+        "91": [],
+        "90": [],
+        "89": [],
+        "88": [],
+        "87": [],
+        "86": [],
+        "85": [],
+        "84": [],
+        "83": [],
+        "82": [],
+        "81": [],
+        "80": [],
+        "79": [],
+        "78": [],
+        "77": [],
+        "76": [
+            {
+                "id": 15,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose > -0.5681067705154419",
+                    "DiabetesPedigreeFunction > 2.236921191215515"
+                ],
+                "value": 0.4906935737340859,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 16.379310344827587,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "75": [],
+        "74": [],
+        "73": [],
+        "72": [],
+        "71": [],
+        "70": [],
+        "68": [],
+        "67": [],
+        "66": [],
+        "65": [],
+        "64": [],
+        "63": [],
+        "62": [
+            {
+                "id": 7,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure > 0.6258995831012726",
+                    "DiabetesPedigreeFunction <= 4.561587452888489"
+                ],
+                "value": 0.5406096439734102,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 8.620689655172415,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "61": [],
+        "60": [],
+        "58": [],
+        "57": [],
+        "56": [
+            {
+                "id": 6,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure > 0.6258995831012726"
+                ],
+                "value": 0.5627674672718753,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 9.482758620689655,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "55": [],
+        "54": [],
+        "53": [
+            {
+                "id": 14,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose > -0.5681067705154419",
+                    "DiabetesPedigreeFunction <= 2.236921191215515"
+                ],
+                "value": 0.5709677046132938,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 30.17241379310345,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 13,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose > -0.5681067705154419"
+                ],
+                "value": 0.5427231030076466,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 46.55172413793103,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "52": [],
+        "51": [],
+        "50": [],
+        "49": [],
+        "48": [],
+        "47": [],
+        "46": [],
+        "45": [],
+        "44": [],
+        "43": [],
+        "42": [],
+        "41": [],
+        "40": [],
+        "38": [],
+        "37": [
+            {
+                "id": 12,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose <= -0.5681067705154419",
+                    "BloodPressure > 0.1833609789609909"
+                ],
+                "value": 0.5883774669915438,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 80.0,
+                    "Population%": 4.310344827586207,
+                    "Mean confidence level": 58.79110365696252,
+                    "Positive%": 0.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "35": [],
+        "34": [],
+        "33": [],
+        "32": [],
+        "31": [
+            {
+                "id": 5,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure <= 0.6258995831012726",
+                    "BMI > -0.11787476763129234"
+                ],
+                "value": 0.7006786514777277,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 15.517241379310345,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "30": [],
+        "29": [],
+        "28": [],
+        "27": [],
+        "26": [],
+        "25": [],
+        "24": [],
+        "22": [],
+        "21": [],
+        "20": [],
+        "19": [
+            {
+                "id": 11,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose <= -0.5681067705154419",
+                    "BloodPressure <= 0.1833609789609909"
+                ],
+                "value": 0.752076322970291,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 66.66666666666667,
+                    "Population%": 5.172413793103448,
+                    "Mean confidence level": 74.97239647712559,
+                    "Positive%": 0.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 10,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose <= -0.5681067705154419"
+                ],
+                "value": 0.6776677520708604,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 36.36363636363637,
+                    "Population%": 9.482758620689655,
+                    "Mean confidence level": 74.97239647712559,
+                    "Positive%": 0.0
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 9,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844"
+                ],
+                "value": 0.5655598897721906,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": 1.0,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 6.153846153846154,
+                    "Population%": 56.03448275862069,
+                    "Mean confidence level": 74.97239647712559,
+                    "Positive%": 0.0
+                },
+                "detectron_results": null
+            }
+        ],
+        "17": [],
+        "16": [],
+        "15": [],
+        "14": [],
+        "13": [],
+        "12": [],
+        "11": [],
+        "10": [],
+        "9": [
+            {
+                "id": 4,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure <= 0.6258995831012726",
+                    "BMI <= -0.11787476763129234"
+                ],
+                "value": 0.8651980659264055,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 18.96551724137931,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 3,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure <= 0.6258995831012726"
+                ],
+                "value": 0.7911643294245005,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 34.48275862068966,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 2,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844"
+                ],
+                "value": 0.7419022611170715,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 43.96551724137931,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            },
+            {
+                "id": 1,
+                "path": [
+                    "*"
+                ],
+                "value": 0.6430897254496813,
+                "metrics": {
+                    "Auc": NaN,
+                    "Accuracy": NaN,
+                    "BalancedAccuracy": NaN,
+                    "Node%": 0.0,
+                    "Population%": 100.0,
+                    "Mean confidence level": NaN,
+                    "Positive%": NaN
+                },
+                "detectron_results": null
+            }
+        ],
+        "8": [],
+        "7": [],
+        "6": [],
+        "5": [],
+        "4": [],
+        "3": [],
+        "2": [],
+        "1": []
+    }
+}
