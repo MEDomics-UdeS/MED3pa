@@ -3,8 +3,9 @@ This module is crucial for tracking and managing the results across multiple run
 It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run. 
 The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.
 """
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 from det3pa.models.abstract_models import Model
 
 class DetectronRecord:
@@ -60,6 +61,7 @@ class DetectronRecord:
             'rejected_count': self.rejected_samples
         }
 
+
 class DetectronRecordsManager:
     """
     Manages a collection of DetectronRecords, providing methods to update, retrieve, and analyze the records.
@@ -89,18 +91,18 @@ class DetectronRecordsManager:
 
     def update(self, val_data_x: np.ndarray, val_data_y: np.ndarray, 
                sample_size: int, model: Model, model_id: int,
-            predicted_probabilities: np.ndarray=None, test_data_x: np.ndarray=None, test_data_y: np.ndarray=None):
+               predicted_probabilities: np.ndarray=None, test_data_x: np.ndarray=None, test_data_y: np.ndarray=None):
         """
         Updates the records manager with new run results, adding a new DetectronRecord.
 
         Args:
-            val_data_x (np.ndarray): Features from the validation dataset used for evaluation.
+            val_data_x (np.ndarray): observations from the validation dataset used for evaluation.
             val_data_y (np.ndarray): True labels from the validation dataset.
             sample_size (int): The number of samples used in this update.
             model (Model): The model instance used for evaluation, which should have an `evaluate` method.
             model_id (int): The identifier of the model within the ensemble.
             predicted_probabilities (np.ndarray, optional): Predicted probabilities from the model on the test dataset.
-            test_data_x (np.ndarray, optional): Features from the test dataset used for evaluation.
+            test_data_x (np.ndarray, optional): observations from the test dataset used for evaluation.
             test_data_y (np.ndarray, optional): True labels from the test dataset.
         """
         assert self.__seed is not None, 'Seed must be set before updating the record'
@@ -130,7 +132,7 @@ class DetectronRecordsManager:
         else:
             return pd.DataFrame(self.records)
 
-    def save(self, path):
+    def save(self, path:str):
         """
         Saves the current records to a CSV file at the specified path.
 
@@ -140,7 +142,7 @@ class DetectronRecordsManager:
         self.get_record().to_csv(path, index=False)
 
     @staticmethod
-    def load(path):
+    def load(path:str):
         """
         Loads records from a CSV file into a DetectronRecordsManager instance.
 
@@ -155,7 +157,7 @@ class DetectronRecordsManager:
         x.sample_size = x.records.query('model_id==0').iloc[0]['count']
         return x
 
-    def counts(self, max_ensemble_size=None) -> np.ndarray:
+    def counts(self, max_ensemble_size:int=None) -> np.ndarray:
         """
         Retrieves the number of samples kept for each run, optionally limited to a maximum ensemble size.
 
@@ -175,7 +177,7 @@ class DetectronRecordsManager:
             counts.append(run.iloc[-1]['count'])
         return np.array(counts)
     
-    def rejection_rates(self, max_ensemble_size=None) -> np.ndarray:
+    def rejection_rates(self, max_ensemble_size:int=None) -> np.ndarray:
         """
         Calculates the rejection rates for each run, optionally limited to a certain number of models.
 
@@ -195,7 +197,7 @@ class DetectronRecordsManager:
             counts.append(run.iloc[-1]['rejection_rate'])
         return np.array(counts)
     
-    def predicted_probabilities(self, max_ensemble_size=None):
+    def predicted_probabilities(self, max_ensemble_size:int=None):
         """
         Retrieves the predicted probabilities for each model in the ensemble for each run.
 
@@ -234,7 +236,7 @@ class DetectronRecordsManager:
 
         return predicted_probs_array
     
-    def rejected_counts(self, max_ensemble_size=None) -> np.ndarray:
+    def rejected_counts(self, max_ensemble_size:int=None) -> np.ndarray:
         """
         Retrieves the number of samples rejected for each run, optionally limited to a maximum ensemble size.
 
@@ -254,17 +256,18 @@ class DetectronRecordsManager:
             counts.append(run.iloc[-1]['rejected_count'])
         return np.array(counts)
 
-    def count_quantile(self, quantile, max_ensemble_size=None):
+    def count_quantile(self, quantile, max_ensemble_size:int=None):
         """
         return the specified quantile of the kept points counts
         """
         counts = self.counts(max_ensemble_size)
         return np.quantile(counts, quantile, method='inverted_cdf')
     
-    def rejected_count_quantile(self, quantile, max_ensemble_size=None):
+    def rejected_count_quantile(self, quantile, max_ensemble_size:int=None):
         """
         return the specified quantile of the rejected points counts
         """
         rejected_counts = self.rejected_counts(max_ensemble_size=max_ensemble_size)
         return np.quantile(rejected_counts, quantile)
+
 

@@ -3,9 +3,11 @@ This module provides a flexible framework for loading datasets from various file
 It supports dynamic selection of data loading strategies based on the file extension, enabling easy extension and maintenance.
 It includes the ``DataLoadingContext`` class, responsible for selecting and setting the right **loading strategy** based on the loaded file extension.
 """
-from typing import Tuple, List
-from .loading_strategies import DataLoadingStrategy, CSVDataLoadingStrategy
 import numpy as np
+from typing import Tuple, List
+
+from .loading_strategies import DataLoadingStrategy, CSVDataLoadingStrategy
+
 
 class DataLoadingContext:
     """
@@ -60,11 +62,10 @@ class DataLoadingContext:
             target_column_name (str): The name of the target column, such as true labels or values in case of regression.
 
         Returns:
-            Tuple[List[str], np.ndarray, np.ndarray]: A tuple containing the column labels, features as a NumPy array, 
+            Tuple[List[str], np.ndarray, np.ndarray]: A tuple containing the column labels, observations as a NumPy array, 
             and the target as a NumPy array.
         """
         return self.selected_strategy.execute(file_path, target_column_name)
-
 
 
 def supported_file_formats() -> List[str]:

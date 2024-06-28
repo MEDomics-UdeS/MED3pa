@@ -5,9 +5,11 @@ It also introduces specialized abstract classes such as ``ClassificationModel`` 
 each adapting these operations to specific needs of classification and regression tasks.
 """
 
-import numpy as np
-from typing import Optional, List, Dict, Any
 from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+
 from .data_strategies import DataPreparingStrategy
 
 class Model(ABC):
@@ -74,7 +76,8 @@ class Model(ABC):
         Returns:
             Boolean: has the model been loaded from a pickled file.
         """
-
+        return self.pickled_model
+    
     def set_model(self, model: Any) -> None:
         """
         Sets the underlying model instance and updates the model class to match the type of the given model.
@@ -126,7 +129,7 @@ class Model(ABC):
             "model_type": self.get_model_type(),
             "params": self.get_params(),
             "data_preparation_strategy": self.get_data_strategy() if self.get_data_strategy() else None,
-            "pickled_model": self.pickled_model
+            "pickled_model": self.is_pickled()
         }
 
     @abstractmethod
@@ -135,7 +138,7 @@ class Model(ABC):
         Evaluates the model using specified metrics.
 
         Args:
-            X (np.ndarray): Features for evaluation.
+            X (np.ndarray): observations for evaluation.
             y (np.ndarray): True labels for evaluation.
             eval_metrics (List[str]): Metrics to use for evaluation.
             print_results (bool, optional): Whether to print the evaluation results. Defaults to False.
@@ -175,7 +178,8 @@ class Model(ABC):
         if invalid_params:
             raise ValueError(f"Invalid parameters found: {invalid_params}")
         return {k: v for k, v in params.items() if k in combined_valid_params}
-    
+
+
 class ClassificationModel(Model):
     """
     Abstract base class for classification models, extending the generic Model class with additional classification-specific methods.
@@ -207,9 +211,9 @@ class ClassificationModel(Model):
         Trains the classification model using provided training and validation data.
 
         Args:
-            x_train (np.ndarray): Features for training.
+            x_train (np.ndarray): observations for training.
             y_train (np.ndarray): Labels for training.
-            x_validation (np.ndarray): Features for validation.
+            x_validation (np.ndarray): observations for validation.
             y_validation (np.ndarray): Labels for validation.
             training_parameters (Dict[str, Any], optional): Additional training parameters.
             balance_train_classes (bool): Whether to balance the training classes.
@@ -222,10 +226,10 @@ class ClassificationModel(Model):
     @abstractmethod
     def predict(self, X: np.ndarray, return_proba: bool = False, threshold: float = 0.5) -> np.ndarray:
         """
-        Makes predictions for the given input features.
+        Makes predictions for the given input observations.
 
         Args:
-            X (np.ndarray): Features for prediction.
+            X (np.ndarray): observations for prediction.
             return_proba (bool, optional): Whether to return probabilities instead of class labels. Defaults to False.
             threshold (float, optional): Threshold for converting probabilities to class labels. Defaults to 0.5.
 
@@ -236,6 +240,7 @@ class ClassificationModel(Model):
             NotImplementedError: Must be implemented by subclasses.
         """
         pass
+
 
 class RegressionModel(Model):
     """
@@ -248,9 +253,9 @@ class RegressionModel(Model):
         Trains the regression model using provided training and validation data.
 
         Args:
-            x_train (np.ndarray): Features for training.
+            x_train (np.ndarray): observations for training.
             y_train (np.ndarray): Labels for training.
-            x_validation (np.ndarray): Features for validation.
+            x_validation (np.ndarray): observations for validation.
             y_validation (np.ndarray): Labels for validation.
             training_parameters (Dict[str, Any], optional): Additional training parameters.
 
@@ -262,10 +267,10 @@ class RegressionModel(Model):
     @abstractmethod
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
-        Makes predictions for the given input features.
+        Makes predictions for the given input observations.
 
         Args:
-            X (np.ndarray): Features for prediction.
+            X (np.ndarray): observations for prediction.
 
         Returns:
             np.ndarray: The predicted values.
@@ -274,3 +279,4 @@ class RegressionModel(Model):
             NotImplementedError: Must be implemented by subclasses.
         """
         pass
+

@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.datasets.manager import DatasetsManager
+from det3pa.datasets import DatasetsManager
 from unittest.mock import patch
 
 class TestDatasetsManager(unittest.TestCase):

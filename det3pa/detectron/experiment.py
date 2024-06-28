@@ -5,16 +5,15 @@ Additionally, the ``DetectronResult`` class is responsible for storing and manag
 providing methods to access and analyze the trajectories and outcomes of this method's evaluation.
 """
 from __future__ import annotations
-import json
-from typing import Optional
-from warnings import warn
-import os
 
+import json
+import os
+from warnings import warn
+
+from .ensemble import BaseModelManager, DatasetsManager, DetectronEnsemble
 from .record import DetectronRecordsManager
-from .ensemble import DetectronEnsemble, BaseModelManager, DatasetsManager
 from .strategies import *
 
-from abc import ABC, abstractmethod
 
 class DetectronResult:
     """
@@ -60,7 +59,7 @@ class DetectronResult:
         Returns:
             dict: Results from executing the Detectron test.
         """
-        return(self.test_results)
+        return self.test_results
     
     def analyze_results(self, strategy : DetectronStrategy) -> dict:
         """
@@ -96,16 +95,16 @@ class DetectronExperiment:
         run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.
     """
     @staticmethod
-    def run(    datasets: DatasetsManager,
-                base_model_manager: BaseModelManager,
-                training_params: dict=None,
-                samples_size : int = 20,
-                calib_result:DetectronRecordsManager=None,
-                ensemble_size=10,
-                num_calibration_runs=100,
-                patience=3,
-                allow_margin : bool = False, 
-                margin = 0.05):
+    def run(datasets: DatasetsManager,
+            base_model_manager: BaseModelManager,
+            training_params: dict=None,
+            samples_size : int = 20,
+            calib_result:DetectronRecordsManager=None,
+            ensemble_size=10,
+            num_calibration_runs=100,
+            patience=3,
+            allow_margin : bool = False, 
+            margin = 0.05):
         """
         Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.
 
@@ -126,8 +125,10 @@ class DetectronExperiment:
         """
         # create a calibration ensemble
         calibration_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
+        
         # create a testing ensemble
         testing_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
+        
         # ensure the reference set is larger compared to testing set
         reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
         if reference_set is not None:
@@ -140,6 +141,7 @@ class DetectronExperiment:
                 print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
                 cal_record = calib_result
             else:
+            
             # evaluate the calibration ensemble
                 cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
                                                                     n_runs=num_calibration_runs,
@@ -150,6 +152,7 @@ class DetectronExperiment:
                                                                     allow_margin=allow_margin,
                                                                     margin=margin)
                 print("Detectron execution on reference set completed.")
+            
             test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
                                                             n_runs=num_calibration_runs, 
                                                             samples_size=samples_size, 
@@ -167,7 +170,9 @@ class DetectronExperiment:
     
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
+        
         # calculate the detectron test
         return detectron_results
-    
+
+
 

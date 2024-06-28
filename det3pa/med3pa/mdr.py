@@ -1,15 +1,17 @@
 """
 Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR). 
-The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problemtatic profiles under specific declaration rates.
+The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.
 """
-import numpy as np
-from det3pa.models.classification_metrics import *
-from det3pa.med3pa.tree import TreeRepresentation
-from det3pa.med3pa.profiles import ProfilesManager, Profile
-from det3pa.datasets.manager import DatasetsManager, MaskedDataset
-from det3pa.detectron import DetectronExperiment, DetectronStrategy
-from det3pa.models import BaseModelManager
 from typing import List, Dict
+
+import numpy as np
+
+from det3pa.datasets import DatasetsManager
+from det3pa.detectron import DetectronExperiment, DetectronStrategy
+from det3pa.med3pa.profiles import Profile, ProfilesManager
+from det3pa.med3pa.tree import TreeRepresentation
+from det3pa.models import BaseModelManager
+from det3pa.models.classification_metrics import *
 
 
 class MDRCalculator:
@@ -18,6 +20,21 @@ class MDRCalculator:
     """
     @staticmethod
     def _get_min_confidence_score(dr : int, confidence_scores : np.ndarray):
+        """
+        Calculate the minimum confidence score based on the desired declaration rate.
+
+        Args:
+            dr (int): Desired declaratation rate as a percentage (0-100).
+            confidence_scores (np.ndarray): Array of confidence scores.
+
+        Returns:
+            float: The minimum confidence level required to meet the desired declaration rate.
+
+        Raises:
+            ValueError: If dr is not in the range 0-100.
+        """
+        if not (0 <= dr <= 100):
+                raise ValueError("Declaration rate (dr) must be between 0 and 100 inclusive.")
         
         sorted_confidence_scores = np.sort(confidence_scores)
         if dr == 100:
@@ -30,14 +47,32 @@ class MDRCalculator:
     
     @staticmethod
     def _calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, predicted_prob: np.ndarray, metrics_list : list):
+        """
+        Calculate a variety of metrics based on the true labels, predicted labels, and predicted probabilities.
+
+        Args:
+            y_true (np.ndarray): Array of true labels.
+            y_pred (np.ndarray): Array of predicted labels.
+            predicted_prob (np.ndarray): Array of predicted probabilities.
+            metrics_list (list): List of metric names to be calculated.
+
+        Returns:
+            dict: A dictionary where keys are metric names and values are the calculated metric values.
+        
+        """
         metrics_dict = {}
         for metric_name in metrics_list:
-            metric = metrics_mappings.get(metric_name, None)
-            if metric in (RocAuc, AveragePrecision):
-                metrics_dict[metric_name] = metric.calculate(y_true, predicted_prob)
+            metric_function = ClassificationEvaluationMetrics.get_metric(metric_name)
+            if metric_function:
+                if metric_name in {'RocAuc', 'AveragePrecision'}:
+                    metrics_dict[metric_name] = metric_function(y_true, predicted_prob)
+                else:
+                    metrics_dict[metric_name] = metric_function(y_true, y_pred)
             else:
-                metrics_dict[metric_name] = metric.calculate(y_true, y_pred)
+                print(f"Error: The metric '{metric_name}' is not supported.")
         return metrics_dict
+    
+        
     
     @staticmethod
     def _list_difference_by_key(list1: List[Profile], list2: List[Profile], key='node_id'):
@@ -47,7 +82,7 @@ class MDRCalculator:
         Args:
             list1 (List[Profile]): First list of Profile instances.
             list2 (List[Profile]): Second list of Profile instances.
-            key (str): Key to compare for differences (default is 'id').
+            key (str): Key to compare for differences (default is 'node_id').
 
         Returns:
             List[Profile]: A list containing elements from list1 that do not appear in list2 based on the specified key.
@@ -58,7 +93,7 @@ class MDRCalculator:
         return [d for d in list1 if getattr(d, key) in unique_to_list1]
 
     @staticmethod
-    def _filter_by_profile(datasets_manager : DatasetsManager, path, set = 'reference', min_confidence_level:float = None):
+    def _filter_by_profile(datasets_manager : DatasetsManager, path : List, set:str = 'reference', min_confidence_level:float = None):
         """
         Filters datasets based on specific profile conditions described by a path.
 
@@ -69,7 +104,7 @@ class MDRCalculator:
             min_confidence_level(float): possibility to filter according a minimum confidence score if specified.
 
         Returns:
-            tuple: Filtered datasets including features, true labels, predicted probabilities, predicted labels, and mpc values.
+            tuple: Filtered datasets including observations, true labels, predicted probabilities, predicted labels, and mpc values.
         """
         
         # retrieve the dataset based on the set type
@@ -81,12 +116,12 @@ class MDRCalculator:
             raise ValueError("The set must be either the reference set or the testing set")
 
         # retrieve different dataset components to calculate the metrics
-        x = dataset.get_features()
+        x = dataset.get_observations()
         y_true = dataset.get_true_labels()
         y_pred = dataset.get_pseudo_labels()
         predicted_prob = dataset.get_pseudo_probabilities()
         confidence_scores = dataset.get_confidence_scores()
-        features = datasets_manager.get_column_labels()
+        observations = datasets_manager.get_column_labels()
 
         # Start with a mask that selects all rows
         mask = np.ones(len(x), dtype=bool)
@@ -97,7 +132,7 @@ class MDRCalculator:
 
             # Parse the condition string
             column_name, operator, value_str = condition.split(' ')
-            column_index = features.index(column_name)  # Map feature name to index
+            column_index = observations.index(column_name)  # Map feature name to index
             try:
                 value = float(value_str)
             except ValueError:
@@ -164,8 +199,8 @@ class MDRCalculator:
         predicted_prob = dataset.get_pseudo_probabilities()
         confidence_scores = dataset.get_confidence_scores()
 
-        # initialize the dictionnaries used for results storage
-        metrics_by_dr = {} # global dictionnary containing all the declaration rates and their corresponding metrics
+        # initialize the dictionaries used for results storage
+        metrics_by_dr = {} # global dictionary containing all the declaration rates and their corresponding metrics
         last_dr_values = {} # used to save last dr calculated metrics
         last_min_confidence_level = -1
 
@@ -173,24 +208,34 @@ class MDRCalculator:
         for dr in range(100, -1, -1):
             # calculate the minimum confidence level
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
+            
             # if the current confidence level is different from the last one
             if last_min_confidence_level != min_confidence_level:
+                
                 # update the last confidence level
                 last_min_confidence_level = min_confidence_level
+                
                 # save the confidence level in the dict of the current dr
                 dr_values = {'min_confidence_level': min_confidence_level}
+                
                 # defines the mask to keep only data with higher min_confidence levels
                 confidence_mask = confidence_scores >= min_confidence_level
+                
                 # save the left population percentage
                 dr_values['population_percentage'] = sum(confidence_mask) / len(confidence_scores)
+                
                 # Calculate the metrics for the current DR
                 metrics_dict = MDRCalculator._calculate_metrics(y_true[confidence_mask], y_pred[confidence_mask], predicted_prob[confidence_mask], metrics_list)
+                
                 # save the calculated metrics
                 dr_values['metrics'] = metrics_dict
+                
                 # update the last dr dictionnary metrics
                 last_dr_values = dr_values
+                
                 # save it in the global dictionnary
                 metrics_by_dr[dr] = dr_values
+            
             # if the min_confidence level is the same, use the last dr results 
             else:
                 metrics_by_dr[dr] = last_dr_values
@@ -277,8 +322,10 @@ class MDRCalculator:
         for ratio, dr_dict in profiles_manager.profiles_records.items():
             # for each dr and its profiles stored in the ratio
             for dr, profiles in dr_dict.items():
+                
                 # calculate the min_confidence level
                 min_confidence_level = MDRCalculator._get_min_confidence_score(dr, all_confidence_scores)
+                
                 # go through each profile in the profile list
                 for profile in profiles:
                     x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(datasets_manager, profile.path, set)
@@ -299,7 +346,7 @@ class MDRCalculator:
                     # the positive class percentage in this profile at this dr
                     metrics_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
                         len(y_true[confidence_mask]) > 0 else np.NaN
-                    
+                    # update the calculated metrics in the profile
                     profile.update_metrics_results(metrics_dict)
 
     @staticmethod
@@ -365,27 +412,29 @@ class MDRCalculator:
                         else:
                             profile_set = DatasetsManager()
                             profile_set.set_column_labels(datasets.get_column_labels())
-                            profile_set.set_from_data(dataset_type="testing", features=q_x, true_labels=q_y_true)
-                            profile_set.set_from_data(dataset_type="reference", features=p_x, true_labels=p_y_true)
+                            profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
+                            profile_set.set_from_data(dataset_type="reference", 
+                                                      observations=datasets.get_dataset_by_type(dataset_type="reference", return_instance=True).get_observations(),
+                                                      true_labels=datasets.get_dataset_by_type(dataset_type="reference", return_instance=True).get_true_labels())
                             profile_set.set_from_data(dataset_type="training", 
-                                                      features=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_features(),
+                                                      observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
                                                       true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
                             profile_set.set_from_data(dataset_type="validation", 
-                                                      features=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_features(),
+                                                      observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
                                                       true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
                             
                             path_description = "*, " + " & ".join(profile.path[1:])
                             print("Running Detectron on Profile:", path_description)
                             experiment_det= DetectronExperiment.run(
-                                datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
-                                samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                                patience=patience, allow_margin=allow_margin, margin=margin)
-                            
+                            datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
+                            samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                            patience=patience, allow_margin=allow_margin, margin=margin)
+                        
                             detectron_results = experiment_det.analyze_results(strategy=strategy)
                             detectron_results['Executed'] = "Yes"
                             detectron_results['data'] = [len(p_y_true), len(q_y_true)]
                     else:
-                        detectron_results['Executed'] = "Inexistant profile in calibration data"
+                        detectron_results['Executed'] = "Nonexistant profile in calibration data"
                         detectron_results['data'] = [len(p_y_true), len(q_y_true)]
 
                     profile.update_detectron_results(detectron_results)
@@ -396,4 +445,4 @@ class MDRCalculator:
                 profiles = last_profiles
 
         return profiles_by_dr
-    
+

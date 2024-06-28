@@ -5,7 +5,9 @@ It employs the **Singleton and Prototype** design patterns to ensure that the ba
 """
 import pickle
 from io import BytesIO
+
 from .abstract_models import Model
+
 
 class BaseModelManager:
     """
@@ -76,3 +78,4 @@ class BaseModelManager:
                     setattr(cloned_model, attribute, value)
             
             return cloned_model
+

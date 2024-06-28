@@ -2,7 +2,7 @@ from det3pa.detectron.experiment import DetectronExperiment
 from det3pa.datasets.manager import DatasetsManager
 from det3pa.models.base import BaseModelManager
 from det3pa.models.factories import ModelFactory
-from det3pa.detectron.strategies import DisagreementStrategy, DisagreementStrategy_MW, DisagreementStrategy_z_mean
+from det3pa.detectron.strategies import EnhancedDisagreementStrategy
 import pandas as pd
 import numpy as np
 import json
@@ -40,6 +40,6 @@ detectron_results = DetectronExperiment.run(
     base_model_manager=bm_manager, 
 )
 
-analysis_results = detectron_results.analyze_results(DisagreementStrategy_z_mean)
+analysis_results = detectron_results.analyze_results(EnhancedDisagreementStrategy)
 detectron_results.save("./tests/tests_detectron/", "detectron_results")
 

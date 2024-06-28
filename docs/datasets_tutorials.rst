@@ -221,7 +221,7 @@ Retrieve the feature vectors, true labels, and pseudo labels:
 
 .. code-block:: python
 
-    features = training_dataset.get_features()
+    features = training_dataset.get_observations()
     true_labels = training_dataset.get_true_labels()
     pseudo_labels = training_dataset.get_pseudo_labels()
 

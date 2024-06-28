@@ -3,13 +3,15 @@ This module offers concrete implementations of specific classification models, s
 It adapts the abstract interfaces defined in ``abstract_models.py`` to provide fully functional models ready for training and prediction.
 """
 
-import xgboost as xgb
+from typing import Any, Dict, List, Optional, Union
+
 import numpy as np
-from .data_strategies import ToDmatrixStrategy
-from .xgboost_params import valid_xgboost_params, xgboost_metrics, valid_xgboost_custom_params
-from .classification_metrics import *
+import xgboost as xgb
+
 from .abstract_models import ClassificationModel
-from typing import Union, Optional, List, Dict, Any
+from .classification_metrics import *
+from .data_strategies import ToDmatrixStrategy
+from .xgboost_params import valid_xgboost_custom_params, valid_xgboost_params, xgboost_metrics
 
 
 class XGBoostModel(ClassificationModel):
@@ -139,7 +141,11 @@ class XGBoostModel(ClassificationModel):
 
         return preds if return_proba else (preds > threshold).astype(int)
 
-    def train_to_disagree(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray, y_validation: np.ndarray, x_test: np.ndarray, y_test: np.ndarray, training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool, N: int) -> None:
+    def train_to_disagree(self, x_train: np.ndarray, y_train: np.ndarray, 
+                          x_validation: np.ndarray, y_validation: np.ndarray, 
+                          x_test: np.ndarray, y_test: np.ndarray, 
+                          training_parameters: Optional[Dict[str, Any]], 
+                          balance_train_classes: bool, N: int) -> None:
         """
         Trains the model to disagree with another model using a specified dataset.
 
@@ -231,12 +237,16 @@ class XGBoostModel(ClassificationModel):
         evaluation_results = {}
         for metric_name in eval_metrics:
             translated_metric_name = xgboost_metrics.get(metric_name, metric_name)
-            metric = metrics_mappings.get(translated_metric_name, None)
-            if metric:
-                evaluation_results[metric_name] = metric.calculate(y, probs) if metric in {RocAuc, AveragePrecision} else metric.calculate(y, preds)
+            metric_function = ClassificationEvaluationMetrics.get_metric(translated_metric_name)
+            if metric_function:
+                if metric_name in {'RocAuc', 'AveragePrecision'}:
+                    evaluation_results[metric_name] = metric_function(y, probs)
+                else:
+                    evaluation_results[metric_name] = metric_function(y, preds)
             else:
                 print(f"Error: The metric '{metric_name}' is not supported.")
 
         if print_results:
             self.print_evaluation_results(results=evaluation_results)
         return evaluation_results
+    

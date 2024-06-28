@@ -4,13 +4,16 @@ It defines a general factory class and specialized factories for different model
 This setup allows for dynamic model instantiation based on provided specifications or configurations. 
 By decoupling model creation from usage"""
 
-import pickle
 import json
+import pickle
 import re
 import warnings
+
 import xgboost as xgb
-from .concrete_classifiers import XGBoostModel
+
 from .abstract_models import Model
+from .concrete_classifiers import XGBoostModel
+
 
 class ModelFactory:
     """
@@ -223,12 +226,18 @@ class XGBoostFactory(ModelFactory):
 
             for key, value in params.items():
                 try:
-                    if isinstance(value, str) and ('.' in value or 'E' in value or 'e' in value):
-                        params[key] = float(value)
+                    if isinstance(value, str):
+                        if '.' in value or 'E' in value or 'e' in value:
+                            params[key] = float(value)
+                        elif value.isdigit():
+                            params[key] = int(value)
+                        else:
+                            # Skip conversion for non-numeric strings
+                            continue
                     else:
                         params[key] = int(value)
-                except (ValueError, TypeError):
-                    pass
+                except (ValueError, TypeError) as e:
+                    continue
 
             removable_keys = ['num_trees']
             for key in removable_keys:

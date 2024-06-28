@@ -3,23 +3,12 @@ In this module, various strategies to assess the presence of covariate shift are
 Each strategy class, deriving from the original **Disagreement test**, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches, 
 such as empirical cumulative distribution functions (ECDF) and hypothesis tests like the Mann-Whitney U or Kolmogorov-Smirnov tests.
 """
-from .record import DetectronRecordsManager
 import numpy as np
-import scipy.stats as stats
 import pandas as pd
+import scipy.stats as stats
 
-def ecdf(x):
-    """
-    Compute the empirical cumulative distribution function
-    :param x: array of 1-D numerical data
-    :return: a function that takes a value and returns the probability that a random sample from x is less than or equal to that value
-    """
-    x = np.sort(x)
+from .record import DetectronRecordsManager
 
-    def result(v):
-        return np.searchsorted(x, v, side='right') / x.size
-
-    return result
 
 class DetectronStrategy:
     """
@@ -32,7 +21,8 @@ class DetectronStrategy:
     def execute(calibration_records : DetectronRecordsManager, test_records:DetectronRecordsManager):
         pass
 
-class DisagreementStrategy(DetectronStrategy):
+
+class OriginalDisagreementStrategy(DetectronStrategy):
     """
     Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).
     This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,
@@ -45,12 +35,29 @@ class DisagreementStrategy(DetectronStrategy):
         Args:
             calibration_records (DetectronRecordsManager): Manager storing calibration phase records.
             test_records (DetectronRecordsManager): Manager storing test phase records.
-            significance_level (float): The statistical significance level used for tests.
 
         Returns:
             dict: A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,
                   and a shift indicator which is True if a shift is detected at the given significance level.
         """
+        def ecdf(x):
+            """
+            Compute the empirical cumulative distribution function.
+
+            Args:
+                x (np.ndarray): Array of 1-D numerical data.
+
+            Returns:
+                function: A function that takes a value and returns the probability 
+                that a random sample from x is less than or equal to that value.
+            """
+            x = np.sort(x)
+
+            def result(v):
+                return np.searchsorted(x, v, side='right') / x.size
+
+            return result
+
         cal_counts = calibration_records.counts()
         test_count = test_records.counts()[0]
         cdf = ecdf(cal_counts)
@@ -68,8 +75,8 @@ class DisagreementStrategy(DetectronStrategy):
         }
         return results
 
-    
-class DisagreementStrategy_MW(DetectronStrategy):
+
+class MannWhitneyStrategy(DetectronStrategy):
     """
     Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
     from calibration runs and test runs.
@@ -81,7 +88,6 @@ class DisagreementStrategy_MW(DetectronStrategy):
         Args:
             calibration_records (DetectronRecordsManager): Manager storing calibration phase records.
             test_records (DetectronRecordsManager): Manager storing test phase records.
-            significance_level (float): The statistical significance level used for tests.
 
         Returns:
             dict: A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,
@@ -121,7 +127,8 @@ class DisagreementStrategy_MW(DetectronStrategy):
 
         return results
 
-class DisagreementStrategy_KS(DetectronStrategy):
+
+class KolmogorovSmirnovStrategy(DetectronStrategy):
     """
     Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
     from calibration runs and test runs.
@@ -133,7 +140,6 @@ class DisagreementStrategy_KS(DetectronStrategy):
         Args:
             calibration_records (DetectronRecordsManager): Manager storing calibration phase records.
             test_records (DetectronRecordsManager): Manager storing test phase records.
-            significance_level (float): The statistical significance level used for tests.
 
         Returns:
             dict: A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True
@@ -176,19 +182,19 @@ class DisagreementStrategy_KS(DetectronStrategy):
 
         return results
 
-class DisagreementStrategy_z_mean(DetectronStrategy):
+
+class EnhancedDisagreementStrategy(DetectronStrategy):
     """
     Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.
     This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=False, proportion_to_cut=0.05):
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=True, proportion_to_cut=0.05):
         """
         Executes the disagreement detection strategy using z-score analysis.
 
         Args:
             calibration_records (DetectronRecordsManager): Manager storing calibration phase records.
             test_records (DetectronRecordsManager): Manager storing test phase records.
-            significance_level (float): The significance level used for statistical testing.
             trim_data (bool): Whether to trim the data using a specified proportion to cut.
             proportion_to_cut (float): The proportion of data to cut from both ends if trimming is enabled.
 
@@ -247,7 +253,7 @@ class DisagreementStrategy_z_mean(DetectronStrategy):
         category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
         # Calculate the one-tailed p-value (test_statistic > baseline_mean)
-        p_value = np.sum(cal_counts < test_statistic) / len(cal_counts)
+        p_value = np.mean(cal_counts < test_statistic)
 
         # Describe the significance of the shift based on the z-score
         significance_description = {
@@ -266,4 +272,4 @@ class DisagreementStrategy_z_mean(DetectronStrategy):
         }
         return results
 
-    
+

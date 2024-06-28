@@ -1,0 +1,2735 @@
+{
+    "0": {
+        "100": {
+            "min_confidence_level": 0,
+            "population_percentage": 1.0,
+            "metrics": {
+                "Auc": 0.8886998298468622,
+                "Accuracy": 0.81,
+                "BalancedAccuracy": 0.8095285757181463
+            }
+        },
+        "99": {
+            "min_confidence_level": 0.3917668202519417,
+            "population_percentage": 0.99,
+            "metrics": {
+                "Auc": 0.905126633986928,
+                "Accuracy": 0.8181818181818182,
+                "BalancedAccuracy": 0.8177083333333334
+            }
+        },
+        "98": {
+            "min_confidence_level": 0.4215032106637955,
+            "population_percentage": 0.98,
+            "metrics": {
+                "Auc": 0.9163105784262636,
+                "Accuracy": 0.826530612244898,
+                "BalancedAccuracy": 0.8260552371026576
+            }
+        },
+        "97": {
+            "min_confidence_level": 0.4282817015051842,
+            "population_percentage": 0.97,
+            "metrics": {
+                "Auc": 0.9268604279782817,
+                "Accuracy": 0.8350515463917526,
+                "BalancedAccuracy": 0.8347705738315767
+            }
+        },
+        "96": {
+            "min_confidence_level": 0.45038550466299054,
+            "population_percentage": 0.96,
+            "metrics": {
+                "Auc": 0.9358695652173913,
+                "Accuracy": 0.84375,
+                "BalancedAccuracy": 0.8434782608695652
+            }
+        },
+        "95": {
+            "min_confidence_level": 0.4556081846356392,
+            "population_percentage": 0.95,
+            "metrics": {
+                "Auc": 0.9437229437229437,
+                "Accuracy": 0.8526315789473684,
+                "BalancedAccuracy": 0.8523698523698524
+            }
+        },
+        "94": {
+            "min_confidence_level": 0.4586027523875236,
+            "population_percentage": 0.94,
+            "metrics": {
+                "Auc": 0.9517006802721087,
+                "Accuracy": 0.8617021276595744,
+                "BalancedAccuracy": 0.8614512471655329
+            }
+        },
+        "93": {
+            "min_confidence_level": 0.4634965032339096,
+            "population_percentage": 0.935,
+            "metrics": {
+                "Auc": 0.953795001146526,
+                "Accuracy": 0.8663101604278075,
+                "BalancedAccuracy": 0.8662577390506765
+            }
+        },
+        "92": {
+            "min_confidence_level": 0.47320217713713647,
+            "population_percentage": 0.925,
+            "metrics": {
+                "Auc": 0.9622774133083412,
+                "Accuracy": 0.8756756756756757,
+                "BalancedAccuracy": 0.8756443298969072
+            }
+        },
+        "91": {
+            "min_confidence_level": 0.4813189198076725,
+            "population_percentage": 0.915,
+            "metrics": {
+                "Auc": 0.9657894736842106,
+                "Accuracy": 0.8852459016393442,
+                "BalancedAccuracy": 0.8848684210526316
+            }
+        },
+        "90": {
+            "min_confidence_level": 0.4968120303750038,
+            "population_percentage": 0.905,
+            "metrics": {
+                "Auc": 0.971019809244314,
+                "Accuracy": 0.8950276243093923,
+                "BalancedAccuracy": 0.894656395206652
+            }
+        },
+        "89": {
+            "min_confidence_level": 0.5016379633545875,
+            "population_percentage": 0.895,
+            "metrics": {
+                "Auc": 0.9749937484371093,
+                "Accuracy": 0.9050279329608939,
+                "BalancedAccuracy": 0.9046636659164791
+            }
+        },
+        "88": {
+            "min_confidence_level": 0.5071978780627251,
+            "population_percentage": 0.88,
+            "metrics": {
+                "Auc": 0.9814958592132506,
+                "Accuracy": 0.9204545454545454,
+                "BalancedAccuracy": 0.9202898550724637
+            }
+        },
+        "87": {
+            "min_confidence_level": 0.5218376095592976,
+            "population_percentage": 0.87,
+            "metrics": {
+                "Auc": 0.9851851851851853,
+                "Accuracy": 0.9310344827586207,
+                "BalancedAccuracy": 0.9305555555555556
+            }
+        },
+        "86": {
+            "min_confidence_level": 0.52390808314085,
+            "population_percentage": 0.86,
+            "metrics": {
+                "Auc": 0.9871482683982684,
+                "Accuracy": 0.936046511627907,
+                "BalancedAccuracy": 0.9356060606060606
+            }
+        },
+        "85": {
+            "min_confidence_level": 0.5261603029072285,
+            "population_percentage": 0.85,
+            "metrics": {
+                "Auc": 0.9897450110864745,
+                "Accuracy": 0.9470588235294117,
+                "BalancedAccuracy": 0.9467849223946785
+            }
+        },
+        "84": {
+            "min_confidence_level": 0.5279607368260621,
+            "population_percentage": 0.84,
+            "metrics": {
+                "Auc": 0.9913352272727273,
+                "Accuracy": 0.9583333333333334,
+                "BalancedAccuracy": 0.9585227272727272
+            }
+        },
+        "83": {
+            "min_confidence_level": 0.5302372467517853,
+            "population_percentage": 0.83,
+            "metrics": {
+                "Auc": 0.9966535719482031,
+                "Accuracy": 0.9698795180722891,
+                "BalancedAccuracy": 0.9701003928415539
+            }
+        },
+        "82": {
+            "min_confidence_level": 0.5392560109496116,
+            "population_percentage": 0.82,
+            "metrics": {
+                "Auc": 0.9973166368515205,
+                "Accuracy": 0.9695121951219512,
+                "BalancedAccuracy": 0.9697376267143709
+            }
+        },
+        "81": {
+            "min_confidence_level": 0.5402194763720035,
+            "population_percentage": 0.815,
+            "metrics": {
+                "Auc": 0.9974358974358973,
+                "Accuracy": 0.9693251533742331,
+                "BalancedAccuracy": 0.9695324283559578
+            }
+        },
+        "80": {
+            "min_confidence_level": 0.5441724321246147,
+            "population_percentage": 0.805,
+            "metrics": {
+                "Auc": 0.9979919678714859,
+                "Accuracy": 0.9751552795031055,
+                "BalancedAccuracy": 0.9751312944084028
+            }
+        },
+        "79": {
+            "min_confidence_level": 0.5462315216660499,
+            "population_percentage": 0.795,
+            "metrics": {
+                "Auc": 0.9990497307570478,
+                "Accuracy": 0.9874213836477987,
+                "BalancedAccuracy": 0.9874089325308837
+            }
+        },
+        "78": {
+            "min_confidence_level": 0.5476616211980582,
+            "population_percentage": 0.785,
+            "metrics": {
+                "Auc": 0.9993506493506493,
+                "Accuracy": 0.9872611464968153,
+                "BalancedAccuracy": 0.9872564935064936
+            }
+        },
+        "77": {
+            "min_confidence_level": 0.5493505676090717,
+            "population_percentage": 0.77,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "76": {
+            "min_confidence_level": 0.553703403621912,
+            "population_percentage": 0.76,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "75": {
+            "min_confidence_level": 0.5569063554704189,
+            "population_percentage": 0.75,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "74": {
+            "min_confidence_level": 0.5583101899176836,
+            "population_percentage": 0.74,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "73": {
+            "min_confidence_level": 0.5740571275353432,
+            "population_percentage": 0.73,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "72": {
+            "min_confidence_level": 0.5795207849144935,
+            "population_percentage": 0.72,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "71": {
+            "min_confidence_level": 0.5833451518416405,
+            "population_percentage": 0.71,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "70": {
+            "min_confidence_level": 0.5856336949765683,
+            "population_percentage": 0.7,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "69": {
+            "min_confidence_level": 0.5857741490006447,
+            "population_percentage": 0.69,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "68": {
+            "min_confidence_level": 0.5876958096027374,
+            "population_percentage": 0.685,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "67": {
+            "min_confidence_level": 0.5882426816225051,
+            "population_percentage": 0.675,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "66": {
+            "min_confidence_level": 0.5923094788193702,
+            "population_percentage": 0.66,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "65": {
+            "min_confidence_level": 0.5945852556824684,
+            "population_percentage": 0.65,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "64": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "63": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "62": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "61": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "60": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "59": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "58": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "57": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "56": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "55": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "54": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "53": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "52": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "51": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "50": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "49": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "48": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "47": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "46": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "45": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "44": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "43": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "42": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "41": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "40": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "39": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "38": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "37": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "36": {
+            "min_confidence_level": 0.5972890158891678,
+            "population_percentage": 0.36,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "35": {
+            "min_confidence_level": 0.5995367433130742,
+            "population_percentage": 0.35,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "34": {
+            "min_confidence_level": 0.6010645622015,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "33": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.335,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "32": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.335,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "31": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.335,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "30": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.335,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "29": {
+            "min_confidence_level": 0.6290639472007752,
+            "population_percentage": 0.29,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "28": {
+            "min_confidence_level": 0.6594299066066742,
+            "population_percentage": 0.28,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "27": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "26": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "25": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "24": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "23": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "22": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "21": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "20": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "19": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "18": {
+            "min_confidence_level": 0.7145660464465619,
+            "population_percentage": 0.18,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "17": {
+            "min_confidence_level": 0.7197749441862107,
+            "population_percentage": 0.17,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "16": {
+            "min_confidence_level": 0.725820339769125,
+            "population_percentage": 0.16,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "15": {
+            "min_confidence_level": 0.7399457201361657,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "14": {
+            "min_confidence_level": 0.7409186045825481,
+            "population_percentage": 0.14,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "13": {
+            "min_confidence_level": 0.7426867291890085,
+            "population_percentage": 0.135,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "12": {
+            "min_confidence_level": 0.7442494919896125,
+            "population_percentage": 0.12,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "11": {
+            "min_confidence_level": 0.7605253948271274,
+            "population_percentage": 0.11,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "10": {
+            "min_confidence_level": 0.7605253948271274,
+            "population_percentage": 0.11,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "9": {
+            "min_confidence_level": 0.7845249246380159,
+            "population_percentage": 0.09,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "8": {
+            "min_confidence_level": 0.7845249246380159,
+            "population_percentage": 0.09,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "7": {
+            "min_confidence_level": 0.7851230715215206,
+            "population_percentage": 0.07,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "6": {
+            "min_confidence_level": 0.8102773852646351,
+            "population_percentage": 0.06,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "5": {
+            "min_confidence_level": 0.8202486827969551,
+            "population_percentage": 0.05,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "4": {
+            "min_confidence_level": 0.8263899600505829,
+            "population_percentage": 0.04,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "3": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "2": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "1": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "0": {
+            "min_confidence_level": 1.01,
+            "population_percentage": 0.0,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": NaN,
+                "BalancedAccuracy": NaN
+            }
+        }
+    },
+    "5": {
+        "100": {
+            "min_confidence_level": 0,
+            "population_percentage": 1.0,
+            "metrics": {
+                "Auc": 0.8886998298468622,
+                "Accuracy": 0.81,
+                "BalancedAccuracy": 0.8095285757181463
+            }
+        },
+        "99": {
+            "min_confidence_level": 0.3917668202519417,
+            "population_percentage": 0.99,
+            "metrics": {
+                "Auc": 0.905126633986928,
+                "Accuracy": 0.8181818181818182,
+                "BalancedAccuracy": 0.8177083333333334
+            }
+        },
+        "98": {
+            "min_confidence_level": 0.4215032106637955,
+            "population_percentage": 0.98,
+            "metrics": {
+                "Auc": 0.9163105784262636,
+                "Accuracy": 0.826530612244898,
+                "BalancedAccuracy": 0.8260552371026576
+            }
+        },
+        "97": {
+            "min_confidence_level": 0.4282817015051842,
+            "population_percentage": 0.97,
+            "metrics": {
+                "Auc": 0.9268604279782817,
+                "Accuracy": 0.8350515463917526,
+                "BalancedAccuracy": 0.8347705738315767
+            }
+        },
+        "96": {
+            "min_confidence_level": 0.45038550466299054,
+            "population_percentage": 0.96,
+            "metrics": {
+                "Auc": 0.9358695652173913,
+                "Accuracy": 0.84375,
+                "BalancedAccuracy": 0.8434782608695652
+            }
+        },
+        "95": {
+            "min_confidence_level": 0.4556081846356392,
+            "population_percentage": 0.95,
+            "metrics": {
+                "Auc": 0.9437229437229437,
+                "Accuracy": 0.8526315789473684,
+                "BalancedAccuracy": 0.8523698523698524
+            }
+        },
+        "94": {
+            "min_confidence_level": 0.4586027523875236,
+            "population_percentage": 0.94,
+            "metrics": {
+                "Auc": 0.9517006802721087,
+                "Accuracy": 0.8617021276595744,
+                "BalancedAccuracy": 0.8614512471655329
+            }
+        },
+        "93": {
+            "min_confidence_level": 0.4634965032339096,
+            "population_percentage": 0.935,
+            "metrics": {
+                "Auc": 0.953795001146526,
+                "Accuracy": 0.8663101604278075,
+                "BalancedAccuracy": 0.8662577390506765
+            }
+        },
+        "92": {
+            "min_confidence_level": 0.47320217713713647,
+            "population_percentage": 0.925,
+            "metrics": {
+                "Auc": 0.9622774133083412,
+                "Accuracy": 0.8756756756756757,
+                "BalancedAccuracy": 0.8756443298969072
+            }
+        },
+        "91": {
+            "min_confidence_level": 0.4813189198076725,
+            "population_percentage": 0.915,
+            "metrics": {
+                "Auc": 0.9657894736842106,
+                "Accuracy": 0.8852459016393442,
+                "BalancedAccuracy": 0.8848684210526316
+            }
+        },
+        "90": {
+            "min_confidence_level": 0.4968120303750038,
+            "population_percentage": 0.905,
+            "metrics": {
+                "Auc": 0.971019809244314,
+                "Accuracy": 0.8950276243093923,
+                "BalancedAccuracy": 0.894656395206652
+            }
+        },
+        "89": {
+            "min_confidence_level": 0.5016379633545875,
+            "population_percentage": 0.895,
+            "metrics": {
+                "Auc": 0.9749937484371093,
+                "Accuracy": 0.9050279329608939,
+                "BalancedAccuracy": 0.9046636659164791
+            }
+        },
+        "88": {
+            "min_confidence_level": 0.5071978780627251,
+            "population_percentage": 0.88,
+            "metrics": {
+                "Auc": 0.9814958592132506,
+                "Accuracy": 0.9204545454545454,
+                "BalancedAccuracy": 0.9202898550724637
+            }
+        },
+        "87": {
+            "min_confidence_level": 0.5218376095592976,
+            "population_percentage": 0.87,
+            "metrics": {
+                "Auc": 0.9851851851851853,
+                "Accuracy": 0.9310344827586207,
+                "BalancedAccuracy": 0.9305555555555556
+            }
+        },
+        "86": {
+            "min_confidence_level": 0.52390808314085,
+            "population_percentage": 0.86,
+            "metrics": {
+                "Auc": 0.9871482683982684,
+                "Accuracy": 0.936046511627907,
+                "BalancedAccuracy": 0.9356060606060606
+            }
+        },
+        "85": {
+            "min_confidence_level": 0.5261603029072285,
+            "population_percentage": 0.85,
+            "metrics": {
+                "Auc": 0.9897450110864745,
+                "Accuracy": 0.9470588235294117,
+                "BalancedAccuracy": 0.9467849223946785
+            }
+        },
+        "84": {
+            "min_confidence_level": 0.5279607368260621,
+            "population_percentage": 0.84,
+            "metrics": {
+                "Auc": 0.9913352272727273,
+                "Accuracy": 0.9583333333333334,
+                "BalancedAccuracy": 0.9585227272727272
+            }
+        },
+        "83": {
+            "min_confidence_level": 0.5302372467517853,
+            "population_percentage": 0.83,
+            "metrics": {
+                "Auc": 0.9966535719482031,
+                "Accuracy": 0.9698795180722891,
+                "BalancedAccuracy": 0.9701003928415539
+            }
+        },
+        "82": {
+            "min_confidence_level": 0.5392560109496116,
+            "population_percentage": 0.82,
+            "metrics": {
+                "Auc": 0.9973166368515205,
+                "Accuracy": 0.9695121951219512,
+                "BalancedAccuracy": 0.9697376267143709
+            }
+        },
+        "81": {
+            "min_confidence_level": 0.5402194763720035,
+            "population_percentage": 0.815,
+            "metrics": {
+                "Auc": 0.9974358974358973,
+                "Accuracy": 0.9693251533742331,
+                "BalancedAccuracy": 0.9695324283559578
+            }
+        },
+        "80": {
+            "min_confidence_level": 0.5441724321246147,
+            "population_percentage": 0.805,
+            "metrics": {
+                "Auc": 0.9979919678714859,
+                "Accuracy": 0.9751552795031055,
+                "BalancedAccuracy": 0.9751312944084028
+            }
+        },
+        "79": {
+            "min_confidence_level": 0.5462315216660499,
+            "population_percentage": 0.795,
+            "metrics": {
+                "Auc": 0.9990497307570478,
+                "Accuracy": 0.9874213836477987,
+                "BalancedAccuracy": 0.9874089325308837
+            }
+        },
+        "78": {
+            "min_confidence_level": 0.5476616211980582,
+            "population_percentage": 0.785,
+            "metrics": {
+                "Auc": 0.9993506493506493,
+                "Accuracy": 0.9872611464968153,
+                "BalancedAccuracy": 0.9872564935064936
+            }
+        },
+        "77": {
+            "min_confidence_level": 0.5493505676090717,
+            "population_percentage": 0.77,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "76": {
+            "min_confidence_level": 0.553703403621912,
+            "population_percentage": 0.76,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "75": {
+            "min_confidence_level": 0.5569063554704189,
+            "population_percentage": 0.75,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "74": {
+            "min_confidence_level": 0.5583101899176836,
+            "population_percentage": 0.74,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "73": {
+            "min_confidence_level": 0.5740571275353432,
+            "population_percentage": 0.73,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "72": {
+            "min_confidence_level": 0.5795207849144935,
+            "population_percentage": 0.72,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "71": {
+            "min_confidence_level": 0.5833451518416405,
+            "population_percentage": 0.71,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "70": {
+            "min_confidence_level": 0.5856336949765683,
+            "population_percentage": 0.7,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "69": {
+            "min_confidence_level": 0.5857741490006447,
+            "population_percentage": 0.69,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "68": {
+            "min_confidence_level": 0.5876958096027374,
+            "population_percentage": 0.685,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "67": {
+            "min_confidence_level": 0.5882426816225051,
+            "population_percentage": 0.675,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "66": {
+            "min_confidence_level": 0.5923094788193702,
+            "population_percentage": 0.66,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "65": {
+            "min_confidence_level": 0.5945852556824684,
+            "population_percentage": 0.65,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "64": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "63": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "62": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "61": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "60": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "59": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "58": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "57": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "56": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "55": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "54": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "53": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "52": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "51": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "50": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "49": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "48": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "47": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "46": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "45": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "44": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "43": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "42": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "41": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "40": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "39": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "38": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "37": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "36": {
+            "min_confidence_level": 0.5995367433130742,
+            "population_percentage": 0.36,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "35": {
+            "min_confidence_level": 0.6014285494387149,
+            "population_percentage": 0.35,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "34": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "33": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "32": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "31": {
+            "min_confidence_level": 0.6125246992614121,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "30": {
+            "min_confidence_level": 0.6290639472007752,
+            "population_percentage": 0.3,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "29": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.295,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "28": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.295,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "27": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.295,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "26": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.295,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "25": {
+            "min_confidence_level": 0.6594299066066742,
+            "population_percentage": 0.25,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "24": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "23": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "22": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "21": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "20": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "19": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "18": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "17": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "16": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.245,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "15": {
+            "min_confidence_level": 0.7065099626593292,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "14": {
+            "min_confidence_level": 0.7065099626593292,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "13": {
+            "min_confidence_level": 0.7065099626593292,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "12": {
+            "min_confidence_level": 0.7065099626593292,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "11": {
+            "min_confidence_level": 0.7065099626593292,
+            "population_percentage": 0.15,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "10": {
+            "min_confidence_level": 0.7403914807736873,
+            "population_percentage": 0.1,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "9": {
+            "min_confidence_level": 0.7626354169845581,
+            "population_percentage": 0.09,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "8": {
+            "min_confidence_level": 0.784661326110363,
+            "population_percentage": 0.08,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "7": {
+            "min_confidence_level": 0.8034637048840523,
+            "population_percentage": 0.07,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "6": {
+            "min_confidence_level": 0.8108982488512992,
+            "population_percentage": 0.06,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "5": {
+            "min_confidence_level": 0.8202486827969551,
+            "population_percentage": 0.05,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "4": {
+            "min_confidence_level": 0.8263899600505829,
+            "population_percentage": 0.04,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "3": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "2": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "1": {
+            "min_confidence_level": 0.8320079463819663,
+            "population_percentage": 0.035,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "0": {
+            "min_confidence_level": 1.01,
+            "population_percentage": 0.0,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": NaN,
+                "BalancedAccuracy": NaN
+            }
+        }
+    },
+    "10": {
+        "100": {
+            "min_confidence_level": 0,
+            "population_percentage": 1.0,
+            "metrics": {
+                "Auc": 0.8886998298468622,
+                "Accuracy": 0.81,
+                "BalancedAccuracy": 0.8095285757181463
+            }
+        },
+        "99": {
+            "min_confidence_level": 0.3917668202519417,
+            "population_percentage": 0.99,
+            "metrics": {
+                "Auc": 0.905126633986928,
+                "Accuracy": 0.8181818181818182,
+                "BalancedAccuracy": 0.8177083333333334
+            }
+        },
+        "98": {
+            "min_confidence_level": 0.4215032106637955,
+            "population_percentage": 0.98,
+            "metrics": {
+                "Auc": 0.9163105784262636,
+                "Accuracy": 0.826530612244898,
+                "BalancedAccuracy": 0.8260552371026576
+            }
+        },
+        "97": {
+            "min_confidence_level": 0.4282817015051842,
+            "population_percentage": 0.97,
+            "metrics": {
+                "Auc": 0.9268604279782817,
+                "Accuracy": 0.8350515463917526,
+                "BalancedAccuracy": 0.8347705738315767
+            }
+        },
+        "96": {
+            "min_confidence_level": 0.45038550466299054,
+            "population_percentage": 0.96,
+            "metrics": {
+                "Auc": 0.9358695652173913,
+                "Accuracy": 0.84375,
+                "BalancedAccuracy": 0.8434782608695652
+            }
+        },
+        "95": {
+            "min_confidence_level": 0.4556081846356392,
+            "population_percentage": 0.95,
+            "metrics": {
+                "Auc": 0.9437229437229437,
+                "Accuracy": 0.8526315789473684,
+                "BalancedAccuracy": 0.8523698523698524
+            }
+        },
+        "94": {
+            "min_confidence_level": 0.4586027523875236,
+            "population_percentage": 0.94,
+            "metrics": {
+                "Auc": 0.9517006802721087,
+                "Accuracy": 0.8617021276595744,
+                "BalancedAccuracy": 0.8614512471655329
+            }
+        },
+        "93": {
+            "min_confidence_level": 0.4634965032339096,
+            "population_percentage": 0.935,
+            "metrics": {
+                "Auc": 0.953795001146526,
+                "Accuracy": 0.8663101604278075,
+                "BalancedAccuracy": 0.8662577390506765
+            }
+        },
+        "92": {
+            "min_confidence_level": 0.47320217713713647,
+            "population_percentage": 0.925,
+            "metrics": {
+                "Auc": 0.9622774133083412,
+                "Accuracy": 0.8756756756756757,
+                "BalancedAccuracy": 0.8756443298969072
+            }
+        },
+        "91": {
+            "min_confidence_level": 0.4813189198076725,
+            "population_percentage": 0.915,
+            "metrics": {
+                "Auc": 0.9657894736842106,
+                "Accuracy": 0.8852459016393442,
+                "BalancedAccuracy": 0.8848684210526316
+            }
+        },
+        "90": {
+            "min_confidence_level": 0.4968120303750038,
+            "population_percentage": 0.905,
+            "metrics": {
+                "Auc": 0.971019809244314,
+                "Accuracy": 0.8950276243093923,
+                "BalancedAccuracy": 0.894656395206652
+            }
+        },
+        "89": {
+            "min_confidence_level": 0.5016379633545875,
+            "population_percentage": 0.895,
+            "metrics": {
+                "Auc": 0.9749937484371093,
+                "Accuracy": 0.9050279329608939,
+                "BalancedAccuracy": 0.9046636659164791
+            }
+        },
+        "88": {
+            "min_confidence_level": 0.5071978780627251,
+            "population_percentage": 0.88,
+            "metrics": {
+                "Auc": 0.9814958592132506,
+                "Accuracy": 0.9204545454545454,
+                "BalancedAccuracy": 0.9202898550724637
+            }
+        },
+        "87": {
+            "min_confidence_level": 0.5218376095592976,
+            "population_percentage": 0.87,
+            "metrics": {
+                "Auc": 0.9851851851851853,
+                "Accuracy": 0.9310344827586207,
+                "BalancedAccuracy": 0.9305555555555556
+            }
+        },
+        "86": {
+            "min_confidence_level": 0.52390808314085,
+            "population_percentage": 0.86,
+            "metrics": {
+                "Auc": 0.9871482683982684,
+                "Accuracy": 0.936046511627907,
+                "BalancedAccuracy": 0.9356060606060606
+            }
+        },
+        "85": {
+            "min_confidence_level": 0.5261603029072285,
+            "population_percentage": 0.85,
+            "metrics": {
+                "Auc": 0.9897450110864745,
+                "Accuracy": 0.9470588235294117,
+                "BalancedAccuracy": 0.9467849223946785
+            }
+        },
+        "84": {
+            "min_confidence_level": 0.5279607368260621,
+            "population_percentage": 0.84,
+            "metrics": {
+                "Auc": 0.9913352272727273,
+                "Accuracy": 0.9583333333333334,
+                "BalancedAccuracy": 0.9585227272727272
+            }
+        },
+        "83": {
+            "min_confidence_level": 0.5302372467517853,
+            "population_percentage": 0.83,
+            "metrics": {
+                "Auc": 0.9966535719482031,
+                "Accuracy": 0.9698795180722891,
+                "BalancedAccuracy": 0.9701003928415539
+            }
+        },
+        "82": {
+            "min_confidence_level": 0.5392560109496116,
+            "population_percentage": 0.82,
+            "metrics": {
+                "Auc": 0.9973166368515205,
+                "Accuracy": 0.9695121951219512,
+                "BalancedAccuracy": 0.9697376267143709
+            }
+        },
+        "81": {
+            "min_confidence_level": 0.5402194763720035,
+            "population_percentage": 0.815,
+            "metrics": {
+                "Auc": 0.9974358974358973,
+                "Accuracy": 0.9693251533742331,
+                "BalancedAccuracy": 0.9695324283559578
+            }
+        },
+        "80": {
+            "min_confidence_level": 0.5441724321246147,
+            "population_percentage": 0.805,
+            "metrics": {
+                "Auc": 0.9979919678714859,
+                "Accuracy": 0.9751552795031055,
+                "BalancedAccuracy": 0.9751312944084028
+            }
+        },
+        "79": {
+            "min_confidence_level": 0.5462315216660499,
+            "population_percentage": 0.795,
+            "metrics": {
+                "Auc": 0.9990497307570478,
+                "Accuracy": 0.9874213836477987,
+                "BalancedAccuracy": 0.9874089325308837
+            }
+        },
+        "78": {
+            "min_confidence_level": 0.5476616211980582,
+            "population_percentage": 0.785,
+            "metrics": {
+                "Auc": 0.9993506493506493,
+                "Accuracy": 0.9872611464968153,
+                "BalancedAccuracy": 0.9872564935064936
+            }
+        },
+        "77": {
+            "min_confidence_level": 0.5493505676090717,
+            "population_percentage": 0.77,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "76": {
+            "min_confidence_level": 0.553703403621912,
+            "population_percentage": 0.76,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "75": {
+            "min_confidence_level": 0.5569063554704189,
+            "population_percentage": 0.75,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "74": {
+            "min_confidence_level": 0.5583101899176836,
+            "population_percentage": 0.74,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "73": {
+            "min_confidence_level": 0.5740571275353432,
+            "population_percentage": 0.73,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "72": {
+            "min_confidence_level": 0.5795207849144935,
+            "population_percentage": 0.72,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "71": {
+            "min_confidence_level": 0.5833451518416405,
+            "population_percentage": 0.71,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "70": {
+            "min_confidence_level": 0.5856336949765683,
+            "population_percentage": 0.7,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "69": {
+            "min_confidence_level": 0.5857741490006447,
+            "population_percentage": 0.69,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "68": {
+            "min_confidence_level": 0.5876958096027374,
+            "population_percentage": 0.685,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "67": {
+            "min_confidence_level": 0.5882426816225051,
+            "population_percentage": 0.675,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "66": {
+            "min_confidence_level": 0.5923094788193702,
+            "population_percentage": 0.66,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "65": {
+            "min_confidence_level": 0.5945852556824684,
+            "population_percentage": 0.65,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "64": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "63": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "62": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "61": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "60": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "59": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "58": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "57": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "56": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "55": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "54": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "53": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "52": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "51": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "50": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "49": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "48": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "47": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "46": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "45": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "44": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "43": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "42": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "41": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "40": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "39": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "38": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "37": {
+            "min_confidence_level": 0.5954199607256386,
+            "population_percentage": 0.64,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "36": {
+            "min_confidence_level": 0.5995367433130742,
+            "population_percentage": 0.36,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "35": {
+            "min_confidence_level": 0.6014285494387149,
+            "population_percentage": 0.35,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "34": {
+            "min_confidence_level": 0.6175130984187126,
+            "population_percentage": 0.345,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "33": {
+            "min_confidence_level": 0.6188138237196592,
+            "population_percentage": 0.34,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "32": {
+            "min_confidence_level": 0.6188138237196592,
+            "population_percentage": 0.34,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "31": {
+            "min_confidence_level": 0.6188138237196592,
+            "population_percentage": 0.34,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "30": {
+            "min_confidence_level": 0.6188138237196592,
+            "population_percentage": 0.34,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "29": {
+            "min_confidence_level": 0.6355228149890899,
+            "population_percentage": 0.29,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "28": {
+            "min_confidence_level": 0.6543577381968498,
+            "population_percentage": 0.28,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "27": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "26": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "25": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "24": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "23": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "22": {
+            "min_confidence_level": 0.6559120425706109,
+            "population_percentage": 0.275,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "21": {
+            "min_confidence_level": 0.655966505408287,
+            "population_percentage": 0.21,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "20": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "19": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "18": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "17": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "16": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "15": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "14": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "13": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "12": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "11": {
+            "min_confidence_level": 0.6609333533218927,
+            "population_percentage": 0.2,
+            "metrics": {
+                "Auc": 1.0,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": 1.0
+            }
+        },
+        "10": {
+            "min_confidence_level": 0.7403914807736873,
+            "population_percentage": 0.1,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "9": {
+            "min_confidence_level": 0.7626354169845581,
+            "population_percentage": 0.09,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "8": {
+            "min_confidence_level": 0.784661326110363,
+            "population_percentage": 0.08,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "7": {
+            "min_confidence_level": 0.8034637048840523,
+            "population_percentage": 0.07,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "6": {
+            "min_confidence_level": 0.8108982488512992,
+            "population_percentage": 0.06,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "5": {
+            "min_confidence_level": 0.8115843602234407,
+            "population_percentage": 0.055,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "4": {
+            "min_confidence_level": 0.8115843602234407,
+            "population_percentage": 0.055,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "3": {
+            "min_confidence_level": 0.8115843602234407,
+            "population_percentage": 0.055,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "2": {
+            "min_confidence_level": 0.8115843602234407,
+            "population_percentage": 0.055,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "1": {
+            "min_confidence_level": 0.8115843602234407,
+            "population_percentage": 0.055,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": 1.0,
+                "BalancedAccuracy": NaN
+            }
+        },
+        "0": {
+            "min_confidence_level": 1.01,
+            "population_percentage": 0.0,
+            "metrics": {
+                "Auc": NaN,
+                "Accuracy": NaN,
+                "BalancedAccuracy": NaN
+            }
+        }
+    }
+}

@@ -9,5 +9,5 @@
         "moderate": 17.40740740740741,
         "large": 30.925925925925924
     },
-    "Strategy": "DisagreementStrategy_z_mean"
+    "Strategy": "EnhancedDisagreementStrategy"
 }

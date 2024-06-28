@@ -4,8 +4,8 @@ providing a standard interface for calculating metric values for model evaluatio
 It includes specialized subclasses like ``ClassificationEvaluationMetric`` and ``RegressionEvaluationMetric`` to cater to specific needs of classification and regression tasks, 
 facilitating the integration and extension of new evaluation metrics."""
 
-from abc import ABC, abstractmethod
-import numpy as np
+from abc import ABC
+
 
 class EvaluationMetric(ABC):
     """
@@ -13,30 +13,25 @@ class EvaluationMetric(ABC):
     metric values across different types of tasks, ensuring consistency and reusability.
     """
 
-    @abstractmethod
-    def calculate(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> float:
+    @classmethod
+    def get_metric(cls, metric_name: str):
         """
-        Calculates the metric value based on true labels/values and predicted labels/values.
+        Get the metric function based on the metric name.
 
         Args:
-            y_true (np.ndarray): True labels or values, representing the ground truth data.
-            y_pred (np.ndarray): Predicted scores, labels, or values, as produced by a model.
-            sample_weight (np.ndarray, optional): Array of weights that are assigned to individual
-                                                  samples, mainly used in averaging the metric.
+            metric_name (str): The name of the metric.
 
         Returns:
-            float: The calculated metric value.
+            function: The function corresponding to the metric.
         """
         pass
 
-class ClassificationEvaluationMetric(EvaluationMetric):
-    """
-    Base class for classification metrics.
-    """
-    pass
+    @classmethod
+    def supported_metrics(cls) -> list:
+        """
+        Get a list of supported regression metrics.
 
-class RegressionEvaluationMetric(EvaluationMetric):
-    """
-    Base class for regression metrics.
-    """
-    pass
+        Returns:
+            list: A list of supported regression metrics.
+        """
+        pass

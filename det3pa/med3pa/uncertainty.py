@@ -5,7 +5,9 @@ An ``UncertaintyCalculator`` class is provided, which allows users to specify wh
 thereby facilitating the use of customized uncertainty metrics for different analytical needs.
 """
 from abc import ABC, abstractmethod
+
 import numpy as np
+
 
 class UncertaintyMetric(ABC):
     """
@@ -14,10 +16,10 @@ class UncertaintyMetric(ABC):
     @abstractmethod
     def calculate(x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray) -> np.ndarray:
         """
-        Calculates the uncertainty metric based on input features, predicted probabilities, and true labels.
+        Calculates the uncertainty metric based on input observations, predicted probabilities, and true labels.
 
         Args:
-            x (np.ndarray): Input features.
+            x (np.ndarray): Input observations.
             predicted_prob (np.ndarray): Predicted probabilities by the model.
             y_true (np.ndarray): True labels.
 
@@ -25,6 +27,7 @@ class UncertaintyMetric(ABC):
             np.ndarray: An array of uncertainty values for each prediction.
         """
         pass
+
 
 class AbsoluteError(UncertaintyMetric):
     """
@@ -44,6 +47,7 @@ class AbsoluteError(UncertaintyMetric):
             np.ndarray: Absolute errors between predicted probabilities and true labels.
         """
         return 1 - np.abs(y_true - predicted_prob)
+
 
 class UncertaintyCalculator:
     """

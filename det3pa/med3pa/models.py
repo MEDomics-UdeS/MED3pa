@@ -4,18 +4,23 @@ where the regressor type can be specified by the user.
 Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points, 
 and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.
 """
+from typing import Any, Dict, List, Optional, Type
+
 import numpy as np
 from sklearn.model_selection import GridSearchCV
-from typing import Type, Optional, Dict, Any, List
-from det3pa.models.abstract_models import RegressionModel
-from det3pa.models.concrete_regressors import RandomForestRegressorModel, DecisionTreeRegressorModel
-from det3pa.models.data_strategies import ToDataframesStrategy
+
 from det3pa.med3pa.tree import TreeRepresentation
+from det3pa.models.abstract_models import RegressionModel
+from det3pa.models.concrete_regressors import DecisionTreeRegressorModel, RandomForestRegressorModel
+from det3pa.models.data_strategies import ToDataframesStrategy
+
 
 class IPCModel:
     """
     IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.
     """
+    default_params = {'random_state': 54288}
+
     def __init__(self, model_class: Type[RegressionModel] = RandomForestRegressorModel, params: Optional[Dict[str, Any]] = None) -> None:
         """
         Initializes the IPCModel with a regression model class and optional parameters.
@@ -25,7 +30,7 @@ class IPCModel:
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.
         """
         if params is None:
-            params = {'random_state': 54288}
+            params = self.default_params
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
@@ -60,7 +65,7 @@ class IPCModel:
 
     def predict(self, x: np.ndarray) -> np.ndarray:
         """
-        Predicts error probabilities for the given input features using the trained model.
+        Predicts error probabilities for the given input observations using the trained model.
 
         Args:
             x (np.ndarray): Feature matrix for which to predict error probabilities.
@@ -75,7 +80,7 @@ class IPCModel:
         Evaluates the model using specified metrics.
 
         Args:
-            X (np.ndarray): Features for evaluation.
+            X (np.ndarray): observations for evaluation.
             y (np.ndarray): True labels for evaluation.
             eval_metrics (List[str]): Metrics to use for evaluation.
             print_results (bool): Whether to print the evaluation results.
@@ -85,11 +90,13 @@ class IPCModel:
         """
         evaluation_results = self.model.evaluate(X, y, eval_metrics, print_results)
         return evaluation_results
-    
+
+
 class APCModel:
     """
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.
     """
+    default_params = {'max_depth': 3, 'min_samples_leaf': 1, 'random_state': 54288}
     def __init__(self, features: list, params: Optional[Dict[str, Any]] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.
@@ -100,7 +107,7 @@ class APCModel:
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is settings for a basic decision tree.
         """
         if params is None:
-            params = {'max_depth': 3, 'min_samples_leaf': 1, 'random_state': 54288}
+            params = self.default_params
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
@@ -119,7 +126,7 @@ class APCModel:
             error_prob (np.ndarray): Error probabilities corresponding to each training instance.
         """
         self.model.train(x, error_prob)
-        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, features=x, labels=error_prob)
+        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
         self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0)
     
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
@@ -141,7 +148,7 @@ class APCModel:
     
     def predict(self, X: np.ndarray, depth: int = None, min_samples_ratio: float = 0) -> np.ndarray:
         """
-        Predicts error probabilities using the tree representation for the given input features.
+        Predicts error probabilities using the tree representation for the given input observations.
 
         Args:
             x (np.ndarray): Feature matrix for which to predict error probabilities.
@@ -150,7 +157,7 @@ class APCModel:
         Returns:
             np.ndarray: Predicted error probabilities based on the aggregated confidence levels.
         """
-        df_X, _, _ = self.dataPreparationStrategy.execute(column_labels=self.features, features=X, labels=None)
+        df_X, _, _ = self.dataPreparationStrategy.execute(column_labels=self.features, observations=X, labels=None)
         predictions = []
 
         for index, row in df_X.iterrows():
@@ -167,7 +174,7 @@ class APCModel:
         Evaluates the model using specified metrics.
 
         Args:
-            X (np.ndarray): Features for evaluation.
+            X (np.ndarray): observations for evaluation.
             y (np.ndarray): True labels for evaluation.
             eval_metrics (List[str]): Metrics to use for evaluation.
             print_results (bool): Whether to print the evaluation results.

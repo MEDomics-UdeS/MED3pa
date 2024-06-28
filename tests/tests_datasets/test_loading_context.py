@@ -1,6 +1,6 @@
 import unittest
-from det3pa.datasets.loading_context import DataLoadingContext
-from det3pa.datasets.loading_strategies import CSVDataLoadingStrategy
+from det3pa.datasets import DataLoadingContext
+from det3pa.datasets import CSVDataLoadingStrategy
 
 class TestDataLoadingContext(unittest.TestCase):
     # tests that the correct loading strategy is selected

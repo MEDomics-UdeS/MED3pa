@@ -3,11 +3,13 @@ Manages the tree representation for the APC model. It includes the ``TreeReprese
 and ``TreeNode`` class that represents a node in the tree. 
 This module is crucial for profiling aggregated data and extracting valuable insights
 """
-from pandas import DataFrame, Series
-import numpy as np
 from typing import Union
+
+from pandas import DataFrame, Series
+
 from det3pa.models.concrete_regressors import DecisionTreeRegressorModel
 from .profiles import Profile
+
 
 class TreeRepresentation:
     """
@@ -30,7 +32,7 @@ class TreeRepresentation:
 
         Args:
             dtr (DecisionTreeRegressorModel): Trained decision tree regressor model.
-            X (DataFrame): Training data features.
+            X (DataFrame): Training data observations.
             y (Series): Training data labels.
             node_id (int): Node ID to start building from. Defaults to 0.
             path (Optional[List[str]]): Path to the current node. Defaults to ['*'].
@@ -120,10 +122,10 @@ class _TreeNode:
 
     def assign_node(self, X: Union[DataFrame, Series], depth: int = None, min_samples_ratio: float = 0) -> float:
         """
-        Assigns a value to a node based on input features, potentially navigating the tree up to a certain depth.
+        Assigns a value to a node based on input observations, potentially navigating the tree up to a certain depth.
 
         Args:
-            X (Union[DataFrame, Series]): Input features used to navigate and determine the value at a node.
+            X (Union[DataFrame, Series]): Input observations used to navigate and determine the value at a node.
             depth (Optional[int]): The maximum depth to navigate in the tree for value assignment. Defaults to None,
                                    which means navigating until a leaf node is reached.
             min_samples_ratio (float): The minimum sample ratio to consider a node as valid for value assignment. Nodes
@@ -131,7 +133,7 @@ class _TreeNode:
                                        Defaults to 0, which considers all nodes valid regardless of sample ratio.
 
         Returns:
-            float: The value assigned based on the input features and the structure of the tree.
+            float: The value assigned based on the input observations and the structure of the tree.
 
         Raises:
             TypeError: If the input X is neither a pandas DataFrame nor a pandas Series.
@@ -189,3 +191,5 @@ class _TreeNode:
 
         profile = Profile(node_id=self.node_id, path=self.path, mean_value=self.value)
         return profiles + [profile]
+
+

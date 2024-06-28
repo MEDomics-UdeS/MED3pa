@@ -2,20 +2,22 @@
 Orchestrates the execution of the med3pa method and integrates the functionality of other modules to run comprehensive experiments. 
 It includes classes to manage and store results ``Med3paResults``, execute experiments like ``Med3paExperiment`` and ``Med3paDetectronExperiment``, and integrate results from the Detectron method ``Med3paDetectronResults``
 """
-import numpy as np
-from sklearn.model_selection import train_test_split
-from det3pa.models.classification_metrics import *
-from det3pa.med3pa.profiles import ProfilesManager, Profile
-from det3pa.datasets.manager import DatasetsManager, MaskedDataset
-from det3pa.models.base import BaseModelManager
-from det3pa.models.concrete_regressors import *
-from det3pa.med3pa.uncertainty import *
-from det3pa.med3pa.models import *
-from det3pa.med3pa.mdr import MDRCalculator
-from det3pa.detectron.experiment import DetectronExperiment, DisagreementStrategy_z_mean, DetectronStrategy, DetectronResult
 import json
 import os
 from typing import Any, Dict, List, Tuple, Type
+
+import numpy as np
+from sklearn.model_selection import train_test_split
+
+from det3pa.datasets import DatasetsManager, MaskedDataset
+from det3pa.detectron.experiment import DetectronExperiment, DetectronResult, DetectronStrategy, EnhancedDisagreementStrategy
+from det3pa.med3pa.mdr import MDRCalculator
+from det3pa.med3pa.models import *
+from det3pa.med3pa.profiles import Profile, ProfilesManager
+from det3pa.med3pa.uncertainty import *
+from det3pa.models.base import BaseModelManager
+from det3pa.models.classification_metrics import *
+from det3pa.models.concrete_regressors import *
 
 
 def to_serializable(obj: Any) -> Any:
@@ -50,17 +52,14 @@ class Med3paResults:
         self.profiles_manager: ProfilesManager = None
         self.datasets: Dict[int, MaskedDataset] = {}
     
-    def set_metrics_by_dr(self, samples_ratio: int, metrics_by_dr: Dict) -> None:
+    def set_metrics_by_dr(self, metrics_by_dr: Dict) -> None:
         """
-        Set metrics by declaration rate for a given sample ratio.
+        Set the calculated metrics by declaration rate.
 
         Args:
-            samples_ratio (int): The sample ratio.
             metrics_by_dr (Dict): Dictionary of metrics by declaration rate.
         """
-        if samples_ratio not in self.metrics_by_dr:
-            self.metrics_by_dr[samples_ratio] = {}
-        self.metrics_by_dr[samples_ratio] = metrics_by_dr
+        self.metrics_by_dr = metrics_by_dr
     
     def set_profiles_manager(self, profile_manager : ProfilesManager) -> None:
         """
@@ -90,6 +89,7 @@ class Med3paResults:
             samples_ratio (int): The sample ratio.
             dataset (MaskedDataset): The MaskedDataset instance.
         """
+
         self.datasets[samples_ratio] = dataset
 
     def save(self, file_path: str) -> None:
@@ -121,6 +121,7 @@ class Med3paResults:
         Retrieves the profiles manager for this Med3paResults instance
         """
         return self.profiles_manager
+
 
 class Med3paExperiment:
     """
@@ -179,7 +180,7 @@ class Med3paExperiment:
             raise ValueError("The set must be either the reference set or the testing set")
 
         # retrieve different dataset components to calculate the metrics
-        x = dataset.get_features()
+        x = dataset.get_observations()
         y_true = dataset.get_true_labels()
         features = datasets_manager.get_column_labels()
 
@@ -208,9 +209,10 @@ class Med3paExperiment:
 
         # Create and train IPCModel
         IPC_model = IPCModel(ipc_type, ipc_params)
-        
         IPC_model.train(x_train, uncertainty_train)
         print("IPC Model training completed.")
+        
+        # optimize IPC model if grid params were provided
         if ipc_grid_params is not None:
             IPC_model.optimize(ipc_grid_params, ipc_cv, x_train, uncertainty_train)
             print("IPC Model optimization done.")
@@ -222,25 +224,26 @@ class Med3paExperiment:
         APC_model = APCModel(features, apc_params)
         APC_model.train(x, IPC_values)
         print("APC Model training completed.")
+
+        # optimize APC model if grid params were provided
         if apc_grid_params is not None:
             APC_model.optimize(apc_grid_params, apc_cv, x_train, uncertainty_train)
             print("APC Model optimization done.")
 
         results = Med3paResults()
         profiles_manager = ProfilesManager(features)
+        
         for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
+            
             # Predict APC values
             APC_values = APC_model.predict(x, min_samples_ratio=samples_ratio)
 
             # Create and predict MPC values
             MPC_model = MPCModel(IPC_values, APC_values)
             MPC_values = MPC_model.predict()
+            
             dataset.set_confidence_scores(MPC_values)
-            print("Confidence socres calculated for minimum_samples_ratio = ", samples_ratio)
-
-            # Calculate metrics by declaration rate
-            metrics_by_dr = MDRCalculator.calc_metrics_by_dr(datasets_manager=datasets_manager, metrics_list=med3pa_metrics, set=set)
-            results.set_metrics_by_dr(samples_ratio, metrics_by_dr)
+            print("Confidence scores calculated for minimum_samples_ratio = ", samples_ratio)
 
             # Calculate profiles and their metrics by declaration rate
             tree = APC_model.treeRepresentation
@@ -249,8 +252,14 @@ class Med3paExperiment:
 
             results.set_profiles_manager(profiles_manager)
             results.set_dataset(samples_ratio=samples_ratio, dataset=dataset)
+            
             print("Results extracted for minimum_samples_ratio = ", samples_ratio)
+        
+        # Calculate metrics by declaration rate
+        metrics_by_dr = MDRCalculator.calc_metrics_by_dr(datasets_manager=datasets_manager, metrics_list=med3pa_metrics, set=set)
+        results.set_metrics_by_dr(metrics_by_dr)
 
+        # evaluate models
         if evaluate_models:
             IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
             APC_evaluation = APC_model.evaluate(x_test, uncertainty_test, models_metrics)
@@ -258,17 +267,19 @@ class Med3paExperiment:
 
         return results
 
+
 class Med3paDetectronExperiment:
     @staticmethod
     def run(datasets: DatasetsManager,
-            training_params: Dict,
             base_model_manager: BaseModelManager,
-            uncertainty_metric: Type[UncertaintyMetric],
+            uncertainty_metric: Type[UncertaintyMetric] = AbsoluteError,
+            training_params: Dict =None,
             samples_size: int = 20,
+            samples_size_profiles: int = 10,
             ensemble_size: int = 10,
             num_calibration_runs: int = 100,
             patience: int = 3,
-            test_strategy: DetectronStrategy = DisagreementStrategy_z_mean,
+            test_strategy: DetectronStrategy = EnhancedDisagreementStrategy,
             allow_margin: bool = False, 
             margin: float = 0.05,
             ipc_type: Type[RegressionModel] = RandomForestRegressorModel,
@@ -293,11 +304,11 @@ class Med3paDetectronExperiment:
             base_model_manager (BaseModelManager): The base model manager instance.
             uncertainty_metric (Type[UncertaintyMetric]): The uncertainty metric to use.
             samples_size (int, optional): Sample size for the Detectron experiment, by default 20.
+            samples_size_profiles (int, optional): Sample size for Profiles Detectron experiment, by default 10.
             ensemble_size (int, optional): Number of models in the ensemble, by default 10.
             num_calibration_runs (int, optional): Number of calibration runs, by default 100.
             patience (int, optional): Patience for early stopping, by default 3.
-            significance_level (float, optional): Significance level for the test, by default 0.05.
-            test_strategy (Type[DisagreementStrategy_z_mean], optional): The strategy for testing disagreement, by default DisagreementStrategy_z_mean.
+            test_strategy (DetectronStrategy, optional): The strategy for testing disagreement, by default EnhancedDisagreementStrategy.
             allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
             margin (float, optional): Margin value for the test, by default 0.05.
             ipc_type (Type[RegressionModel], optional): The class of the regressor model to use for IPC, by default RandomForestRegressorModel.
@@ -345,9 +356,11 @@ class Med3paDetectronExperiment:
         detectron_results.analyze_results(test_strategy)
         
         print("Running Profiled Detectron Experiment:")
-        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets, profiles_manager=testing_3pa_res.get_profiles_manager(),training_params=training_params, base_model_manager=base_model_manager,
-                                                                    samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                                                                    patience=patience, strategy=test_strategy,
-                                                                    allow_margin=allow_margin, margin=margin, all_dr=all_dr)
+        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets, profiles_manager=testing_3pa_res.get_profiles_manager(),training_params=training_params, 
+                                                                     base_model_manager=base_model_manager,
+                                                                     samples_size=samples_size_profiles, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                                                                     patience=patience, strategy=test_strategy,
+                                                                     allow_margin=allow_margin, margin=margin, all_dr=all_dr)
         
         return reference_3pa_res, testing_3pa_res, detectron_results
+
