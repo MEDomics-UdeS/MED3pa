@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Med3pa documentation'
-copyright = '2024, Lyna Chikouche, Ludmila Amriou'
-author = 'Lyna Chikouche, Ludmila Amriou'
+copyright = '2024, MEDomics Consortium'
+author = 'Lyna Chikouche, Ludmila Amriou, Olivier Lefebvre, Martin Vallières'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
