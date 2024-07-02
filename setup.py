@@ -37,7 +37,7 @@ setup(
         'Programming Language :: Python :: 3.12',
     ],
     keywords='machine learning, covariate shift, uncertainty, robust models, problematic profiles, AI',
-    python_requires='>=3.9,<=3.10',
-    packages=find_packages(exclude=['docs', 'tests']),
+    python_requires='>=3.9,<=3.12.3',
+    packages=find_packages(exclude=['docs', 'tests', 'experiments']),
     install_requires=requirements
 )
