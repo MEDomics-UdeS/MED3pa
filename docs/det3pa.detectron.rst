@@ -2,7 +2,7 @@ detectron subpackage
 ========================
 Overview
 ---------
-The ``detectron`` subpackage is a modular implementation of the Detectron method, as described in the paper  `"A learning-based hypothesis test for harmful covariate shift" <https://arxiv.org/abs/2212.02742>`__. 
+The ``detectron`` subpackage is a modular and enhanced implementation of the Detectron method, as described in the paper  `"Ginsberg, T., Liang, Z., & Krishnan, R. G. (2023). A Learning Based Hypothesis Test for Harmful Covariate Shift." <https://openreview.net/forum?id=rdfgqiwz7lZ>`__. 
 This method is designed to detect potentially harmful shifts in data distributions that could undermine the reliability and performance of machine learning models in critical applications.
 
 **Detectron** employs a set of classifiers called (CDCs) trained to agree on domain data but explicitly designed to disagree on this possibly shifted data. 
