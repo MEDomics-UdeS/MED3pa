@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.med3pa.models &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.med3pa.models</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.med3pa.models</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Defines the models used within the med3pa framework. It includes classes for Individualized Predictive Confidence (IPC) models that predict uncertainty at an individual level, </span>
+<span class="sd">where the regressor type can be specified by the user. </span>
+<span class="sd">Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points, </span>
+<span class="sd">and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.abstract_models</span> <span class="kn">import</span> <span class="n">RegressionModel</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressorModel</span><span class="p">,</span> <span class="n">RandomForestRegressorModel</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.data_strategies</span> <span class="kn">import</span> <span class="n">ToDataframesStrategy</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">rfr_params</span><span class="p">,</span> <span class="n">dtr_params</span>
+
+<div class="viewcode-block" id="IPCModel"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel">[docs]</a><span class="k">class</span> <span class="nc">IPCModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+    
+    <span class="n">supported_regressors_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;RandomForestRegressor&#39;</span> <span class="p">:</span> <span class="n">RandomForestRegressorModel</span>
+    <span class="p">}</span>
+
+    <span class="n">supported_regressos_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;RandomForestRegressor&#39;</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;params&#39;</span> <span class="p">:</span> <span class="n">rfr_params</span><span class="o">.</span><span class="n">rfr_params</span><span class="p">,</span>
+                <span class="s1">&#39;grid_params&#39;</span> <span class="p">:</span> <span class="n">rfr_params</span><span class="o">.</span><span class="n">rfr_gridsearch_params</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RandomForestRegressor&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the IPCModel with a regression model class name and optional parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_name (str): The name of the regression model class to use, default is &#39;RandomForestRegressor&#39;.</span>
+<span class="sd">            params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_regressors_mapping</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported model name: </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">. Supported models are: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">supported_ipc_models</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">model_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_regressors_mapping</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_class</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="IPCModel.supported_ipc_models"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_ipc_models">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">supported_ipc_models</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of supported IPC models.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of supported regression model names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">supported_regressors_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+    
+<div class="viewcode-block" id="IPCModel.supported_models_params"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_models_params">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">supported_models_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary containing the supported models and their parameters and grid search parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing </span>
+<span class="sd">                                    &#39;params&#39; and &#39;grid_search_params&#39; for each model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">supported_regressos_params</span></div>
+    
+<div class="viewcode-block" id="IPCModel.optimize"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cv</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optimizes the model parameters using GridSearchCV.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param_grid (Dict[str, Any]): The parameter grid to explore.</span>
+<span class="sd">            cv (int): The number of cross-validation folds.</span>
+<span class="sd">            x (np.ndarray): Training data.</span>
+<span class="sd">            y (np.ndarray): Target data.</span>
+<span class="sd">            sample_weight (Optional[np.ndarray]): Weights for the training samples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sample_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IPCModel.train"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains the model on the provided training data and error probabilities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (np.ndarray): Feature matrix for training.</span>
+<span class="sd">            error_prob (np.ndarray): Error probabilities corresponding to each training instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IPCModel.predict"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predicts error probabilities for the given input observations using the trained model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (np.ndarray): Feature matrix for which to predict error probabilities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Predicted error probabilities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="IPCModel.evaluate"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">print_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates the model using specified metrics.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
+<span class="sd">            y (np.ndarray): True labels for evaluation.</span>
+<span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
+<span class="sd">            print_results (bool): Whether to print the evaluation results.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, float]: A dictionary with metric names and their evaluated scores.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">evaluation_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">,</span> <span class="n">print_results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">evaluation_results</span></div></div>
+
+
+<div class="viewcode-block" id="APCModel"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel">[docs]</a><span class="k">class</span> <span class="nc">APCModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+    
+    <span class="n">supported_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;DecisionTreeRegressor&#39;</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;params&#39;</span> <span class="p">:</span> <span class="n">dtr_params</span><span class="o">.</span><span class="n">dtr_params</span><span class="p">,</span>
+                <span class="s1">&#39;grid_params&#39;</span> <span class="p">:</span> <span class="n">dtr_params</span><span class="o">.</span><span class="n">dtr_gridsearch_params</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            features (List[str]): List of features used in the model.</span>
+<span class="sd">            model_class (Type[RegressionModel]): The regression model class to use for tree-based modeling, default is DecisionTreeRegressorModel.</span>
+<span class="sd">            params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is settings for a basic decision tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeRegressorModel</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span> <span class="o">=</span> <span class="n">TreeRepresentation</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span> <span class="o">=</span> <span class="n">ToDataframesStrategy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+
+<div class="viewcode-block" id="APCModel.supported_models_params"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.supported_models_params">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">supported_models_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary containing the supported models and their parameters and grid search parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing </span>
+<span class="sd">                                    &#39;params&#39; and &#39;grid_search_params&#39; for each model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">supported_params</span></div>
+    
+<div class="viewcode-block" id="APCModel.train"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains the model using the provided data and error probabilities and builds the tree representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (np.ndarray): Feature matrix for training.</span>
+<span class="sd">            error_prob (np.ndarray): Error probabilities corresponding to each training instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">)</span>
+        <span class="n">df_X</span><span class="p">,</span> <span class="n">df_y</span><span class="p">,</span> <span class="n">df_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">error_prob</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">build_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">df_X</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="APCModel.optimize"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cv</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Optimizes the model parameters using GridSearchCV.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param_grid (Dict[str, Any]): The parameter grid to explore.</span>
+<span class="sd">            cv (int): The number of cross-validation folds.</span>
+<span class="sd">            x (np.ndarray): Training data.</span>
+<span class="sd">            y (np.ndarray): Target data.</span>
+<span class="sd">            sample_weight (Optional[np.ndarray]): Weights for the training samples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sample_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">grid_search</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">grid_search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">grid_search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="APCModel.predict"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predicts error probabilities using the tree representation for the given input observations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (np.ndarray): Feature matrix for which to predict error probabilities.</span>
+<span class="sd">            depth (Optional[int]): The maximum depth of the tree to use for predictions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Predicted error probabilities based on the aggregated confidence levels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df_X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_X</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">assign_node</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">)</span>
+                <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The Tree Representation has not been initialized, try fitting the APCModel first.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="APCModel.evaluate"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">print_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates the model using specified metrics.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
+<span class="sd">            y (np.ndarray): True labels for evaluation.</span>
+<span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
+<span class="sd">            print_results (bool): Whether to print the evaluation results.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, float]: A dictionary with metric names and their evaluated scores.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">evaluation_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">,</span> <span class="n">print_results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">evaluation_results</span></div></div>
+    
+
+<div class="viewcode-block" id="MPCModel"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.MPCModel">[docs]</a><span class="k">class</span> <span class="nc">MPCModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IPC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">APC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the MPCModel with IPC and APC values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            IPC_values (np.ndarray): IPC values.</span>
+<span class="sd">            APC_values (np.ndarray): APC values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span> <span class="o">=</span> <span class="n">IPC_values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span> <span class="o">=</span> <span class="n">APC_values</span>
+
+<div class="viewcode-block" id="MPCModel.predict"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.models.MPCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Combines IPC and APC values to predict MPC values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Combined MPC values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both APC values and IPC values are not set!&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">MPC_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">MPC_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">MPC_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MPC_values</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

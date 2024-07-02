@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.med3pa.mdr &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.med3pa.mdr</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.med3pa.mdr</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR). </span>
+<span class="sd">The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronStrategy</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="MDRCalculator"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator">[docs]</a><span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to calculate various metrics and profiles for the MED3PA method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_min_confidence_score</span><span class="p">(</span><span class="n">dr</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">confidence_scores</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the minimum confidence score based on the desired declaration rate.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dr (int): Desired declaratation rate as a percentage (0-100).</span>
+<span class="sd">            confidence_scores (np.ndarray): Array of confidence scores.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The minimum confidence level required to meet the desired declaration rate.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If dr is not in the range 0-100.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">dr</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Declaration rate (dr) must be between 0 and 100 inclusive.&quot;</span><span class="p">)</span>
+        
+        <span class="n">sorted_confidence_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">confidence_scores</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="mf">1.01</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">sorted_confidence_scores</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_confidence_scores</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dr</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="n">min_confidence_level</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_calculate_metrics</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">metrics_list</span> <span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate a variety of metrics based on the true labels, predicted labels, and predicted probabilities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            y_true (np.ndarray): Array of true labels.</span>
+<span class="sd">            y_pred (np.ndarray): Array of predicted labels.</span>
+<span class="sd">            predicted_prob (np.ndarray): Array of predicted probabilities.</span>
+<span class="sd">            metrics_list (list): List of metric names to be calculated.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary where keys are metric names and values are the calculated metric values.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">metrics_list</span><span class="p">:</span>
+            <span class="n">metric_function</span> <span class="o">=</span> <span class="n">ClassificationEvaluationMetrics</span><span class="o">.</span><span class="n">get_metric</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">metric_function</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;Auc&#39;</span><span class="p">,</span> <span class="s1">&#39;Auprc&#39;</span><span class="p">,</span> <span class="s1">&#39;Logloss&#39;</span><span class="p">}:</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_function</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">metrics_dict</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_function</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: The metric &#39;</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&#39; is not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metrics_dict</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_list_difference_by_key</span><span class="p">(</span><span class="n">list1</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Profile</span><span class="p">],</span> <span class="n">list2</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Profile</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;node_id&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the difference between two lists of Profile instances based on a specific key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list1 (List[Profile]): First list of Profile instances.</span>
+<span class="sd">            list2 (List[Profile]): Second list of Profile instances.</span>
+<span class="sd">            key (str): Key to compare for differences (default is &#39;node_id&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Profile]: A list containing elements from list1 that do not appear in list2 based on the specified key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">set1</span> <span class="o">=</span> <span class="p">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list1</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">)}</span>
+        <span class="n">set2</span> <span class="o">=</span> <span class="p">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list2</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">)}</span>
+        <span class="n">unique_to_list1</span> <span class="o">=</span> <span class="n">set1</span> <span class="o">-</span> <span class="n">set2</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list1</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unique_to_list1</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_filter_by_profile</span><span class="p">(</span><span class="n">datasets_manager</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">path</span> <span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="nb">set</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="n">min_confidence_level</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filters datasets based on specific profile conditions described by a path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets_manager (DatasetsManager): The DatasetManager containing the datasets</span>
+<span class="sd">            set (str): the set to calculate the metrics on.</span>
+<span class="sd">            path (list): Conditions describing the profile path.</span>
+<span class="sd">            min_confidence_level(float): possibility to filter according a minimum confidence score if specified.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Filtered datasets including observations, true labels, predicted probabilities, predicted labels, and mpc values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># retrieve the dataset based on the set type</span>
+        <span class="k">if</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The set must be either the reference set or the testing set&quot;</span><span class="p">)</span>
+
+        <span class="c1"># retrieve different dataset components to calculate the metrics</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_observations</span><span class="p">()</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_pseudo_labels</span><span class="p">()</span>
+        <span class="n">predicted_prob</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_pseudo_probabilities</span><span class="p">()</span>
+        <span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_confidence_scores</span><span class="p">()</span>
+        <span class="n">observations</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_column_labels</span><span class="p">()</span>
+
+        <span class="c1"># Start with a mask that selects all rows</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">condition</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># Skip the root node indicator</span>
+
+            <span class="c1"># Parse the condition string</span>
+            <span class="n">column_name</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">value_str</span> <span class="o">=</span> <span class="n">condition</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">column_index</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>  <span class="c1"># Map feature name to index</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value_str</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c1"># If conversion fails, the string is not a number. Handle it appropriately.</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value_str</span>  <span class="c1"># If it&#39;s supposed to be a string, leave it as string</span>
+                        
+            <span class="c1"># Apply the condition to update the mask</span>
+            <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&gt;=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;&lt;=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;==&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;!=&#39;</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">column_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported operator &#39;</span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2">&#39; in condition &#39;</span><span class="si">{</span><span class="n">condition</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Filter the data according to the path mask</span>
+        <span class="n">filtered_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_y_true</span> <span class="o">=</span> <span class="n">y_true</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_prob</span> <span class="o">=</span> <span class="n">predicted_prob</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">filtered_confidence_scores</span> <span class="o">=</span> <span class="n">confidence_scores</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="c1"># filter once again according to the min_confidence_level if specified</span>
+        <span class="k">if</span> <span class="n">min_confidence_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">filtered_x</span> <span class="o">=</span> <span class="n">filtered_x</span><span class="p">[</span><span class="n">filtered_confidence_scores</span><span class="o">&gt;=</span><span class="n">min_confidence_level</span><span class="p">]</span>
+            <span class="n">filtered_y_true</span> <span class="o">=</span> <span class="n">filtered_y_true</span><span class="p">[</span><span class="n">filtered_confidence_scores</span><span class="o">&gt;=</span><span class="n">min_confidence_level</span><span class="p">]</span>
+            <span class="n">filtered_prob</span> <span class="o">=</span> <span class="n">filtered_prob</span><span class="p">[</span><span class="n">filtered_confidence_scores</span><span class="o">&gt;=</span><span class="n">min_confidence_level</span><span class="p">]</span> <span class="k">if</span> <span class="n">predicted_prob</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">filtered_y_pred</span> <span class="o">=</span> <span class="n">filtered_y_pred</span><span class="p">[</span><span class="n">filtered_confidence_scores</span><span class="o">&gt;=</span><span class="n">min_confidence_level</span><span class="p">]</span> <span class="k">if</span> <span class="n">y_pred</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">filtered_confidence_scores</span> <span class="o">=</span> <span class="n">filtered_confidence_scores</span><span class="p">[</span><span class="n">filtered_confidence_scores</span><span class="o">&gt;=</span><span class="n">min_confidence_level</span><span class="p">]</span> <span class="k">if</span> <span class="n">confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">filtered_x</span><span class="p">,</span> <span class="n">filtered_y_true</span><span class="p">,</span> <span class="n">filtered_prob</span><span class="p">,</span> <span class="n">filtered_y_pred</span><span class="p">,</span> <span class="n">filtered_confidence_scores</span>
+            
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_metrics_by_dr</span><span class="p">(</span><span class="n">datasets_manager</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">set</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets_manager (DatasetsManager): The DatasetManager containing the datasets</span>
+<span class="sd">            metrics_list (list): List of metric names to be calculated (e.g., &#39;AUC&#39;, &#39;Accuracy&#39;).</span>
+<span class="sd">            set (str): the set to calculate the metrics on.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing metrics computed for each declaration rate from 100% to 0%, including metrics and population percentage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># retrieve the dataset based on the set type</span>
+        <span class="k">if</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The set must be either the reference set or the testing set&quot;</span><span class="p">)</span>
+
+        <span class="c1"># retrieve different dataset components to calculate the metrics</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_pseudo_labels</span><span class="p">()</span>
+        <span class="n">predicted_prob</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_pseudo_probabilities</span><span class="p">()</span>
+        <span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_confidence_scores</span><span class="p">()</span>
+
+        <span class="c1"># initialize the dictionaries used for results storage</span>
+        <span class="n">metrics_by_dr</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># global dictionary containing all the declaration rates and their corresponding metrics</span>
+        <span class="n">last_dr_values</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># used to save last dr calculated metrics</span>
+        <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># for each declaration rate</span>
+        <span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># calculate the minimum confidence level</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_get_min_confidence_score</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">)</span>
+            
+            <span class="c1"># if the current confidence level is different from the last one</span>
+            <span class="k">if</span> <span class="n">last_min_confidence_level</span> <span class="o">!=</span> <span class="n">min_confidence_level</span><span class="p">:</span>
+                
+                <span class="c1"># update the last confidence level</span>
+                <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="n">min_confidence_level</span>
+                
+                <span class="c1"># save the confidence level in the dict of the current dr</span>
+                <span class="n">dr_values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;min_confidence_level&#39;</span><span class="p">:</span> <span class="n">min_confidence_level</span><span class="p">}</span>
+                
+                <span class="c1"># defines the mask to keep only data with higher min_confidence levels</span>
+                <span class="n">confidence_mask</span> <span class="o">=</span> <span class="n">confidence_scores</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span>
+                
+                <span class="c1"># save the left population percentage</span>
+                <span class="n">dr_values</span><span class="p">[</span><span class="s1">&#39;population_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">confidence_mask</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">confidence_scores</span><span class="p">)</span>
+                
+                <span class="c1"># Calculate the metrics for the current DR</span>
+                <span class="n">metrics_dict</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_calculate_metrics</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span> <span class="n">predicted_prob</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span> <span class="n">metrics_list</span><span class="p">)</span>
+                
+                <span class="c1"># save the calculated metrics</span>
+                <span class="n">dr_values</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_dict</span>
+                
+                <span class="c1"># update the last dr dictionnary metrics</span>
+                <span class="n">last_dr_values</span> <span class="o">=</span> <span class="n">dr_values</span>
+                
+                <span class="c1"># save it in the global dictionnary</span>
+                <span class="n">metrics_by_dr</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">dr_values</span>
+            
+            <span class="c1"># if the min_confidence level is the same, use the last dr results </span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metrics_by_dr</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_dr_values</span>
+        
+        <span class="c1"># return the global dictionnary</span>
+        <span class="k">return</span> <span class="n">metrics_by_dr</span></div>
+    
+<div class="viewcode-block" id="MDRCalculator.calc_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change</span>
+<span class="sd">        across different confidence levels derived from predicted accuracies.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            profiles_manager (ProfilesManager): Manager for storing and retrieving profile information.</span>
+<span class="sd">            tree (TreeRepresentation): Tree structure from which profiles are derived.</span>
+<span class="sd">            confidence_scores (np.ndarray): Array of predicted accuracy values used for thresholding profiles.</span>
+<span class="sd">            min_samples_ratio (int): Minimum sample ratio to consider for including a profile.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialization of different variables</span>
+        <span class="n">last_profiles</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_all_profiles</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">)</span> <span class="c1"># saves last profiles</span>
+        <span class="n">lost_profiles_all</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># saves last lost profiles</span>
+        <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># last min_confidence</span>
+        <span class="n">last_dr</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># last dr</span>
+
+        <span class="c1"># go throught all declaration rates</span>
+        <span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># calculate the min confidence level for this dr</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_get_min_confidence_score</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">)</span>
+            <span class="c1"># if the current confidence level is different from the last one</span>
+            <span class="k">if</span> <span class="n">last_min_confidence_level</span> <span class="o">!=</span> <span class="n">min_confidence_level</span><span class="p">:</span>
+                <span class="c1"># update the last min_confidence level</span>
+                <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="n">min_confidence_level</span>
+                <span class="c1"># get all the profiles for this min_confidence level, and min_ratio</span>
+                <span class="n">profiles_current</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get_all_profiles</span><span class="p">(</span><span class="n">min_confidence_level</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">)</span>
+                
+                <span class="c1"># if the last profiles are different from current profiles</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">last_profiles</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">profiles_current</span><span class="p">):</span>
+                    <span class="c1"># extract lost profiles</span>
+                    <span class="n">lost_profiles</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_list_difference_by_key</span><span class="p">(</span><span class="n">last_profiles</span><span class="p">,</span> <span class="n">profiles_current</span><span class="p">)</span>
+                    <span class="n">lost_profiles_all</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lost_profiles</span><span class="p">)</span>
+                
+                <span class="k">for</span> <span class="n">insertion_dr</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="n">last_dr</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># insert these profiles in the profiles manager</span>
+                    <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_profiles</span><span class="p">(</span><span class="n">insertion_dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">profiles_current</span><span class="p">)</span>
+                    <span class="c1"># save the lost profiles        </span>
+                    <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">insertion_dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">lost_profiles_all</span><span class="p">)</span>
+                
+                <span class="c1"># update the last dr, and last profiles</span>
+                <span class="n">last_dr</span> <span class="o">=</span> <span class="n">dr</span>
+                <span class="n">last_profiles</span> <span class="o">=</span> <span class="n">profiles_current</span>
+            
+            <span class="c1"># if the current min_confidence is same as the last one</span>
+            <span class="c1"># use the last dr results</span>
+            <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">profiles_current</span><span class="p">)</span>
+            <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">lost_profiles_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calc_metrics_by_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">datasets_manager</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">,</span> <span class="nb">set</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates various metrics for different profiles and declaration rates based on provided datasets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            profiles_manager (ProfilesManager): Manager handling profiles.</span>
+<span class="sd">            datasets_manager (DatasetsManager): The DatasetManager containing the datasets</span>
+<span class="sd">            set (str): the set to calculate the metrics on.</span>
+<span class="sd">            metrics_list (list): List of metrics to calculate.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># retrieve the dataset based on the set type</span>
+        <span class="k">if</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The set must be either the reference set or the testing set&quot;</span><span class="p">)</span>
+
+        <span class="c1"># retrieve different dataset components to calculate the metrics</span>
+        <span class="n">all_y_true</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="n">all_confidence_scores</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_confidence_scores</span><span class="p">()</span>
+
+        <span class="c1"># go through all profiles, for each ratio and for each dr</span>
+        <span class="k">for</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">dr_dict</span> <span class="ow">in</span> <span class="n">profiles_manager</span><span class="o">.</span><span class="n">profiles_records</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># for each dr and its profiles stored in the ratio</span>
+            <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">profiles</span> <span class="ow">in</span> <span class="n">dr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                
+                <span class="c1"># calculate the min_confidence level</span>
+                <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_get_min_confidence_score</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">all_confidence_scores</span><span class="p">)</span>
+                
+                <span class="c1"># go through each profile in the profile list</span>
+                <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="n">profiles</span><span class="p">:</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_filter_by_profile</span><span class="p">(</span><span class="n">datasets_manager</span><span class="p">,</span> <span class="n">profile</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+                    <span class="c1"># calculate the metrics for this profile</span>
+                    <span class="n">confidence_mask</span> <span class="o">=</span> <span class="n">confidence_scores</span> <span class="o">&gt;=</span> <span class="n">min_confidence_level</span>
+                    <span class="n">metrics_dict</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_calculate_metrics</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span>
+                                                                    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span> 
+                                                                    <span class="n">predicted_prob</span><span class="o">=</span><span class="n">pred_prob</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">],</span>
+                                                                    <span class="n">metrics_list</span><span class="o">=</span><span class="n">metrics_list</span><span class="p">)</span>
+                    <span class="n">info_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="c1"># the remaining node population at the current dr compared to node population at dr = 100</span>
+                    <span class="n">info_dict</span><span class="p">[</span><span class="s1">&#39;Node%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+                    <span class="c1"># the remaining node population at the current dr compared to the whole population at dr = 100</span>
+                    <span class="n">info_dict</span><span class="p">[</span><span class="s1">&#39;Population%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_y_true</span><span class="p">)</span>
+                    <span class="c1"># the mean confidence level for this profile at this dr</span>
+                    <span class="n">info_dict</span><span class="p">[</span><span class="s1">&#39;Mean confidence level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">confidence_scores</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> \
+                        <span class="n">confidence_scores</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="c1"># the positive class percentage in this profile at this dr</span>
+                    <span class="n">info_dict</span><span class="p">[</span><span class="s1">&#39;Positive%&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> \
+                        <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">confidence_mask</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="c1"># update the calculated metrics in the profile</span>
+                    <span class="n">profile</span><span class="o">.</span><span class="n">update_metrics_results</span><span class="p">(</span><span class="n">metrics_dict</span><span class="p">)</span>
+                    <span class="n">profile</span><span class="o">.</span><span class="n">update_node_information</span><span class="p">(</span><span class="n">info_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">detectron_by_profiles</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+                              <span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span>
+                              <span class="n">training_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+                              <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
+                              <span class="n">strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]],</span>
+                              <span class="n">samples_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                              <span class="n">ensemble_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                              <span class="n">num_calibration_runs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+                              <span class="n">patience</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                              <span class="n">allow_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                              <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> 
+                              <span class="n">all_dr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the Detectron method on the different testing set profiles.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets (DatasetsManager): The datasets manager instance.</span>
+<span class="sd">            profiles_manager (ProfilesManager): the manager containing the profiles of the testing set.</span>
+<span class="sd">            training_params (dict): Parameters for training the models.</span>
+<span class="sd">            base_model_manager (BaseModelManager): The base model manager instance.</span>
+<span class="sd">            testing_mpc_values (np.ndarray): MPC values for the testing data.</span>
+<span class="sd">            reference_mpc_values (np.ndarray): MPC values for the reference data.</span>
+<span class="sd">            samples_size (int, optional): Sample size for the Detectron experiment, by default 20.</span>
+<span class="sd">            ensemble_size (int, optional): Number of models in the ensemble, by default 10.</span>
+<span class="sd">            num_calibration_runs (int, optional): Number of calibration runs, by default 100.</span>
+<span class="sd">            patience (int, optional): Patience for early stopping, by default 3.</span>
+<span class="sd">            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): The strategies for testing disagreement.</span>
+<span class="sd">            allow_margin (bool, optional): Whether to allow a margin in the test, by default False.</span>
+<span class="sd">            margin (float, optional): Margin value for the test, by default 0.05.</span>
+<span class="sd">            all_dr (bool, optional): Whether to run for all declaration rates, by default False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict: Dictionary of med3pa profiles with detectron results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">min_positive_ratio</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">profiles_manager</span><span class="o">.</span><span class="n">profiles_records</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">profiles_by_dr</span> <span class="o">=</span> <span class="n">profiles_manager</span><span class="o">.</span><span class="n">get_profiles</span><span class="p">(</span><span class="n">min_samples_ratio</span><span class="o">=</span><span class="n">min_positive_ratio</span><span class="p">)</span>
+        <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>   
+        <span class="n">confidence_scores</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_confidence_scores</span><span class="p">()</span>  
+        <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">profiles</span> <span class="ow">in</span> <span class="n">profiles_by_dr</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">all_dr</span> <span class="ow">and</span> <span class="n">dr</span> <span class="o">!=</span> <span class="mi">100</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># Skip all dr values except the first one if all_dr is False</span>
+            
+            <span class="n">experiment_det</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">min_confidence_level</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_get_min_confidence_score</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">last_min_confidence_level</span> <span class="o">!=</span> <span class="n">min_confidence_level</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="n">profiles</span><span class="p">:</span>
+                    <span class="n">detectron_results_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    
+                    <span class="n">q_x</span><span class="p">,</span> <span class="n">q_y_true</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_filter_by_profile</span><span class="p">(</span><span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">profile</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="s1">&#39;testing&#39;</span><span class="p">,</span> <span class="n">min_confidence_level</span><span class="o">=</span><span class="n">min_confidence_level</span><span class="p">)</span>
+                    <span class="n">p_x</span><span class="p">,</span> <span class="n">p_y_true</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="s2">&quot;reference&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">samples_size</span><span class="p">:</span> 
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Executed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Not enough samples in tested profile&quot;</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tested Profile size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tests Results&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>         
+
+                        <span class="k">elif</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">samples_size</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_y_true</span><span class="p">):</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Executed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Not enough samples in reference set&quot;</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tested Profile size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tests Results&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>    
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">profile_set</span> <span class="o">=</span> <span class="n">DatasetsManager</span><span class="p">()</span>
+                            <span class="n">profile_set</span><span class="o">.</span><span class="n">set_column_labels</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_column_labels</span><span class="p">())</span>
+                            <span class="n">profile_set</span><span class="o">.</span><span class="n">set_from_data</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">q_x</span><span class="p">,</span> <span class="n">true_labels</span><span class="o">=</span><span class="n">q_y_true</span><span class="p">)</span>
+                            <span class="n">profile_set</span><span class="o">.</span><span class="n">set_from_data</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> 
+                                                      <span class="n">observations</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span>
+                                                      <span class="n">true_labels</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">())</span>
+                            <span class="n">profile_set</span><span class="o">.</span><span class="n">set_from_data</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> 
+                                                      <span class="n">observations</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span>
+                                                      <span class="n">true_labels</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">())</span>
+                            <span class="n">profile_set</span><span class="o">.</span><span class="n">set_from_data</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> 
+                                                      <span class="n">observations</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span>
+                                                      <span class="n">true_labels</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">())</span>
+                            
+                            <span class="n">path_description</span> <span class="o">=</span> <span class="s2">&quot;*, &quot;</span> <span class="o">+</span> <span class="s2">&quot; &amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Detectron on Profile:&quot;</span><span class="p">,</span> <span class="n">path_description</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">experiment_det</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="n">experiment_det</span><span class="o">=</span> <span class="n">DetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                                <span class="n">datasets</span><span class="o">=</span><span class="n">profile_set</span><span class="p">,</span> <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span> <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
+                                <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> <span class="n">num_calibration_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="o">=</span><span class="n">ensemble_size</span><span class="p">,</span>
+                                <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span> <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">experiment_det</span><span class="o">=</span><span class="n">DetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                                <span class="n">datasets</span><span class="o">=</span><span class="n">profile_set</span><span class="p">,</span> <span class="n">calib_result</span><span class="o">=</span><span class="n">experiment_det</span><span class="o">.</span><span class="n">cal_record</span><span class="p">,</span> <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span> 
+                                <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
+                                <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> <span class="n">num_calibration_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="o">=</span><span class="n">ensemble_size</span><span class="p">,</span>
+                                <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span> <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+                    
+                            <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">experiment_det</span><span class="o">.</span><span class="n">analyze_results</span><span class="p">(</span><span class="n">strategies</span><span class="o">=</span><span class="n">strategies</span><span class="p">)</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Executed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Yes&quot;</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tested Profile size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span>
+                            <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tests Results&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">detectron_results</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Executed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Empty profile in test data&quot;</span>
+                        <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tested Profile size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">q_y_true</span><span class="p">)</span>
+                        <span class="n">detectron_results_dict</span><span class="p">[</span><span class="s1">&#39;Tests Results&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+                    <span class="n">profile</span><span class="o">.</span><span class="n">update_detectron_results</span><span class="p">(</span><span class="n">detectron_results_dict</span><span class="p">)</span>
+                
+                <span class="n">last_profiles</span> <span class="o">=</span> <span class="n">profiles</span>
+                <span class="n">last_min_confidence_level</span> <span class="o">=</span> <span class="n">min_confidence_level</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">profiles</span> <span class="o">=</span> <span class="n">last_profiles</span>
+
+        <span class="k">return</span> <span class="n">profiles_by_dr</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

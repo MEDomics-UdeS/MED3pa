@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.detectron.record &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.detectron.record</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.detectron.record</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is crucial for tracking and managing the results across multiple runs of the Detectron method. </span>
+<span class="sd">It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run. </span>
+<span class="sd">The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">MED3pa.models.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
+
+<div class="viewcode-block" id="DetectronRecord"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord">[docs]</a><span class="k">class</span> <span class="nc">DetectronRecord</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a single record of Detectron results, storing metrics and probabilities associated with a model&#39;s evaluation after one run.</span>
+<span class="sd">    the model with id 0 represents the base model, whilst other ids represent the cdcs present in the ensemble.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">original_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a DetectronRecord with the specified seed, model identifier, and initial sample count.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            seed (int): The seed value used for the model run.</span>
+<span class="sd">            model_id (int): Identifier for the specific model within the ensemble.</span>
+<span class="sd">            original_count (int): The initial count of samples before any point was rejected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span> <span class="o">=</span> <span class="n">model_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_count</span> <span class="o">=</span> <span class="n">original_count</span>
+
+<div class="viewcode-block" id="DetectronRecord.update"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_auc</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">test_auc</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the record with evaluation metrics and the count of samples after rejection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            validation_auc (float): The area under the curve (AUC) value on the validation set.</span>
+<span class="sd">            test_auc (float): The area under the curve (AUC) value on the test set.</span>
+<span class="sd">            predicted_probabilities (np.ndarray): Predicted probabilities from the model for the test set.</span>
+<span class="sd">            count (int): The number of samples remaining after applying the rejection criterion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_auc</span> <span class="o">=</span> <span class="n">validation_auc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_auc</span> <span class="o">=</span> <span class="n">test_auc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predicted_probabilities</span> <span class="o">=</span> <span class="n">predicted_probabilities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updated_count</span> <span class="o">=</span> <span class="n">count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rejected_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_count</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_count</span></div>
+    
+<div class="viewcode-block" id="DetectronRecord.to_dict"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the DetectronRecord into a dictionary for easier serialization and manipulation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary representation of the DetectronRecord with all attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="s1">&#39;model_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="s1">&#39;validation_auc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_auc</span><span class="p">,</span>
+            <span class="s1">&#39;test_auc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_auc</span><span class="p">,</span>
+            <span class="s1">&#39;rejection_rate&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_count</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_count</span><span class="p">,</span>
+            <span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">predicted_probabilities</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_count</span><span class="p">,</span>
+            <span class="s1">&#39;rejected_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected_samples</span>
+        <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="DetectronRecordsManager"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager">[docs]</a><span class="k">class</span> <span class="nc">DetectronRecordsManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages a collection of DetectronRecords, providing methods to update, retrieve, and analyze the records.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span> <span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the DetectronRecordsManager with a specified sample size.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sample_size (int): The size of samples used in Detectron experiments, used to initialize records.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_size</span> <span class="o">=</span> <span class="n">sample_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__seed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampling_counts</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="DetectronRecordsManager.seed"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.seed">[docs]</a>    <span class="k">def</span> <span class="nf">seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the seed used for updating records, ensuring consistency and reproducibility in experiments.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            seed (int): The seed value to set for this set of updates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__seed</span> <span class="o">=</span> <span class="n">seed</span></div>
+
+
+<div class="viewcode-block" id="DetectronRecordsManager.update"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_data_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">val_data_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+               <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Model</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+               <span class="n">predicted_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the records manager with new run results, adding a new DetectronRecord.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val_data_x (np.ndarray): observations from the validation dataset used for evaluation.</span>
+<span class="sd">            val_data_y (np.ndarray): True labels from the validation dataset.</span>
+<span class="sd">            sample_size (int): The number of samples used in this update.</span>
+<span class="sd">            model (Model): The model instance used for evaluation, which should have an `evaluate` method.</span>
+<span class="sd">            model_id (int): The identifier of the model within the ensemble.</span>
+<span class="sd">            predicted_probabilities (np.ndarray, optional): Predicted probabilities from the model on the test dataset.</span>
+<span class="sd">            test_data_x (np.ndarray, optional): observations from the test dataset used for evaluation.</span>
+<span class="sd">            test_data_y (np.ndarray, optional): True labels from the test dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Seed must be set before updating the record&#39;</span>
+        
+        <span class="n">record</span> <span class="o">=</span> <span class="n">DetectronRecord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__seed</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_size</span><span class="p">)</span>
+        <span class="n">validation_auc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">val_data_x</span><span class="p">,</span> <span class="n">val_data_y</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Auc&#39;</span><span class="p">)</span>
+        <span class="n">testing_auc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_data_x</span><span class="p">,</span> <span class="n">test_data_y</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Auc&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">test_data_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+        <span class="n">record</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">validation_auc</span><span class="p">,</span> <span class="n">testing_auc</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.freeze"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.freeze">[docs]</a>    <span class="k">def</span> <span class="nf">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finalizes the records, converting them into a pandas DataFrame for easier manipulation and analysis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">records</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.get_record"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the current records as a pandas DataFrame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: The records stored in the manager, formatted as a DataFrame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">records</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.save"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the current records to a CSV file at the specified path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The file path where the records DataFrame will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.load"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.load">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads records from a CSV file into a DetectronRecordsManager instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The file path from which to load the records.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DetectronRecordsManager: A new instance of DetectronRecordsManager containing the loaded records.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">DetectronRecordsManager</span><span class="p">(</span><span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">records</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sample_size</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;model_id==0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.counts"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.counts">[docs]</a>    <span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the number of samples kept for each run, optionally limited to a maximum ensemble size.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_ensemble_size (int, optional): The maximum size of the ensemble to consider for counts.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: An array containing the kept data points count after each Detectron run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_ensemble_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max_ensemble_size must be positive or None&#39;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rec</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;seed==</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">max_ensemble_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DetectronRecordsManager.rejection_rates"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejection_rates">[docs]</a>    <span class="k">def</span> <span class="nf">rejection_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the rejection rates for each run, optionally limited to a certain number of models.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_ensemble_size (int, optional): The maximum number of models to consider for calculating rejection rates.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: An array containing the rejection rates after each Detectron run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_ensemble_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max_ensemble_size must be positive or None&#39;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rec</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;seed==</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">max_ensemble_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;rejection_rate&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DetectronRecordsManager.predicted_probabilities"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.predicted_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">predicted_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the predicted probabilities for each model in the ensemble for each run.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_ensemble_size (int, optional): The maximum number of models to consider for collecting predicted probabilities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: An array of predicted probabilities for each model in the ensemble for each run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_ensemble_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max_ensemble_size must be positive or None&#39;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="n">seed_probs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rec</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;seed==</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">max_ensemble_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">base_model_probs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">cdcs_probs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;model_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">base_model_probs</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cdcs_probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">])</span>
+                <span class="n">probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;predicted_probabilities&#39;</span><span class="p">])</span>
+            <span class="n">averaged_cdcs_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cdcs_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">seed_probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">base_model_probs</span><span class="p">,</span> <span class="n">averaged_cdcs_probs</span><span class="p">]))</span>
+
+        <span class="c1"># Convert the list of arrays to a 2D NumPy array</span>
+        <span class="n">predicted_probs_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">seed_probs</span><span class="p">)</span>
+
+        <span class="c1"># Check for consistency in the shape of predicted probabilities</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">seed_probs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="n">seed_probs</span> <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">seed</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Inconsistent shapes found in predicted probabilities&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">predicted_probs_array</span></div>
+    
+<div class="viewcode-block" id="DetectronRecordsManager.rejected_counts"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejected_counts">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the number of samples rejected for each run, optionally limited to a maximum ensemble size.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_ensemble_size (int, optional): The maximum size of the ensemble to consider for counts.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: An array containing the rejected data points count after each Detectron run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_ensemble_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;max_ensemble_size must be positive or None&#39;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rec</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;seed==</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">max_ensemble_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">max_ensemble_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;rejected_count&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DetectronRecordsManager.count_quantile"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the specified quantile of the kept points counts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">(</span><span class="n">max_ensemble_size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;inverted_cdf&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DetectronRecordsManager.rejected_count_quantile"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the specified quantile of the rejected points counts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rejected_counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">(</span><span class="n">max_ensemble_size</span><span class="o">=</span><span class="n">max_ensemble_size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">rejected_counts</span><span class="p">,</span> <span class="n">quantile</span><span class="p">)</span></div></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

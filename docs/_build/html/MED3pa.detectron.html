@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>detectron subpackage &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="med3pa subpackage" href="MED3pa.med3pa.html" />
+    <link rel="prev" title="models subpackage" href="MED3pa.models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">detectron subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.detectron.ensemble">ensemble module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.detectron.record">record module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.detectron.stopper">stopper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#strategies-module">strategies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experiment-module">experiment module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="MED3pa.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">detectron subpackage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/MED3pa.detectron.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="detectron-subpackage">
+<h1>detectron subpackage<a class="headerlink" href="#detectron-subpackage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">detectron</span></code> subpackage is a modular and enhanced implementation of the Detectron method, as described in the paper  <a class="reference external" href="https://openreview.net/forum?id=rdfgqiwz7lZ">“Ginsberg, T., Liang, Z., &amp; Krishnan, R. G. (2023). A Learning Based Hypothesis Test for Harmful Covariate Shift.”</a>.
+This method is designed to detect potentially harmful shifts in data distributions that could undermine the reliability and performance of machine learning models in critical applications.</p>
+<p><strong>Detectron</strong> employs a set of classifiers called (CDCs) trained to agree on domain data but explicitly designed to disagree on this possibly shifted data.
+This unique strategy allows it to effectively identify and quantify shifts in data distributions that pose a risk to the model’s generalization capabilities.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">detectron</span></code> subpackage offers a fully-featured suite for seamlessly incorporating the Detectron method into existing machine learning pipelines.
+It enables the robust and automated detection of harmful covariate shifts through an array of functional modules.</p>
+<p>These include sophisticated tools for managing ensemble classifiers, meticulously recording results, and applying diverse statistical strategies for shift evaluation:</p>
+<ul class="simple">
+<li><p><strong>ensemble.py</strong>: Manages the ensemble of Constrained Disagreement Classifiers (CDCs) that challenge the predictions of a primary base model.</p></li>
+<li><p><strong>record.py</strong>: Handles the storage and management of Detectron results across different runs, tracking metrics and probabilities.</p></li>
+<li><p><strong>stopper.py</strong>: Provides a utility for early stopping to prevent overfitting by halting training when improvements cease.</p></li>
+<li><p><strong>strategies.py</strong>: Defines various strategies for evaluating the presence of covariate shifts between calibration and testing datasets using statistical tests.</p></li>
+<li><p><strong>experiment.py</strong>: Orchestrates the setup and execution of Detectron method, managing the flow of data, model training, and evaluations.</p></li>
+</ul>
+<p>this subpackage includes the following classes:</p>
+<img alt="UML class diagram of the subpackage." class="align-center" src="_images/detectron.svg" /><div style="margin-bottom: 30px;"></div></section>
+<section id="module-MED3pa.detectron.ensemble">
+<span id="ensemble-module"></span><h2>ensemble module<a class="headerlink" href="#module-MED3pa.detectron.ensemble" title="Permalink to this heading"></a></h2>
+<p>This module houses the <code class="docutils literal notranslate"><span class="pre">DetectronEnsemble</span></code> class, responsible for managing the Constrained Disagreement Classifiers (CDCs) ensemble.
+It coordinates the training and evaluation of multiple CDCs, aiming to disagree with the predictions of a primary base model under specified conditions.
+The ensemble leverages a base model, provided by <code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code>, to generate models that are designed to systematically disagree with it in a controlled fashion.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.detectron.ensemble.DetectronEnsemble">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.ensemble.</span></span><span class="sig-name descname"><span class="pre">DetectronEnsemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_model_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><span class="pre">BaseModelManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ens_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/ensemble.html#DetectronEnsemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.ensemble.DetectronEnsemble" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the constrained disagreement classifiers (CDCs) ensemble, designed to disagree with the base model
+under specific conditions. This class facilitates the training and evaluation of multiple CDCs, with a focus
+on generating models that systematically challenge the predictions of a primary base model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.ensemble.DetectronEnsemble.evaluate_ensemble">
+<span class="sig-name descname"><span class="pre">evaluate_ensemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><span class="pre">DatasetsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'reference'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/ensemble.html#DetectronEnsemble.evaluate_ensemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.ensemble.DetectronEnsemble.evaluate_ensemble" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the CDCs ensemble to disagree with the base model on a subset of data present in datasets. This process
+is repeated for a specified number of runs, each using a different sample of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – Holds the datasets used for training and validation of the base model, as well as the
+reference and testing sets for the Detectron.</p></li>
+<li><p><strong>n_runs</strong> (<em>int</em>) – Number of runs to train the ensemble. Each run uses a new random sample of data points.</p></li>
+<li><p><strong>sample_size</strong> (<em>int</em>) – Number of points to use in each run.</p></li>
+<li><p><strong>training_params</strong> (<em>dict</em>) – Additional parameters to use for training the ensemble models.</p></li>
+<li><p><strong>set</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies the dataset used for training the ensemble. Options are ‘reference’ or ‘testing’.
+Default is ‘reference’.</p></li>
+<li><p><strong>patience</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of consecutive updates without improvement to wait before early stopping.
+Default is 3.</p></li>
+<li><p><strong>allow_margin</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use a probability margin to refine the disagreement. Default is False.</p></li>
+<li><p><strong>margin</strong> (<em>float</em><em>, </em><em>optional</em>) – The margin threshold above which disagreements in probabilities between the base model
+and ensemble are considered significant, if allow_margin is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The records manager containing all the evaluation records from the ensemble runs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager">DetectronRecordsManager</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified set is neither ‘reference’ nor ‘testing’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.detectron.record">
+<span id="record-module"></span><h2>record module<a class="headerlink" href="#module-MED3pa.detectron.record" title="Permalink to this heading"></a></h2>
+<p>This module is crucial for tracking and managing the results across multiple runs of the Detectron method.
+It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run.
+The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.record.</span></span><span class="sig-name descname"><span class="pre">DetectronRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecord" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a single record of Detectron results, storing metrics and probabilities associated with a model’s evaluation after one run.
+the model with id 0 represents the base model, whilst other ids represent the cdcs present in the ensemble.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecord.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecord.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecord.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the DetectronRecord into a dictionary for easier serialization and manipulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary representation of the DetectronRecord with all attributes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecord.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_auc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_auc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecord.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecord.update" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the record with evaluation metrics and the count of samples after rejection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>validation_auc</strong> (<em>float</em>) – The area under the curve (AUC) value on the validation set.</p></li>
+<li><p><strong>test_auc</strong> (<em>float</em>) – The area under the curve (AUC) value on the test set.</p></li>
+<li><p><strong>predicted_probabilities</strong> (<em>np.ndarray</em>) – Predicted probabilities from the model for the test set.</p></li>
+<li><p><strong>count</strong> (<em>int</em>) – The number of samples remaining after applying the rejection criterion.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.record.</span></span><span class="sig-name descname"><span class="pre">DetectronRecordsManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages a collection of DetectronRecords, providing methods to update, retrieve, and analyze the records.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.count_quantile">
+<span class="sig-name descname"><span class="pre">count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.count_quantile" title="Permalink to this definition"></a></dt>
+<dd><p>return the specified quantile of the kept points counts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.counts">
+<span class="sig-name descname"><span class="pre">counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.counts" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the number of samples kept for each run, optionally limited to a maximum ensemble size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum size of the ensemble to consider for counts.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array containing the kept data points count after each Detectron run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.freeze">
+<span class="sig-name descname"><span class="pre">freeze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.freeze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.freeze" title="Permalink to this definition"></a></dt>
+<dd><p>Finalizes the records, converting them into a pandas DataFrame for easier manipulation and analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.get_record">
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.get_record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.get_record" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the current records as a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The records stored in the manager, formatted as a DataFrame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.load" title="Permalink to this definition"></a></dt>
+<dd><p>Loads records from a CSV file into a DetectronRecordsManager instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The file path from which to load the records.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new instance of DetectronRecordsManager containing the loaded records.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager">DetectronRecordsManager</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.predicted_probabilities">
+<span class="sig-name descname"><span class="pre">predicted_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.predicted_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.predicted_probabilities" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the predicted probabilities for each model in the ensemble for each run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of models to consider for collecting predicted probabilities.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array of predicted probabilities for each model in the ensemble for each run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile">
+<span class="sig-name descname"><span class="pre">rejected_count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.rejected_count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile" title="Permalink to this definition"></a></dt>
+<dd><p>return the specified quantile of the rejected points counts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.rejected_counts">
+<span class="sig-name descname"><span class="pre">rejected_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.rejected_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.rejected_counts" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the number of samples rejected for each run, optionally limited to a maximum ensemble size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum size of the ensemble to consider for counts.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array containing the rejected data points count after each Detectron run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.rejection_rates">
+<span class="sig-name descname"><span class="pre">rejection_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.rejection_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.rejection_rates" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the rejection rates for each run, optionally limited to a certain number of models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of models to consider for calculating rejection rates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array containing the rejection rates after each Detectron run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the current records to a CSV file at the specified path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The file path where the records DataFrame will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.seed" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the seed used for updating records, ensuring consistency and reproducibility in experiments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em>) – The seed value to set for this set of updates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.record.DetectronRecordsManager.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val_data_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/record.html#DetectronRecordsManager.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.record.DetectronRecordsManager.update" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the records manager with new run results, adding a new DetectronRecord.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val_data_x</strong> (<em>np.ndarray</em>) – observations from the validation dataset used for evaluation.</p></li>
+<li><p><strong>val_data_y</strong> (<em>np.ndarray</em>) – True labels from the validation dataset.</p></li>
+<li><p><strong>sample_size</strong> (<em>int</em>) – The number of samples used in this update.</p></li>
+<li><p><strong>model</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><em>Model</em></a>) – The model instance used for evaluation, which should have an <cite>evaluate</cite> method.</p></li>
+<li><p><strong>model_id</strong> (<em>int</em>) – The identifier of the model within the ensemble.</p></li>
+<li><p><strong>predicted_probabilities</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Predicted probabilities from the model on the test dataset.</p></li>
+<li><p><strong>test_data_x</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations from the test dataset used for evaluation.</p></li>
+<li><p><strong>test_data_y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – True labels from the test dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.detectron.stopper">
+<span id="stopper-module"></span><h2>stopper module<a class="headerlink" href="#module-MED3pa.detectron.stopper" title="Permalink to this heading"></a></h2>
+<p>This module introduces the <code class="docutils literal notranslate"><span class="pre">EarlyStopper</span></code> class, a utility designed to prevent overfitting and reduce computational overhead by halting the training process when improvement in a monitored metric ceases.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.detectron.stopper.EarlyStopper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.stopper.</span></span><span class="sig-name descname"><span class="pre">EarlyStopper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'min'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/stopper.html#EarlyStopper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.stopper.EarlyStopper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A utility class for early stopping, which is used to terminate training processes if certain conditions are met.
+This helps in preventing overfitting and reduces unnecessary training time by stopping the training when
+the monitored metric has stopped improving.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.detectron.stopper.EarlyStopper.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/stopper.html#EarlyStopper.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.detectron.stopper.EarlyStopper.update" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the early stopper with the latest metric and checks whether the stopping condition has been met.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>float</em>) – The current value of the monitored metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Returns True if the early stopping condition has been met (i.e., no improvement for the specified</dt><dd><p>number of epochs), and False otherwise.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="strategies-module">
+<h2>strategies module<a class="headerlink" href="#strategies-module" title="Permalink to this heading"></a></h2>
+<p>In this module, various strategies to assess the presence of covariate shift are defined.
+Each strategy class, deriving from the original <strong>Disagreement test</strong>, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches,
+such as empirical cumulative distribution functions (ECDF) and hypothesis tests like the Mann-Whitney U or Kolmogorov-Smirnov tests.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DetectronStrategy</span></span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#DetectronStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for defining various strategies to evaluate the shifts and discrepancies between calibration and testing datasets.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#DetectronStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Must be implemented by subclasses to execute the strategy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#DetectronStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">EnhancedDisagreementStrategy</span></span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#EnhancedDisagreementStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.
+This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion_to_cut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#EnhancedDisagreementStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using z-score analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+<li><p><strong>trim_data</strong> (<em>bool</em>) – Whether to trim the data using a specified proportion to cut.</p></li>
+<li><p><strong>proportion_to_cut</strong> (<em>float</em>) – The proportion of data to cut from both ends if trimming is enabled.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated shift probability, test statistic, baseline mean, baseline standard deviation,</dt><dd><p>and a description of the shift significance.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">KolmogorovSmirnovStrategy</span></span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#KolmogorovSmirnovStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
+from calibration runs and test runs.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#KolmogorovSmirnovStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True</dt><dd><p>if a shift is detected at the given significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">MannWhitneyStrategy</span></span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#MannWhitneyStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
+from calibration runs and test runs.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#MannWhitneyStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the Mann-Whitney U test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,</dt><dd><p>and a shift indicator based on the significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">OriginalDisagreementStrategy</span></span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#OriginalDisagreementStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).
+This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,
+and statistical measures such as the mean and standard deviation of the calibration tests.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/strategies.html#OriginalDisagreementStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the ECDF approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,</dt><dd><p>and a shift indicator which is True if a shift is detected at the given significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="experiment-module">
+<h2>experiment module<a class="headerlink" href="#experiment-module" title="Permalink to this heading"></a></h2>
+<p>This module encapsulates the execution logic for the Detectron method, managing the orchestration of the entire pipeline. It includes the <code class="docutils literal notranslate"><span class="pre">DetectronExperiment</span></code> abstract class,
+which outlines the protocol for setting up and running experiments.
+Additionally, the <code class="docutils literal notranslate"><span class="pre">DetectronResult</span></code> class is responsible for storing and managing the outcomes of these experiments,
+providing methods to access and analyze the trajectories and outcomes of this method’s evaluation.</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronExperiment</span></span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class that defines the protocol for running Detectron experiments.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><span class="pre">DatasetsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_model_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><span class="pre">BaseModelManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_calibration_runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – Manages the datasets used in the experiment.</p></li>
+<li><p><strong>training_params</strong> (<em>dict</em>) – Parameters for training the cdcs within the ensembles.</p></li>
+<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a>) – Manager for the base model operations.</p></li>
+<li><p><strong>samples_size</strong> (<em>int</em>) – Number of samples to use in each Detectron run. Defaults to 20.</p></li>
+<li><p><strong>calib_result</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a><em>]</em>) – Calibration results, if provided. Defaults to None.</p></li>
+<li><p><strong>ensemble_size</strong> (<em>int</em>) – Number of models in each ensemble. Defaults to 10.</p></li>
+<li><p><strong>num_calibration_runs</strong> (<em>int</em>) – Number of calibration runs. Defaults to 100.</p></li>
+<li><p><strong>patience</strong> (<em>int</em>) – Number of iterations with no improvement before stopping. Defaults to 3.</p></li>
+<li><p><strong>allow_margin</strong> (<em>bool</em>) – Allow a margin of error when comparing model outputs. Defaults to False.</p></li>
+<li><p><strong>margin</strong> (<em>float</em>) – Threshold for considering differences significant when margin is allowed. Defaults to 0.05.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.detectron.experiment.</span></span><span class="sig-name descname"><span class="pre">DetectronResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cal_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.detectron.record.DetectronRecordsManager" title="MED3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to store the results of a Detectron test</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">analyze_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult.analyze_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Appends the results of the Detectron tests for each strategy to self.test_results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>strategies</strong> (<em>Union</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>, </em><em>List</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>]</em><em>]</em>) – Class type or list of strategy class types.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated list containing results for each strategy.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">calibration_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult.calibration_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Retrieves the results for each run and each model in the ensemble from the reference set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the calibration records.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_experiments_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult.get_experiments_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the Detectron tests using the specified strategy and records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Results from executing the Detectron test.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'detectron_results'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Saves the Detectron results to JSON format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – The file path where the results should be saved.</p></li>
+<li><p><strong>file_name</strong> (<em>str</em>) – The file name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">test_trajectories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/detectron/experiment.html#DetectronResult.test_trajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Retrieves the results for each run and each model in the ensemble from the testing set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A DataFrame containing seed, model_id, and rejection_rate from the test records.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MED3pa.models.html" class="btn btn-neutral float-left" title="models subpackage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MED3pa.med3pa.html" class="btn btn-neutral float-right" title="med3pa subpackage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

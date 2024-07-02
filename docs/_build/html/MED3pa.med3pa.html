@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>med3pa subpackage &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="tutorials.html" />
+    <link rel="prev" title="detectron subpackage" href="MED3pa.detectron.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">med3pa subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-components">Key Components:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-analysis-with-mdr">Advanced Analysis with MDR:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensibility-for-integration">Extensibility for Integration:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.uncertainty">uncertainty module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.tree">tree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.profiles">Profiles module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.mdr">MDR module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.med3pa.experiment">experiment module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="MED3pa.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">med3pa subpackage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/MED3pa.med3pa.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="med3pa-subpackage">
+<h1>med3pa subpackage<a class="headerlink" href="#med3pa-subpackage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> subpackage represents a modularized and enhanced version of the original <a class="reference external" href="https://github.com/Olivier998/3PA/tree/dev">“MED3PA code”</a>,
+designed to augment clinical decision-making by providing a robust framework for evaluating and managing <strong>model uncertainty</strong> in healthcare applications.
+It introduces a sophisticated approach to assessing model performance that transcends <strong>traditional global metrics</strong>,
+focusing instead on the concept of predictive confidence at both individual and aggregated levels.</p>
+<section id="key-components">
+<h3>Key Components:<a class="headerlink" href="#key-components" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Individualized Predictive Confidence (IPC)</strong>: This component employs <code class="docutils literal notranslate"><span class="pre">regression</span></code> models to estimate the predictive confidence for individual data points. The IPC model, adaptable with various regression algorithms like <code class="docutils literal notranslate"><span class="pre">Random</span> <span class="pre">Forest</span></code>, is particularly aimed at quantifying the uncertainty associated with each prediction, allowing for a detailed analysis of model reliability.</p></li>
+<li><p><strong>Aggregated Predictive Confidence (APC)</strong>: Contrasting with IPC, APC focuses on groups of similar data points, using a <code class="docutils literal notranslate"><span class="pre">decision</span> <span class="pre">tree</span> <span class="pre">regressor</span></code> to analyze uncertainty in aggregated profiles. This method helps identify patterns or groups where the model’s performance might be suboptimal, facilitating targeted improvements.</p></li>
+<li><p><strong>Mixed Predictive Confidence (MPC)</strong>: This model combines results from IPC and APC to derive a composite measure of confidence. MPC values are then used to further scrutinize the model’s performance and to identify problematic profiles where the base model might fail.</p></li>
+</ul>
+</section>
+<section id="advanced-analysis-with-mdr">
+<h3>Advanced Analysis with MDR:<a class="headerlink" href="#advanced-analysis-with-mdr" title="Permalink to this heading"></a></h3>
+<p>The med3pa approach innovatively employs metrics by declaration rate (MDR), which evaluates model metrics at various confidence thresholds.
+This methodology not only highlights how the model performs across different confidence levels but also <strong>pinpoints specific profiles</strong> (groups of data points) that might be <strong>problematic</strong>.
+By doing so, it aids in the proactive identification and mitigation of potential model failures.</p>
+</section>
+<section id="extensibility-for-integration">
+<h3>Extensibility for Integration:<a class="headerlink" href="#extensibility-for-integration" title="Permalink to this heading"></a></h3>
+<p>Our package is meticulously designed to facilitate and accommodate <strong>integration</strong> with other methods, such as <code class="docutils literal notranslate"><span class="pre">Detectron</span></code>.
+This extensibility allows <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> to assess shifts in data distributions, <strong>especially focusing on the problematic profiles identified through MPC</strong>.
+Such integration enhances the comprehensive assessment of how external changes or shifts might affect model reliability over time,
+ensuring that the model remains robust and accurate in dynamic clinical environments.</p>
+<p>In essence, <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> is dedicated to advancing safer clinical deployments by providing tools that not only predict outcomes but also critically analyze and <strong>improve the understanding of where and why predictions might fail.</strong>
+This helps ensure that deployed models are not just effective but are also reliable and trustworthy in real-world settings.</p>
+<p>this subpackage includes the following classes:</p>
+<img alt="UML class diagram of the subpackage." class="align-center" src="_images/med3pa.svg" /><div style="margin-bottom: 30px;"></div></section>
+</section>
+<section id="module-MED3pa.med3pa.uncertainty">
+<span id="uncertainty-module"></span><h2>uncertainty module<a class="headerlink" href="#module-MED3pa.med3pa.uncertainty" title="Permalink to this heading"></a></h2>
+<p>This module handles the computation of uncertainty metrics.
+It defines an abstract base class <code class="docutils literal notranslate"><span class="pre">UncertaintyMetric</span></code> and concrete implementations such as <code class="docutils literal notranslate"><span class="pre">AbsoluteError</span></code> for calculating uncertainty based on the difference between predicted probabilities and actual outcomes.
+An <code class="docutils literal notranslate"><span class="pre">UncertaintyCalculator</span></code> class is provided, which allows users to specify which uncertainty metric to use,
+thereby facilitating the use of customized uncertainty metrics for different analytical needs.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.AbsoluteError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.uncertainty.</span></span><span class="sig-name descname"><span class="pre">AbsoluteError</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#AbsoluteError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.AbsoluteError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric" title="MED3pa.med3pa.uncertainty.UncertaintyMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">UncertaintyMetric</span></code></a></p>
+<p>Concrete implementation of the UncertaintyMetric class using absolute error.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.AbsoluteError.calculate">
+<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicted_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#AbsoluteError.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.AbsoluteError.calculate" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the absolute error between predicted probabilities and true labels, providing a measure of
+prediction accuracy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Input features (not used in this metric but included for interface consistency).</p></li>
+<li><p><strong>predicted_prob</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Absolute errors between predicted probabilities and true labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.UncertaintyCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.uncertainty.</span></span><span class="sig-name descname"><span class="pre">UncertaintyCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric" title="MED3pa.med3pa.uncertainty.UncertaintyMetric"><span class="pre">UncertaintyMetric</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#UncertaintyCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.UncertaintyCalculator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for calculating uncertainty using a specified uncertainty metric.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty">
+<span class="sig-name descname"><span class="pre">calculate_uncertainty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#UncertaintyCalculator.calculate_uncertainty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates uncertainty for a set of predictions using the configured uncertainty metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Input features.</p></li>
+<li><p><strong>predicted_prob</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Uncertainty values for each prediction, computed using the specified metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.UncertaintyMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.uncertainty.</span></span><span class="sig-name descname"><span class="pre">UncertaintyMetric</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#UncertaintyMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for uncertainty metrics. Defines the structure that all uncertainty metrics should follow.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.uncertainty.UncertaintyMetric.calculate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicted_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/uncertainty.html#UncertaintyMetric.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric.calculate" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates the uncertainty metric based on input observations, predicted probabilities, and true labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Input observations.</p></li>
+<li><p><strong>predicted_prob</strong> (<em>np.ndarray</em>) – Predicted probabilities by the model.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An array of uncertainty values for each prediction.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.med3pa.models">
+<span id="models-module"></span><h2>models module<a class="headerlink" href="#module-MED3pa.med3pa.models" title="Permalink to this heading"></a></h2>
+<p>Defines the models used within the med3pa framework. It includes classes for Individualized Predictive Confidence (IPC) models that predict uncertainty at an individual level,
+where the regressor type can be specified by the user.
+Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points,
+and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.models.</span></span><span class="sig-name descname"><span class="pre">APCModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'max_depth':</span> <span class="pre">3,</span> <span class="pre">'min_samples_leaf':</span> <span class="pre">1,</span> <span class="pre">'random_state':</span> <span class="pre">54288}</span></em><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.default_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em>) – Whether to print the evaluation results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Optimizes the model parameters using GridSearchCV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_grid</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameter grid to explore.</p></li>
+<li><p><strong>cv</strong> (<em>int</em>) – The number of cross-validation folds.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Target data.</p></li>
+<li><p><strong>sample_weight</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Weights for the training samples.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Predicts error probabilities using the tree representation for the given input observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Feature matrix for which to predict error probabilities.</p></li>
+<li><p><strong>depth</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The maximum depth of the tree to use for predictions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted error probabilities based on the aggregated confidence levels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.supported_models_params">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_models_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel.supported_models_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.supported_models_params" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary containing the supported models and their parameters and grid search parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary with model names as keys and another dictionary as value containing</dt><dd><p>’params’ and ‘grid_search_params’ for each model.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.supported_params">
+<span class="sig-name descname"><span class="pre">supported_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'DecisionTreeRegressor':</span> <span class="pre">{'grid_params':</span> <span class="pre">[{'name':</span> <span class="pre">'criterion',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">['squared_error',</span> <span class="pre">'friedman_mse',</span> <span class="pre">'absolute_error',</span> <span class="pre">'poisson']},</span> <span class="pre">{'name':</span> <span class="pre">'splitter',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">['best',</span> <span class="pre">'random']},</span> <span class="pre">{'name':</span> <span class="pre">'max_depth',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[None,</span> <span class="pre">10,</span> <span class="pre">20,</span> <span class="pre">30,</span> <span class="pre">40,</span> <span class="pre">50]},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_split',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[2,</span> <span class="pre">5,</span> <span class="pre">10]},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_leaf',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">4]},</span> <span class="pre">{'name':</span> <span class="pre">'min_weight_fraction_leaf',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">[0.0,</span> <span class="pre">0.1,</span> <span class="pre">0.2]},</span> <span class="pre">{'name':</span> <span class="pre">'max_features',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">[None,</span> <span class="pre">'auto',</span> <span class="pre">'sqrt',</span> <span class="pre">'log2']},</span> <span class="pre">{'name':</span> <span class="pre">'max_leaf_nodes',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[None,</span> <span class="pre">10,</span> <span class="pre">20,</span> <span class="pre">30]},</span> <span class="pre">{'name':</span> <span class="pre">'min_impurity_decrease',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">[0.0,</span> <span class="pre">0.1,</span> <span class="pre">0.2]},</span> <span class="pre">{'name':</span> <span class="pre">'ccp_alpha',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">[0.0,</span> <span class="pre">0.01,</span> <span class="pre">0.1]}],</span> <span class="pre">'params':</span> <span class="pre">[{'name':</span> <span class="pre">'criterion',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">'squared_error',</span> <span class="pre">'choices':</span> <span class="pre">['squared_error',</span> <span class="pre">'friedman_mse',</span> <span class="pre">'absolute_error',</span> <span class="pre">'poisson']},</span> <span class="pre">{'name':</span> <span class="pre">'splitter',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">'best',</span> <span class="pre">'choices':</span> <span class="pre">['best',</span> <span class="pre">'random']},</span> <span class="pre">{'name':</span> <span class="pre">'max_depth',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_split',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">2},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_leaf',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">1},</span> <span class="pre">{'name':</span> <span class="pre">'min_weight_fraction_leaf',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0},</span> <span class="pre">{'name':</span> <span class="pre">'max_features',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">None,</span> <span class="pre">'choices':</span> <span class="pre">[None,</span> <span class="pre">'auto',</span> <span class="pre">'sqrt',</span> <span class="pre">'log2']},</span> <span class="pre">{'name':</span> <span class="pre">'max_leaf_nodes',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'min_impurity_decrease',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0},</span> <span class="pre">{'name':</span> <span class="pre">'ccp_alpha',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0}]}}</span></em><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.supported_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.APCModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#APCModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.APCModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model using the provided data and error probabilities and builds the tree representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Feature matrix for training.</p></li>
+<li><p><strong>error_prob</strong> (<em>np.ndarray</em>) – Error probabilities corresponding to each training instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.models.</span></span><span class="sig-name descname"><span class="pre">IPCModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'RandomForestRegressor'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'random_state':</span> <span class="pre">54288}</span></em><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.default_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em>) – Whether to print the evaluation results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Optimizes the model parameters using GridSearchCV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param_grid</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The parameter grid to explore.</p></li>
+<li><p><strong>cv</strong> (<em>int</em>) – The number of cross-validation folds.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Training data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Target data.</p></li>
+<li><p><strong>sample_weight</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Weights for the training samples.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Predicts error probabilities for the given input observations using the trained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – Feature matrix for which to predict error probabilities.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted error probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.supported_ipc_models">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_ipc_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.supported_ipc_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.supported_ipc_models" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of supported IPC models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported regression model names.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.supported_models_params">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_models_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.supported_models_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.supported_models_params" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary containing the supported models and their parameters and grid search parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary with model names as keys and another dictionary as value containing</dt><dd><p>’params’ and ‘grid_search_params’ for each model.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.supported_regressors_mapping">
+<span class="sig-name descname"><span class="pre">supported_regressors_mapping</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'RandomForestRegressor':</span> <span class="pre">&lt;class</span> <span class="pre">'MED3pa.models.concrete_regressors.RandomForestRegressorModel'&gt;}</span></em><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.supported_regressors_mapping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.supported_regressos_params">
+<span class="sig-name descname"><span class="pre">supported_regressos_params</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'RandomForestRegressor':</span> <span class="pre">{'grid_params':</span> <span class="pre">[{'name':</span> <span class="pre">'n_estimators',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[100,</span> <span class="pre">200,</span> <span class="pre">300,</span> <span class="pre">400,</span> <span class="pre">500]},</span> <span class="pre">{'name':</span> <span class="pre">'max_depth',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[None,</span> <span class="pre">10,</span> <span class="pre">20,</span> <span class="pre">30,</span> <span class="pre">40,</span> <span class="pre">50]},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_split',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[2,</span> <span class="pre">5,</span> <span class="pre">10]},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_leaf',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">4]},</span> <span class="pre">{'name':</span> <span class="pre">'max_features',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'default':</span> <span class="pre">['auto',</span> <span class="pre">'sqrt',</span> <span class="pre">'log2']},</span> <span class="pre">{'name':</span> <span class="pre">'bootstrap',</span> <span class="pre">'type':</span> <span class="pre">'bool',</span> <span class="pre">'default':</span> <span class="pre">[True,</span> <span class="pre">False]}],</span> <span class="pre">'params':</span> <span class="pre">[{'name':</span> <span class="pre">'n_estimators',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">100},</span> <span class="pre">{'name':</span> <span class="pre">'criterion',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'choices':</span> <span class="pre">['squared_error',</span> <span class="pre">'absolute_error',</span> <span class="pre">'poisson'],</span> <span class="pre">'default':</span> <span class="pre">'squared_error'},</span> <span class="pre">{'name':</span> <span class="pre">'max_depth',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_split',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">2},</span> <span class="pre">{'name':</span> <span class="pre">'min_samples_leaf',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">1},</span> <span class="pre">{'name':</span> <span class="pre">'min_weight_fraction_leaf',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0},</span> <span class="pre">{'name':</span> <span class="pre">'max_features',</span> <span class="pre">'type':</span> <span class="pre">'string',</span> <span class="pre">'choices':</span> <span class="pre">['auto',</span> <span class="pre">'sqrt',</span> <span class="pre">'log2'],</span> <span class="pre">'default':</span> <span class="pre">'auto'},</span> <span class="pre">{'name':</span> <span class="pre">'max_leaf_nodes',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'min_impurity_decrease',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0},</span> <span class="pre">{'name':</span> <span class="pre">'bootstrap',</span> <span class="pre">'type':</span> <span class="pre">'bool',</span> <span class="pre">'default':</span> <span class="pre">True},</span> <span class="pre">{'name':</span> <span class="pre">'oob_score',</span> <span class="pre">'type':</span> <span class="pre">'bool',</span> <span class="pre">'default':</span> <span class="pre">False},</span> <span class="pre">{'name':</span> <span class="pre">'n_jobs',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'random_state',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">None},</span> <span class="pre">{'name':</span> <span class="pre">'verbose',</span> <span class="pre">'type':</span> <span class="pre">'int',</span> <span class="pre">'default':</span> <span class="pre">0},</span> <span class="pre">{'name':</span> <span class="pre">'warm_start',</span> <span class="pre">'type':</span> <span class="pre">'bool',</span> <span class="pre">'default':</span> <span class="pre">False},</span> <span class="pre">{'name':</span> <span class="pre">'ccp_alpha',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">0.0},</span> <span class="pre">{'name':</span> <span class="pre">'max_samples',</span> <span class="pre">'type':</span> <span class="pre">'float',</span> <span class="pre">'default':</span> <span class="pre">None}]}}</span></em><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.supported_regressos_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.IPCModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_prob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#IPCModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.IPCModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model on the provided training data and error probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Feature matrix for training.</p></li>
+<li><p><strong>error_prob</strong> (<em>np.ndarray</em>) – Error probabilities corresponding to each training instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.MPCModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.models.</span></span><span class="sig-name descname"><span class="pre">MPCModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">IPC_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">APC_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#MPCModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.MPCModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.models.MPCModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/models.html#MPCModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.models.MPCModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Combines IPC and APC values to predict MPC values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Combined MPC values.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.med3pa.tree">
+<span id="tree-module"></span><h2>tree module<a class="headerlink" href="#module-MED3pa.med3pa.tree" title="Permalink to this heading"></a></h2>
+<p>Manages the tree representation for the APC model. It includes the <code class="docutils literal notranslate"><span class="pre">TreeRepresentation</span></code> class which handles the construction and manipulation of decision trees
+and <code class="docutils literal notranslate"><span class="pre">TreeNode</span></code> class that represents a node in the tree.
+This module is crucial for profiling aggregated data and extracting valuable insights</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.tree.TreeRepresentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.tree.</span></span><span class="sig-name descname"><span class="pre">TreeRepresentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/tree.html#TreeRepresentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.tree.TreeRepresentation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents the structure of a decision tree for a given set of features.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.tree.TreeRepresentation.build_tree">
+<span class="sig-name descname"><span class="pre">build_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel" title="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel"><span class="pre">DecisionTreeRegressorModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">_TreeNode</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/tree.html#TreeRepresentation.build_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.tree.TreeRepresentation.build_tree" title="Permalink to this definition"></a></dt>
+<dd><p>Recursively builds the tree representation starting from the specified node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dtr</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel" title="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel"><em>DecisionTreeRegressorModel</em></a>) – Trained decision tree regressor model.</p></li>
+<li><p><strong>X</strong> (<em>DataFrame</em>) – Training data observations.</p></li>
+<li><p><strong>y</strong> (<em>Series</em>) – Training data labels.</p></li>
+<li><p><strong>node_id</strong> (<em>int</em>) – Node ID to start building from. Defaults to 0.</p></li>
+<li><p><strong>path</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – Path to the current node. Defaults to [‘*’].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The root node of the tree representation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_TreeNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.tree.TreeRepresentation.get_all_profiles">
+<span class="sig-name descname"><span class="pre">get_all_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_ca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/tree.html#TreeRepresentation.get_all_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.tree.TreeRepresentation.get_all_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves all profiles from the tree that meet the minimum criteria for value and sample ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_ca</strong> (<em>float</em>) – Minimum value threshold for profiles. Defaults to 0.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>float</em>) – Minimum sample ratio threshold for profiles. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of Profile instances meeting the specified criteria.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile">Profile</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.med3pa.profiles">
+<span id="profiles-module"></span><h2>Profiles module<a class="headerlink" href="#module-MED3pa.med3pa.profiles" title="Permalink to this heading"></a></h2>
+<p>Handles the management and storage of profiles derived from the tree representation.
+It defines a <code class="docutils literal notranslate"><span class="pre">Profile</span></code> class to encapsulate metrics and values associated with a specific node in the tree and a <code class="docutils literal notranslate"><span class="pre">ProfilesManager</span></code> class to manage collections of profiles and track lost profiles during analysis.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.Profile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.profiles.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#Profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.Profile" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a profile containing metrics and values associated with a specific node.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.Profile.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#Profile.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.Profile.to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Converts the Profile instance into a dictionary format suitable for serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary representation of the Profile instance including the node ID, path, mean value,</dt><dd><p>metrics, and any detectron results.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.Profile.update_detectron_results">
+<span class="sig-name descname"><span class="pre">update_detectron_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detectron_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#Profile.update_detectron_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.Profile.update_detectron_results" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the detectron results associated with this profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>detectron_results</strong> (<em>dict</em>) – The results from the Detectron experiment to be added to the profile.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.Profile.update_metrics_results">
+<span class="sig-name descname"><span class="pre">update_metrics_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#Profile.update_metrics_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.Profile.update_metrics_results" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the metrics associated with this profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>detectron_results</strong> (<em>dict</em>) – The results from the Detectron experiment to be added to the profile.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.Profile.update_node_information">
+<span class="sig-name descname"><span class="pre">update_node_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#Profile.update_node_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.Profile.update_node_information" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the information associated with this profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>info</strong> (<em>dict</em>) – The updated node information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.profiles.</span></span><span class="sig-name descname"><span class="pre">ProfilesManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the records of profiles and lost profiles based on declaration rates and minimal samples ratio.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager.get_lost_profiles">
+<span class="sig-name descname"><span class="pre">get_lost_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager.get_lost_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager.get_lost_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves lost profiles based on the specified minimum sample ratio and dr value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dr</strong> (<em>int</em>) – Desired declaration rate as a percentage.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>int</em>) – Minimum samples ratio.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager.get_profiles">
+<span class="sig-name descname"><span class="pre">get_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager.get_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager.get_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves profiles based on the specified minimum sample ratio and dr value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dr</strong> (<em>int</em>) – Desired declaration rate as a percentage.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>int</em>) – Minimum samples ratio.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager.insert_lost_profiles">
+<span class="sig-name descname"><span class="pre">insert_lost_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">profiles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile"><span class="pre">MED3pa.med3pa.profiles.Profile</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager.insert_lost_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager.insert_lost_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts lost profiles into the records under a specific dr value and minimum sample ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dr</strong> (<em>int</em>) – Desired declaration rate as a percentage.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>int</em>) – Minimum samples ratio.</p></li>
+<li><p><strong>profiles</strong> (<em>list</em><em>[</em><a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile"><em>Profile</em></a><em>]</em>) – The profiles to insert.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager.insert_profiles">
+<span class="sig-name descname"><span class="pre">insert_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">profiles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile"><span class="pre">MED3pa.med3pa.profiles.Profile</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager.insert_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager.insert_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts profiles into the records under a specific dr value and minimum sample ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dr</strong> (<em>int</em>) – Desired declaration rate as a percentage.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>int</em>) – Minimum samples ratio.</p></li>
+<li><p><strong>profiles</strong> (<em>list</em><em>[</em><a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile"><em>Profile</em></a><em>]</em>) – The profiles to insert.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.profiles.ProfilesManager.transform_to_profiles">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_to_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profiles_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/profiles.html#ProfilesManager.transform_to_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.profiles.ProfilesManager.transform_to_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms a list of profile data into instances of the Profile class or dictionaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profiles_list</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of profiles data.</p></li>
+<li><p><strong>to_dict</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, transforms profiles to dictionaries. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of transformed profiles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Union[dict, <a class="reference internal" href="#MED3pa.med3pa.profiles.Profile" title="MED3pa.med3pa.profiles.Profile">Profile</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.med3pa.mdr">
+<span id="mdr-module"></span><h2>MDR module<a class="headerlink" href="#module-MED3pa.med3pa.mdr" title="Permalink to this heading"></a></h2>
+<p>Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR).
+The <code class="docutils literal notranslate"><span class="pre">MDRCalculator</span></code> class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.mdr.MDRCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.mdr.</span></span><span class="sig-name descname"><span class="pre">MDRCalculator</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/mdr.html#MDRCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.mdr.MDRCalculator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to calculate various metrics and profiles for the MED3PA method.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_metrics_by_dr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><span class="pre">DatasetsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reference'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/mdr.html#MDRCalculator.calc_metrics_by_dr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets_manager</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – The DatasetManager containing the datasets</p></li>
+<li><p><strong>metrics_list</strong> (<em>list</em>) – List of metric names to be calculated (e.g., ‘AUC’, ‘Accuracy’).</p></li>
+<li><p><strong>set</strong> (<em>str</em>) – the set to calculate the metrics on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing metrics computed for each declaration rate from 100% to 0%, including metrics and population percentage.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_metrics_by_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profiles_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasets_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><span class="pre">DatasetsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reference'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/mdr.html#MDRCalculator.calc_metrics_by_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates various metrics for different profiles and declaration rates based on provided datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profiles_manager</strong> (<a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><em>ProfilesManager</em></a>) – Manager handling profiles.</p></li>
+<li><p><strong>datasets_manager</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – The DatasetManager containing the datasets</p></li>
+<li><p><strong>set</strong> (<em>str</em>) – the set to calculate the metrics on.</p></li>
+<li><p><strong>metrics_list</strong> (<em>list</em>) – List of metrics to calculate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.mdr.MDRCalculator.calc_profiles">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profiles_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><span class="pre">ProfilesManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.med3pa.tree.TreeRepresentation" title="MED3pa.med3pa.tree.TreeRepresentation"><span class="pre">TreeRepresentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_scores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/med3pa/mdr.html#MDRCalculator.calc_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change
+across different confidence levels derived from predicted accuracies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profiles_manager</strong> (<a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><em>ProfilesManager</em></a>) – Manager for storing and retrieving profile information.</p></li>
+<li><p><strong>tree</strong> (<a class="reference internal" href="#MED3pa.med3pa.tree.TreeRepresentation" title="MED3pa.med3pa.tree.TreeRepresentation"><em>TreeRepresentation</em></a>) – Tree structure from which profiles are derived.</p></li>
+<li><p><strong>confidence_scores</strong> (<em>np.ndarray</em>) – Array of predicted accuracy values used for thresholding profiles.</p></li>
+<li><p><strong>min_samples_ratio</strong> (<em>int</em>) – Minimum sample ratio to consider for including a profile.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">detectron_by_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><span class="pre">DatasetsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">profiles_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><span class="pre">ProfilesManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_model_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><span class="pre">BaseModelManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_calibration_runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/mdr.html#MDRCalculator.detectron_by_profiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the Detectron method on the different testing set profiles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – The datasets manager instance.</p></li>
+<li><p><strong>profiles_manager</strong> (<a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><em>ProfilesManager</em></a>) – the manager containing the profiles of the testing set.</p></li>
+<li><p><strong>training_params</strong> (<em>dict</em>) – Parameters for training the models.</p></li>
+<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a>) – The base model manager instance.</p></li>
+<li><p><strong>testing_mpc_values</strong> (<em>np.ndarray</em>) – MPC values for the testing data.</p></li>
+<li><p><strong>reference_mpc_values</strong> (<em>np.ndarray</em>) – MPC values for the reference data.</p></li>
+<li><p><strong>samples_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Sample size for the Detectron experiment, by default 20.</p></li>
+<li><p><strong>ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of models in the ensemble, by default 10.</p></li>
+<li><p><strong>num_calibration_runs</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of calibration runs, by default 100.</p></li>
+<li><p><strong>patience</strong> (<em>int</em><em>, </em><em>optional</em>) – Patience for early stopping, by default 3.</p></li>
+<li><p><strong>strategies</strong> (<em>Union</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>, </em><em>List</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>]</em><em>]</em>) – The strategies for testing disagreement.</p></li>
+<li><p><strong>allow_margin</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to allow a margin in the test, by default False.</p></li>
+<li><p><strong>margin</strong> (<em>float</em><em>, </em><em>optional</em>) – Margin value for the test, by default 0.05.</p></li>
+<li><p><strong>all_dr</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to run for all declaration rates, by default False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of med3pa profiles with detectron results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.med3pa.experiment">
+<span id="experiment-module"></span><h2>experiment module<a class="headerlink" href="#module-MED3pa.med3pa.experiment" title="Permalink to this heading"></a></h2>
+<p>Orchestrates the execution of the med3pa method and integrates the functionality of other modules to run comprehensive experiments.
+It includes classes to manage and store results <code class="docutils literal notranslate"><span class="pre">Med3paResults</span></code>, execute experiments like <code class="docutils literal notranslate"><span class="pre">Med3paExperiment</span></code> and <code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment</span></code>, and integrate results from the Detectron method <code class="docutils literal notranslate"><span class="pre">Med3paDetectronResults</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paDetectronExperiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.experiment.</span></span><span class="sig-name descname"><span class="pre">Med3paDetectronExperiment</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paDetectronExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paDetectronExperiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paDetectronExperiment.run">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">datasets:</span> <span class="pre">~MED3pa.datasets.manager.DatasetsManager,</span> <span class="pre">base_model_manager:</span> <span class="pre">~MED3pa.models.base.BaseModelManager,</span> <span class="pre">uncertainty_metric:</span> <span class="pre">~typing.Type[~MED3pa.med3pa.uncertainty.UncertaintyMetric]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'MED3pa.med3pa.uncertainty.AbsoluteError'&gt;,</span> <span class="pre">training_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">samples_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">20,</span> <span class="pre">samples_size_profiles:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">ensemble_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10,</span> <span class="pre">num_calibration_runs:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">100,</span> <span class="pre">patience:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">test_strategies:</span> <span class="pre">~typing.Union[~typing.Type[~MED3pa.detectron.strategies.DetectronStrategy],</span> <span class="pre">~typing.List[~typing.Type[~MED3pa.detectron.strategies.DetectronStrategy]]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'MED3pa.detectron.strategies.EnhancedDisagreementStrategy'&gt;,</span> <span class="pre">allow_margin:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">margin:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.05,</span> <span class="pre">ipc_type:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'RandomForestRegressor',</span> <span class="pre">ipc_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ipc_grid_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ipc_cv:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">apc_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">apc_grid_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">apc_cv:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">samples_ratio_min:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">samples_ratio_max:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">50,</span> <span class="pre">samples_ratio_step:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">med3pa_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">['Auc',</span> <span class="pre">'Accuracy',</span> <span class="pre">'BalancedAccuracy'],</span> <span class="pre">evaluate_models:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">models_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">['MSE',</span> <span class="pre">'RMSE'],</span> <span class="pre">mode:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'mpc',</span> <span class="pre">all_dr:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults"><span class="pre">Med3paResults</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults"><span class="pre">Med3paResults</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DetectronResult</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paDetectronExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paDetectronExperiment.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the MED3PA and Detectron experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – The datasets manager instance.</p></li>
+<li><p><strong>training_params</strong> (<em>dict</em>) – Parameters for training the models.</p></li>
+<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a>) – The base model manager instance.</p></li>
+<li><p><strong>uncertainty_metric</strong> (<em>Type</em><em>[</em><a class="reference internal" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric" title="MED3pa.med3pa.uncertainty.UncertaintyMetric"><em>UncertaintyMetric</em></a><em>]</em>) – The uncertainty metric to use.</p></li>
+<li><p><strong>samples_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Sample size for the Detectron experiment, by default 20.</p></li>
+<li><p><strong>samples_size_profiles</strong> (<em>int</em><em>, </em><em>optional</em>) – Sample size for Profiles Detectron experiment, by default 10.</p></li>
+<li><p><strong>ensemble_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of models in the ensemble, by default 10.</p></li>
+<li><p><strong>num_calibration_runs</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of calibration runs, by default 100.</p></li>
+<li><p><strong>patience</strong> (<em>int</em><em>, </em><em>optional</em>) – Patience for early stopping, by default 3.</p></li>
+<li><p><strong>test_strategies</strong> (<em>Union</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>, </em><em>List</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>]</em><em>]</em>) – strategies for testing disagreement, by default EnhancedDisagreementStrategy.</p></li>
+<li><p><strong>allow_margin</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to allow a margin in the test, by default False.</p></li>
+<li><p><strong>margin</strong> (<em>float</em><em>, </em><em>optional</em>) – Margin value for the test, by default 0.05.</p></li>
+<li><p><strong>ipc_type</strong> (<em>str</em><em>, </em><em>optional</em>) – The regressor model to use for IPC, by default RandomForestRegressor.</p></li>
+<li><p><strong>ipc_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Parameters for initializing the IPC regressor model, by default None.</p></li>
+<li><p><strong>ipc_grid_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Grid search parameters for optimizing the IPC model, by default None.</p></li>
+<li><p><strong>ipc_cv</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of cross-validation folds for optimizing the IPC model, by default None.</p></li>
+<li><p><strong>apc_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Parameters for initializing the APC regressor model, by default None.</p></li>
+<li><p><strong>apc_grid_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Grid search parameters for optimizing the APC model, by default None.</p></li>
+<li><p><strong>apc_cv</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of cross-validation folds for optimizing the APC model, by default None.</p></li>
+<li><p><strong>samples_ratio_min</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimum sample ratio, by default 0.</p></li>
+<li><p><strong>samples_ratio_max</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum sample ratio, by default 50.</p></li>
+<li><p><strong>samples_ratio_step</strong> (<em>int</em><em>, </em><em>optional</em>) – Step size for sample ratio, by default 5.</p></li>
+<li><p><strong>med3pa_metrics</strong> (<em>list of str</em><em>, </em><em>optional</em>) – List of metrics to calculate, by default [‘Auc’, ‘Accuracy’, ‘BalancedAccuracy’].</p></li>
+<li><p><strong>evaluate_models</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to evaluate the models, by default False.</p></li>
+<li><p><strong>models_metrics</strong> (<em>list of str</em><em>, </em><em>optional</em>) – List of metrics for model evaluation, by default [‘MSE’, ‘RMSE’].</p></li>
+<li><p><strong>all_dr</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to run for all declaration rates, by default False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results of MED3pa on reference and testing sets, plus Detectron Results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults">Med3paResults</a>, <a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults">Med3paResults</a>, DetectronResult]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paExperiment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.experiment.</span></span><span class="sig-name descname"><span class="pre">Med3paExperiment</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paExperiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paExperiment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to run the MED3PA method experiment.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paExperiment.run">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">datasets_manager:</span> <span class="pre">~MED3pa.datasets.manager.DatasetsManager,</span> <span class="pre">base_model_manager:</span> <span class="pre">~MED3pa.models.base.BaseModelManager</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">uncertainty_metric:</span> <span class="pre">~typing.Type[~MED3pa.med3pa.uncertainty.UncertaintyMetric]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'MED3pa.med3pa.uncertainty.AbsoluteError'&gt;,</span> <span class="pre">ipc_type:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'RandomForestRegressor',</span> <span class="pre">ipc_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ipc_grid_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ipc_cv:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4,</span> <span class="pre">apc_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">apc_grid_params:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">apc_cv:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4,</span> <span class="pre">samples_ratio_min:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">samples_ratio_max:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">50,</span> <span class="pre">samples_ratio_step:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5,</span> <span class="pre">med3pa_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">[],</span> <span class="pre">evaluate_models:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">mode:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'mpc',</span> <span class="pre">models_metrics:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">['MSE',</span> <span class="pre">'RMSE']</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults"><span class="pre">Med3paResults</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults"><span class="pre">Med3paResults</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paExperiment.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paExperiment.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the MED3PA experiment on both reference and testing sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasets_manager</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager" title="MED3pa.datasets.manager.DatasetsManager"><em>DatasetsManager</em></a>) – the datasets manager containing the dataset to use in the experiment.</p></li>
+<li><p><strong>base_model_manager</strong> (<a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager" title="MED3pa.models.base.BaseModelManager"><em>BaseModelManager</em></a><em>, </em><em>optional</em>) – Instance of BaseModelManager to get the base model, by default None.</p></li>
+<li><p><strong>uncertainty_metric</strong> (<em>Type</em><em>[</em><a class="reference internal" href="#MED3pa.med3pa.uncertainty.UncertaintyMetric" title="MED3pa.med3pa.uncertainty.UncertaintyMetric"><em>UncertaintyMetric</em></a><em>]</em><em>, </em><em>optional</em>) – Instance of UncertaintyMetric to calculate uncertainty, by default AbsoluteError.</p></li>
+<li><p><strong>ipc_type</strong> (<em>str</em><em>, </em><em>optional</em>) – The regressor model to use for IPC, by default RandomForestRegressor.</p></li>
+<li><p><strong>ipc_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Parameters for initializing the IPC regressor model, by default None.</p></li>
+<li><p><strong>ipc_grid_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Grid search parameters for optimizing the IPC model, by default None.</p></li>
+<li><p><strong>ipc_cv</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of cross-validation folds for optimizing the IPC model, by default None.</p></li>
+<li><p><strong>apc_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Parameters for initializing the APC regressor model, by default None.</p></li>
+<li><p><strong>apc_grid_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Grid search parameters for optimizing the APC model, by default None.</p></li>
+<li><p><strong>apc_cv</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of cross-validation folds for optimizing the APC model, by default None.</p></li>
+<li><p><strong>samples_ratio_min</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimum sample ratio, by default 0.</p></li>
+<li><p><strong>samples_ratio_max</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum sample ratio, by default 50.</p></li>
+<li><p><strong>samples_ratio_step</strong> (<em>int</em><em>, </em><em>optional</em>) – Step size for sample ratio, by default 5.</p></li>
+<li><p><strong>med3pa_metrics</strong> (<em>list of str</em><em>, </em><em>optional</em>) – List of metrics to calculate, by default [‘Auc’, ‘Accuracy’, ‘BalancedAccuracy’].</p></li>
+<li><p><strong>evaluate_models</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to evaluate the models, by default False.</p></li>
+<li><p><strong>models_metrics</strong> (<em>list of str</em><em>, </em><em>optional</em>) – List of metrics for model evaluation, by default [‘MSE’, ‘RMSE’].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the results of the MED3PA experiment on the reference set and testing set.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults">Med3paResults</a>, <a class="reference internal" href="#MED3pa.med3pa.experiment.Med3paResults" title="MED3pa.med3pa.experiment.Med3paResults">Med3paResults</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.experiment.</span></span><span class="sig-name descname"><span class="pre">Med3paResults</span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store and manage results from the MED3PA method.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.get_profiles_manager">
+<span class="sig-name descname"><span class="pre">get_profiles_manager</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><span class="pre">ProfilesManager</span></a></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.get_profiles_manager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.get_profiles_manager" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the profiles manager for this Med3paResults instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the experiment results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The file path to save the JSON files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.set_dataset">
+<span class="sig-name descname"><span class="pre">set_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset" title="MED3pa.datasets.masked.MaskedDataset"><span class="pre">MaskedDataset</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.set_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.set_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the dataset for a given sample ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>samples_ratio</strong> (<em>int</em>) – The sample ratio.</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset" title="MED3pa.datasets.masked.MaskedDataset"><em>MaskedDataset</em></a>) – The MaskedDataset instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.set_metrics_by_dr">
+<span class="sig-name descname"><span class="pre">set_metrics_by_dr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics_by_dr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.set_metrics_by_dr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.set_metrics_by_dr" title="Permalink to this definition"></a></dt>
+<dd><p>Set the calculated metrics by declaration rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metrics_by_dr</strong> (<em>Dict</em>) – Dictionary of metrics by declaration rate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.set_models_evaluation">
+<span class="sig-name descname"><span class="pre">set_models_evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipc_evaluation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apc_evaluation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.set_models_evaluation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.set_models_evaluation" title="Permalink to this definition"></a></dt>
+<dd><p>Set models evaluation metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ipc_evaluation</strong> (<em>Dict</em>) – Evaluation metrics for IPC model.</p></li>
+<li><p><strong>apc_evaluation</strong> (<em>Dict</em>) – Evaluation metrics for APC model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.Med3paResults.set_profiles_manager">
+<span class="sig-name descname"><span class="pre">set_profiles_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><span class="pre">ProfilesManager</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#Med3paResults.set_profiles_manager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.Med3paResults.set_profiles_manager" title="Permalink to this definition"></a></dt>
+<dd><p>Set the profile manager for this Med3paResults instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>profile_manager</strong> (<a class="reference internal" href="#MED3pa.med3pa.profiles.ProfilesManager" title="MED3pa.med3pa.profiles.ProfilesManager"><em>ProfilesManager</em></a>) – The ProfileManager instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="MED3pa.med3pa.experiment.to_serializable">
+<span class="sig-prename descclassname"><span class="pre">MED3pa.med3pa.experiment.</span></span><span class="sig-name descname"><span class="pre">to_serializable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/MED3pa/med3pa/experiment.html#to_serializable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.med3pa.experiment.to_serializable" title="Permalink to this definition"></a></dt>
+<dd><p>Convert an object to a JSON-serializable format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – The object to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The JSON-serializable representation of the object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MED3pa.detectron.html" class="btn btn-neutral float-left" title="detectron subpackage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

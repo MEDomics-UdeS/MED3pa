@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.detectron.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.detectron.experiment</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.detectron.experiment</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module encapsulates the execution logic for the Detectron method, managing the orchestration of the entire pipeline. It includes the ``DetectronExperiment`` abstract class, </span>
+<span class="sd">which outlines the protocol for setting up and running experiments. </span>
+<span class="sd">Additionally, the ``DetectronResult`` class is responsible for storing and managing the outcomes of these experiments, </span>
+<span class="sd">providing methods to access and analyze the trajectories and outcomes of this method&#39;s evaluation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span> <span class="nn">.ensemble</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">DetectronEnsemble</span>
+<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
+<span class="kn">from</span> <span class="nn">.strategies</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="DetectronResult"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult">[docs]</a><span class="k">class</span> <span class="nc">DetectronResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to store the results of a Detectron test</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cal_record</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_record</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the DetectronResult with calibration and test records.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cal_record (DetectronRecordsManager): Manager storing the results of running the Detectron on the &#39;reference&#39; set.</span>
+<span class="sd">            test_record (DetectronRecordsManager): Manager storing the results of running the Detectron on the &#39;testing&#39; set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span> <span class="o">=</span> <span class="n">cal_record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span> <span class="o">=</span> <span class="n">test_record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="DetectronResult.calibration_trajectories"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.calibration_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">calibration_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the results for each run and each model in the ensemble from the reference set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A DataFrame containing seed, model_id, and rejection_rate from the calibration records.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rec</span><span class="p">[[</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id&#39;</span><span class="p">,</span> <span class="s1">&#39;rejection_rate&#39;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="DetectronResult.test_trajectories"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.test_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">test_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the results for each run and each model in the ensemble from the testing set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A DataFrame containing seed, model_id, and rejection_rate from the test records.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rec</span><span class="p">[[</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id&#39;</span><span class="p">,</span> <span class="s1">&#39;rejection_rate&#39;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="DetectronResult.get_experiments_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.get_experiments_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_experiments_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the Detectron tests using the specified strategy and records.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Results from executing the Detectron test.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
+    
+    
+<div class="viewcode-block" id="DetectronResult.analyze_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.analyze_results">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Appends the results of the Detectron tests for each strategy to self.test_results.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): Class type or list of strategy class types.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: Updated list containing results for each strategy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure strategies is a list of classes</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">strategies</span><span class="p">,</span> <span class="n">Type</span><span class="p">):</span>
+            <span class="n">strategies</span> <span class="o">=</span> <span class="p">[</span><span class="n">strategies</span><span class="p">]</span>  <span class="c1"># Convert single class type to list</span>
+
+        <span class="k">for</span> <span class="n">strategy_class</span> <span class="ow">in</span> <span class="n">strategies</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">strategy_class</span><span class="p">,</span> <span class="n">DetectronStrategy</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Each strategy must be a subclass of DetectronStrategy.&quot;</span><span class="p">)</span>
+
+            <span class="n">strategy_results</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span><span class="p">)</span>
+            <span class="n">strategy_name</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">strategy_results</span><span class="p">[</span><span class="s1">&#39;Strategy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">strategy_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strategy_results</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
+
+<div class="viewcode-block" id="DetectronResult.save"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detectron_results&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the Detectron results to JSON format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): The file path where the results should be saved.</span>
+<span class="sd">            file_name (str): The file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure the main directory exists</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
+        
+    
+<div class="viewcode-block" id="DetectronExperiment"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">DetectronExperiment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class that defines the protocol for running Detectron experiments.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DetectronExperiment.run"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+            <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
+            <span class="n">training_params</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">samples_size</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="n">calib_result</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ensemble_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">num_calibration_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">patience</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">allow_margin</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+            <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets (DatasetsManager): Manages the datasets used in the experiment.</span>
+<span class="sd">            training_params (dict): Parameters for training the cdcs within the ensembles.</span>
+<span class="sd">            base_model_manager (BaseModelManager): Manager for the base model operations.</span>
+<span class="sd">            samples_size (int): Number of samples to use in each Detectron run. Defaults to 20.</span>
+<span class="sd">            calib_result (Optional[DetectronRecordsManager]): Calibration results, if provided. Defaults to None.</span>
+<span class="sd">            ensemble_size (int): Number of models in each ensemble. Defaults to 10.</span>
+<span class="sd">            num_calibration_runs (int): Number of calibration runs. Defaults to 100.</span>
+<span class="sd">            patience (int): Number of iterations with no improvement before stopping. Defaults to 3.</span>
+<span class="sd">            allow_margin (bool): Allow a margin of error when comparing model outputs. Defaults to False.</span>
+<span class="sd">            margin (float): Threshold for considering differences significant when margin is allowed. Defaults to 0.05.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># create a calibration ensemble</span>
+        <span class="n">calibration_ensemble</span> <span class="o">=</span> <span class="n">DetectronEnsemble</span><span class="p">(</span><span class="n">base_model_manager</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">)</span>
+        
+        <span class="c1"># create a testing ensemble</span>
+        <span class="n">testing_ensemble</span> <span class="o">=</span> <span class="n">DetectronEnsemble</span><span class="p">(</span><span class="n">base_model_manager</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">)</span>
+        
+        <span class="c1"># ensure the reference set is larger compared to testing set</span>
+        <span class="n">reference_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reference_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">test_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">reference_set</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">test_size</span> <span class="o">&gt;</span> <span class="n">samples_size</span><span class="p">,</span> \
+                <span class="s2">&quot;The reference set must be larger than the testing set to perform statistical bootstrapping&quot;</span>
+            <span class="k">if</span> <span class="n">test_size</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">samples_size</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The reference set is smaller than twice the testing set, this may lead to poor calibration&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">calib_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calibration record on reference set provided, skipping Detectron execution on reference set.&quot;</span><span class="p">)</span>
+                <span class="n">cal_record</span> <span class="o">=</span> <span class="n">calib_result</span>
+            <span class="k">else</span><span class="p">:</span>
+            
+            <span class="c1"># evaluate the calibration ensemble</span>
+                <span class="n">cal_record</span> <span class="o">=</span> <span class="n">calibration_ensemble</span><span class="o">.</span><span class="n">evaluate_ensemble</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> 
+                                                                    <span class="n">n_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span>
+                                                                    <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> 
+                                                                    <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span> 
+                                                                    <span class="nb">set</span><span class="o">=</span><span class="s1">&#39;reference&#39;</span><span class="p">,</span> 
+                                                                    <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span> 
+                                                                    <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span>
+                                                                    <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Detectron execution on reference set completed.&quot;</span><span class="p">)</span>
+            
+            <span class="n">test_record</span> <span class="o">=</span> <span class="n">testing_ensemble</span><span class="o">.</span><span class="n">evaluate_ensemble</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> 
+                                                            <span class="n">n_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> 
+                                                            <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> 
+                                                            <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span>
+                                                            <span class="nb">set</span><span class="o">=</span><span class="s1">&#39;testing&#39;</span><span class="p">,</span> 
+                                                            <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span>
+                                                            <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span>
+                                                            <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Detectron execution on testing set completed.&quot;</span><span class="p">)</span>
+
+
+            <span class="k">assert</span> <span class="n">cal_record</span><span class="o">.</span><span class="n">sample_size</span> <span class="o">==</span> <span class="n">test_record</span><span class="o">.</span><span class="n">sample_size</span><span class="p">,</span> \
+                <span class="s2">&quot;The calibration record must have been generated with the same sample size as the observation set&quot;</span>
+            
+    
+        <span class="c1"># save the detectron runs results</span>
+        <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">DetectronResult</span><span class="p">(</span><span class="n">cal_record</span><span class="p">,</span> <span class="n">test_record</span><span class="p">)</span>
+        
+        <span class="c1"># calculate the detectron test</span>
+        <span class="k">return</span> <span class="n">detectron_results</span></div></div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -39,6 +39,12 @@ The ``MED3pa`` package is constructed with a strong emphasis on **software engin
 - **Extensibility**: Thanks to its modular architecture, the package can be effortlessly extended to include more functionalities or adapt to different use cases. New models, methods, or data handling procedures can be added with minimal impact on the existing system structure.
 - **Use of Design Patterns**: MED3pa employs various design patterns that enhance its maintainability and usability. For example, the use of factory patterns in model creation and strategy patterns in handling different file extensions ensures that the system remains flexible and adaptable to new requirements.
 
+.. toctree::
+   :maxdepth: 4
+   :caption: Installation Guide
+   
+   installation
+
 Subpackages
 ============
 The package is structured into four distinct subpackages : ``datasets``, ``models``, ``detectron`` and ``med3pa``, each focusing on different aspects of the package goals. 

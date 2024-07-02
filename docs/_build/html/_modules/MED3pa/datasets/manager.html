@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.datasets.manager &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.datasets.manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.datasets.manager</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The manager.py module manages the different datasets needed for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. </span>
+<span class="sd">It includes the ``DatasetsManager`` class that contains the training, validation, reference, and testing datasets for a specific ML task.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">.loading_context</span> <span class="kn">import</span> <span class="n">DataLoadingContext</span>
+<span class="kn">from</span> <span class="nn">.masked</span> <span class="kn">import</span> <span class="n">MaskedDataset</span>
+
+
+<div class="viewcode-block" id="DatasetsManager"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager">[docs]</a><span class="k">class</span> <span class="nc">DatasetsManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages various datasets for execution of detectron and med3pa methods.</span>
+
+<span class="sd">    This manager is responsible for loading and holding different sets of data, including training, validation,</span>
+<span class="sd">    reference (or domain dataset), and testing datasets (or new encountered data).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the DatasetsManager with empty datasets.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<div class="viewcode-block" id="DatasetsManager.set_from_file"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads and sets the specified dataset from a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to set (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            file (str): The file path to the data.</span>
+<span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided or if the shape of observations does not match column labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">DataLoadingContext</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">column_labels</span><span class="p">,</span> <span class="n">obs_np</span><span class="p">,</span> <span class="n">true_labels_np</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">load_as_np</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_column_labels</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span>
+
+        <span class="c1"># Check if the number of columns in observations matches the length of column_labels</span>
+        <span class="k">if</span> <span class="n">obs_np</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shape of observations </span><span class="si">{</span><span class="n">obs_np</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> does not match the length of column labels </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">obs_np</span><span class="p">,</span> <span class="n">true_labels_np</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+
+        <span class="k">match</span> <span class="n">dataset_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="DatasetsManager.set_from_data"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the specified dataset using numpy arrays for observations and true labels.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to set (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            observations (np.ndarray): The feature vectors of the dataset.</span>
+<span class="sd">            true_labels (np.ndarray): The true labels of the dataset.</span>
+<span class="sd">            column_labels (list, optional): The list of column labels for the dataset. Defaults to None.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided or if column labels do not match existing column labels.</span>
+<span class="sd">            ValueError: If column_labels and target_column_name are not provided when column_labels are not set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">column_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_column_labels</span><span class="p">(</span><span class="n">column_labels</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column labels must be provided when setting a dataset for the first time.&quot;</span><span class="p">)</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">MaskedDataset</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">,</span> <span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span><span class="p">)</span>
+        
+        <span class="k">match</span> <span class="n">dataset_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="n">dataset</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.set_column_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the column labels for the datasets, excluding the target column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            columns (list): The list of columns excluding the target column.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the target column is not found in the list of columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">!=</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provided column labels do not match the existing column labels.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.get_column_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the column labels of the manager</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: A list of the column labels extracted from the files.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span></div>
+    
+<div class="viewcode-block" id="DatasetsManager.get_info"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information about all the datasets managed by the DatasetsManager.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            detailed (bool): If True, includes detailed information about each dataset. If False, only indicates whether each dataset is set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing information about each dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">show_details</span><span class="p">:</span>
+            <span class="n">datasets_info</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;training_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;validation_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reference_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;testing_set&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;column_labels&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">datasets_info</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;training_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;validation_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reference_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;testing_set&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;column_labels&#39;</span><span class="p">:</span> <span class="s1">&#39;Set&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="k">else</span> <span class="s1">&#39;Not set&#39;</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">datasets_info</span></div>
+    
+<div class="viewcode-block" id="DatasetsManager.summarize"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a summary of the manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;training_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;training_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;validation_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;validation_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;reference_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;reference_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;testing_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;testing_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;column_labels: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;column_labels&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.reset_datasets"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.reset_datasets">[docs]</a>    <span class="k">def</span> <span class="nf">reset_datasets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets all datasets in the manager.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.get_dataset_by_type"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_dataset_by_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataset_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MaskedDataset</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper method to get a dataset by type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to retrieve (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            MaskedDataset: The corresponding MaskedDataset instance.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;training&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_base_model_training_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;validation&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_base_model_validation_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_reference_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset_type</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_testing_data</span><span class="p">(</span><span class="n">return_instance</span><span class="o">=</span><span class="n">return_instance</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DatasetsManager.save_dataset_to_csv"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.save_dataset_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_dataset_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the specified dataset to a CSV file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset_type (str): The type of dataset to save (&#39;training&#39;, &#39;validation&#39;, &#39;reference&#39;, &#39;testing&#39;).</span>
+<span class="sd">            file_path (str): The file path to save the dataset to.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If an invalid dataset_type is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset &#39;</span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&#39; is not set.&quot;</span><span class="p">)</span>
+        
+        <span class="n">dataset</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_base_model_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the training dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            return_instance (bool, optional): If True, returns the MaskedDataset instance; otherwise, returns the observations and true labels. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[tuple, MaskedDataset]: The observations and true labels if return_instance is False, otherwise the MaskedDataset instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the base model training set is not initialized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_instance</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_training_set</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model training set not initialized.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_base_model_validation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the validation dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            return_instance (bool, optional): If True, returns the MaskedDataset instance; otherwise, returns the observations and true labels. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[tuple, MaskedDataset]: The observations and true labels if return_instance is False, otherwise the MaskedDataset instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the base model validation set is not initialized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_instance</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_model_validation_set</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Base model validation set not initialized.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_reference_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the reference dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            return_instance (bool, optional): If True, returns the MaskedDataset instance; otherwise, returns the observations and true labels. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[tuple, MaskedDataset]: The observations and true labels if return_instance is False, otherwise the MaskedDataset instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the reference set is not initialized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_instance</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_set</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Reference set not initialized.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_testing_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the testing dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            return_instance (bool, optional): If True, returns the MaskedDataset instance; otherwise, returns the observations and true labels. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[tuple, MaskedDataset]: The observations and true labels if return_instance is False, otherwise the MaskedDataset instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the testing set is not initialized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_instance</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">get_observations</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Testing set not initialized.&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

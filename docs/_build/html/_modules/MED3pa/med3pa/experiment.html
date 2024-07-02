@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.med3pa.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.med3pa.experiment</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.med3pa.experiment</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Orchestrates the execution of the med3pa method and integrates the functionality of other modules to run comprehensive experiments. </span>
+<span class="sd">It includes classes to manage and store results ``Med3paResults``, execute experiments like ``Med3paExperiment`` and ``Med3paDetectronExperiment``, and integrate results from the Detectron method ``Med3paDetectronResults``</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">MaskedDataset</span>
+<span class="kn">from</span> <span class="nn">MED3pa.detectron.experiment</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronResult</span><span class="p">,</span> <span class="n">DetectronStrategy</span><span class="p">,</span> <span class="n">EnhancedDisagreementStrategy</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.mdr</span> <span class="kn">import</span> <span class="n">MDRCalculator</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.base</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="to_serializable"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.to_serializable">[docs]</a><span class="k">def</span> <span class="nf">to_serializable</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">additional_arg</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an object to a JSON-serializable format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj (Any): The object to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: The JSON-serializable representation of the object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Profile</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">additional_arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">additional_arg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">to_serializable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">to_serializable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">obj</span></div>
+
+
+<div class="viewcode-block" id="Med3paResults"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults">[docs]</a><span class="k">class</span> <span class="nc">Med3paResults</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store and manage results from the MED3PA method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics_by_dr</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">MaskedDataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    
+<div class="viewcode-block" id="Med3paResults.set_metrics_by_dr"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_metrics_by_dr">[docs]</a>    <span class="k">def</span> <span class="nf">set_metrics_by_dr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics_by_dr</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the calculated metrics by declaration rate.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metrics_by_dr (Dict): Dictionary of metrics by declaration rate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics_by_dr</span> <span class="o">=</span> <span class="n">metrics_by_dr</span></div>
+    
+<div class="viewcode-block" id="Med3paResults.set_profiles_manager"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">set_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_manager</span> <span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the profile manager for this Med3paResults instance.</span>
+<span class="sd"> </span>
+<span class="sd">        Args:</span>
+<span class="sd">            profile_manager (ProfilesManager): The ProfileManager instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span> <span class="o">=</span> <span class="n">profile_manager</span></div>
+
+<div class="viewcode-block" id="Med3paResults.set_models_evaluation"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_models_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">set_models_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ipc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">apc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set models evaluation metrics.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ipc_evaluation (Dict): Evaluation metrics for IPC model.</span>
+<span class="sd">            apc_evaluation (Dict): Evaluation metrics for APC model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">[</span><span class="s1">&#39;IPC_evaluation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipc_evaluation</span>
+        
+        <span class="k">if</span> <span class="n">apc_evaluation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">[</span><span class="s1">&#39;APC_evaluation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">apc_evaluation</span></div>
+    
+<div class="viewcode-block" id="Med3paResults.set_dataset"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">MaskedDataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the dataset for a given sample ratio.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            samples_ratio (int): The sample ratio.</span>
+<span class="sd">            dataset (MaskedDataset): The MaskedDataset instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">samples_ratio</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span></div>
+
+<div class="viewcode-block" id="Med3paResults.save"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the experiment results.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): The file path to save the JSON files.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure the main directory exists</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1">/metrics_dr.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics_by_dr</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">to_serializable</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1">/profiles.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span><span class="o">.</span><span class="n">get_profiles</span><span class="p">(),</span> <span class="n">file</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">to_serializable</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1">/lost_profiles.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span><span class="o">.</span><span class="n">get_lost_profiles</span><span class="p">(),</span> <span class="n">file</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">to_serializable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">additional_arg</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s1">/models_evaluation.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">to_serializable</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">samples_ratio</span><span class="p">,</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">dataset_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;dataset_</span><span class="si">{</span><span class="n">samples_ratio</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+            <span class="n">dataset</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Med3paResults.get_profiles_manager"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.get_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">get_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProfilesManager</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the profiles manager for this Med3paResults instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span></div></div>
+
+
+<div class="viewcode-block" id="Med3paExperiment"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paExperiment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to run the MED3PA method experiment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Med3paExperiment.run"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets_manager</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+            <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">]</span> <span class="o">=</span> <span class="n">AbsoluteError</span><span class="p">,</span>
+            <span class="n">ipc_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RandomForestRegressor&#39;</span><span class="p">,</span>
+            <span class="n">ipc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ipc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+            <span class="n">ipc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">apc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">samples_ratio_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">samples_ratio_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> 
+            <span class="n">samples_ratio_step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">med3pa_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+            <span class="n">evaluate_models</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mpc&#39;</span><span class="p">,</span>
+            <span class="n">models_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Med3paResults</span><span class="p">,</span> <span class="n">Med3paResults</span><span class="p">]:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the MED3PA experiment on both reference and testing sets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.</span>
+<span class="sd">            base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.</span>
+<span class="sd">            uncertainty_metric (Type[UncertaintyMetric], optional): Instance of UncertaintyMetric to calculate uncertainty, by default AbsoluteError.</span>
+<span class="sd">            ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.</span>
+<span class="sd">            ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.</span>
+<span class="sd">            ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.</span>
+<span class="sd">            ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.</span>
+<span class="sd">            apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.</span>
+<span class="sd">            apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.</span>
+<span class="sd">            apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.</span>
+<span class="sd">            samples_ratio_min (int, optional): Minimum sample ratio, by default 0.</span>
+<span class="sd">            samples_ratio_max (int, optional): Maximum sample ratio, by default 50.</span>
+<span class="sd">            samples_ratio_step (int, optional): Step size for sample ratio, by default 5.</span>
+<span class="sd">            med3pa_metrics (list of str, optional): List of metrics to calculate, by default [&#39;Auc&#39;, &#39;Accuracy&#39;, &#39;BalancedAccuracy&#39;].</span>
+<span class="sd">            evaluate_models (bool, optional): Whether to evaluate the models, by default False.</span>
+<span class="sd">            models_metrics (list of str, optional): List of metrics for model evaluation, by default [&#39;MSE&#39;, &#39;RMSE&#39;].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Med3paResults, Med3paResults]: the results of the MED3PA experiment on the reference set and testing set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running MED3pa Experiment on the reference set:&quot;</span><span class="p">)</span>
+        <span class="n">results_reference</span> <span class="o">=</span> <span class="n">Med3paExperiment</span><span class="o">.</span><span class="n">_run_by_set</span><span class="p">(</span><span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets_manager</span><span class="p">,</span><span class="nb">set</span><span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span><span class="n">base_model_manager</span><span class="o">=</span> <span class="n">base_model_manager</span><span class="p">,</span> 
+                                                         <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">uncertainty_metric</span><span class="p">,</span>
+                                                         <span class="n">ipc_type</span><span class="o">=</span><span class="n">ipc_type</span><span class="p">,</span> <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span> <span class="n">ipc_grid_params</span><span class="o">=</span><span class="n">ipc_grid_params</span><span class="p">,</span> <span class="n">ipc_cv</span><span class="o">=</span><span class="n">ipc_cv</span><span class="p">,</span> 
+                                                         <span class="n">apc_params</span><span class="o">=</span><span class="n">apc_params</span><span class="p">,</span><span class="n">apc_grid_params</span><span class="o">=</span><span class="n">apc_grid_params</span><span class="p">,</span> <span class="n">apc_cv</span><span class="o">=</span><span class="n">apc_cv</span><span class="p">,</span> 
+                                                         <span class="n">samples_ratio_min</span><span class="o">=</span><span class="n">samples_ratio_min</span><span class="p">,</span> <span class="n">samples_ratio_max</span><span class="o">=</span><span class="n">samples_ratio_max</span><span class="p">,</span> <span class="n">samples_ratio_step</span><span class="o">=</span><span class="n">samples_ratio_step</span><span class="p">,</span> 
+                                                         <span class="n">med3pa_metrics</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span> <span class="n">evaluate_models</span><span class="o">=</span><span class="n">evaluate_models</span><span class="p">,</span> <span class="n">models_metrics</span><span class="o">=</span><span class="n">models_metrics</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running MED3pa Experiment on the reference set:&quot;</span><span class="p">)</span>
+        <span class="n">results_testing</span> <span class="o">=</span> <span class="n">Med3paExperiment</span><span class="o">.</span><span class="n">_run_by_set</span><span class="p">(</span><span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets_manager</span><span class="p">,</span><span class="nb">set</span><span class="o">=</span> <span class="s1">&#39;testing&#39;</span><span class="p">,</span><span class="n">base_model_manager</span><span class="o">=</span> <span class="n">base_model_manager</span><span class="p">,</span> 
+                                                         <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">uncertainty_metric</span><span class="p">,</span>
+                                                         <span class="n">ipc_type</span><span class="o">=</span><span class="n">ipc_type</span><span class="p">,</span> <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span> <span class="n">ipc_grid_params</span><span class="o">=</span><span class="n">ipc_grid_params</span><span class="p">,</span> <span class="n">ipc_cv</span><span class="o">=</span><span class="n">ipc_cv</span><span class="p">,</span> 
+                                                         <span class="n">apc_params</span><span class="o">=</span><span class="n">apc_params</span><span class="p">,</span><span class="n">apc_grid_params</span><span class="o">=</span><span class="n">apc_grid_params</span><span class="p">,</span> <span class="n">apc_cv</span><span class="o">=</span><span class="n">apc_cv</span><span class="p">,</span> 
+                                                         <span class="n">samples_ratio_min</span><span class="o">=</span><span class="n">samples_ratio_min</span><span class="p">,</span> <span class="n">samples_ratio_max</span><span class="o">=</span><span class="n">samples_ratio_max</span><span class="p">,</span> <span class="n">samples_ratio_step</span><span class="o">=</span><span class="n">samples_ratio_step</span><span class="p">,</span> 
+                                                         <span class="n">med3pa_metrics</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span> <span class="n">evaluate_models</span><span class="o">=</span><span class="n">evaluate_models</span><span class="p">,</span> <span class="n">models_metrics</span><span class="o">=</span><span class="n">models_metrics</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results_reference</span><span class="p">,</span> <span class="n">results_testing</span></div>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_run_by_set</span><span class="p">(</span><span class="n">datasets_manager</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+            <span class="nb">set</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span>
+            <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">]</span> <span class="o">=</span> <span class="n">AbsoluteError</span><span class="p">,</span>
+            <span class="n">ipc_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RandomForestRegressor&#39;</span><span class="p">,</span>
+            <span class="n">ipc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ipc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+            <span class="n">ipc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">apc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">samples_ratio_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">samples_ratio_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> 
+            <span class="n">samples_ratio_step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">med3pa_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+            <span class="n">evaluate_models</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mpc&#39;</span><span class="p">,</span>
+            <span class="n">models_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Med3paResults</span><span class="p">:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Orchestrates the MED3PA experiment on one specific set of the dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.</span>
+<span class="sd">            base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.</span>
+<span class="sd">            uncertainty_metric (Type[UncertaintyMetric], optional): Instance of UncertaintyMetric to calculate uncertainty, by default AbsoluteError.</span>
+<span class="sd">            ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.</span>
+<span class="sd">            ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.</span>
+<span class="sd">            ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.</span>
+<span class="sd">            ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.</span>
+<span class="sd">            apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.</span>
+<span class="sd">            apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.</span>
+<span class="sd">            apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.</span>
+<span class="sd">            samples_ratio_min (int, optional): Minimum sample ratio, by default 0.</span>
+<span class="sd">            samples_ratio_max (int, optional): Maximum sample ratio, by default 50.</span>
+<span class="sd">            samples_ratio_step (int, optional): Step size for sample ratio, by default 5.</span>
+<span class="sd">            med3pa_metrics (list of str, optional): List of metrics to calculate, by default [&#39;Auc&#39;, &#39;Accuracy&#39;, &#39;BalancedAccuracy&#39;].</span>
+<span class="sd">            evaluate_models (bool, optional): Whether to evaluate the models, by default False.</span>
+<span class="sd">            models_metrics (list of str, optional): List of metrics for model evaluation, by default [&#39;MSE&#39;, &#39;RMSE&#39;].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Med3paResults: the results of the MED3PA experiment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># retrieve the dataset based on the set type</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;reference&#39;</span><span class="p">:</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">set</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The set must be either the reference set or the testing set&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  
+            <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
+        <span class="n">valid_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mpc&#39;</span><span class="p">,</span> <span class="s1">&#39;apc&#39;</span><span class="p">,</span> <span class="s1">&#39;ipc&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_modes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;. The mode must be one of </span><span class="si">{</span><span class="n">valid_modes</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># retrieve different dataset components to calculate the metrics</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_observations</span><span class="p">()</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_true_labels</span><span class="p">()</span>
+        <span class="n">predicted_probabilities</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_pseudo_probabilities</span><span class="p">()</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">datasets_manager</span><span class="o">.</span><span class="n">get_column_labels</span><span class="p">()</span>
+
+        <span class="c1"># Initialize base model and predict probabilities if not provided</span>
+        <span class="k">if</span> <span class="n">base_model_manager</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">predicted_probabilities</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either the base model or the predicted probabilities should be provided!&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">predicted_probabilities</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">base_model</span> <span class="o">=</span> <span class="n">base_model_manager</span><span class="o">.</span><span class="n">get_instance</span><span class="p">()</span>
+            <span class="n">predicted_probabilities</span> <span class="o">=</span> <span class="n">base_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">dataset</span><span class="o">.</span><span class="n">set_pseudo_labels</span><span class="p">(</span><span class="n">predicted_probabilities</span><span class="p">)</span>
+
+        <span class="c1"># Calculate uncertainty values</span>
+        <span class="n">uncertainty_calc</span> <span class="o">=</span> <span class="n">UncertaintyCalculator</span><span class="p">(</span><span class="n">uncertainty_metric</span><span class="p">)</span>
+        <span class="n">uncertainty_values</span> <span class="o">=</span> <span class="n">uncertainty_calc</span><span class="o">.</span><span class="n">calculate_uncertainty</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">predicted_probabilities</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
+
+        <span class="c1"># set predicted labels</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">set_pseudo_probs_labels</span><span class="p">(</span><span class="n">predicted_probabilities</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">evaluate_models</span><span class="p">:</span>
+            <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">uncertainty_train</span><span class="p">,</span> <span class="n">uncertainty_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">uncertainty_values</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_train</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">uncertainty_train</span> <span class="o">=</span> <span class="n">uncertainty_values</span>
+
+        <span class="k">if</span> <span class="n">med3pa_metrics</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">med3pa_metrics</span> <span class="o">=</span> <span class="n">ClassificationEvaluationMetrics</span><span class="o">.</span><span class="n">supported_metrics</span><span class="p">()</span>
+        
+        <span class="n">results</span> <span class="o">=</span> <span class="n">Med3paResults</span><span class="p">()</span>
+
+        <span class="c1"># Create and train IPCModel</span>
+        <span class="n">IPC_model</span> <span class="o">=</span> <span class="n">IPCModel</span><span class="p">(</span><span class="n">ipc_type</span><span class="p">,</span> <span class="n">ipc_params</span><span class="p">)</span>
+        <span class="n">IPC_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">uncertainty_train</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IPC Model training completed.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># optimize IPC model if grid params were provided</span>
+        <span class="k">if</span> <span class="n">ipc_grid_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">IPC_model</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">ipc_grid_params</span><span class="p">,</span> <span class="n">ipc_cv</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">uncertainty_train</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IPC Model optimization done.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Predict IPC values</span>
+        <span class="n">IPC_values</span> <span class="o">=</span> <span class="n">IPC_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mpc&#39;</span><span class="p">,</span> <span class="s1">&#39;apc&#39;</span><span class="p">]:</span>
+            <span class="c1"># Create and train APCModel</span>
+            <span class="n">APC_model</span> <span class="o">=</span> <span class="n">APCModel</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">apc_params</span><span class="p">)</span>
+            <span class="n">APC_model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">IPC_values</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;APC Model training completed.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># optimize APC model if grid params were provided</span>
+            <span class="k">if</span> <span class="n">apc_grid_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">APC_model</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">apc_grid_params</span><span class="p">,</span> <span class="n">apc_cv</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">uncertainty_train</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;APC Model optimization done.&quot;</span><span class="p">)</span>
+
+            <span class="n">profiles_manager</span> <span class="o">=</span> <span class="n">ProfilesManager</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">samples_ratio</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples_ratio_min</span><span class="p">,</span> <span class="n">samples_ratio_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">samples_ratio_step</span><span class="p">):</span>
+                
+                <span class="c1"># Predict APC values</span>
+                <span class="n">APC_values</span> <span class="o">=</span> <span class="n">APC_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="o">=</span><span class="n">samples_ratio</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;mpc&#39;</span><span class="p">:</span>
+                    <span class="c1"># Create and predict MPC values</span>
+                    <span class="n">MPC_model</span> <span class="o">=</span> <span class="n">MPCModel</span><span class="p">(</span><span class="n">IPC_values</span><span class="o">=</span><span class="n">IPC_values</span><span class="p">,</span> <span class="n">APC_values</span><span class="o">=</span><span class="n">APC_values</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">MPC_model</span> <span class="o">=</span> <span class="n">MPCModel</span><span class="p">(</span><span class="n">APC_values</span><span class="o">=</span><span class="n">APC_values</span><span class="p">)</span>
+
+                <span class="n">MPC_values</span> <span class="o">=</span> <span class="n">MPC_model</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">set_confidence_scores</span><span class="p">(</span><span class="n">MPC_values</span><span class="p">)</span>
+                
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confidence scores calculated for minimum_samples_ratio = &quot;</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">)</span>
+
+                <span class="c1"># Calculate profiles and their metrics by declaration rate</span>
+                <span class="n">tree</span> <span class="o">=</span> <span class="n">APC_model</span><span class="o">.</span><span class="n">treeRepresentation</span>
+                <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">MPC_values</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">)</span>
+                <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">calc_metrics_by_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">datasets_manager</span><span class="p">,</span> <span class="n">med3pa_metrics</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
+
+                <span class="n">cloned_dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">set_profiles_manager</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">set_dataset</span><span class="p">(</span><span class="n">samples_ratio</span><span class="o">=</span><span class="n">samples_ratio</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="n">cloned_dataset</span><span class="p">)</span>
+                
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results extracted for minimum_samples_ratio = &quot;</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">)</span>
+        
+        <span class="c1"># Calculate metrics by declaration rate</span>
+        <span class="c1"># Create and predict MPC values using only the IPC values</span>
+        <span class="n">MPC_model</span> <span class="o">=</span> <span class="n">MPCModel</span><span class="p">(</span><span class="n">IPC_values</span><span class="o">=</span><span class="n">IPC_values</span><span class="p">)</span>
+        <span class="n">MPC_values</span> <span class="o">=</span> <span class="n">MPC_model</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+        
+        <span class="n">dataset</span><span class="o">.</span><span class="n">set_confidence_scores</span><span class="p">(</span><span class="n">MPC_values</span><span class="p">)</span>
+        <span class="n">metrics_by_dr</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">calc_metrics_by_dr</span><span class="p">(</span><span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets_manager</span><span class="p">,</span> <span class="n">metrics_list</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span> <span class="nb">set</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">set_metrics_by_dr</span><span class="p">(</span><span class="n">metrics_by_dr</span><span class="p">)</span>
+
+        <span class="c1"># evaluate models</span>
+        <span class="k">if</span> <span class="n">evaluate_models</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mpc&#39;</span><span class="p">,</span> <span class="s1">&#39;apc&#39;</span><span class="p">]:</span>
+                <span class="n">IPC_evaluation</span> <span class="o">=</span> <span class="n">IPC_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">uncertainty_test</span><span class="p">,</span> <span class="n">models_metrics</span><span class="p">)</span>
+                <span class="n">APC_evaluation</span> <span class="o">=</span> <span class="n">APC_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">uncertainty_test</span><span class="p">,</span> <span class="n">models_metrics</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">set_models_evaluation</span><span class="p">(</span><span class="n">IPC_evaluation</span><span class="p">,</span> <span class="n">APC_evaluation</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">:</span>
+                <span class="n">IPC_evaluation</span> <span class="o">=</span> <span class="n">IPC_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">uncertainty_test</span><span class="p">,</span> <span class="n">models_metrics</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">set_models_evaluation</span><span class="p">(</span><span class="n">IPC_evaluation</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            
+
+        <span class="k">return</span> <span class="n">results</span>  </div>
+
+
+<div class="viewcode-block" id="Med3paDetectronExperiment"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paDetectronExperiment</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paDetectronExperiment.run"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+            <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
+            <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">]</span> <span class="o">=</span> <span class="n">AbsoluteError</span><span class="p">,</span>
+            <span class="n">training_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">samples_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="n">samples_size_profiles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">ensemble_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">num_calibration_runs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="n">patience</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="n">test_strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">EnhancedDisagreementStrategy</span><span class="p">,</span>
+            <span class="n">allow_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+            <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+            <span class="n">ipc_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RandomForestRegressor&#39;</span><span class="p">,</span>
+            <span class="n">ipc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ipc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+            <span class="n">ipc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_grid_params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">apc_cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">samples_ratio_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">samples_ratio_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> 
+            <span class="n">samples_ratio_step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">med3pa_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;BalancedAccuracy&#39;</span><span class="p">],</span>
+            <span class="n">evaluate_models</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">models_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">],</span>
+            <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mpc&#39;</span><span class="p">,</span>
+            <span class="n">all_dr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">Tuple</span><span class="p">[</span><span class="n">Med3paResults</span><span class="p">,</span> <span class="n">Med3paResults</span><span class="p">,</span> <span class="n">DetectronResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the MED3PA and Detectron experiment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets (DatasetsManager): The datasets manager instance.</span>
+<span class="sd">            training_params (dict): Parameters for training the models.</span>
+<span class="sd">            base_model_manager (BaseModelManager): The base model manager instance.</span>
+<span class="sd">            uncertainty_metric (Type[UncertaintyMetric]): The uncertainty metric to use.</span>
+<span class="sd">            samples_size (int, optional): Sample size for the Detectron experiment, by default 20.</span>
+<span class="sd">            samples_size_profiles (int, optional): Sample size for Profiles Detectron experiment, by default 10.</span>
+<span class="sd">            ensemble_size (int, optional): Number of models in the ensemble, by default 10.</span>
+<span class="sd">            num_calibration_runs (int, optional): Number of calibration runs, by default 100.</span>
+<span class="sd">            patience (int, optional): Patience for early stopping, by default 3.</span>
+<span class="sd">            test_strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): strategies for testing disagreement, by default EnhancedDisagreementStrategy.</span>
+<span class="sd">            allow_margin (bool, optional): Whether to allow a margin in the test, by default False.</span>
+<span class="sd">            margin (float, optional): Margin value for the test, by default 0.05.</span>
+<span class="sd">            ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.</span>
+<span class="sd">            ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.</span>
+<span class="sd">            ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.</span>
+<span class="sd">            ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.</span>
+<span class="sd">            apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.</span>
+<span class="sd">            apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.</span>
+<span class="sd">            apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.</span>
+<span class="sd">            samples_ratio_min (int, optional): Minimum sample ratio, by default 0.</span>
+<span class="sd">            samples_ratio_max (int, optional): Maximum sample ratio, by default 50.</span>
+<span class="sd">            samples_ratio_step (int, optional): Step size for sample ratio, by default 5.</span>
+<span class="sd">            med3pa_metrics (list of str, optional): List of metrics to calculate, by default [&#39;Auc&#39;, &#39;Accuracy&#39;, &#39;BalancedAccuracy&#39;].</span>
+<span class="sd">            evaluate_models (bool, optional): Whether to evaluate the models, by default False.</span>
+<span class="sd">            models_metrics (list of str, optional): List of metrics for model evaluation, by default [&#39;MSE&#39;, &#39;RMSE&#39;].</span>
+<span class="sd">            all_dr (bool, optional): Whether to run for all declaration rates, by default False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Med3paResults, Med3paResults, DetectronResult]: Results of MED3pa on reference and testing sets, plus Detectron Results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">valid_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mpc&#39;</span><span class="p">,</span> <span class="s1">&#39;apc&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_modes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;. The mode must be one of </span><span class="si">{</span><span class="n">valid_modes</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        
+        <span class="n">reference_3pa_res</span><span class="p">,</span> <span class="n">testing_3pa_res</span> <span class="o">=</span> <span class="n">Med3paExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> 
+                                                                <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span> <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">uncertainty_metric</span><span class="p">,</span>
+                                                                <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span> <span class="n">ipc_grid_params</span><span class="o">=</span><span class="n">ipc_grid_params</span><span class="p">,</span> <span class="n">ipc_cv</span><span class="o">=</span><span class="n">ipc_cv</span><span class="p">,</span> <span class="n">ipc_type</span><span class="o">=</span><span class="n">ipc_type</span><span class="p">,</span>
+                                                                <span class="n">apc_params</span><span class="o">=</span><span class="n">apc_params</span><span class="p">,</span> <span class="n">apc_grid_params</span><span class="o">=</span><span class="n">apc_grid_params</span><span class="p">,</span> <span class="n">apc_cv</span><span class="o">=</span><span class="n">apc_cv</span><span class="p">,</span>
+                                                                <span class="n">evaluate_models</span><span class="o">=</span><span class="n">evaluate_models</span><span class="p">,</span> <span class="n">models_metrics</span><span class="o">=</span><span class="n">models_metrics</span><span class="p">,</span>
+                                                                <span class="n">samples_ratio_min</span><span class="o">=</span><span class="n">samples_ratio_min</span><span class="p">,</span> <span class="n">samples_ratio_max</span><span class="o">=</span><span class="n">samples_ratio_max</span><span class="p">,</span> <span class="n">samples_ratio_step</span><span class="o">=</span><span class="n">samples_ratio_step</span><span class="p">,</span>
+                                                                <span class="n">med3pa_metrics</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+            
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Global Detectron Experiment:&quot;</span><span class="p">)</span>
+        <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">DetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span> <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
+                                                    <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> <span class="n">num_calibration_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="o">=</span><span class="n">ensemble_size</span><span class="p">,</span>
+                                                    <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span> <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+        <span class="n">detectron_results</span><span class="o">.</span><span class="n">analyze_results</span><span class="p">(</span><span class="n">test_strategies</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running Profiled Detectron Experiment:&quot;</span><span class="p">)</span>
+        <span class="n">detectron_profiles_res</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">detectron_by_profiles</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">profiles_manager</span><span class="o">=</span><span class="n">testing_3pa_res</span><span class="o">.</span><span class="n">get_profiles_manager</span><span class="p">(),</span><span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span> 
+                                                                     <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
+                                                                     <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size_profiles</span><span class="p">,</span> <span class="n">num_calibration_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="o">=</span><span class="n">ensemble_size</span><span class="p">,</span>
+                                                                     <span class="n">patience</span><span class="o">=</span><span class="n">patience</span><span class="p">,</span> <span class="n">strategies</span><span class="o">=</span><span class="n">test_strategies</span><span class="p">,</span>
+                                                                     <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">,</span> <span class="n">all_dr</span><span class="o">=</span><span class="n">all_dr</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">reference_3pa_res</span><span class="p">,</span> <span class="n">testing_3pa_res</span><span class="p">,</span> <span class="n">detectron_results</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

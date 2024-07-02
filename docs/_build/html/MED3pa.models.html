@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models subpackage &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="detectron subpackage" href="MED3pa.detectron.html" />
+    <link rel="prev" title="datasets subpackage" href="MED3pa.datasets.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">models subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.factories"><strong>factories module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.abstract_models"><strong>abstract_models module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.concrete_classifiers"><strong>concrete_classifiers module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.concrete_regressors"><strong>concrete_regressors module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.abstract_metrics"><strong>abstract_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.classification_metrics"><strong>classification_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.regression_metrics"><strong>regression_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.data_strategies"><strong>data_strategies module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MED3pa.models.base"><strong>base module</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="MED3pa.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">models subpackage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/MED3pa.models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models-subpackage">
+<h1>models subpackage<a class="headerlink" href="#models-subpackage" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">models</span></code> subpackage serves as a comprehensive backbone for managing and utilizing machine learning models across various aspects of the package. It is meticulously designed to support the development, evaluation, and optimization of models,
+ensuring compatibility and efficiency in integrating with <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> and <code class="docutils literal notranslate"><span class="pre">Detectron</span></code> methodologies.
+This subpackage leverages several design patterns, such as <strong>Factory, Singleton, and Prototype,</strong> to ensure robustness, modularity, and scalability.
+Through its structured approach, This subpackage offers a robust framework that includes abstract base classes for uniformity in model operations, concrete implementations for specialized algorithms,
+and utility tools for precise model evaluation and data handling.</p>
+<p>This subpackage is composed of the following modules:</p>
+<ul class="simple">
+<li><p><strong>factories.py</strong>: Utilizes the factory design pattern to facilitate flexible and scalable model instantiation, enhancing the modularity of model creation.</p></li>
+<li><p><strong>abstract_models.py</strong>: Defines the abstract base classes for all model types, including general models, classification models, and regression models. These classes provide a common interface for model operations.</p></li>
+<li><p><strong>concrete_classifiers.py</strong>: Contains concrete implementations of classification models, like the XGBoostModel.</p></li>
+<li><p><strong>concrete_regressors.py</strong>: Provides implementations for regression models, such as RandomForestRegressor and DecisionTreeRegressor.</p></li>
+<li><p><strong>abstract_metrics.py</strong>: Provides the abstract base classes for all evaluation metrics, centralizing the logic for metric calculations across different model types.</p></li>
+<li><p><strong>classification_metrics.py</strong>: Implements a variety of evaluation metrics specifically for classification tasks, such as accuracy, precision, and recall.</p></li>
+<li><p><strong>regression_metrics.py</strong>: Hosts evaluation metrics for regression tasks, including mean squared error and R2 score, crucial for assessing model performance.</p></li>
+<li><p><strong>data_strategies.py</strong>: Offers various strategies for preparing data, ensuring compatibility and optimal formatting for model training and evaluation.</p></li>
+<li><p><strong>base.py</strong>: Manages a singleton base model, responsible for the instantiation and cloning of the base model across the methods, ensuring consistency and reliability in model management.</p></li>
+</ul>
+<p>The package includes the following classes:</p>
+<img alt="UML class diagram of the subpackage." class="align-center" src="_images/models.svg" /><div style="margin-bottom: 30px;"></div></section>
+<section id="module-MED3pa.models.factories">
+<span id="factories-module"></span><h2><strong>factories module</strong><a class="headerlink" href="#module-MED3pa.models.factories" title="Permalink to this heading"></a></h2>
+<p>This module utilizes the <strong>Factory design pattern</strong> to abstract the creation process of machine learning models.
+It defines a general factory class and specialized factories for different model types, such as XGBoost.
+This setup allows for dynamic model instantiation based on provided specifications or configurations.
+By decoupling model creation from usage</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.factories.</span></span><span class="sig-name descname"><span class="pre">ModelFactory</span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#ModelFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.ModelFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A factory class for creating models with different types, using the factory design pattern.
+It supports creating models based on hyperparameters or loading them from pickled files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.create_model_from_pickled">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_model_from_pickled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pickled_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#ModelFactory.create_model_from_pickled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.create_model_from_pickled" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a model by loading it from a pickled file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pickled_file_path</strong> (<em>str</em>) – The file path to the pickled model file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A model instance loaded from the pickled file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model">Model</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>IOError</strong> – If there is an error loading the model from the file.</p></li>
+<li><p><strong>TypeError</strong> – If the loaded model is not of a supported type.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.create_model_with_hyperparams">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_model_with_hyperparams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#ModelFactory.create_model_with_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.create_model_with_hyperparams" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a model of the specified type with the given hyperparameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_type</strong> (<em>str</em>) – The type of model to create.</p></li>
+<li><p><strong>hyperparams</strong> (<em>dict</em>) – A dictionary of hyperparameters for the model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A model instance of the specified type, initialized with the given hyperparameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model">Model</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.factories">
+<span class="sig-name descname"><span class="pre">factories</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'XGBoostModel':</span> <span class="pre">&lt;function</span> <span class="pre">ModelFactory.&lt;lambda&gt;&gt;}</span></em><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.factories" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.get_factory">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.factories.ModelFactory" title="MED3pa.models.factories.ModelFactory"><span class="pre">ModelFactory</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#ModelFactory.get_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.get_factory" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the factory object for the given model type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_type</strong> (<em>str</em>) – The type of model for which the factory is to be retrieved.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of the factory associated with the given model type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.factories.ModelFactory" title="MED3pa.models.factories.ModelFactory">ModelFactory</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no factory is available for the given model type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.get_supported_models">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_models</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#ModelFactory.get_supported_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.get_supported_models" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves a list of all supported model types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the keys from model_mapping which represent the supported model types.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.factories.ModelFactory.model_mapping">
+<span class="sig-name descname"><span class="pre">model_mapping</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'XGBoostModel':</span> <span class="pre">[&lt;class</span> <span class="pre">'xgboost.core.Booster'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'xgboost.sklearn.XGBClassifier'&gt;]}</span></em><a class="headerlink" href="#MED3pa.models.factories.ModelFactory.model_mapping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.factories.XGBoostFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.factories.</span></span><span class="sig-name descname"><span class="pre">XGBoostFactory</span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#XGBoostFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.XGBoostFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.factories.ModelFactory" title="MED3pa.models.factories.ModelFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelFactory</span></code></a></p>
+<p>A factory for creating XGBoost model objects, either from hyperparameters or by loading from pickled files.
+Inherits from ModelFactory and specifies creation methods for XGBoost models.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.XGBoostFactory.check_version">
+<span class="sig-name descname"><span class="pre">check_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loaded_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.core.Booster</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#XGBoostFactory.check_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.XGBoostFactory.check_version" title="Permalink to this definition"></a></dt>
+<dd><p>Checks the version of the loaded XGBoost model to ensure it is supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loaded_model</strong> (<em>xgb.Booster</em><em> | </em><em>xgb.XGBClassifier</em>) – The loaded model object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the model version is supported, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.XGBoostFactory.create_model_from_pickled">
+<span class="sig-name descname"><span class="pre">create_model_from_pickled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loaded_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.core.Booster</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.concrete_classifiers.XGBoostModel" title="MED3pa.models.concrete_classifiers.XGBoostModel"><span class="pre">XGBoostModel</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#XGBoostFactory.create_model_from_pickled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.XGBoostFactory.create_model_from_pickled" title="Permalink to this definition"></a></dt>
+<dd><p>Recreates an XGBoostModel from a loaded pickled model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loaded_model</strong> (<em>xgb.Booster</em><em> | </em><em>xgb.XGBClassifier</em>) – The loaded model object, expected to be an instance of xgb.Booster or xgb.XGBClassifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of XGBoostModel created from the loaded model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.concrete_classifiers.XGBoostModel" title="MED3pa.models.concrete_classifiers.XGBoostModel">XGBoostModel</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the loaded model is not a supported implementation of the XGBoost model.</p></li>
+<li><p><strong>ValueError</strong> – If the XGBoost model version is not supported.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.XGBoostFactory.create_model_with_hyperparams">
+<span class="sig-name descname"><span class="pre">create_model_with_hyperparams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.concrete_classifiers.XGBoostModel" title="MED3pa.models.concrete_classifiers.XGBoostModel"><span class="pre">XGBoostModel</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#XGBoostFactory.create_model_with_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.XGBoostFactory.create_model_with_hyperparams" title="Permalink to this definition"></a></dt>
+<dd><p>Creates an XGBoostModel with the given hyperparameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>hyperparams</strong> (<em>dict</em>) – A dictionary of hyperparameters for the XGBoost model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of XGBoostModel initialized with the given hyperparameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.concrete_classifiers.XGBoostModel" title="MED3pa.models.concrete_classifiers.XGBoostModel">XGBoostModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.factories.XGBoostFactory.extract_params">
+<span class="sig-name descname"><span class="pre">extract_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loaded_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.core.Booster</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/MED3pa/models/factories.html#XGBoostFactory.extract_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.factories.XGBoostFactory.extract_params" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the parameters from a loaded XGBoost model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loaded_model</strong> (<em>xgb.Booster</em><em> | </em><em>xgb.XGBClassifier</em>) – The loaded model object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of extracted parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.abstract_models">
+<span id="abstract-models-module"></span><h2><strong>abstract_models module</strong><a class="headerlink" href="#module-MED3pa.models.abstract_models" title="Permalink to this heading"></a></h2>
+<p>The abstract_models.py module defines core abstract classes that serve as the foundation for model management in the system.
+It includes <code class="docutils literal notranslate"><span class="pre">Model</span></code>, which standardizes basic operations like evaluation and parameter validation..etc across all models.
+It also introduces specialized abstract classes such as <code class="docutils literal notranslate"><span class="pre">ClassificationModel</span></code> and <code class="docutils literal notranslate"><span class="pre">RegressionModel</span></code>,
+each adapting these operations to specific needs of classification and regression tasks.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.ClassificationModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.abstract_models.</span></span><span class="sig-name descname"><span class="pre">ClassificationModel</span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#ClassificationModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.ClassificationModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+<p>Abstract base class for classification models, extending the generic Model class with additional classification-specific methods.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.ClassificationModel.balance_train_weights">
+<span class="sig-name descname"><span class="pre">balance_train_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#ClassificationModel.balance_train_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.ClassificationModel.balance_train_weights" title="Permalink to this definition"></a></dt>
+<dd><p>Balances the training weights based on the class distribution in the training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Balanced training weights.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If balancing is attempted on non-binary classification data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.ClassificationModel.predict">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_proba</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#ClassificationModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.ClassificationModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Makes predictions for the given input observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p></li>
+<li><p><strong>return_proba</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return probabilities instead of class labels. Defaults to False.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for converting probabilities to class labels. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted labels or probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – Must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.ClassificationModel.train">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balance_train_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#ClassificationModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.ClassificationModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the classification model using provided training and validation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – observations for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
+<li><p><strong>balance_train_classes</strong> (<em>bool</em>) – Whether to balance the training classes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – Must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.abstract_models.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract base class for all models, defining a common API for model operations such as evaluation and parameter validation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#MED3pa.models.abstract_models.Model.model" title="Permalink to this definition"></a></dt>
+<dd><p>The underlying model instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.model_class">
+<span class="sig-name descname"><span class="pre">model_class</span></span><a class="headerlink" href="#MED3pa.models.abstract_models.Model.model_class" title="Permalink to this definition"></a></dt>
+<dd><p>The class type of the underlying model instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.params">
+<span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#MED3pa.models.abstract_models.Model.params" title="Permalink to this definition"></a></dt>
+<dd><p>The params used for initializinf the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.data_preparation_strategy">
+<span class="sig-name descname"><span class="pre">data_preparation_strategy</span></span><a class="headerlink" href="#MED3pa.models.abstract_models.Model.data_preparation_strategy" title="Permalink to this definition"></a></dt>
+<dd><p>Strategy for preparing data before training or evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy">DataPreparingStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.pickled_model">
+<span class="sig-name descname"><span class="pre">pickled_model</span></span><a class="headerlink" href="#MED3pa.models.abstract_models.Model.pickled_model" title="Permalink to this definition"></a></dt>
+<dd><p>A boolean indicating whether or not the model has been loaded from a pickled file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.evaluate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.get_data_strategy">
+<span class="sig-name descname"><span class="pre">get_data_strategy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.get_data_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.get_data_strategy" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the data preparation strategy associated with the model. This strategy handles
+how data should be formatted before being passed to the model for training or evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the current data preparation strategy if set, None otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.get_info">
+<span class="sig-name descname"><span class="pre">get_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.get_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.get_info" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves detailed information about the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary containing information about the model’s type, parameters,</dt><dd><p>data preparation strategy, and whether it’s a pickled model.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.get_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.get_model" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the underlying model instance, which is typically a machine learning model object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The underlying model instance if set, None otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.get_model_type">
+<span class="sig-name descname"><span class="pre">get_model_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.get_model_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.get_model_type" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the class type of the underlying model instance, which indicates the specific
+implementation of the model used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The class of the model if set, None otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.get_params" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the underlying model’s parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the model’s parameters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.is_pickled">
+<span class="sig-name descname"><span class="pre">is_pickled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.is_pickled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.is_pickled" title="Permalink to this definition"></a></dt>
+<dd><p>Returns whether or not the model has been loaded from a pickled file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>has the model been loaded from a pickled file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.print_evaluation_results">
+<span class="sig-name descname"><span class="pre">print_evaluation_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.print_evaluation_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.print_evaluation_results" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the evaluation results in a formatted manner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>results</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – A dictionary with metric names and their evaluated scores.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the model instance as a pickled file and the parameters as a JSON file within the specified directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The directory path where the model and parameters will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.set_data_strategy">
+<span class="sig-name descname"><span class="pre">set_data_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy"><span class="pre">DataPreparingStrategy</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.set_data_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.set_data_strategy" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the underlying model’s data preparation strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>strategy</strong> (<a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy"><em>DataPreparingStrategy</em></a>) – strategy to be used to prepare the data for training, validation…etc.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.set_model">
+<span class="sig-name descname"><span class="pre">set_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.set_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.set_model" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the underlying model instance and updates the model class to match the type of the given model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>Any</em>) – The model instance to be set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.set_params">
+<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.set_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.set_params" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the parameters for the model. These parameters are typically used for model initialization or configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary of parameters for the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.update_params">
+<span class="sig-name descname"><span class="pre">update_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.update_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.update_params" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the current model parameters by merging new parameter values from the given dictionary.
+This method allows for dynamic adjustment of model configuration during runtime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – A dictionary containing parameter names and values to be updated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.Model.validate_params">
+<span class="sig-name descname"><span class="pre">validate_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_param_sets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">set</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#Model.validate_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.Model.validate_params" title="Permalink to this definition"></a></dt>
+<dd><p>Validates the model parameters against a list of valid parameter sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Parameters to validate.</p></li>
+<li><p><strong>valid_param_sets</strong> (<em>List</em><em>[</em><em>set</em><em>]</em>) – A list of sets containing valid parameter names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If any invalid parameters are found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.RegressionModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.abstract_models.</span></span><span class="sig-name descname"><span class="pre">RegressionModel</span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#RegressionModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.RegressionModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></a></p>
+<p>Abstract base class for regression models, providing a framework for training and prediction in regression tasks.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.RegressionModel.predict">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#RegressionModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.RegressionModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Makes predictions for the given input observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – Must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_models.RegressionModel.train">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_models.html#RegressionModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_models.RegressionModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the regression model using provided training and validation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – observations for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – Must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.concrete_classifiers">
+<span id="concrete-classifiers-module"></span><h2><strong>concrete_classifiers module</strong><a class="headerlink" href="#module-MED3pa.models.concrete_classifiers" title="Permalink to this heading"></a></h2>
+<p>This module offers concrete implementations of specific classification models, such as XGBoost.
+It adapts the abstract interfaces defined in <code class="docutils literal notranslate"><span class="pre">abstract_models.py</span></code> to provide fully functional models ready for training and prediction.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_classifiers.XGBoostModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.concrete_classifiers.</span></span><span class="sig-name descname"><span class="pre">XGBoostModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Booster</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">XGBClassifier</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/concrete_classifiers.html#XGBoostModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_classifiers.XGBoostModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_models.ClassificationModel" title="MED3pa.models.abstract_models.ClassificationModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationModel</span></code></a></p>
+<p>A concrete implementation of the ClassificationModel class for XGBoost models.
+This class provides functionalities to train, predict, and evaluate models built with the XGBoost library.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_classifiers.XGBoostModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_classifiers.html#XGBoostModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_classifiers.XGBoostModel.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the model has not been trained before evaluation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_classifiers.XGBoostModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_proba</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_classifiers.html#XGBoostModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_classifiers.XGBoostModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Makes predictions using the model for the given input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for prediction.</p></li>
+<li><p><strong>return_proba</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return probabilities. Defaults to False.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for converting probabilities to class labels. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predictions made by the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the model has not been initialized.</p></li>
+<li><p><strong>NotImplementedError</strong> – If prediction is not implemented for the model class.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_classifiers.XGBoostModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balance_train_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_classifiers.html#XGBoostModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_classifiers.XGBoostModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model on the provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – Features for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Additional training parameters.</p></li>
+<li><p><strong>balance_train_classes</strong> (<em>bool</em>) – Whether to balance the training classes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If parameters for xgb.Booster are not initialized before training.</p></li>
+<li><p><strong>NotImplementedError</strong> – If the model_class is not supported for training.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_classifiers.XGBoostModel.train_to_disagree">
+<span class="sig-name descname"><span class="pre">train_to_disagree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balance_train_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_classifiers.html#XGBoostModel.train_to_disagree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_classifiers.XGBoostModel.train_to_disagree" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model to disagree with another model using a specified dataset.</p>
+<p>This method is intended for scenarios where the model is trained to produce outputs that
+intentionally diverge from those of another model, to be used in the <code class="docutils literal notranslate"><span class="pre">detectron</span></code> method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – Features for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em>) – Features for testing or disagreement evaluation.</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – Labels for testing or disagreement evaluation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – Additional parameters for training the model.</p></li>
+<li><p><strong>balance_train_classes</strong> (<em>bool</em>) – Whether to balance the class distribution in the training data.</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – The number of examples in the testing set that should be used for calculating disagreement.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the necessary parameters for training are not properly initialized.</p></li>
+<li><p><strong>NotImplementedError</strong> – If the model class does not support this type of training.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.concrete_regressors">
+<span id="concrete-regressors-module"></span><h2><strong>concrete_regressors module</strong><a class="headerlink" href="#module-MED3pa.models.concrete_regressors" title="Permalink to this heading"></a></h2>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">concrete_classifiers.py</span></code>, this module contains implementations of regression models like RandomForestRegressor and DecisionTreeRegressor.
+It provides practical, ready-to-use models that comply with the abstract definitions, making it easier to integrate and use these models in <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> and <code class="docutils literal notranslate"><span class="pre">detectron</span></code>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.concrete_regressors.</span></span><span class="sig-name descname"><span class="pre">DecisionTreeRegressorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#DecisionTreeRegressorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_models.RegressionModel" title="MED3pa.models.abstract_models.RegressionModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionModel</span></code></a></p>
+<p>A concrete implementation of the Model class for DecisionTree models.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#DecisionTreeRegressorModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the model has not been trained before evaluation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#DecisionTreeRegressorModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Makes predictions with the model for the given input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predictions made by the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressorModel has not been initialized before training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#DecisionTreeRegressorModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model on the provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels for validation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressorModel has not been initialized before training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.RandomForestRegressorModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.concrete_regressors.</span></span><span class="sig-name descname"><span class="pre">RandomForestRegressorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#RandomForestRegressorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.RandomForestRegressorModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_models.RegressionModel" title="MED3pa.models.abstract_models.RegressionModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionModel</span></code></a></p>
+<p>A concrete implementation of the Model class for RandomForestRegressor models.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.RandomForestRegressorModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#RandomForestRegressorModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.RandomForestRegressorModel.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model using specified metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
+<li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
+<li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric names and their evaluated scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the model has not been trained before evaluation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.RandomForestRegressorModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#RandomForestRegressorModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.RandomForestRegressorModel.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Makes predictions with the model for the given input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predictions made by the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressorModel has not been initialized before training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.concrete_regressors.RandomForestRegressorModel.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/MED3pa/models/concrete_regressors.html#RandomForestRegressorModel.train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.concrete_regressors.RandomForestRegressorModel.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model on the provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations for validation.</p></li>
+<li><p><strong>y_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels for validation.</p></li>
+<li><p><strong>training_parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressorModel has not been initialized before training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.abstract_metrics">
+<span id="abstract-metrics-module"></span><h2><strong>abstract_metrics module</strong><a class="headerlink" href="#module-MED3pa.models.abstract_metrics" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">abstract_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">EvaluationMetric</span></code> abstract base class,
+providing a standard interface for calculating metric values for model evaluations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_metrics.EvaluationMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.abstract_metrics.</span></span><span class="sig-name descname"><span class="pre">EvaluationMetric</span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_metrics.html#EvaluationMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_metrics.EvaluationMetric" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for all evaluation metrics. This class provides a standardized interface for calculating
+metric values across different types of tasks, ensuring consistency and reusability.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_metrics.EvaluationMetric.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/abstract_metrics.html#EvaluationMetric.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_metrics.EvaluationMetric.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/MED3pa/models/abstract_metrics.html#EvaluationMetric.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.abstract_metrics.EvaluationMetric.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported regression metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported regression metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.classification_metrics">
+<span id="classification-metrics-module"></span><h2><strong>classification_metrics module</strong><a class="headerlink" href="#module-MED3pa.models.classification_metrics" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">classification_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics</span></code> class,
+that contains various classification metrics that can be used to assess the model’s performance.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">ClassificationEvaluationMetrics</span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_metrics.EvaluationMetric" title="MED3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
+<p>A class to compute various classification evaluation metrics.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the accuracy score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Accuracy score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.average_precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the average precision score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Average precision score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">balanced_accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.balanced_accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the balanced accuracy score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Balanced accuracy score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">f1_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.f1_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the F1 score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>F1 score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.log_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the log loss score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Log loss score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matthews_corrcoef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.matthews_corrcoef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Matthews correlation coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matthews correlation coefficient.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">npv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.npv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the negative predictive value (NPV).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Negative predictive value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ppv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.ppv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the positive predictive value (PPV).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Positive predictive value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the precision score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Precision score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.recall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the recall score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Recall score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">roc_auc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.roc_auc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the ROC AUC score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ROC AUC score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the sensitivity (recall for the positive class).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sensitivity score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specificity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.specificity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the specificity (recall for the negative class).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Specificity score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported classification metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported classification metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.regression_metrics">
+<span id="regression-metrics-module"></span><h2><strong>regression_metrics module</strong><a class="headerlink" href="#module-MED3pa.models.regression_metrics" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">regression_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics</span></code> class,
+that contains various regression metrics that can be used to assess the model’s performance.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">RegressionEvaluationMetrics</span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.abstract_metrics.EvaluationMetric" title="MED3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
+<p>A class to compute various regression evaluation metrics.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean_absolute_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.mean_absolute_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Mean Absolute Error (MAE).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mean Absolute Error.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Mean Squared Error (MSE).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mean Squared Error.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">r2_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.r2_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the R-squared (R2) score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>R-squared score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.root_mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Root Mean Squared Error (RMSE).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root Mean Squared Error.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/MED3pa/models/regression_metrics.html#RegressionEvaluationMetrics.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported classification metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported classification metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.data_strategies">
+<span id="data-strategies-module"></span><h2><strong>data_strategies module</strong><a class="headerlink" href="#module-MED3pa.models.data_strategies" title="Permalink to this heading"></a></h2>
+<p>This module is crucial for data handling, utilizing the <strong>Strategy design pattern</strong> and therefor offering multiple strategies to transform raw data into formats that enhance model training and evaluation.
+According to the model type.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.DataPreparingStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.data_strategies.</span></span><span class="sig-name descname"><span class="pre">DataPreparingStrategy</span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#DataPreparingStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for data preparation strategies.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.DataPreparingStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#DataPreparingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.DataPreparingStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Prepares data for model training or prediction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations array.</p></li>
+<li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels array.</p></li>
+<li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Prepared data in the required format for the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If the method is not implemented by a subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToDataframesStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.data_strategies.</span></span><span class="sig-name descname"><span class="pre">ToDataframesStrategy</span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToDataframesStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToDataframesStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPreparingStrategy</span></code></a></p>
+<p>Converts input data to pandas DataFrames, suitable for models requiring DataFrame inputs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToDataframesStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToDataframesStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToDataframesStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into pandas DataFrames with specified column labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column_labels</strong> (<em>list</em>) – Column labels for the observations DataFrame.</p></li>
+<li><p><strong>observations</strong> (<em>np.ndarray</em>) – observations array.</p></li>
+<li><p><strong>labels</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels array.</p></li>
+<li><p><strong>weights</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Weights array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrames for observations, labels, and weights. Returns None for labels and weights DataFrames if not provided.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the observations array is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToDmatrixStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.data_strategies.</span></span><span class="sig-name descname"><span class="pre">ToDmatrixStrategy</span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToDmatrixStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToDmatrixStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPreparingStrategy</span></code></a></p>
+<p>Concrete implementation for converting data into DMatrix format suitable for XGBoost models.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToDmatrixStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DMatrix</span></span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToDmatrixStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToDmatrixStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into an XGBoost DMatrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
+<li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
+<li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DMatrix object ready for use with XGBoost.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xgb.DMatrix</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If any input data types are not supported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_supported_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToDmatrixStrategy.is_supported_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the data types of observations, labels, and weights are supported for conversion to DMatrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
+<li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
+<li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if all data types are supported, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToNumpyStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.data_strategies.</span></span><span class="sig-name descname"><span class="pre">ToNumpyStrategy</span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToNumpyStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToNumpyStrategy" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#MED3pa.models.data_strategies.DataPreparingStrategy" title="MED3pa.models.data_strategies.DataPreparingStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPreparingStrategy</span></code></a></p>
+<p>Converts input data to NumPy arrays, ensuring compatibility with models expecting NumPy inputs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.data_strategies.ToNumpyStrategy.execute">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/MED3pa/models/data_strategies.html#ToNumpyStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.data_strategies.ToNumpyStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into NumPy arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
+<li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
+<li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple of NumPy arrays for observations, labels, and weights. Returns None for labels and weights if they are not provided.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the observations or labels are empty arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-MED3pa.models.base">
+<span id="base-module"></span><h2><strong>base module</strong><a class="headerlink" href="#module-MED3pa.models.base" title="Permalink to this heading"></a></h2>
+<p>This module introduces a singleton manager that manages the instantiation and cloning of a base model,
+which is particularly useful for applications like <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> and <code class="docutils literal notranslate"><span class="pre">Detectron</span></code> where a consistent reference model is necessary.
+It employs the <strong>Singleton and Prototype</strong> design patterns to ensure that the base model is instantiated once and can be cloned without reinitialization.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MED3pa.models.base.BaseModelManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MED3pa.models.base.</span></span><span class="sig-name descname"><span class="pre">BaseModelManager</span></span><a class="reference internal" href="_modules/MED3pa/models/base.html#BaseModelManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.base.BaseModelManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Singleton manager class for the base model. ensures the base model is set only once.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.base.BaseModelManager.clone_base_model">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clone_base_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/base.html#BaseModelManager.clone_base_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.base.BaseModelManager.clone_base_model" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns a deep clone of the base model, following the Prototype pattern.</p>
+<p>This method uses serialization and deserialization to clone complex model attributes,
+allowing for independent modification of the cloned model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A cloned instance of the base model.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the base model has not been initialized yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.base.BaseModelManager.get_instance">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_instance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></span><a class="reference internal" href="_modules/MED3pa/models/base.html#BaseModelManager.get_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.base.BaseModelManager.get_instance" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the instance of the base model, ensuring Singleton access.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The base model instance.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the base model has not been initialized yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MED3pa.models.base.BaseModelManager.set_base_model">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_base_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><span class="pre">Model</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MED3pa/models/base.html#BaseModelManager.set_base_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MED3pa.models.base.BaseModelManager.set_base_model" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the base model for the manager, ensuring Singleton behavior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="#MED3pa.models.abstract_models.Model" title="MED3pa.models.abstract_models.Model"><em>Model</em></a>) – The model to be set as the base model.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the base model has already been initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MED3pa.datasets.html" class="btn btn-neutral float-left" title="datasets subpackage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MED3pa.detectron.html" class="btn btn-neutral float-right" title="detectron subpackage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

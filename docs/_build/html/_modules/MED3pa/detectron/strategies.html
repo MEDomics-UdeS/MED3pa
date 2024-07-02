@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.detectron.strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.detectron.strategies</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.detectron.strategies</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In this module, various strategies to assess the presence of covariate shift are defined. </span>
+<span class="sd">Each strategy class, deriving from the original **Disagreement test**, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches, </span>
+<span class="sd">such as empirical cumulative distribution functions (ECDF) and hypothesis tests like the Mann-Whitney U or Kolmogorov-Smirnov tests.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+
+<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
+
+
+<div class="viewcode-block" id="DetectronStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.DetectronStrategy">[docs]</a><span class="k">class</span> <span class="nc">DetectronStrategy</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for defining various strategies to evaluate the shifts and discrepancies between calibration and testing datasets.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        execute: Must be implemented by subclasses to execute the strategy.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DetectronStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.DetectronStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="OriginalDisagreementStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.OriginalDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">OriginalDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).</span>
+<span class="sd">    This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,</span>
+<span class="sd">    and statistical measures such as the mean and standard deviation of the calibration tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="OriginalDisagreementStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.OriginalDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the disagreement detection strategy using the ECDF approach.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
+<span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,</span>
+<span class="sd">                  and a shift indicator which is True if a shift is detected at the given significance level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Compute the empirical cumulative distribution function.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                x (np.ndarray): Array of 1-D numerical data.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                function: A function that takes a value and returns the probability </span>
+<span class="sd">                that a random sample from x is less than or equal to that value.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">calibration_records</span><span class="o">.</span><span class="n">counts</span><span class="p">()</span>
+        <span class="n">test_count</span> <span class="o">=</span> <span class="n">test_records</span><span class="o">.</span><span class="n">counts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cdf</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">p_value</span> <span class="o">=</span> <span class="n">cdf</span><span class="p">(</span><span class="n">test_count</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="n">test_statistic</span><span class="o">=</span><span class="n">test_count</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">baseline_mean</span> <span class="o">=</span> <span class="n">cal_counts</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">baseline_std</span> <span class="o">=</span> <span class="n">cal_counts</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;p_value&#39;</span><span class="p">:</span><span class="n">p_value</span><span class="p">,</span> 
+            <span class="s1">&#39;test_statistic&#39;</span><span class="p">:</span> <span class="n">test_statistic</span><span class="p">,</span> 
+            <span class="s1">&#39;baseline_mean&#39;</span><span class="p">:</span> <span class="n">baseline_mean</span><span class="p">,</span> 
+            <span class="s1">&#39;baseline_std&#39;</span><span class="p">:</span> <span class="n">baseline_std</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">results</span></div></div>
+
+
+<div class="viewcode-block" id="MannWhitneyStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.MannWhitneyStrategy">[docs]</a><span class="k">class</span> <span class="nc">MannWhitneyStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results</span>
+<span class="sd">    from calibration runs and test runs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MannWhitneyStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.MannWhitneyStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the disagreement detection strategy using the Mann-Whitney U test.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
+<span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,</span>
+<span class="sd">                  and a shift indicator based on the significance level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve count data from both calibration and test records</span>
+        <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">calibration_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">()</span>
+        <span class="n">test_counts</span> <span class="o">=</span> <span class="n">test_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">()</span>
+        
+        <span class="n">cal_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">cal_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">test_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_counts</span><span class="p">)</span>
+                
+        <span class="c1"># Perform the Mann-Whitney U test</span>
+        <span class="n">u_statistic</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">,</span> <span class="n">test_counts</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s1">&#39;less&#39;</span><span class="p">)</span>
+        <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_mean</span> <span class="o">-</span> <span class="n">cal_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">cal_std</span>
+
+        <span class="c1"># Describe the significance of the shift based on the z-score</span>
+        <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">z_score</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;no significant shift&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Small&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Moderate&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">3.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Large&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Very large&quot;</span>
+        <span class="c1"># Results dictionary including rank statistics</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+            <span class="s1">&#39;u_statistic&#39;</span><span class="p">:</span> <span class="n">u_statistic</span><span class="p">,</span>
+            <span class="s1">&#39;z-score&#39;</span><span class="p">:</span><span class="n">z_score</span><span class="p">,</span>
+            <span class="s1">&#39;shift significance&#39;</span> <span class="p">:</span> <span class="n">significance_description</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">results</span></div></div>
+
+
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.KolmogorovSmirnovStrategy">[docs]</a><span class="k">class</span> <span class="nc">KolmogorovSmirnovStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results</span>
+<span class="sd">    from calibration runs and test runs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.KolmogorovSmirnovStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
+<span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True</span>
+<span class="sd">                  if a shift is detected at the given significance level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve count data from both calibration and test records</span>
+        <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">calibration_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">()</span>
+        <span class="n">test_counts</span> <span class="o">=</span> <span class="n">test_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">()</span>
+        
+        <span class="c1"># Perform the Kolmogorov-Smirnov test</span>
+        <span class="n">ks_statistic</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ks_2samp</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">,</span> <span class="n">test_counts</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for interpretation</span>
+        <span class="n">cal_mean</span> <span class="o">=</span> <span class="n">cal_counts</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">cal_std</span> <span class="o">=</span> <span class="n">cal_counts</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="n">test_mean</span> <span class="o">=</span> <span class="n">test_counts</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">test_std</span> <span class="o">=</span> <span class="n">test_counts</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        
+        <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_mean</span> <span class="o">-</span> <span class="n">cal_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">cal_std</span>
+        <span class="c1"># Describe the significance of the shift based on the z-score</span>
+        <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">z_score</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;no significant shift&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Small&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Moderate&quot;</span>
+        <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">3.0</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Large&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">significance_description</span> <span class="o">=</span> <span class="s2">&quot;Very Large&quot;</span>
+        <span class="c1"># Results dictionary including rank statistics</span>
+        <span class="c1"># Results dictionary including KS test results and distribution statistics</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+            <span class="s1">&#39;ks_statistic&#39;</span><span class="p">:</span> <span class="n">ks_statistic</span><span class="p">,</span>
+            <span class="s1">&#39;z-score&#39;</span><span class="p">:</span><span class="n">z_score</span><span class="p">,</span>
+            <span class="s1">&#39;shift significance&#39;</span> <span class="p">:</span> <span class="n">significance_description</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">results</span></div></div>
+
+
+<div class="viewcode-block" id="EnhancedDisagreementStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.EnhancedDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">EnhancedDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.</span>
+<span class="sd">    This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="EnhancedDisagreementStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.EnhancedDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">trim_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the disagreement detection strategy using z-score analysis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
+<span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
+<span class="sd">            trim_data (bool): Whether to trim the data using a specified proportion to cut.</span>
+<span class="sd">            proportion_to_cut (float): The proportion of data to cut from both ends if trimming is enabled.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the calculated shift probability, test statistic, baseline mean, baseline standard deviation,</span>
+<span class="sd">                  and a description of the shift significance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">calibration_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">())</span>
+        <span class="n">test_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_records</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">())</span>
+
+        <span class="c1"># Ensure there are enough records to perform bootstrap</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_counts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not enough records to perform the statistical test.&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">trim_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">proportion_to_cut</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;proportion_to_cut must be between 0 and 0.5&quot;</span><span class="p">)</span>
+            
+            <span class="n">data_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">trim_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">proportion_to_cut</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">data_sorted</span><span class="p">[</span><span class="n">trim_count</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">trim_count</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">trim_data</span><span class="p">:</span>
+            <span class="c1"># Trim calibration and test data if trimming is enabled</span>
+            <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">trim_dataset</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="p">)</span>
+            <span class="n">test_counts</span> <span class="o">=</span> <span class="n">trim_dataset</span><span class="p">(</span><span class="n">test_counts</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the baseline mean and standard deviation on trimmed or full data</span>
+        <span class="n">baseline_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">test_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_counts</span><span class="p">)</span>
+        <span class="n">baseline_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">test_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">test_counts</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the test statistic (mean of test data)</span>
+        <span class="n">test_statistic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_counts</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the z-scores for the test data</span>
+        <span class="n">z_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_counts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">cal_counts</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+
+        <span class="c1"># Define thresholds for categorizing</span>
+        <span class="k">def</span> <span class="nf">categorize_z_score</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;no shift&#39;</span>
+            <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;small&#39;</span>
+            <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;moderate&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;large&#39;</span>
+
+        <span class="c1"># Categorize each test count based on its z-score</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">categorize_z_score</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">z_scores</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span>
+        <span class="c1"># Calculate the percentage of each category</span>
+        <span class="n">category_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+        <span class="c1"># Calculate the one-tailed p-value (test_statistic &gt; baseline_mean)</span>
+        <span class="n">p_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cal_counts</span> <span class="o">&lt;</span> <span class="n">test_statistic</span><span class="p">)</span>
+
+        <span class="c1"># Describe the significance of the shift based on the z-score</span>
+        <span class="n">significance_description</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;no shift&#39;</span><span class="p">:</span> <span class="n">category_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;no shift&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s1">&#39;small&#39;</span><span class="p">:</span> <span class="n">category_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;small&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s1">&#39;moderate&#39;</span><span class="p">:</span> <span class="n">category_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s1">&#39;large&#39;</span><span class="p">:</span> <span class="n">category_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;large&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;shift_probability&#39;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span>
+            <span class="s1">&#39;test_statistic&#39;</span><span class="p">:</span> <span class="n">test_statistic</span><span class="p">,</span>
+            <span class="s1">&#39;baseline_mean&#39;</span><span class="p">:</span> <span class="n">baseline_mean</span><span class="p">,</span>
+            <span class="s1">&#39;baseline_std&#39;</span><span class="p">:</span> <span class="n">baseline_std</span><span class="p">,</span>
+            <span class="s1">&#39;significance_description&#39;</span><span class="p">:</span> <span class="n">significance_description</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">results</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
