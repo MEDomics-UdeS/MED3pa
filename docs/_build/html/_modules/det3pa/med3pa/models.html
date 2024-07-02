@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -83,18 +86,23 @@
 <span class="sd">Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points, </span>
 <span class="sd">and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.abstract_models</span> <span class="kn">import</span> <span class="n">RegressionModel</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">RandomForestRegressorModel</span><span class="p">,</span> <span class="n">DecisionTreeRegressorModel</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.data_strategies</span> <span class="kn">import</span> <span class="n">ToDataframesStrategy</span>
+
 <span class="kn">from</span> <span class="nn">det3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
+<span class="kn">from</span> <span class="nn">det3pa.models.abstract_models</span> <span class="kn">import</span> <span class="n">RegressionModel</span>
+<span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressorModel</span><span class="p">,</span> <span class="n">RandomForestRegressorModel</span>
+<span class="kn">from</span> <span class="nn">det3pa.models.data_strategies</span> <span class="kn">import</span> <span class="n">ToDataframesStrategy</span>
+
 
 <div class="viewcode-block" id="IPCModel"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.IPCModel">[docs]</a><span class="k">class</span> <span class="nc">IPCModel</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RegressionModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">RandomForestRegressorModel</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the IPCModel with a regression model class and optional parameters.</span>
@@ -104,7 +112,7 @@
 <span class="sd">            params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_params</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
             <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
@@ -139,7 +147,7 @@
 
 <div class="viewcode-block" id="IPCModel.predict"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.IPCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Predicts error probabilities for the given input features using the trained model.</span>
+<span class="sd">        Predicts error probabilities for the given input observations using the trained model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x (np.ndarray): Feature matrix for which to predict error probabilities.</span>
@@ -154,7 +162,7 @@
 <span class="sd">        Evaluates the model using specified metrics.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for evaluation.</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
 <span class="sd">            y (np.ndarray): True labels for evaluation.</span>
 <span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
 <span class="sd">            print_results (bool): Whether to print the evaluation results.</span>
@@ -164,11 +172,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">evaluation_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">,</span> <span class="n">print_results</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">evaluation_results</span></div></div>
-    
+
+
 <div class="viewcode-block" id="APCModel"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.APCModel">[docs]</a><span class="k">class</span> <span class="nc">APCModel</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.</span>
@@ -179,7 +189,7 @@
 <span class="sd">            params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is settings for a basic decision tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_params</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">random_state_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">54288</span><span class="p">}</span>
             <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">random_state_params</span><span class="p">)</span>
@@ -198,7 +208,7 @@
 <span class="sd">            error_prob (np.ndarray): Error probabilities corresponding to each training instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">)</span>
-        <span class="n">df_X</span><span class="p">,</span> <span class="n">df_y</span><span class="p">,</span> <span class="n">df_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">error_prob</span><span class="p">)</span>
+        <span class="n">df_X</span><span class="p">,</span> <span class="n">df_y</span><span class="p">,</span> <span class="n">df_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">error_prob</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeRepresentation</span><span class="o">.</span><span class="n">build_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">df_X</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="APCModel.optimize"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.APCModel.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cv</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">error_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -220,7 +230,7 @@
     
 <div class="viewcode-block" id="APCModel.predict"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.APCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Predicts error probabilities using the tree representation for the given input features.</span>
+<span class="sd">        Predicts error probabilities using the tree representation for the given input observations.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x (np.ndarray): Feature matrix for which to predict error probabilities.</span>
@@ -229,7 +239,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Predicted error probabilities based on the aggregated confidence levels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df_X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">df_X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataPreparationStrategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_X</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
@@ -246,7 +256,7 @@
 <span class="sd">        Evaluates the model using specified metrics.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for evaluation.</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
 <span class="sd">            y (np.ndarray): True labels for evaluation.</span>
 <span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
 <span class="sd">            print_results (bool): Whether to print the evaluation results.</span>
@@ -262,7 +272,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IPC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">APC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IPC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">APC_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the MPCModel with IPC and APC values.</span>
 
@@ -273,20 +283,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span> <span class="o">=</span> <span class="n">IPC_values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span> <span class="o">=</span> <span class="n">APC_values</span>
 
-<div class="viewcode-block" id="MPCModel.predict"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.MPCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MPCModel.predict"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.models.MPCModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Combines IPC and APC values to predict MPC values.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            min_samples_ratio (float, optional): Minimum sample ratio to consider.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Combined MPC values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">min_samples_ratio</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">MPC_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">MPC_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">MPC_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IPC_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">APC_values</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">MPC_values</span></div></div>
 </pre></div>

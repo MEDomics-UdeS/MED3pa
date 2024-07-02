@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -82,11 +85,13 @@
 <span class="sd">and ``TreeNode`` class that represents a node in the tree. </span>
 <span class="sd">This module is crucial for profiling aggregated data and extracting valuable insights</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span>
+
 <span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressorModel</span>
 <span class="kn">from</span> <span class="nn">.profiles</span> <span class="kn">import</span> <span class="n">Profile</span>
+
 
 <div class="viewcode-block" id="TreeRepresentation"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.tree.TreeRepresentation">[docs]</a><span class="k">class</span> <span class="nc">TreeRepresentation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -109,7 +114,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            dtr (DecisionTreeRegressorModel): Trained decision tree regressor model.</span>
-<span class="sd">            X (DataFrame): Training data features.</span>
+<span class="sd">            X (DataFrame): Training data observations.</span>
 <span class="sd">            y (Series): Training data labels.</span>
 <span class="sd">            node_id (int): Node ID to start building from. Defaults to 0.</span>
 <span class="sd">            path (Optional[List[str]]): Path to the current node. Defaults to [&#39;*&#39;].</span>
@@ -199,10 +204,10 @@
 
     <span class="k">def</span> <span class="nf">assign_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Series</span><span class="p">],</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Assigns a value to a node based on input features, potentially navigating the tree up to a certain depth.</span>
+<span class="sd">        Assigns a value to a node based on input observations, potentially navigating the tree up to a certain depth.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (Union[DataFrame, Series]): Input features used to navigate and determine the value at a node.</span>
+<span class="sd">            X (Union[DataFrame, Series]): Input observations used to navigate and determine the value at a node.</span>
 <span class="sd">            depth (Optional[int]): The maximum depth to navigate in the tree for value assignment. Defaults to None,</span>
 <span class="sd">                                   which means navigating until a leaf node is reached.</span>
 <span class="sd">            min_samples_ratio (float): The minimum sample ratio to consider a node as valid for value assignment. Nodes</span>
@@ -210,7 +215,7 @@
 <span class="sd">                                       Defaults to 0, which considers all nodes valid regardless of sample ratio.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            float: The value assigned based on the input features and the structure of the tree.</span>
+<span class="sd">            float: The value assigned based on the input observations and the structure of the tree.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the input X is neither a pandas DataFrame nor a pandas Series.</span>
@@ -268,6 +273,8 @@
 
         <span class="n">profile</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">node_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mean_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">profiles</span> <span class="o">+</span> <span class="p">[</span><span class="n">profile</span><span class="p">]</span>
+
+
 </pre></div>
 
            </div>

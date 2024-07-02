@@ -52,19 +52,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Overview</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Working with the Detectron Subpackage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-3-running-the-detectron-experiment">Step 3: Running the Detectron Experiment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-4-analyzing-the-results">Step 4: Analyzing the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with the Detectron Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-running-the-detectron-experiment">Step 3: Running the Detectron Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-analyzing-the-results">Step 4: Analyzing the Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-saving-the-results">Step 5: Saving the Results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -81,7 +79,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="tutorials.html">Overview</a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">Working with the Detectron Subpackage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/detectron_tutorials.rst.txt" rel="nofollow"> View page source</a>
@@ -129,7 +127,7 @@
 <section id="step-3-running-the-detectron-experiment">
 <h2>Step 3: Running the Detectron Experiment<a class="headerlink" href="#step-3-running-the-detectron-experiment" title="Permalink to this heading"></a></h2>
 <p>Execute the Detectron experiment with the specified datasets and base model. You can also specify other parameters.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DisagreementStrategy_z_mean</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span>
 
 <span class="c1"># Execute the Detectron experiment</span>
 <span class="n">experiment_results</span> <span class="o">=</span> <span class="n">DetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">)</span>
@@ -138,24 +136,45 @@
 </section>
 <section id="step-4-analyzing-the-results">
 <h2>Step 4: Analyzing the Results<a class="headerlink" href="#step-4-analyzing-the-results" title="Permalink to this heading"></a></h2>
-<p>Finally, evaluate the outcomes of the experiment using a specified strategy to determine the probability of a shift in dataset distributions.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze the results using the chosen disagreement strategy</span>
-<span class="n">experiment_results</span><span class="o">.</span><span class="n">analyze_results</span><span class="p">(</span><span class="n">DisagreementStrategy_z_mean</span><span class="p">)</span>
+<p>Finally, evaluate the outcomes of the experiment using different strategies to determine the probability of a shift in dataset distributions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron.strategies</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Analyze the results using the disagreement strategies</span>
+<span class="n">test_strategies</span> <span class="o">=</span> <span class="p">[</span><span class="n">EnhancedDisagreementStrategy</span><span class="p">,</span> <span class="n">MannWhitneyStrategy</span><span class="p">]</span>
+<span class="n">experiment_results</span><span class="o">.</span><span class="n">analyze_results</span><span class="p">(</span><span class="n">test_strategies</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Output</strong></p>
 <p>The following output provides a detailed assessment of dataset stability:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;shift_probability&quot;: 0.93,
-&quot;test_statistic&quot;: 11.15,
-&quot;baseline_mean&quot;: 7.78,
-&quot;baseline_std&quot;: 2.555699512853575,
-&quot;significance_description&quot;: {
-    &quot;no shift&quot;: 14.760000000000002,
-    &quot;small&quot;: 25.39,
-    &quot;moderate&quot;: 37.93,
-    &quot;large&quot;: 21.92
-},
-&quot;Strategy&quot;: &quot;DisagreementStrategy_z_mean&quot;}
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[
+    {
+        &quot;shift_probability&quot;: 0.8111111111111111,
+        &quot;test_statistic&quot;: 8.466666666666667,
+        &quot;baseline_mean&quot;: 7.4,
+        &quot;baseline_std&quot;: 1.2631530214330944,
+        &quot;significance_description&quot;: {
+            &quot;no shift&quot;: 38.34567901234568,
+            &quot;small&quot;: 15.592592592592592,
+            &quot;moderate&quot;: 16.34567901234568,
+            &quot;large&quot;: 29.716049382716047
+        },
+        &quot;Strategy&quot;: &quot;EnhancedDisagreementStrategy&quot;
+    },
+    {
+        &quot;p_value&quot;: 0.00016360887668277182,
+        &quot;u_statistic&quot;: 3545.0,
+        &quot;z-score&quot;: 0.4685784328619402,
+        &quot;shift significance&quot;: &quot;Small&quot;,
+        &quot;Strategy&quot;: &quot;MannWhitneyStrategy&quot;
+    }
+]
+</pre></div>
+</div>
+</section>
+<section id="step-5-saving-the-results">
+<h2>Step 5: Saving the Results<a class="headerlink" href="#step-5-saving-the-results" title="Permalink to this heading"></a></h2>
+<p>You can save the experiment results using the <code class="docutils literal notranslate"><span class="pre">save</span></code> method, while specifying the path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./detectron_experiment_results&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

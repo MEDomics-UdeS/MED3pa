@@ -239,7 +239,7 @@ class XGBoostModel(ClassificationModel):
             translated_metric_name = xgboost_metrics.get(metric_name, metric_name)
             metric_function = ClassificationEvaluationMetrics.get_metric(translated_metric_name)
             if metric_function:
-                if metric_name in {'RocAuc', 'AveragePrecision'}:
+                if metric_name in {'Auc', 'Auprc', 'Logloss'}:
                     evaluation_results[metric_name] = metric_function(y, probs)
                 else:
                     evaluation_results[metric_name] = metric_function(y, preds)

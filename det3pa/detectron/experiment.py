@@ -5,6 +5,7 @@ Additionally, the ``DetectronResult`` class is responsible for storing and manag
 providing methods to access and analyze the trajectories and outcomes of this method's evaluation.
 """
 from __future__ import annotations
+from typing import Union, List, Type
 
 import json
 import os
@@ -30,7 +31,7 @@ class DetectronResult:
         """
         self.cal_record = cal_record
         self.test_record = test_record
-        self.test_results = None
+        self.test_results = []
 
     def calibration_trajectories(self):
         """
@@ -61,16 +62,30 @@ class DetectronResult:
         """
         return self.test_results
     
-    def analyze_results(self, strategy : DetectronStrategy) -> dict:
+    
+    def analyze_results(self, strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]) -> list:
         """
-        Stores the results of the Detectron tests.
+        Appends the results of the Detectron tests for each strategy to self.test_results.
 
         Args:
-            strategy (DetectronStrategy): The strategy to use for detecting covariate shift.
+            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): Class type or list of strategy class types.
+
+        Returns:
+            list: Updated list containing results for each strategy.
         """
-        results = strategy.execute(self.cal_record, self.test_record)
-        self.test_results = results
-        self.test_results.update({'Strategy': strategy().__class__.__name__})
+        # Ensure strategies is a list of classes
+        if isinstance(strategies, Type):
+            strategies = [strategies]  # Convert single class type to list
+
+        for strategy_class in strategies:
+            if not issubclass(strategy_class, DetectronStrategy):
+                raise TypeError("Each strategy must be a subclass of DetectronStrategy.")
+
+            strategy_results = strategy_class.execute(self.cal_record, self.test_record)
+            strategy_name = strategy_class.__name__
+            strategy_results['Strategy'] = strategy_name
+            self.test_results.append(strategy_results)
+
         return self.test_results
 
     def save(self, file_path: str, file_name: str = 'detectron_results'):

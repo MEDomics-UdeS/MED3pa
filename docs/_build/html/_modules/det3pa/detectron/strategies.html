@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -82,23 +85,12 @@
 <span class="sd">Each strategy class, deriving from the original **Disagreement test**, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches, </span>
 <span class="sd">such as empirical cumulative distribution functions (ECDF) and hypothesis tests like the Mann-Whitney U or Kolmogorov-Smirnov tests.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
 
-<div class="viewcode-block" id="ecdf"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.ecdf">[docs]</a><span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the empirical cumulative distribution function</span>
-<span class="sd">    :param x: array of 1-D numerical data</span>
-<span class="sd">    :return: a function that takes a value and returns the probability that a random sample from x is less than or equal to that value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
 
-    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
-
-    <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="DetectronStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DetectronStrategy">[docs]</a><span class="k">class</span> <span class="nc">DetectronStrategy</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -111,25 +103,43 @@
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
         <span class="k">pass</span></div></div>
 
-<div class="viewcode-block" id="DisagreementStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">DisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OriginalDisagreementStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.OriginalDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">OriginalDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).</span>
 <span class="sd">    This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,</span>
 <span class="sd">    and statistical measures such as the mean and standard deviation of the calibration tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DisagreementStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="OriginalDisagreementStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.OriginalDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the ECDF approach.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
 <span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
-<span class="sd">            significance_level (float): The statistical significance level used for tests.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,</span>
 <span class="sd">                  and a shift indicator which is True if a shift is detected at the given significance level.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Compute the empirical cumulative distribution function.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                x (np.ndarray): Array of 1-D numerical data.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                function: A function that takes a value and returns the probability </span>
+<span class="sd">                that a random sample from x is less than or equal to that value.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
         <span class="n">cal_counts</span> <span class="o">=</span> <span class="n">calibration_records</span><span class="o">.</span><span class="n">counts</span><span class="p">()</span>
         <span class="n">test_count</span> <span class="o">=</span> <span class="n">test_records</span><span class="o">.</span><span class="n">counts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">cdf</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
@@ -147,20 +157,19 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">results</span></div></div>
 
-    
-<div class="viewcode-block" id="DisagreementStrategy_MW"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_MW">[docs]</a><span class="k">class</span> <span class="nc">DisagreementStrategy_MW</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MannWhitneyStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.MannWhitneyStrategy">[docs]</a><span class="k">class</span> <span class="nc">MannWhitneyStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results</span>
 <span class="sd">    from calibration runs and test runs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DisagreementStrategy_MW.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_MW.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="MannWhitneyStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.MannWhitneyStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the Mann-Whitney U test.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
 <span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
-<span class="sd">            significance_level (float): The statistical significance level used for tests.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,</span>
@@ -200,19 +209,19 @@
 
         <span class="k">return</span> <span class="n">results</span></div></div>
 
-<div class="viewcode-block" id="DisagreementStrategy_KS"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_KS">[docs]</a><span class="k">class</span> <span class="nc">DisagreementStrategy_KS</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.KolmogorovSmirnovStrategy">[docs]</a><span class="k">class</span> <span class="nc">KolmogorovSmirnovStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results</span>
 <span class="sd">    from calibration runs and test runs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DisagreementStrategy_KS.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_KS.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.KolmogorovSmirnovStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
 <span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
-<span class="sd">            significance_level (float): The statistical significance level used for tests.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True</span>
@@ -255,19 +264,19 @@
 
         <span class="k">return</span> <span class="n">results</span></div></div>
 
-<div class="viewcode-block" id="DisagreementStrategy_z_mean"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_z_mean">[docs]</a><span class="k">class</span> <span class="nc">DisagreementStrategy_z_mean</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+
+<div class="viewcode-block" id="EnhancedDisagreementStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.EnhancedDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">EnhancedDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.</span>
 <span class="sd">    This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DisagreementStrategy_z_mean.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DisagreementStrategy_z_mean.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">trim_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<div class="viewcode-block" id="EnhancedDisagreementStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.EnhancedDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">trim_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using z-score analysis.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.</span>
 <span class="sd">            test_records (DetectronRecordsManager): Manager storing test phase records.</span>
-<span class="sd">            significance_level (float): The significance level used for statistical testing.</span>
 <span class="sd">            trim_data (bool): Whether to trim the data using a specified proportion to cut.</span>
 <span class="sd">            proportion_to_cut (float): The proportion of data to cut from both ends if trimming is enabled.</span>
 
@@ -326,7 +335,7 @@
         <span class="n">category_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
         <span class="c1"># Calculate the one-tailed p-value (test_statistic &gt; baseline_mean)</span>
-        <span class="n">p_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cal_counts</span> <span class="o">&lt;</span> <span class="n">test_statistic</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">cal_counts</span><span class="p">)</span>
+        <span class="n">p_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cal_counts</span> <span class="o">&lt;</span> <span class="n">test_statistic</span><span class="p">)</span>
 
         <span class="c1"># Describe the significance of the shift based on the z-score</span>
         <span class="n">significance_description</span> <span class="o">=</span> <span class="p">{</span>
@@ -345,7 +354,6 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">results</span></div></div>
 
-    
 </pre></div>
 
            </div>

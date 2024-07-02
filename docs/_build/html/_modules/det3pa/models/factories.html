@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -83,13 +86,16 @@
 <span class="sd">This setup allows for dynamic model instantiation based on provided specifications or configurations. </span>
 <span class="sd">By decoupling model creation from usage&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+
 <span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
-<span class="kn">from</span> <span class="nn">.concrete_classifiers</span> <span class="kn">import</span> <span class="n">XGBoostModel</span>
+
 <span class="kn">from</span> <span class="nn">.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">.concrete_classifiers</span> <span class="kn">import</span> <span class="n">XGBoostModel</span>
+
 
 <div class="viewcode-block" id="ModelFactory"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.factories.ModelFactory">[docs]</a><span class="k">class</span> <span class="nc">ModelFactory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -302,12 +308,18 @@
 
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="s1">&#39;E&#39;</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="s1">&#39;e&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
-                        <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="s1">&#39;E&#39;</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="s1">&#39;e&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                            <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                            <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Skip conversion for non-numeric strings</span>
+                            <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
-                    <span class="k">pass</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">continue</span>
 
             <span class="n">removable_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;num_trees&#39;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">removable_keys</span><span class="p">:</span>

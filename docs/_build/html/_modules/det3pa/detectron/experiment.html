@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -84,16 +87,16 @@
 <span class="sd">providing methods to access and analyze the trajectories and outcomes of this method&#39;s evaluation.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span> <span class="nn">.ensemble</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">DetectronEnsemble</span>
 <span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
-<span class="kn">from</span> <span class="nn">.ensemble</span> <span class="kn">import</span> <span class="n">DetectronEnsemble</span><span class="p">,</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">DatasetsManager</span>
 <span class="kn">from</span> <span class="nn">.strategies</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 <div class="viewcode-block" id="DetectronResult"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult">[docs]</a><span class="k">class</span> <span class="nc">DetectronResult</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -110,7 +113,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span> <span class="o">=</span> <span class="n">cal_record</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span> <span class="o">=</span> <span class="n">test_record</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="DetectronResult.calibration_trajectories"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.calibration_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">calibration_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -139,18 +142,32 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Results from executing the Detectron test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
     
-<div class="viewcode-block" id="DetectronResult.analyze_results"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.analyze_results">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span> <span class="p">:</span> <span class="n">DetectronStrategy</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="DetectronResult.analyze_results"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.analyze_results">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Stores the results of the Detectron tests.</span>
+<span class="sd">        Appends the results of the Detectron tests for each strategy to self.test_results.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            strategy (DetectronStrategy): The strategy to use for detecting covariate shift.</span>
+<span class="sd">            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): Class type or list of strategy class types.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: Updated list containing results for each strategy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="n">results</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Strategy&#39;</span><span class="p">:</span> <span class="n">strategy</span><span class="p">()</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">})</span>
+        <span class="c1"># Ensure strategies is a list of classes</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">strategies</span><span class="p">,</span> <span class="n">Type</span><span class="p">):</span>
+            <span class="n">strategies</span> <span class="o">=</span> <span class="p">[</span><span class="n">strategies</span><span class="p">]</span>  <span class="c1"># Convert single class type to list</span>
+
+        <span class="k">for</span> <span class="n">strategy_class</span> <span class="ow">in</span> <span class="n">strategies</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">strategy_class</span><span class="p">,</span> <span class="n">DetectronStrategy</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Each strategy must be a subclass of DetectronStrategy.&quot;</span><span class="p">)</span>
+
+            <span class="n">strategy_results</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span><span class="p">)</span>
+            <span class="n">strategy_name</span> <span class="o">=</span> <span class="n">strategy_class</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">strategy_results</span><span class="p">[</span><span class="s1">&#39;Strategy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">strategy_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strategy_results</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
 
 <div class="viewcode-block" id="DetectronResult.save"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detectron_results&#39;</span><span class="p">):</span>
@@ -175,16 +192,16 @@
 <span class="sd">        run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DetectronExperiment.run"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>    <span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
-                <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
-                <span class="n">training_params</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">samples_size</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
-                <span class="n">calib_result</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">ensemble_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                <span class="n">num_calibration_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-                <span class="n">patience</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                <span class="n">allow_margin</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
-                <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+            <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
+            <span class="n">training_params</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">samples_size</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="n">calib_result</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ensemble_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">num_calibration_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">patience</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">allow_margin</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+            <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.</span>
 
@@ -205,8 +222,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># create a calibration ensemble</span>
         <span class="n">calibration_ensemble</span> <span class="o">=</span> <span class="n">DetectronEnsemble</span><span class="p">(</span><span class="n">base_model_manager</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">)</span>
+        
         <span class="c1"># create a testing ensemble</span>
         <span class="n">testing_ensemble</span> <span class="o">=</span> <span class="n">DetectronEnsemble</span><span class="p">(</span><span class="n">base_model_manager</span><span class="p">,</span> <span class="n">ensemble_size</span><span class="p">)</span>
+        
         <span class="c1"># ensure the reference set is larger compared to testing set</span>
         <span class="n">reference_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_by_type</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">return_instance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reference_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -219,6 +238,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calibration record on reference set provided, skipping Detectron execution on reference set.&quot;</span><span class="p">)</span>
                 <span class="n">cal_record</span> <span class="o">=</span> <span class="n">calib_result</span>
             <span class="k">else</span><span class="p">:</span>
+            
             <span class="c1"># evaluate the calibration ensemble</span>
                 <span class="n">cal_record</span> <span class="o">=</span> <span class="n">calibration_ensemble</span><span class="o">.</span><span class="n">evaluate_ensemble</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> 
                                                                     <span class="n">n_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span>
@@ -229,6 +249,7 @@
                                                                     <span class="n">allow_margin</span><span class="o">=</span><span class="n">allow_margin</span><span class="p">,</span>
                                                                     <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Detectron execution on reference set completed.&quot;</span><span class="p">)</span>
+            
             <span class="n">test_record</span> <span class="o">=</span> <span class="n">testing_ensemble</span><span class="o">.</span><span class="n">evaluate_ensemble</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> 
                                                             <span class="n">n_runs</span><span class="o">=</span><span class="n">num_calibration_runs</span><span class="p">,</span> 
                                                             <span class="n">samples_size</span><span class="o">=</span><span class="n">samples_size</span><span class="p">,</span> 
@@ -246,9 +267,11 @@
     
         <span class="c1"># save the detectron runs results</span>
         <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">DetectronResult</span><span class="p">(</span><span class="n">cal_record</span><span class="p">,</span> <span class="n">test_record</span><span class="p">)</span>
+        
         <span class="c1"># calculate the detectron test</span>
         <span class="k">return</span> <span class="n">detectron_results</span></div></div>
-    
+
+
 
 </pre></div>
 

@@ -2,8 +2,7 @@
 Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR). 
 The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.
 """
-from typing import List, Dict
-
+from typing import Dict, Type, Union
 import numpy as np
 
 from det3pa.datasets import DatasetsManager
@@ -37,9 +36,7 @@ class MDRCalculator:
                 raise ValueError("Declaration rate (dr) must be between 0 and 100 inclusive.")
         
         sorted_confidence_scores = np.sort(confidence_scores)
-        if dr == 100:
-            min_confidence_level = 0
-        elif dr == 0:
+        if dr == 0:
             min_confidence_level = 1.01
         else:
             min_confidence_level = sorted_confidence_scores[int(len(sorted_confidence_scores) * (1 - dr / 100))]
@@ -64,15 +61,13 @@ class MDRCalculator:
         for metric_name in metrics_list:
             metric_function = ClassificationEvaluationMetrics.get_metric(metric_name)
             if metric_function:
-                if metric_name in {'RocAuc', 'AveragePrecision'}:
+                if metric_name in {'Auc', 'Auprc', 'Logloss'}:
                     metrics_dict[metric_name] = metric_function(y_true, predicted_prob)
                 else:
                     metrics_dict[metric_name] = metric_function(y_true, y_pred)
             else:
-                print(f"Error: The metric '{metric_name}' is not supported.")
+                raise ValueError(f"Error: The metric '{metric_name}' is not supported.")
         return metrics_dict
-    
-        
     
     @staticmethod
     def _list_difference_by_key(list1: List[Profile], list2: List[Profile], key='node_id'):
@@ -258,6 +253,7 @@ class MDRCalculator:
         """
         # initialization of different variables
         last_profiles = tree.get_all_profiles(0, min_samples_ratio) # saves last profiles
+        lost_profiles_all = [] # saves last lost profiles
         last_min_confidence_level = -1 # last min_confidence
         last_dr = 100 # last dr
 
@@ -271,28 +267,27 @@ class MDRCalculator:
                 last_min_confidence_level = min_confidence_level
                 # get all the profiles for this min_confidence level, and min_ratio
                 profiles_current = tree.get_all_profiles(min_confidence_level, min_samples_ratio)
-                # insert these profiles in the profiles manager
-                profiles_manager.insert_profiles(dr, min_samples_ratio, profiles_current)
+                
                 # if the last profiles are different from current profiles
-                if last_profiles != profiles_current:
+                if len(last_profiles) != len(profiles_current):
                     # extract lost profiles
                     lost_profiles = MDRCalculator._list_difference_by_key(last_profiles, profiles_current)
-                    # save lost profiles in the profiles manager
-                    profiles_manager.insert_lost_profiles(last_dr - 1, min_samples_ratio, lost_profiles)
-                # if the last profiles are not different from current profiles
-                else:
-                    # save an empty list in the lost profiles for this dr
-                    profiles_manager.insert_lost_profiles(dr, min_samples_ratio, [])
+                    lost_profiles_all.extend(lost_profiles)
+                
+                for insertion_dr in range (last_dr-1, dr, -1):
+                    # insert these profiles in the profiles manager
+                    profiles_manager.insert_profiles(insertion_dr, min_samples_ratio, profiles_current)
+                    # save the lost profiles        
+                    profiles_manager.insert_lost_profiles(insertion_dr, min_samples_ratio, lost_profiles_all)
                 
                 # update the last dr, and last profiles
                 last_dr = dr
                 last_profiles = profiles_current
             
             # if the current min_confidence is same as the last one
-            else:
-                # use the last dr results
-                profiles_manager.insert_profiles(dr, min_samples_ratio, profiles_current)
-                profiles_manager.insert_lost_profiles(dr, min_samples_ratio, [])
+            # use the last dr results
+            profiles_manager.insert_profiles(dr, min_samples_ratio, profiles_current)
+            profiles_manager.insert_lost_profiles(dr, min_samples_ratio, lost_profiles_all)
 
     @staticmethod
     def calc_metrics_by_profiles(profiles_manager, datasets_manager : DatasetsManager, metrics_list, set = 'reference'):
@@ -335,26 +330,27 @@ class MDRCalculator:
                                                                     y_pred=y_pred[confidence_mask], 
                                                                     predicted_prob=pred_prob[confidence_mask],
                                                                     metrics_list=metrics_list)
-                    
+                    info_dict = {}
                     # the remaining node population at the current dr compared to node population at dr = 100
-                    metrics_dict['Node%'] = len(y_true[confidence_mask]) * 100 / len(y_true)
+                    info_dict['Node%'] = len(y_true[confidence_mask]) * 100 / len(y_true)
                     # the remaining node population at the current dr compared to the whole population at dr = 100
-                    metrics_dict['Population%'] = len(y_true) * 100 / len(all_y_true)
+                    info_dict['Population%'] = len(y_true) * 100 / len(all_y_true)
                     # the mean confidence level for this profile at this dr
-                    metrics_dict['Mean confidence level'] = np.mean(confidence_scores[confidence_mask]) * 100 if \
-                        confidence_scores[confidence_mask].size > 0 else np.NaN
+                    info_dict['Mean confidence level'] = np.mean(confidence_scores[confidence_mask]) * 100 if \
+                        confidence_scores[confidence_mask].size > 0 else None
                     # the positive class percentage in this profile at this dr
-                    metrics_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
-                        len(y_true[confidence_mask]) > 0 else np.NaN
+                    info_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
+                        len(y_true[confidence_mask]) > 0 else None
                     # update the calculated metrics in the profile
                     profile.update_metrics_results(metrics_dict)
+                    profile.update_node_information(info_dict)
 
     @staticmethod
     def detectron_by_profiles(datasets: DatasetsManager,
                               profiles_manager: ProfilesManager,
                               training_params: Dict,
                               base_model_manager: BaseModelManager,
-                              strategy: DetectronStrategy,
+                              strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]],
                               samples_size: int = 20,
                               ensemble_size: int = 10,
                               num_calibration_runs: int = 100,
@@ -363,11 +359,11 @@ class MDRCalculator:
                               margin: float = 0.05, 
                               all_dr: bool = True) -> Dict:
         
-        """Runs the Detectron method for different profiles.
+        """Runs the Detectron method on the different testing set profiles.
 
         Args:
             datasets (DatasetsManager): The datasets manager instance.
-            med3pa_testing_results (Med3paResults): The results from the MED3PA testing experiment.
+            profiles_manager (ProfilesManager): the manager containing the profiles of the testing set.
             training_params (dict): Parameters for training the models.
             base_model_manager (BaseModelManager): The base model manager instance.
             testing_mpc_values (np.ndarray): MPC values for the testing data.
@@ -376,8 +372,7 @@ class MDRCalculator:
             ensemble_size (int, optional): Number of models in the ensemble, by default 10.
             num_calibration_runs (int, optional): Number of calibration runs, by default 100.
             patience (int, optional): Patience for early stopping, by default 3.
-            significance_level (float, optional): Significance level for the test, by default 0.05.
-            test_strategy (Type[DisagreementStrategy_z_mean], optional): The strategy for testing disagreement, by default DisagreementStrategy_z_mean.
+            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): The strategies for testing disagreement.
             allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
             margin (float, optional): Margin value for the test, by default 0.05.
             all_dr (bool, optional): Whether to run for all declaration rates, by default False.
@@ -385,30 +380,32 @@ class MDRCalculator:
         Returns:
             Dict: Dictionary of med3pa profiles with detectron results.
         """
-        min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k > 0])
+        min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k >= 0])
         profiles_by_dr = profiles_manager.get_profiles(min_samples_ratio=min_positive_ratio)
         last_min_confidence_level = -1   
         confidence_scores = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True).get_confidence_scores()  
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False
-
+            
+            experiment_det = None
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
             if last_min_confidence_level != min_confidence_level:
                 for profile in profiles:
+                    detectron_results_dict = {}
                     
-                    detectron_results = {}
-                    
-                    p_x, p_y_true, _, _, _ = MDRCalculator._filter_by_profile(datasets_manager=datasets, path=profile.path, set='reference', min_confidence_level=min_confidence_level)
                     q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(datasets_manager=datasets, path=profile.path, set='testing', min_confidence_level=min_confidence_level)
-                    
-                    if len(p_y_true) != 0 and len(q_y_true) != 0:
+                    p_x, p_y_true = datasets.get_dataset_by_type("reference")
+                    if len(q_y_true) != 0:
                         if len(q_y_true) < samples_size: 
-                            detectron_results['Executed'] = "Not enough test data"
-                            detectron_results['data'] = [len(p_y_true), len(q_y_true)]                    
+                            detectron_results_dict['Executed'] = "Not enough samples in tested profile"
+                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                            detectron_results_dict['Tests Results'] = None         
+
                         elif 2 * samples_size > len(p_y_true):
-                            detectron_results['Executed'] = "Not enough calibration data"
-                            detectron_results['data'] = [len(p_y_true), len(q_y_true)]
+                            detectron_results_dict['Executed'] = "Not enough samples in reference set"
+                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                            detectron_results_dict['Tests Results'] = None    
                         else:
                             profile_set = DatasetsManager()
                             profile_set.set_column_labels(datasets.get_column_labels())
@@ -425,19 +422,30 @@ class MDRCalculator:
                             
                             path_description = "*, " + " & ".join(profile.path[1:])
                             print("Running Detectron on Profile:", path_description)
-                            experiment_det= DetectronExperiment.run(
-                            datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
-                            samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                            patience=patience, allow_margin=allow_margin, margin=margin)
-                        
-                            detectron_results = experiment_det.analyze_results(strategy=strategy)
-                            detectron_results['Executed'] = "Yes"
-                            detectron_results['data'] = [len(p_y_true), len(q_y_true)]
-                    else:
-                        detectron_results['Executed'] = "Nonexistant profile in calibration data"
-                        detectron_results['data'] = [len(p_y_true), len(q_y_true)]
+                            if experiment_det is None:
+                                experiment_det= DetectronExperiment.run(
+                                datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
+                                samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                                patience=patience, allow_margin=allow_margin, margin=margin)
+                            else:
+                                experiment_det=DetectronExperiment.run(
+                                datasets=profile_set, calib_result=experiment_det.cal_record, training_params=training_params, 
+                                base_model_manager=base_model_manager,
+                                samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                                patience=patience, allow_margin=allow_margin, margin=margin)
+                    
+                            detectron_results = experiment_det.analyze_results(strategies=strategies)
+                            detectron_results_dict['Executed'] = "Yes"
+                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                            detectron_results_dict['Tests Results'] = detectron_results
 
-                    profile.update_detectron_results(detectron_results)
+                    else:
+                        detectron_results_dict['Executed'] = "Empty profile in test data"
+                        detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                        detectron_results_dict['Tests Results'] = None
+
+
+                    profile.update_detectron_results(detectron_results_dict)
                 
                 last_profiles = profiles
                 last_min_confidence_level = min_confidence_level

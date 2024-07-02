@@ -1,8 +1,7 @@
 """
 The ``abstract_metrics.py`` module defines the ``EvaluationMetric`` abstract base class, 
 providing a standard interface for calculating metric values for model evaluations. 
-It includes specialized subclasses like ``ClassificationEvaluationMetric`` and ``RegressionEvaluationMetric`` to cater to specific needs of classification and regression tasks, 
-facilitating the integration and extension of new evaluation metrics."""
+"""
 
 from abc import ABC
 

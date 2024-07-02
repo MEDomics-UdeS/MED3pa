@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -84,7 +87,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+
 <span class="kn">from</span> <span class="nn">.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
+
 
 <div class="viewcode-block" id="BaseModelManager"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.base.BaseModelManager">[docs]</a><span class="k">class</span> <span class="nc">BaseModelManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -155,6 +160,7 @@
                     <span class="nb">setattr</span><span class="p">(</span><span class="n">cloned_model</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             
             <span class="k">return</span> <span class="n">cloned_model</span></div></div>
+
 </pre></div>
 
            </div>

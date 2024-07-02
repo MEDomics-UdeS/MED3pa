@@ -7,6 +7,9 @@ each adapting these operations to specific needs of classification and regressio
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+import os
+import pickle
+import json
 
 import numpy as np
 
@@ -131,6 +134,29 @@ class Model(ABC):
             "data_preparation_strategy": self.get_data_strategy() if self.get_data_strategy() else None,
             "pickled_model": self.is_pickled()
         }
+    
+    def save(self, path: str) -> None:
+        """
+        Saves the model instance as a pickled file and the parameters as a JSON file within the specified directory.
+        
+        Args:
+            path (str): The directory path where the model and parameters will be saved.
+        """
+        # Create the directory if it does not exist
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        # Define file paths
+        model_path = os.path.join(path, 'model_instance.pkl')
+        params_path = os.path.join(path, 'model_info.json')
+
+        # Save the model as a pickled file
+        with open(model_path, 'wb') as model_file:
+            pickle.dump(self.model, model_file)
+
+        # Save the parameters as a JSON file
+        with open(params_path, 'w') as params_file:
+            json.dump(self.get_info(), params_file)
 
     @abstractmethod
     def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[str, float]:

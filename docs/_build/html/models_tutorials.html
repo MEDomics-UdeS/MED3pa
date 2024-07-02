@@ -52,30 +52,28 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Overview</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Working with the Models Subpackage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#using-the-modelfactory-class">Using the ModelFactory Class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#step-1-importing-necessary-modules">Step 1: Importing Necessary Modules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-2-creating-an-instance-of-modelfactory">Step 2: Creating an Instance of ModelFactory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-3-discovering-supported-models">Step 3: Discovering Supported Models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-4-specifying-and-creating-a-model">Step 4: Specifying and Creating a Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-5-loading-a-model-from-a-serialized-state">Step 5: Loading a Model from a Serialized State</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with the Models Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-modelfactory-class">Using the ModelFactory Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-importing-necessary-modules">Step 1: Importing Necessary Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-creating-an-instance-of-modelfactory">Step 2: Creating an Instance of ModelFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-discovering-supported-models">Step 3: Discovering Supported Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-specifying-and-creating-a-model">Step 4: Specifying and Creating a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-loading-a-model-from-a-serialized-state">Step 5: Loading a Model from a Serialized State</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#using-the-model-class">Using the Model Class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#step-1-training-the-model">Step 1: Training the Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-2-predicting-using-the-trained-model">Step 2: Predicting Using the Trained Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-3-evaluating-the-model">Step 3: Evaluating the Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-4-retrieving-model-information">Step 4: Retrieving Model Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-model-class">Using the Model Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-training-the-model">Step 1: Training the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-predicting-using-the-trained-model">Step 2: Predicting Using the Trained Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-evaluating-the-model">Step 3: Evaluating the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-retrieving-model-information">Step 4: Retrieving Model Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-saving-model-information">Step 5: Saving Model Information</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -92,7 +90,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="tutorials.html">Overview</a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">Working with the Models Subpackage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/models_tutorials.rst.txt" rel="nofollow"> View page source</a>
@@ -242,11 +240,11 @@
 <section id="step-3-evaluating-the-model">
 <h3>Step 3: Evaluating the Model<a class="headerlink" href="#step-3-evaluating-the-model" title="Permalink to this heading"></a></h3>
 <p>Evaluate the model’s performance using various metrics to understand its effectiveness in making predictions. The supported metrics include Accuracy, AUC, Precision, Recall, and F1 Score, among others. The <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method will handle the model predictions and then evaluate the model based on these predictions. You only need to specify the test data.</p>
-<p>To retrieve the list of supported <code class="docutils literal notranslate"><span class="pre">classification_metrics</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">classification_metrics.get_supported_metrics()</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">classification_metrics</span>
+<p>To retrieve the list of supported <code class="docutils literal notranslate"><span class="pre">classification_metrics</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.supported_metrics()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">ClassificationEvaluationMetrics</span>
 
 <span class="c1"># Display supported metrics</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported evaluation metrics:&quot;</span><span class="p">,</span> <span class="n">classification_metrics</span><span class="o">.</span><span class="n">supported_classification_metrics</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported evaluation metrics:&quot;</span><span class="p">,</span> <span class="n">ClassificationEvaluationMetrics</span><span class="o">.</span><span class="n">supported_metrics</span><span class="p">())</span>
 
 <span class="c1"># Evaluate the model</span>
 <span class="n">evaluation_results</span> <span class="o">=</span> <span class="n">xgb_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">],</span> <span class="n">print_results</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -282,6 +280,13 @@ Accuracy: 0.50
             &#39;device&#39;: &#39;cpu&#39;},
  &#39;data_preparation_strategy&#39;: &#39;ToDmatrixStrategy&#39;,
  &#39;pickled_model&#39;: False}
+</pre></div>
+</div>
+</section>
+<section id="step-5-saving-model-information">
+<h3>Step 5: Saving Model Information<a class="headerlink" href="#step-5-saving-model-information" title="Permalink to this heading"></a></h3>
+<p>You can save the model by using the <cite>save</cite> method, which will save the underlying model instance as a pickled file, and the model’s information as a .json file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>xgb_model.save(&quot;./models/saved_model&quot;)
 </pre></div>
 </div>
 </section>

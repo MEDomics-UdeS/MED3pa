@@ -51,7 +51,7 @@ You can also load the datasets as NumPy arrays. For this, you need to specify th
     y_val = df['target_column'].values
 
     # Example of setting data from numpy arrays
-    manager.set_from_data(dataset_type="validation", features=X_val, true_labels=y_val)
+    manager.set_from_data(dataset_type="validation", observations=X_val, true_labels=y_val)
 
 Step 4: Ensuring Feature Consistency
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,7 +71,7 @@ Retrieve the loaded data in different formats as needed.
 
 .. code-block:: python
 
-    features, labels = manager.get_dataset_by_type(dataset_type="training")
+    observations, labels = manager.get_dataset_by_type(dataset_type="training")
 
 **As a MaskedDataset Instance**
 
@@ -87,7 +87,7 @@ You can print a summary of the ``DatasetsManager`` to see the status of the data
 
 .. code-block:: python
 
-    manager.summary()
+    manager.summarize()
 
 Step 7: Saving and Resetting Datasets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -104,7 +104,7 @@ You can save a specific dataset to a CSV file or reset all datasets managed by t
 .. code-block:: python
 
     manager.reset_datasets()
-    manager.summary()  # Verify that all datasets are reset
+    manager.summarize()  # Verify that all datasets are reset
 
 Summary of Outputs
 ^^^^^^^^^^^^^^^^^^^
@@ -171,49 +171,14 @@ Refine the dataset based on a boolean mask, which is useful for filtering out un
     mask = np.random.rand(len(training_dataset)) > 0.5
     remaining_samples = training_dataset.refine(mask=mask)
 
-**Restoring the Original Dataset**
-
-Retrieve the unmodified state of the dataset, which can be useful after multiple manipulations:
-
-.. code-block:: python
-
-    original_dataset = training_dataset.original()
-
-**Resetting Indices**
-
-Reset the dataset indices to their original state:
-
-.. code-block:: python
-
-    training_dataset.reset_indices()
-
 **Setting Pseudo Labels and Probabilities**
 
-Set pseudo labels and probabilities for the dataset:
+Set pseudo labels and probabilities for the dataset, for this you only need to pass the pseudo_probabilities along with the threshold to extract the pseudo_labels from:
 
 .. code-block:: python
 
     pseudo_probs = np.random.rand(len(training_dataset))
     training_dataset.set_pseudo_probs_labels(pseudo_probabilities=pseudo_probs, threshold=0.5)
-
-**Getting Dataset Information**
-
-Get detailed information about the dataset, or you can directly use ``summary``:
-
-.. code-block:: python
-
-    info = training_dataset.get_info()
-    print(info)
-
-When you run the ``summary`` method, you should get an output similar to this, indicating the status and details of the dataset:
-
-.. code-block:: none
-    
-    Number of samples: 151
-    Number of features: 23
-    Has pseudo labels: False
-    Has pseudo probabilities: False
-    Has confidence scores: False
 
 **Getting Feature Vectors and Labels**
 
@@ -221,7 +186,7 @@ Retrieve the feature vectors, true labels, and pseudo labels:
 
 .. code-block:: python
 
-    features = training_dataset.get_observations()
+    observations = training_dataset.get_observations()
     true_labels = training_dataset.get_true_labels()
     pseudo_labels = training_dataset.get_pseudo_labels()
 
@@ -235,9 +200,28 @@ Get the confidence scores if available:
 
 **Converting to DataFrame and Saving to CSV**
 
-Convert the dataset to a pandas DataFrame and save it to a CSV file:
+### Saving the dataset
+You can save the dataset as a .csv file, but using `save_to_csv` and providing the path this will save the observations, true_labels, pseudo_labels and pseudo_probabilities, alongside confidence_scores if they were set:
 
 .. code-block:: python
 
     df = training_dataset.to_dataframe()
     training_dataset.save_to_csv('./path_to_save_training_dataset.csv')
+
+**Getting Dataset Information**
+
+Get detailed information about the dataset, or you can directly use ``summary``:
+
+.. code-block:: python
+
+    training_dataset.summarize()
+
+When you run the ``summarize`` method, you should get an output similar to this, indicating the status and details of the dataset:
+
+.. code-block:: none
+    
+    Number of samples: 151
+    Number of features: 23
+    Has pseudo labels: False
+    Has pseudo probabilities: False
+    Has confidence scores: False

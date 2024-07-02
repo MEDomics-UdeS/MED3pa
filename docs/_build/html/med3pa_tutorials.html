@@ -51,21 +51,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Overview</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Working with the med3pa Subpackage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-med3pa-experiment">Running the MED3pa Experiment</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-3-running-the-med3pa-experiment">Step 3: Running the med3pa Experiment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#step-4-analyzing-and-saving-the-results">Step 4: Analyzing and Saving the Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Working with the med3pa Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-med3pa-experiment">Running the MED3pa Experiment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-running-the-med3pa-experiment">Step 3: Running the med3pa Experiment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-analyzing-and-saving-the-results">Step 4: Analyzing and Saving the Results</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-med3pa-and-detectron-experiment">Running the MED3pa and Detectron Experiment</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-med3pa-and-detectron-experiment">Running the MED3pa and Detectron Experiment</a></li>
 </ul>
 </li>
 </ul>
@@ -84,7 +81,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="tutorials.html">Overview</a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">Working with the med3pa Subpackage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/med3pa_tutorials.rst.txt" rel="nofollow"> View page source</a>
@@ -102,14 +99,15 @@
 <h2>Running the MED3pa Experiment<a class="headerlink" href="#running-the-med3pa-experiment" title="Permalink to this heading"></a></h2>
 <section id="step-1-setting-up-the-datasets">
 <h3>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Permalink to this heading"></a></h3>
-<p>First, configure the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code>. In the case of MED3pa experiment you only need to set the DatasetManager with either <code class="docutils literal notranslate"><span class="pre">testing</span></code> or <code class="docutils literal notranslate"><span class="pre">reference</span></code> dataset.</p>
+<p>First, configure the <cite>DatasetsManager</cite>. In the case of MED3pa only experiment you only need to set the DatasetManager with either <cite>testing</cite> and <cite>reference</cite> dataset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
 
 <span class="c1"># Initialize the DatasetsManager</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">DatasetsManager</span><span class="p">()</span>
 
-<span class="c1"># Load dataset to use in the experiment</span>
-<span class="n">datasets</span><span class="o">.</span><span class="n">set_from_file</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;./path_to_test_dataset.csv&#39;</span><span class="p">,</span> <span class="n">target_column_name</span><span class="o">=</span><span class="s1">&#39;y_true&#39;</span><span class="p">)</span>
+<span class="c1"># Load datasets for reference, and testing</span>
+<span class="n">datasets</span><span class="o">.</span><span class="n">set_from_file</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;./path_to_reference_data.csv&#39;</span><span class="p">,</span> <span class="n">target_column_name</span><span class="o">=</span><span class="s1">&#39;Outcome&#39;</span><span class="p">)</span>
+<span class="n">datasets</span><span class="o">.</span><span class="n">set_from_file</span><span class="p">(</span><span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;./path_to_test_data.6.csv&#39;</span><span class="p">,</span> <span class="n">target_column_name</span><span class="o">=</span><span class="s1">&#39;Outcome&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -130,7 +128,8 @@
 </section>
 <section id="step-3-running-the-med3pa-experiment">
 <h3>Step 3: Running the med3pa Experiment<a class="headerlink" href="#step-3-running-the-med3pa-experiment" title="Permalink to this heading"></a></h3>
-<p>Execute the MED3PA experiment with the specified datasets and base model. You can also specify other parameters as needed. see the documention of the subpackage for more information about the parameters</p>
+<p>Execute the MED3PA experiment with the specified datasets and base model. You can also specify other parameters as needed. See the documentation of the subpackage for more information about the parameters.</p>
+<p>The experiment outputs two structure one for the reference set and the other for the testing set, both containing files indicating the extracted profiles at different declaration rates, the performance of the model on these profiles..etc.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.med3pa</span> <span class="kn">import</span> <span class="n">Med3paExperiment</span>
 <span class="kn">from</span> <span class="nn">det3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="n">AbsoluteError</span>
 <span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="n">RandomForestRegressorModel</span>
@@ -141,21 +140,25 @@
 <span class="n">med3pa_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;BalancedAccuracy&#39;</span><span class="p">]</span>
 
 <span class="c1"># Execute the MED3PA experiment</span>
-<span class="n">experiment_results</span> <span class="o">=</span> <span class="n">Med3paExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-    <span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
-    <span class="nb">set</span><span class="o">=</span><span class="s1">&#39;testing&#39;</span><span class="p">,</span>
-    <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
-    <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">AbsoluteError</span><span class="p">,</span>
-    <span class="n">ipc_type</span><span class="o">=</span><span class="n">RandomForestRegressorModel</span><span class="p">,</span>
-    <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span>
-    <span class="n">apc_params</span><span class="o">=</span><span class="n">apc_params</span><span class="p">,</span>
-    <span class="n">samples_ratio_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">samples_ratio_max</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-    <span class="n">samples_ratio_step</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">med3pa_metrics</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span>
-    <span class="n">evaluate_models</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">models_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">]</span>
-<span class="p">)</span>
+<span class="n">ipc_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
+<span class="n">apc_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">med3pa_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Auc&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;BalancedAccuracy&#39;</span><span class="p">]</span>
+
+<span class="c1"># Execute the MED3PA experiment</span>
+<span class="n">reference_results</span><span class="p">,</span> <span class="n">test_results</span> <span class="o">=</span> <span class="n">Med3paExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                                    <span class="n">datasets_manager</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
+                                    <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
+                                    <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">AbsoluteError</span><span class="p">,</span>
+                                    <span class="n">ipc_type</span><span class="o">=</span><span class="n">RandomForestRegressorModel</span><span class="p">,</span>
+                                    <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span>
+                                    <span class="n">apc_params</span><span class="o">=</span><span class="n">apc_params</span><span class="p">,</span>
+                                    <span class="n">samples_ratio_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">samples_ratio_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                    <span class="n">samples_ratio_step</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                    <span class="n">med3pa_metrics</span><span class="o">=</span><span class="n">med3pa_metrics</span><span class="p">,</span>
+                                    <span class="n">evaluate_models</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">models_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">]</span>
+                                <span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -163,32 +166,28 @@
 <h3>Step 4: Analyzing and Saving the Results<a class="headerlink" href="#step-4-analyzing-and-saving-the-results" title="Permalink to this heading"></a></h3>
 <p>After running the experiment, you can analyze and save the results using the returned <code class="docutils literal notranslate"><span class="pre">Med3paResults</span></code> instance.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results to a specified directory</span>
-<span class="n">experiment_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_experiment_results&#39;</span><span class="p">)</span>
+<span class="n">reference_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_experiment_results/reference&#39;</span><span class="p">)</span>
+<span class="n">test_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_experiment_results/test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="running-the-med3pa-and-detectron-experiment">
 <h2>Running the MED3pa and Detectron Experiment<a class="headerlink" href="#running-the-med3pa-and-detectron-experiment" title="Permalink to this heading"></a></h2>
-<p>You can also run an experiment that combines the forces of Detectron in covariate shift detection with MED3pa problematic profiles extraction using the <code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment</span></code> class.
-To be able to run this experiment, all datasets of the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> should be set.
-This experiment will run MED3pa experiment on the <code class="docutils literal notranslate"><span class="pre">testing</span></code> and <code class="docutils literal notranslate"><span class="pre">reference</span></code> sets and then run the <code class="docutils literal notranslate"><span class="pre">detectron</span></code> experiment on the <code class="docutils literal notranslate"><span class="pre">testing</span></code> set, and finally run <code class="docutils literal notranslate"><span class="pre">detectron</span></code> on the <strong>extracted profiles</strong> from MED3pa.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron</span> <span class="kn">import</span> <span class="n">DisagreementStrategy_z_mean</span>
-
-<span class="c1"># Define additional parameters for the Detectron experiment</span>
-<span class="n">training_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;eval_metric&#39;</span><span class="p">:</span> <span class="s1">&#39;logloss&#39;</span><span class="p">,</span> <span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+<p>You can also run an experiment that combines the forces of Detectron in covariate shift detection with MED3pa problematic profiles extraction using the <cite>Med3paDetectronExperiment</cite> class. To be able to run this experiment, all datasets of the <cite>DatasetsManager</cite> should be set, alongside the <code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code>. This experiment will run MED3pa experiment on the <cite>testing</cite> and <cite>reference</cite> sets and then run the <cite>detectron</cite> experiment on the <cite>testing</cite> set as a whole, and then on the <strong>extracted profiles</strong> from MED3pa:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.med3pa</span> <span class="kn">import</span> <span class="n">Med3paDetectronExperiment</span>
+<span class="kn">from</span> <span class="nn">det3pa.detectron.strategies</span> <span class="kn">import</span> <span class="n">EnhancedDisagreementStrategy</span>
 
 <span class="c1"># Execute the integrated MED3PA and Detectron experiment</span>
-<span class="n">reference_3pa_res</span><span class="p">,</span> <span class="n">testing_3pa_res</span><span class="p">,</span> <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">Med3paDetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+<span class="n">reference_results</span><span class="p">,</span> <span class="n">test_results</span><span class="p">,</span> <span class="n">detectron_results</span> <span class="o">=</span> <span class="n">Med3paDetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
     <span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
-    <span class="n">training_params</span><span class="o">=</span><span class="n">training_params</span><span class="p">,</span>
     <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">,</span>
     <span class="n">uncertainty_metric</span><span class="o">=</span><span class="n">AbsoluteError</span><span class="p">,</span>
     <span class="n">samples_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="n">ensemble_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="n">num_calibration_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">patience</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-    <span class="n">test_strategy</span><span class="o">=</span><span class="n">DisagreementStrategy_z_mean</span><span class="p">,</span>
+    <span class="n">test_strategies</span><span class="o">=</span><span class="n">EnhancedDisagreementStrategy</span><span class="p">,</span>
     <span class="n">allow_margin</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">margin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
     <span class="n">ipc_params</span><span class="o">=</span><span class="n">ipc_params</span><span class="p">,</span>
@@ -200,6 +199,11 @@ This experiment will run MED3pa experiment on the <code class="docutils literal 
     <span class="n">evaluate_models</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">models_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MSE&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">]</span>
 <span class="p">)</span>
+
+<span class="c1"># Save the results to a specified directory</span>
+<span class="n">reference_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_detectron_experiment_results/reference&#39;</span><span class="p">)</span>
+<span class="n">test_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_detectron_experiment_results/test&#39;</span><span class="p">)</span>
+<span class="n">detectron_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_detectron_experiment_results/detectron&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

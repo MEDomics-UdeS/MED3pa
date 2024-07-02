@@ -1,8 +1,15 @@
+"""
+The ``regression_metrics.py`` module defines the ``RegressionEvaluationMetrics`` class, 
+that contains various regression metrics that can be used to assess the model's performance. 
+"""
+from typing import List
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
+from .abstract_metrics import EvaluationMetric
 
-class RegressionEvaluationMetrics:
+
+class RegressionEvaluationMetrics(EvaluationMetric):
     """
     A class to compute various regression evaluation metrics.
     """
@@ -21,7 +28,7 @@ class RegressionEvaluationMetrics:
             float: Mean Squared Error.
         """
         if y_true.size == 0 or y_pred.size == 0:
-            return np.nan
+            return None
         return mean_squared_error(y_true, y_pred, sample_weight=sample_weight)
     
     @staticmethod
@@ -38,7 +45,7 @@ class RegressionEvaluationMetrics:
             float: Root Mean Squared Error.
         """
         if y_true.size == 0 or y_pred.size == 0:
-            return np.nan
+            return None
         return np.sqrt(mean_squared_error(y_true, y_pred, sample_weight=sample_weight))
     
     @staticmethod
@@ -55,7 +62,7 @@ class RegressionEvaluationMetrics:
             float: Mean Absolute Error.
         """
         if y_true.size == 0 or y_pred.size == 0:
-            return np.nan
+            return None
         return mean_absolute_error(y_true, y_pred, sample_weight=sample_weight)
     
     @staticmethod
@@ -72,7 +79,7 @@ class RegressionEvaluationMetrics:
             float: R-squared score.
         """
         if y_true.size == 0 or y_pred.size == 0:
-            return np.nan
+            return None
         return r2_score(y_true, y_pred, sample_weight=sample_weight)
     
     @classmethod
@@ -92,16 +99,20 @@ class RegressionEvaluationMetrics:
             'MAE': cls.mean_absolute_error,
             'R2': cls.r2_score
         }
-        return metrics_mappings.get(metric_name)
+        if metric_name == '':
+            return list(metrics_mappings.keys())
+        else:
+            metric_function = metrics_mappings.get(metric_name)
+            return metric_function
     
     @classmethod
-    def supported_metrics(cls) -> list:
+    def supported_metrics(cls) -> List[str]:
         """
-        Get a list of supported regression metrics.
+        Get a list of supported classification metrics.
 
         Returns:
-            list: A list of supported regression metrics.
+            list: A list of supported classification metrics.
         """
-        return list(cls.get_metric.keys())
+        return cls.get_metric()
 
 

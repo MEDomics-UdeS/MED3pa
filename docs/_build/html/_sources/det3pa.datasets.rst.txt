@@ -11,7 +11,9 @@ This subpackage is composed of the following modules:
 
 - **loading_context**: Manages the strategy for loading data, allowing flexibility in the source file format.
 - **loading_strategies**: Implements specific strategies for different file formats.
-- **manager**: Coordinates access and manipulations across multiple datasets.
+- **manager**: Coordinates access and manipulations across multiple datasets used in ML pipelines.
+- **masked**: Allows multiple operation on the datasets, like sampling, refining, cloning...etc.
+
 
 The package includes the following classes:
 
@@ -43,6 +45,14 @@ The package includes the following classes:
 ------------------------------
 
 .. automodule:: det3pa.datasets.manager
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+**masked module**
+------------------------------
+
+.. automodule:: det3pa.datasets.masked
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,6 +1,5 @@
 """
-The masked.py module manages datasets for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. 
-It includes the ``MaskedDataset`` class that is capable of handling many dataset related operations, such as cloning, sampling, refining...etc.
+The masked.py module includes the ``MaskedDataset`` class that is capable of handling many dataset related operations, such as cloning, sampling, refining...etc.
 """
 
 import numpy as np
@@ -136,6 +135,41 @@ class MaskedDataset(Dataset):
         sampled_set.set_confidence_scores(sampled_confidence_scores) if sampled_confidence_scores is not None else None
         return sampled_set
     
+    def sample_random(self, N: int, seed: int) -> 'MaskedDataset':
+        """
+        Samples N data points randomly from the dataset using the given seed.
+
+        Args:
+            N (int): The number of samples to return.
+            seed (int): The seed for random number generator.
+
+        Returns:
+            MaskedDataset: A new instance of the dataset containing N random samples.
+
+        Raises:
+            ValueError: If N is greater than the current number of data points in the dataset.
+        """
+        if N > len(self.__observations):
+            raise ValueError("N cannot be greater than the current number of data points in the dataset.")
+
+        # Set the seed for reproducibility and generate random indices
+        rng = np.random.RandomState(seed)
+        random_indices = rng.permutation(len(self.__observations))[:N]
+
+        # Extract the sampled observations and labels
+        sampled_obs = self.__observations[random_indices, :]
+        sampled_true_labels = self.__true_labels[random_indices]
+        sampled_pseudo_labels = self.__pseudo_labels[random_indices] if self.__pseudo_labels is not None else None
+        sampled_confidence_scores = self.__confidence_scores[random_indices] if self.__confidence_scores is not None else None
+        sampled_pseudo_probs = self.__pseudo_probabilities[random_indices] if self.__pseudo_probabilities is not None else None
+
+        # Return a new MaskedDataset instance containing the sampled data
+        sampled_set = MaskedDataset(observations=sampled_obs, true_labels=sampled_true_labels, column_labels=self.__column_labels)
+        sampled_set.set_pseudo_probs_labels(sampled_pseudo_probs) if sampled_pseudo_probs is not None else None
+        sampled_set.set_pseudo_labels(sampled_pseudo_labels) if sampled_pseudo_labels is not None else None
+        sampled_set.set_confidence_scores(sampled_confidence_scores) if sampled_confidence_scores is not None else None
+        return sampled_set
+    
     def get_observations(self) -> np.ndarray:
         """
         Gets the observations vectors of the dataset.
@@ -206,7 +240,7 @@ class MaskedDataset(Dataset):
             raise ValueError("The shape of pseudo_probabilities must match the number of samples in the observations array.")
         
         self.__pseudo_probabilities = pseudo_probabilities
-        self.__pseudo_labels = pseudo_probabilities > threshold
+        self.__pseudo_labels = pseudo_probabilities >= threshold
         
     def set_confidence_scores(self, confidence_scores: np.ndarray) -> None:
         """

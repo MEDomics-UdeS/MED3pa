@@ -144,7 +144,7 @@ class DetectronEnsemble:
                 cdc_probabilities_original_set = cdc.predict(cloned_testing_set.get_observations(), True)
 
                 # deduct the predictions of this cdc
-                cdc_predicitons = cdc_probabilities > 0.5
+                cdc_predicitons = cdc_probabilities >= 0.5
 
                 # calculate the mask to refine the testing set
                 mask = (cdc_predicitons == testing_set.get_pseudo_labels())
@@ -159,8 +159,8 @@ class DetectronEnsemble:
                     prob_diff = np.abs(testing_set.get_pseudo_probabilities() - cdc_probabilities)
                     
                     # in the disagreement mask, keep only the data point where the probability difference is greater than the margin, only for disagreed on points
-                    refine_mask = (prob_diff > margin) & disagree_mask
-                    
+                    refine_mask = (prob_diff < margin) & disagree_mask
+
                     # update the mask according to the refine_mask array
                     mask[refine_mask] = True
                 

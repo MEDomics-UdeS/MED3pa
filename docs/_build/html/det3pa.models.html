@@ -64,7 +64,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -333,11 +336,11 @@ each adapting these operations to specific needs of classification and regressio
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.ClassificationModel.predict">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_proba</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#ClassificationModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.ClassificationModel.predict" title="Permalink to this definition"></a></dt>
-<dd><p>Makes predictions for the given input features.</p>
+<dd><p>Makes predictions for the given input observations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for prediction.</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p></li>
 <li><p><strong>return_proba</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return probabilities instead of class labels. Defaults to False.</p></li>
 <li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for converting probabilities to class labels. Defaults to 0.5.</p></li>
 </ul>
@@ -361,9 +364,9 @@ each adapting these operations to specific needs of classification and regressio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
 <li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
-<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – Features for validation.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – observations for validation.</p></li>
 <li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
 <li><p><strong>training_parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
 <li><p><strong>balance_train_classes</strong> (<em>bool</em>) – Whether to balance the training classes.</p></li>
@@ -444,7 +447,7 @@ each adapting these operations to specific needs of classification and regressio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for evaluation.</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
 <li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
 <li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results. Defaults to False.</p></li>
@@ -561,6 +564,17 @@ implementation of the model used.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the model instance as a pickled file and the parameters as a JSON file within the specified directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The directory path where the model and parameters will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.Model.set_data_strategy">
 <span class="sig-name descname"><span class="pre">set_data_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.models.data_strategies.DataPreparingStrategy" title="det3pa.models.data_strategies.DataPreparingStrategy"><span class="pre">DataPreparingStrategy</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#Model.set_data_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.Model.set_data_strategy" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the underlying model’s data preparation strategy.</p>
@@ -638,10 +652,10 @@ This method allows for dynamic adjustment of model configuration during runtime.
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.abstract_models.RegressionModel.predict">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_models.html#RegressionModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_models.RegressionModel.predict" title="Permalink to this definition"></a></dt>
-<dd><p>Makes predictions for the given input features.</p>
+<dd><p>Makes predictions for the given input observations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Features for prediction.</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The predicted values.</p>
@@ -662,9 +676,9 @@ This method allows for dynamic adjustment of model configuration during runtime.
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
 <li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
-<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – Features for validation.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em>) – observations for validation.</p></li>
 <li><p><strong>y_validation</strong> (<em>np.ndarray</em>) – Labels for validation.</p></li>
 <li><p><strong>training_parameters</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
 </ul>
@@ -812,7 +826,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for evaluation.</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
 <li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
 <li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results.</p></li>
@@ -836,7 +850,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dd><p>Makes predictions with the model for the given input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Features for prediction.</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Predictions made by the model.</p>
@@ -845,7 +859,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressor has not been initialized before training.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressorModel has not been initialized before training.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -857,15 +871,15 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
 <li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
-<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Features for validation.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations for validation.</p></li>
 <li><p><strong>y_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels for validation.</p></li>
 <li><p><strong>training_parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressor has not been initialized before training.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the DecisionTreeRegressorModel has not been initialized before training.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -884,7 +898,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – Features for evaluation.</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – observations for evaluation.</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – True labels for evaluation.</p></li>
 <li><p><strong>eval_metrics</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Metrics to use for evaluation.</p></li>
 <li><p><strong>print_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to print the evaluation results.</p></li>
@@ -908,7 +922,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dd><p>Makes predictions with the model for the given input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Features for prediction.</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – observations for prediction.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Predictions made by the model.</p>
@@ -917,7 +931,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressor has not been initialized before training.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressorModel has not been initialized before training.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -929,15 +943,15 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Features for training.</p></li>
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – observations for training.</p></li>
 <li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Labels for training.</p></li>
-<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Features for validation.</p></li>
+<li><p><strong>x_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations for validation.</p></li>
 <li><p><strong>y_validation</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels for validation.</p></li>
 <li><p><strong>training_parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional training parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressor has not been initialized before training.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the RandomForestRegressorModel has not been initialized before training.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -948,16 +962,7 @@ It provides practical, ready-to-use models that comply with the abstract definit
 <section id="module-det3pa.models.abstract_metrics">
 <span id="abstract-metrics-module"></span><h2><strong>abstract_metrics module</strong><a class="headerlink" href="#module-det3pa.models.abstract_metrics" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">abstract_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">EvaluationMetric</span></code> abstract base class,
-providing a standard interface for calculating metric values for model evaluations.
-It includes specialized subclasses like <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code> and <code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code> to cater to specific needs of classification and regression tasks,
-facilitating the integration and extension of new evaluation metrics.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.abstract_metrics.ClassificationEvaluationMetric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.abstract_metrics.</span></span><span class="sig-name descname"><span class="pre">ClassificationEvaluationMetric</span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#ClassificationEvaluationMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.EvaluationMetric" title="det3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
-<p>Base class for classification metrics.</p>
-</dd></dl>
-
+providing a standard interface for calculating metric values for model evaluations.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="det3pa.models.abstract_metrics.EvaluationMetric">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.abstract_metrics.</span></span><span class="sig-name descname"><span class="pre">EvaluationMetric</span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric" title="Permalink to this definition"></a></dt>
@@ -965,61 +970,62 @@ facilitating the integration and extension of new evaluation metrics.</p>
 <p>Abstract base class for all evaluation metrics. This class provides a standardized interface for calculating
 metric values across different types of tasks, ensuring consistency and reusability.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.abstract_metrics.EvaluationMetric.calculate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.abstract_metrics.EvaluationMetric.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>function</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#EvaluationMetric.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.EvaluationMetric.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported regression metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported regression metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.abstract_metrics.RegressionEvaluationMetric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.abstract_metrics.</span></span><span class="sig-name descname"><span class="pre">RegressionEvaluationMetric</span></span><a class="reference internal" href="_modules/det3pa/models/abstract_metrics.html#RegressionEvaluationMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.abstract_metrics.RegressionEvaluationMetric" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.EvaluationMetric" title="det3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
-<p>Base class for regression metrics.</p>
 </dd></dl>
 
 </section>
 <section id="module-det3pa.models.classification_metrics">
 <span id="classification-metrics-module"></span><h2><strong>classification_metrics module</strong><a class="headerlink" href="#module-det3pa.models.classification_metrics" title="Permalink to this heading"></a></h2>
-<p>This module implements a range of evaluation metrics specifically for classification tasks. It defines classes for metrics like accuracy, recall, precision, and F1 score, among others.
-Each metric class extends from a common <code class="docutils literal notranslate"><span class="pre">EvaluationMetric</span></code> abstract class, ensuring they adhere to a unified method for computation.
-This setup facilitates easy addition of new metrics and their application across various classification models without altering the core model logic.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">classification_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics</span></code> class,
+that contains various classification metrics that can be used to assess the model’s performance.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Accuracy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">Accuracy</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Accuracy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">ClassificationEvaluationMetrics</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.EvaluationMetric" title="det3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
+<p>A class to compute various classification evaluation metrics.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Accuracy.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Accuracy.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Accuracy.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the accuracy score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Accuracy score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1027,27 +1033,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.AveragePrecision">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">AveragePrecision</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#AveragePrecision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.AveragePrecision" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.AveragePrecision.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#AveragePrecision.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.AveragePrecision.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.average_precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the average precision score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Average precision score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1055,27 +1054,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.BalancedAccuracy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">BalancedAccuracy</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#BalancedAccuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.BalancedAccuracy" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.BalancedAccuracy.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#BalancedAccuracy.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.BalancedAccuracy.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">balanced_accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.balanced_accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the balanced accuracy score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Balanced accuracy score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1083,27 +1075,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.F1Score">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">F1Score</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#F1Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.F1Score" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.F1Score.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#F1Score.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.F1Score.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">f1_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.f1_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the F1 score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>F1 score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1111,27 +1096,37 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.LogLoss">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">LogLoss</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#LogLoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.LogLoss" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.LogLoss.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#LogLoss.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.LogLoss.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.log_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the log loss score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Log loss score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1139,27 +1134,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.MatthewsCorrCoef">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">MatthewsCorrCoef</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#MatthewsCorrCoef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.MatthewsCorrCoef" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.MatthewsCorrCoef.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#MatthewsCorrCoef.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.MatthewsCorrCoef.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matthews_corrcoef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.matthews_corrcoef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Matthews correlation coefficient.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Matthews correlation coefficient.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1167,27 +1155,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.NPV">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">NPV</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#NPV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.NPV" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.NPV.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#NPV.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.NPV.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">npv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.npv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the negative predictive value (NPV).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Negative predictive value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1195,27 +1176,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.PPV">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">PPV</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#PPV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.PPV" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.PPV.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#PPV.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.PPV.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ppv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.ppv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the positive predictive value (PPV).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Positive predictive value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1223,27 +1197,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Precision">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">Precision</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Precision" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Precision.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Precision.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Precision.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the precision score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Precision score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1251,27 +1218,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Recall">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">Recall</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Recall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Recall" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Recall.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Recall.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Recall.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.recall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the recall score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Recall score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1279,27 +1239,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.RocAuc">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">RocAuc</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#RocAuc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.RocAuc" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.RocAuc.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#RocAuc.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.RocAuc.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">roc_auc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.roc_auc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the ROC AUC score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted probabilities.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>ROC AUC score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1307,27 +1260,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Sensitivity">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">Sensitivity</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Sensitivity" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Sensitivity.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Sensitivity.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Sensitivity.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the sensitivity (recall for the positive class).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Sensitivity score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1335,27 +1281,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Specificity">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">Specificity</span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Specificity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Specificity" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.ClassificationEvaluationMetric" title="det3pa.models.abstract_metrics.ClassificationEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassificationEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.Specificity.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#Specificity.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.Specificity.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specificity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.specificity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the specificity (recall for the negative class).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted labels.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Specificity score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1363,38 +1302,63 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#ClassificationEvaluationMetrics.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported classification metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported classification metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="det3pa.models.classification_metrics.supported_classification_metrics">
-<span class="sig-prename descclassname"><span class="pre">det3pa.models.classification_metrics.</span></span><span class="sig-name descname"><span class="pre">supported_classification_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/classification_metrics.html#supported_classification_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.classification_metrics.supported_classification_metrics" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </section>
 <section id="module-det3pa.models.regression_metrics">
 <span id="regression-metrics-module"></span><h2><strong>regression_metrics module</strong><a class="headerlink" href="#module-det3pa.models.regression_metrics" title="Permalink to this heading"></a></h2>
-<p>Focused on regression tasks, this module provides implementations of key evaluation metrics such as Mean Squared Error (MSE),
-Root Mean Squared Error (RMSE), and R2 Score. Similar to`` classification_metrics.py``,
-these metrics are structured to offer a consistent approach for evaluating regression models.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">regression_metrics.py</span></code> module defines the <code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics</span></code> class,
+that contains various regression metrics that can be used to assess the model’s performance.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.MeanAbsoluteError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">MeanAbsoluteError</span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#MeanAbsoluteError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.MeanAbsoluteError" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.RegressionEvaluationMetric" title="det3pa.models.abstract_metrics.RegressionEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code></a></p>
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">RegressionEvaluationMetrics</span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.EvaluationMetric" title="det3pa.models.abstract_metrics.EvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a></p>
+<p>A class to compute various regression evaluation metrics.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.MeanAbsoluteError.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#MeanAbsoluteError.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.MeanAbsoluteError.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric" title="Permalink to this definition"></a></dt>
+<dd><p>Get the metric function based on the metric name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metric_name</strong> (<em>str</em>) – The name of the metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The function corresponding to the metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean_absolute_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.mean_absolute_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Mean Absolute Error (MAE).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Mean Absolute Error.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1402,27 +1366,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.MeanSquaredError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">MeanSquaredError</span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#MeanSquaredError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.MeanSquaredError" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.RegressionEvaluationMetric" title="det3pa.models.abstract_metrics.RegressionEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.MeanSquaredError.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#MeanSquaredError.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.MeanSquaredError.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Mean Squared Error (MSE).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Mean Squared Error.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1430,27 +1387,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.R2Score">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">R2Score</span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#R2Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.R2Score" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.RegressionEvaluationMetric" title="det3pa.models.abstract_metrics.RegressionEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.R2Score.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#R2Score.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.R2Score.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">r2_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.r2_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the R-squared (R2) score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>R-squared score.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1458,27 +1408,20 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RootMeanSquaredError">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">RootMeanSquaredError</span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RootMeanSquaredError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RootMeanSquaredError" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#det3pa.models.abstract_metrics.RegressionEvaluationMetric" title="det3pa.models.abstract_metrics.RegressionEvaluationMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegressionEvaluationMetric</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RootMeanSquaredError.calculate">
-<span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RootMeanSquaredError.calculate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RootMeanSquaredError.calculate" title="Permalink to this definition"></a></dt>
-<dd><p>Calculates the metric value based on true labels/values and predicted labels/values.</p>
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.root_mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Root Mean Squared Error (RMSE).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True labels or values, representing the ground truth data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted scores, labels, or values, as produced by a model.</p></li>
-<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Array of weights that are assigned to individual
-samples, mainly used in averaging the metric.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – True values.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – Predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Sample weights.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The calculated metric value.</p>
+<dd class="field-even"><p>Root Mean Squared Error.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1486,12 +1429,21 @@ samples, mainly used in averaging the metric.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="det3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#RegressionEvaluationMetrics.supported_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of supported classification metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of supported classification metrics.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="det3pa.models.regression_metrics.supported_classification_metrics">
-<span class="sig-prename descclassname"><span class="pre">det3pa.models.regression_metrics.</span></span><span class="sig-name descname"><span class="pre">supported_classification_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/regression_metrics.html#supported_classification_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.regression_metrics.supported_classification_metrics" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </section>
 <section id="module-det3pa.models.data_strategies">
@@ -1505,12 +1457,12 @@ According to the model type.</p>
 <p>Abstract base class for data preparation strategies.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.data_strategies.DataPreparingStrategy.execute">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#DataPreparingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.DataPreparingStrategy.execute" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#DataPreparingStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.DataPreparingStrategy.execute" title="Permalink to this definition"></a></dt>
 <dd><p>Prepares data for model training or prediction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> (<em>array-like</em>) – Features array.</p></li>
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations array.</p></li>
 <li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels array.</p></li>
 <li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights array.</p></li>
 </ul>
@@ -1536,25 +1488,25 @@ According to the model type.</p>
 <p>Converts input data to pandas DataFrames, suitable for models requiring DataFrame inputs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.data_strategies.ToDataframesStrategy.execute">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDataframesStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDataframesStrategy.execute" title="Permalink to this definition"></a></dt>
-<dd><p>Converts features, labels, and weights into pandas DataFrames with specified column labels.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDataframesStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDataframesStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into pandas DataFrames with specified column labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>column_labels</strong> (<em>list</em>) – Column labels for the features DataFrame.</p></li>
-<li><p><strong>features</strong> (<em>np.ndarray</em>) – Features array.</p></li>
+<li><p><strong>column_labels</strong> (<em>list</em>) – Column labels for the observations DataFrame.</p></li>
+<li><p><strong>observations</strong> (<em>np.ndarray</em>) – observations array.</p></li>
 <li><p><strong>labels</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Labels array.</p></li>
 <li><p><strong>weights</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Weights array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrames for features, labels, and weights. Returns None for labels and weights DataFrames if not provided.</p>
+<dd class="field-even"><p>DataFrames for observations, labels, and weights. Returns None for labels and weights DataFrames if not provided.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the features array is empty.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the observations array is empty.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1568,12 +1520,12 @@ According to the model type.</p>
 <p>Concrete implementation for converting data into DMatrix format suitable for XGBoost models.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.data_strategies.ToDmatrixStrategy.execute">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DMatrix</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDmatrixStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDmatrixStrategy.execute" title="Permalink to this definition"></a></dt>
-<dd><p>Converts features, labels, and weights into an XGBoost DMatrix.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DMatrix</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDmatrixStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDmatrixStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into an XGBoost DMatrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> (<em>array-like</em>) – Features data.</p></li>
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
 <li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
 <li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
 </ul>
@@ -1592,12 +1544,12 @@ According to the model type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_supported_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDmatrixStrategy.is_supported_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data" title="Permalink to this definition"></a></dt>
-<dd><p>Checks if the data types of features, labels, and weights are supported for conversion to DMatrix.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_supported_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToDmatrixStrategy.is_supported_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the data types of observations, labels, and weights are supported for conversion to DMatrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> (<em>array-like</em>) – Features data.</p></li>
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
 <li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
 <li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
 </ul>
@@ -1620,24 +1572,24 @@ According to the model type.</p>
 <p>Converts input data to NumPy arrays, ensuring compatibility with models expecting NumPy inputs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.models.data_strategies.ToNumpyStrategy.execute">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToNumpyStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToNumpyStrategy.execute" title="Permalink to this definition"></a></dt>
-<dd><p>Converts features, labels, and weights into NumPy arrays.</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/det3pa/models/data_strategies.html#ToNumpyStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.models.data_strategies.ToNumpyStrategy.execute" title="Permalink to this definition"></a></dt>
+<dd><p>Converts observations, labels, and weights into NumPy arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> (<em>array-like</em>) – Features data.</p></li>
+<li><p><strong>observations</strong> (<em>array-like</em>) – observations data.</p></li>
 <li><p><strong>labels</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Labels data.</p></li>
 <li><p><strong>weights</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Weights data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple of NumPy arrays for features, labels, and weights. Returns None for labels and weights if they are not provided.</p>
+<dd class="field-even"><p>A tuple of NumPy arrays for observations, labels, and weights. Returns None for labels and weights if they are not provided.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the features or labels are empty arrays.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the observations or labels are empty arrays.</p>
 </dd>
 </dl>
 </dd></dl>

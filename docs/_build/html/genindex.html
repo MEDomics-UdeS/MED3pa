@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -105,13 +108,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.uncertainty.AbsoluteError">AbsoluteError (class in det3pa.med3pa.uncertainty)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Accuracy">Accuracy (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy">accuracy() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.models.APCModel">APCModel (class in det3pa.med3pa.models)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.AveragePrecision">AveragePrecision (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision">average_precision() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -121,7 +124,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.ClassificationModel.balance_train_weights">balance_train_weights() (det3pa.models.abstract_models.ClassificationModel method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.BalancedAccuracy">BalancedAccuracy (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy">balanced_accuracy() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -146,54 +149,18 @@
       <ul>
         <li><a href="det3pa.med3pa.html#det3pa.med3pa.uncertainty.UncertaintyMetric.calculate">(det3pa.med3pa.uncertainty.UncertaintyMetric method)</a>
 </li>
-        <li><a href="det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.calculate">(det3pa.models.abstract_metrics.EvaluationMetric method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Accuracy.calculate">(det3pa.models.classification_metrics.Accuracy method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.AveragePrecision.calculate">(det3pa.models.classification_metrics.AveragePrecision method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.BalancedAccuracy.calculate">(det3pa.models.classification_metrics.BalancedAccuracy method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.F1Score.calculate">(det3pa.models.classification_metrics.F1Score method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.LogLoss.calculate">(det3pa.models.classification_metrics.LogLoss method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.MatthewsCorrCoef.calculate">(det3pa.models.classification_metrics.MatthewsCorrCoef method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.NPV.calculate">(det3pa.models.classification_metrics.NPV method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.PPV.calculate">(det3pa.models.classification_metrics.PPV method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Precision.calculate">(det3pa.models.classification_metrics.Precision method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Recall.calculate">(det3pa.models.classification_metrics.Recall method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.RocAuc.calculate">(det3pa.models.classification_metrics.RocAuc method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Sensitivity.calculate">(det3pa.models.classification_metrics.Sensitivity method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Specificity.calculate">(det3pa.models.classification_metrics.Specificity method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.MeanAbsoluteError.calculate">(det3pa.models.regression_metrics.MeanAbsoluteError method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.MeanSquaredError.calculate">(det3pa.models.regression_metrics.MeanSquaredError method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.R2Score.calculate">(det3pa.models.regression_metrics.R2Score method)</a>
-</li>
-        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RootMeanSquaredError.calculate">(det3pa.models.regression_metrics.RootMeanSquaredError method)</a>
-</li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty">calculate_uncertainty() (det3pa.med3pa.uncertainty.UncertaintyCalculator method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.factories.XGBoostFactory.check_version">check_version() (det3pa.models.factories.XGBoostFactory method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.abstract_metrics.ClassificationEvaluationMetric">ClassificationEvaluationMetric (class in det3pa.models.abstract_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics">ClassificationEvaluationMetrics (class in det3pa.models.classification_metrics)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.ClassificationModel">ClassificationModel (class in det3pa.models.abstract_models)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.clone">clone() (det3pa.datasets.manager.MaskedDataset method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.clone">clone() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.base.BaseModelManager.clone_base_model">clone_base_model() (det3pa.models.base.BaseModelManager class method)</a>
 </li>
@@ -233,6 +200,12 @@
 </li>
       <li><a href="det3pa.models.html#det3pa.models.concrete_regressors.DecisionTreeRegressorModel">DecisionTreeRegressorModel (class in det3pa.models.concrete_regressors)</a>
 </li>
+      <li><a href="det3pa.med3pa.html#det3pa.med3pa.models.APCModel.default_params">default_params (det3pa.med3pa.models.APCModel attribute)</a>
+
+      <ul>
+        <li><a href="det3pa.med3pa.html#det3pa.med3pa.models.IPCModel.default_params">(det3pa.med3pa.models.IPCModel attribute)</a>
+</li>
+      </ul></li>
       <li>
     det3pa.datasets.loading_context
 
@@ -252,6 +225,13 @@
 
       <ul>
         <li><a href="det3pa.datasets.html#module-det3pa.datasets.manager">module</a>
+</li>
+      </ul></li>
+      <li>
+    det3pa.datasets.masked
+
+      <ul>
+        <li><a href="det3pa.datasets.html#module-det3pa.datasets.masked">module</a>
 </li>
       </ul></li>
       <li>
@@ -296,6 +276,8 @@
         <li><a href="det3pa.med3pa.html#module-det3pa.med3pa.models">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     det3pa.med3pa.profiles
 
@@ -303,8 +285,6 @@
         <li><a href="det3pa.med3pa.html#module-det3pa.med3pa.profiles">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     det3pa.med3pa.tree
 
@@ -440,7 +420,7 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.F1Score">F1Score (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score">f1_score() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -458,7 +438,7 @@
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_column_labels">get_column_labels() (det3pa.datasets.manager.DatasetsManager method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_confidence_scores">get_confidence_scores() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_confidence_scores">get_confidence_scores() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.get_data_strategy">get_data_strategy() (det3pa.models.abstract_models.Model method)</a>
 </li>
@@ -466,25 +446,33 @@
 </li>
       <li><a href="det3pa.models.html#det3pa.models.factories.ModelFactory.get_factory">get_factory() (det3pa.models.factories.ModelFactory static method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_features">get_features() (det3pa.datasets.manager.MaskedDataset method)</a>
-</li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_info">get_info() (det3pa.datasets.manager.DatasetsManager method)</a>
 
       <ul>
-        <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_info">(det3pa.datasets.manager.MaskedDataset method)</a>
+        <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_info">(det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
         <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.get_info">(det3pa.models.abstract_models.Model method)</a>
 </li>
       </ul></li>
       <li><a href="det3pa.models.html#det3pa.models.base.BaseModelManager.get_instance">get_instance() (det3pa.models.base.BaseModelManager class method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.profiles.ProfilesManager.get_lost_profiles">get_lost_profiles() (det3pa.med3pa.profiles.ProfilesManager method)</a>
 </li>
+      <li><a href="det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.get_metric">get_metric() (det3pa.models.abstract_metrics.EvaluationMetric class method)</a>
+
+      <ul>
+        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric">(det3pa.models.classification_metrics.ClassificationEvaluationMetrics class method)</a>
+</li>
+        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric">(det3pa.models.regression_metrics.RegressionEvaluationMetrics class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.get_model">get_model() (det3pa.models.abstract_models.Model method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.get_model_type">get_model_type() (det3pa.models.abstract_models.Model method)</a>
+</li>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_observations">get_observations() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.get_params">get_params() (det3pa.models.abstract_models.Model method)</a>
 </li>
@@ -492,17 +480,19 @@
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.get_profiles_manager">get_profiles_manager() (det3pa.med3pa.experiment.Med3paResults method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_pseudo_labels">get_pseudo_labels() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_pseudo_labels">get_pseudo_labels() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_pseudo_probabilities">get_pseudo_probabilities() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_pseudo_probabilities">get_pseudo_probabilities() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.get_record">get_record() (det3pa.detectron.record.DetectronRecordsManager method)</a>
+</li>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_sample_counts">get_sample_counts() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.loading_context.DataLoadingContext.get_strategy">get_strategy() (det3pa.datasets.loading_context.DataLoadingContext method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.factories.ModelFactory.get_supported_models">get_supported_models() (det3pa.models.factories.ModelFactory static method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.get_true_labels">get_true_labels() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_true_labels">get_true_labels() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -534,7 +524,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="det3pa.datasets.html#det3pa.datasets.loading_context.DataLoadingContext.load_as_np">load_as_np() (det3pa.datasets.loading_context.DataLoadingContext method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.LogLoss">LogLoss (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss">log_loss() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -542,15 +532,15 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset">MaskedDataset (class in det3pa.datasets.manager)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset">MaskedDataset (class in det3pa.datasets.masked)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.MatthewsCorrCoef">MatthewsCorrCoef (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef">matthews_corrcoef() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator">MDRCalculator (class in det3pa.med3pa.mdr)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.MeanAbsoluteError">MeanAbsoluteError (class in det3pa.models.regression_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error">mean_absolute_error() (det3pa.models.regression_metrics.RegressionEvaluationMetrics static method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.MeanSquaredError">MeanSquaredError (class in det3pa.models.regression_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error">mean_squared_error() (det3pa.models.regression_metrics.RegressionEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectronExperiment">Med3paDetectronExperiment (class in det3pa.med3pa.experiment)</a>
 </li>
@@ -577,6 +567,8 @@
         <li><a href="det3pa.datasets.html#module-det3pa.datasets.loading_strategies">det3pa.datasets.loading_strategies</a>
 </li>
         <li><a href="det3pa.datasets.html#module-det3pa.datasets.manager">det3pa.datasets.manager</a>
+</li>
+        <li><a href="det3pa.datasets.html#module-det3pa.datasets.masked">det3pa.datasets.masked</a>
 </li>
         <li><a href="det3pa.detectron.html#module-det3pa.detectron.ensemble">det3pa.detectron.ensemble</a>
 </li>
@@ -625,7 +617,7 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.NPV">NPV (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv">npv() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -640,10 +632,6 @@
 </li>
       </ul></li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.original">original() (det3pa.datasets.manager.MaskedDataset method)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
@@ -653,9 +641,9 @@
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.pickled_model">pickled_model (det3pa.models.abstract_models.Model attribute)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.PPV">PPV (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv">ppv() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Precision">Precision (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision">precision() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.models.APCModel.predict">predict() (det3pa.med3pa.models.APCModel method)</a>
 
@@ -691,15 +679,15 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.R2Score">R2Score (class in det3pa.models.regression_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score">r2_score() (det3pa.models.regression_metrics.RegressionEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.concrete_regressors.RandomForestRegressorModel">RandomForestRegressorModel (class in det3pa.models.concrete_regressors)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Recall">Recall (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall">recall() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.refine">refine() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.refine">refine() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.abstract_metrics.RegressionEvaluationMetric">RegressionEvaluationMetric (class in det3pa.models.abstract_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics">RegressionEvaluationMetrics (class in det3pa.models.regression_metrics)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.RegressionModel">RegressionModel (class in det3pa.models.abstract_models)</a>
 </li>
@@ -713,16 +701,16 @@
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.reset_datasets">reset_datasets() (det3pa.datasets.manager.DatasetsManager method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.reset_indices">reset_indices() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.reset_indices">reset_indices() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.RocAuc">RocAuc (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc">roc_auc() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RootMeanSquaredError">RootMeanSquaredError (class in det3pa.models.regression_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error">root_mean_squared_error() (det3pa.models.regression_metrics.RegressionEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectronExperiment.run">run() (det3pa.med3pa.experiment.Med3paDetectronExperiment static method)</a>
 
       <ul>
-        <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment.run">(det3pa.med3pa.experiment.Med3paExperiment method)</a>
+        <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment.run">(det3pa.med3pa.experiment.Med3paExperiment static method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -731,27 +719,31 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.sample">sample() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.sample_random">sample_random() (det3pa.datasets.masked.MaskedDataset method)</a>
+</li>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.sample_uniform">sample_uniform() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.save">save() (det3pa.detectron.record.DetectronRecordsManager method)</a>
 
       <ul>
         <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.save">(det3pa.med3pa.experiment.Med3paResults method)</a>
 </li>
+        <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.save">(det3pa.models.abstract_models.Model method)</a>
+</li>
       </ul></li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.save_dataset_to_csv">save_dataset_to_csv() (det3pa.datasets.manager.DatasetsManager method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.save_to_csv">save_to_csv() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.save_to_csv">save_to_csv() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.seed">seed() (det3pa.detectron.record.DetectronRecordsManager method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Sensitivity">Sensitivity (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity">sensitivity() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.base.BaseModelManager.set_base_model">set_base_model() (det3pa.models.base.BaseModelManager class method)</a>
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_column_labels">set_column_labels() (det3pa.datasets.manager.DatasetsManager method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_confidence_scores">set_confidence_scores() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_confidence_scores">set_confidence_scores() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.set_data_strategy">set_data_strategy() (det3pa.models.abstract_models.Model method)</a>
 </li>
@@ -773,37 +765,39 @@
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.set_profiles_manager">set_profiles_manager() (det3pa.med3pa.experiment.Med3paResults method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_pseudo_labels">set_pseudo_labels() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_pseudo_labels">set_pseudo_labels() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.set_pseudo_probs_labels">set_pseudo_probs_labels() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_pseudo_probs_labels">set_pseudo_probs_labels() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.loading_context.DataLoadingContext.set_strategy">set_strategy() (det3pa.datasets.loading_context.DataLoadingContext method)</a>
 </li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.Specificity">Specificity (class in det3pa.models.classification_metrics)</a>
+      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity">specificity() (det3pa.models.classification_metrics.ClassificationEvaluationMetrics static method)</a>
 </li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.loading_context.DataLoadingContext.strategies">strategies (det3pa.datasets.loading_context.DataLoadingContext attribute)</a>
 </li>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.summary">summary() (det3pa.datasets.manager.DatasetsManager method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.summarize">summarize() (det3pa.datasets.manager.DatasetsManager method)</a>
 
       <ul>
-        <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.summary">(det3pa.datasets.manager.MaskedDataset method)</a>
-</li>
-      </ul></li>
-      <li><a href="det3pa.models.html#det3pa.models.classification_metrics.supported_classification_metrics">supported_classification_metrics() (in module det3pa.models.classification_metrics)</a>
-
-      <ul>
-        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.supported_classification_metrics">(in module det3pa.models.regression_metrics)</a>
+        <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.summarize">(det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       </ul></li>
       <li><a href="det3pa.datasets.html#det3pa.datasets.loading_context.supported_file_formats">supported_file_formats() (in module det3pa.datasets.loading_context)</a>
 </li>
+      <li><a href="det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">supported_metrics() (det3pa.models.abstract_metrics.EvaluationMetric class method)</a>
+
+      <ul>
+        <li><a href="det3pa.models.html#det3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics">(det3pa.models.classification_metrics.ClassificationEvaluationMetrics class method)</a>
+</li>
+        <li><a href="det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics">(det3pa.models.regression_metrics.RegressionEvaluationMetrics class method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="det3pa.datasets.html#det3pa.datasets.manager.MaskedDataset.to_dataframe">to_dataframe() (det3pa.datasets.manager.MaskedDataset method)</a>
+      <li><a href="det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.to_dataframe">to_dataframe() (det3pa.datasets.masked.MaskedDataset method)</a>
 </li>
       <li><a href="det3pa.detectron.html#det3pa.detectron.record.DetectronRecord.to_dict">to_dict() (det3pa.detectron.record.DetectronRecord method)</a>
 
@@ -866,6 +860,8 @@
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_detectron_results">update_detectron_results() (det3pa.med3pa.profiles.Profile method)</a>
 </li>
       <li><a href="det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_metrics_results">update_metrics_results() (det3pa.med3pa.profiles.Profile method)</a>
+</li>
+      <li><a href="det3pa.med3pa.html#det3pa.med3pa.profiles.Profile.update_node_information">update_node_information() (det3pa.med3pa.profiles.Profile method)</a>
 </li>
       <li><a href="det3pa.models.html#det3pa.models.abstract_models.Model.update_params">update_params() (det3pa.models.abstract_models.Model method)</a>
 </li>

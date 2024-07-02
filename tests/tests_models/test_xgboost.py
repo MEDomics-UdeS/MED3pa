@@ -92,9 +92,8 @@ class TestXGBoostModel(unittest.TestCase):
                 self.model.model = xgb.Booster({'booster': 'gbtree'})
                 self.model.model_class = xgb.Booster
                 unsupported_metrics = ['UnsupportedMetric']
-                results = self.model.evaluate(self.features, self.labels, unsupported_metrics)
-                self.assertNotIn('UnsupportedMetric', results)
-                self.assertEqual(results.get('UnsupportedMetric', 'Metric not found'), 'Metric not found')
+                with self.assertRaises(ValueError):
+                    self.model.evaluate(self.features, self.labels, unsupported_metrics)
 
     
 

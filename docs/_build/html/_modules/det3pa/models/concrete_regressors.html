@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -81,13 +84,16 @@
 <span class="sd">Similar to ``concrete_classifiers.py``, this module contains implementations of regression models like RandomForestRegressor and DecisionTreeRegressor. </span>
 <span class="sd">It provides practical, ready-to-use models that comply with the abstract definitions, making it easier to integrate and use these models in ``med3pa`` and ``detectron``.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.data_strategies</span> <span class="kn">import</span> <span class="n">ToNumpyStrategy</span>
+
 <span class="kn">from</span> <span class="nn">.abstract_models</span> <span class="kn">import</span> <span class="n">RegressionModel</span>
+<span class="kn">from</span> <span class="nn">.data_strategies</span> <span class="kn">import</span> <span class="n">ToNumpyStrategy</span>
 <span class="kn">from</span> <span class="nn">.regression_metrics</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+
 
 <div class="viewcode-block" id="RandomForestRegressorModel"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.concrete_regressors.RandomForestRegressorModel">[docs]</a><span class="k">class</span> <span class="nc">RandomForestRegressorModel</span><span class="p">(</span><span class="n">RegressionModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -107,37 +113,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="o">=</span> <span class="n">ToNumpyStrategy</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_ensure_numpy_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_ensure_numpy_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensures that the input data is converted to NumPy array format, using the defined data preparation strategy.</span>
 <span class="sd">        This method is used internally to standardize input data before training, predicting, or evaluating.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            features (Any): Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.</span>
-<span class="sd">            labels (np.ndarray, optional): Labels data, similar to features in that it can be in various formats. If labels are not provided,</span>
-<span class="sd">                                        only features are converted and returned.</span>
+<span class="sd">            observations (Any): observations data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.</span>
+<span class="sd">            labels (np.ndarray, optional): Labels data, similar to observations in that it can be in various formats. If labels are not provided,</span>
+<span class="sd">                                        only observations are converted and returned.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple: The features and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.</span>
+<span class="sd">            tuple: The observations and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">labels</span>
+            <span class="k">return</span> <span class="n">observations</span><span class="p">,</span> <span class="n">labels</span>
 
 <div class="viewcode-block" id="RandomForestRegressorModel.train"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.concrete_regressors.RandomForestRegressorModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">training_parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the model on the provided dataset.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_train (np.ndarray): Features for training.</span>
+<span class="sd">            x_train (np.ndarray): observations for training.</span>
 <span class="sd">            y_train (np.ndarray): Labels for training.</span>
-<span class="sd">            x_validation (np.ndarray, optional): Features for validation.</span>
+<span class="sd">            x_validation (np.ndarray, optional): observations for validation.</span>
 <span class="sd">            y_validation (np.ndarray, optional): Labels for validation.</span>
 <span class="sd">            training_parameters (dict, optional): Additional training parameters.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the RandomForestRegressor has not been initialized before training.</span>
+<span class="sd">            ValueError: If the RandomForestRegressorModel has not been initialized before training.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The RandomForestRegressor has not been initialized.&quot;</span><span class="p">)</span>
@@ -160,16 +166,16 @@
 <span class="sd">        Makes predictions with the model for the given input.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for prediction.</span>
+<span class="sd">            X (np.ndarray): observations for prediction.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Predictions made by the model.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the RandomForestRegressor has not been initialized before training.</span>
+<span class="sd">            ValueError: If the RandomForestRegressorModel has not been initialized before training.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The RandomForestRegressor has not been initialized.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The RandomForestRegressorModel has not been initialized.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">np_X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_numpy_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np_X</span><span class="p">)</span></div>
@@ -179,7 +185,7 @@
 <span class="sd">        Evaluates the model using specified metrics.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for evaluation.</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
 <span class="sd">            y (np.ndarray): True labels for evaluation.</span>
 <span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
 <span class="sd">            print_results (bool, optional): Whether to print the evaluation results.</span>
@@ -197,10 +203,9 @@
         <span class="n">evaluation_results</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">eval_metrics</span><span class="p">:</span>
-            <span class="n">metric_class</span> <span class="o">=</span> <span class="n">regression_metrics_mappings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">metric_class</span><span class="p">:</span>
-                <span class="n">metric</span> <span class="o">=</span> <span class="n">metric_class</span>
-                <span class="n">evaluation_results</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+            <span class="n">metric_function</span> <span class="o">=</span> <span class="n">RegressionEvaluationMetrics</span><span class="o">.</span><span class="n">get_metric</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">metric_function</span><span class="p">:</span>
+                <span class="n">evaluation_results</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_function</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: The metric &#39;</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&#39; is not supported.&quot;</span><span class="p">)</span>
 
@@ -208,6 +213,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_evaluation_results</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">evaluation_results</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">evaluation_results</span></div></div>
+
 
 <div class="viewcode-block" id="DecisionTreeRegressorModel"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.concrete_regressors.DecisionTreeRegressorModel">[docs]</a><span class="k">class</span> <span class="nc">DecisionTreeRegressorModel</span><span class="p">(</span><span class="n">RegressionModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -226,40 +232,40 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="o">=</span> <span class="n">ToNumpyStrategy</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_ensure_numpy_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_ensure_numpy_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensures that the input data is converted to NumPy array format, using the defined data preparation strategy.</span>
 <span class="sd">        This method is used internally to standardize input data before training, predicting, or evaluating.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            features (Any): Features data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.</span>
-<span class="sd">            labels (np.ndarray, optional): Labels data, similar to features in that it can be in various formats. If labels are not provided,</span>
-<span class="sd">                                        only features are converted and returned.</span>
+<span class="sd">            observations (Any): observations data, which can be in various formats like lists, Pandas DataFrames, or already in NumPy arrays.</span>
+<span class="sd">            labels (np.ndarray, optional): Labels data, similar to observations in that it can be in various formats. If labels are not provided,</span>
+<span class="sd">                                        only observations are converted and returned.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple: The features and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.</span>
+<span class="sd">            tuple: The observations and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">labels</span>
+            <span class="k">return</span> <span class="n">observations</span><span class="p">,</span> <span class="n">labels</span>
 
 <div class="viewcode-block" id="DecisionTreeRegressorModel.train"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.concrete_regressors.DecisionTreeRegressorModel.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">training_parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the model on the provided dataset.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_train (np.ndarray): Features for training.</span>
+<span class="sd">            x_train (np.ndarray): observations for training.</span>
 <span class="sd">            y_train (np.ndarray): Labels for training.</span>
-<span class="sd">            x_validation (np.ndarray, optional): Features for validation.</span>
+<span class="sd">            x_validation (np.ndarray, optional): observations for validation.</span>
 <span class="sd">            y_validation (np.ndarray, optional): Labels for validation.</span>
 <span class="sd">            training_parameters (dict, optional): Additional training parameters.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the DecisionTreeRegressor has not been initialized before training.</span>
+<span class="sd">            ValueError: If the DecisionTreeRegressorModel has not been initialized before training.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The RandomForestRegressor has not been initialized.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The DecisionTreeRegressorModel has not been initialized.&quot;</span><span class="p">)</span>
 
         <span class="n">np_X_train</span><span class="p">,</span> <span class="n">np_y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_numpy_arrays</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
@@ -279,16 +285,16 @@
 <span class="sd">        Makes predictions with the model for the given input.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for prediction.</span>
+<span class="sd">            X (np.ndarray): observations for prediction.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Predictions made by the model.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the DecisionTreeRegressor has not been initialized before training.</span>
+<span class="sd">            ValueError: If the DecisionTreeRegressorModel has not been initialized before training.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The DecisionTreeRegressor has not been initialized.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The DecisionTreeRegressorModel has not been initialized.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">np_X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_numpy_arrays</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np_X</span><span class="p">)</span></div>
@@ -298,7 +304,7 @@
 <span class="sd">        Evaluates the model using specified metrics.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for evaluation.</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
 <span class="sd">            y (np.ndarray): True labels for evaluation.</span>
 <span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
 <span class="sd">            print_results (bool, optional): Whether to print the evaluation results.</span>
@@ -316,10 +322,9 @@
         <span class="n">evaluation_results</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">eval_metrics</span><span class="p">:</span>
-            <span class="n">metric_class</span> <span class="o">=</span> <span class="n">regression_metrics_mappings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">metric_class</span><span class="p">:</span>
-                <span class="n">metric</span> <span class="o">=</span> <span class="n">metric_class</span>
-                <span class="n">evaluation_results</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+            <span class="n">metric_function</span> <span class="o">=</span> <span class="n">RegressionEvaluationMetrics</span><span class="o">.</span><span class="n">get_metric</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">metric_function</span><span class="p">:</span>
+                <span class="n">evaluation_results</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_function</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: The metric &#39;</span><span class="si">{</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">&#39; is not supported.&quot;</span><span class="p">)</span>
 
@@ -327,6 +332,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">print_evaluation_results</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">evaluation_results</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">evaluation_results</span></div></div>
+    
 </pre></div>
 
            </div>

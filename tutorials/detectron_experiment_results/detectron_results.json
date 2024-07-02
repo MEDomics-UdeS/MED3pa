@@ -1,0 +1,22 @@
+[
+    {
+        "shift_probability": 0.8111111111111111,
+        "test_statistic": 8.466666666666667,
+        "baseline_mean": 7.4,
+        "baseline_std": 1.2631530214330944,
+        "significance_description": {
+            "no shift": 38.34567901234568,
+            "small": 15.592592592592592,
+            "moderate": 16.34567901234568,
+            "large": 29.716049382716047
+        },
+        "Strategy": "EnhancedDisagreementStrategy"
+    },
+    {
+        "p_value": 0.00016360887668277182,
+        "u_statistic": 3545.0,
+        "z-score": 0.4685784328619402,
+        "shift significance": "Small",
+        "Strategy": "MannWhitneyStrategy"
+    }
+]

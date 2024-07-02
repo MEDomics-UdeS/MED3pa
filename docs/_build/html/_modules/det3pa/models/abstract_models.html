@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -84,9 +87,14 @@
 <span class="sd">each adapting these operations to specific needs of classification and regression tasks.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="kn">from</span> <span class="nn">.data_strategies</span> <span class="kn">import</span> <span class="n">DataPreparingStrategy</span>
 
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
@@ -152,8 +160,9 @@
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            Boolean: has the model been loaded from a pickled file.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span></div>
+    
 <div class="viewcode-block" id="Model.set_model"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.set_model">[docs]</a>    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the underlying model instance and updates the model class to match the type of the given model.</span>
@@ -205,8 +214,31 @@
             <span class="s2">&quot;model_type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_model_type</span><span class="p">(),</span>
             <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_params</span><span class="p">(),</span>
             <span class="s2">&quot;data_preparation_strategy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_strategy</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_strategy</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;pickled_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span>
+            <span class="s2">&quot;pickled_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_pickled</span><span class="p">()</span>
         <span class="p">}</span></div>
+    
+<div class="viewcode-block" id="Model.save"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the model instance as a pickled file and the parameters as a JSON file within the specified directory.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): The directory path where the model and parameters will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create the directory if it does not exist</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="c1"># Define file paths</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;model_instance.pkl&#39;</span><span class="p">)</span>
+        <span class="n">params_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;model_info.json&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Save the model as a pickled file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_file</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">model_file</span><span class="p">)</span>
+
+        <span class="c1"># Save the parameters as a JSON file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">params_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">(),</span> <span class="n">params_file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.evaluate"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.Model.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">print_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
@@ -214,7 +246,7 @@
 <span class="sd">        Evaluates the model using specified metrics.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for evaluation.</span>
+<span class="sd">            X (np.ndarray): observations for evaluation.</span>
 <span class="sd">            y (np.ndarray): True labels for evaluation.</span>
 <span class="sd">            eval_metrics (List[str]): Metrics to use for evaluation.</span>
 <span class="sd">            print_results (bool, optional): Whether to print the evaluation results. Defaults to False.</span>
@@ -254,7 +286,8 @@
         <span class="k">if</span> <span class="n">invalid_params</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid parameters found: </span><span class="si">{</span><span class="n">invalid_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">}</span></div></div>
-    
+
+
 <div class="viewcode-block" id="ClassificationModel"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.ClassificationModel">[docs]</a><span class="k">class</span> <span class="nc">ClassificationModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for classification models, extending the generic Model class with additional classification-specific methods.</span>
@@ -286,9 +319,9 @@
 <span class="sd">        Trains the classification model using provided training and validation data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_train (np.ndarray): Features for training.</span>
+<span class="sd">            x_train (np.ndarray): observations for training.</span>
 <span class="sd">            y_train (np.ndarray): Labels for training.</span>
-<span class="sd">            x_validation (np.ndarray): Features for validation.</span>
+<span class="sd">            x_validation (np.ndarray): observations for validation.</span>
 <span class="sd">            y_validation (np.ndarray): Labels for validation.</span>
 <span class="sd">            training_parameters (Dict[str, Any], optional): Additional training parameters.</span>
 <span class="sd">            balance_train_classes (bool): Whether to balance the training classes.</span>
@@ -301,10 +334,10 @@
 <div class="viewcode-block" id="ClassificationModel.predict"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.ClassificationModel.predict">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">return_proba</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Makes predictions for the given input features.</span>
+<span class="sd">        Makes predictions for the given input observations.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for prediction.</span>
+<span class="sd">            X (np.ndarray): observations for prediction.</span>
 <span class="sd">            return_proba (bool, optional): Whether to return probabilities instead of class labels. Defaults to False.</span>
 <span class="sd">            threshold (float, optional): Threshold for converting probabilities to class labels. Defaults to 0.5.</span>
 
@@ -315,6 +348,7 @@
 <span class="sd">            NotImplementedError: Must be implemented by subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
+
 
 <div class="viewcode-block" id="RegressionModel"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.RegressionModel">[docs]</a><span class="k">class</span> <span class="nc">RegressionModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -327,9 +361,9 @@
 <span class="sd">        Trains the regression model using provided training and validation data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_train (np.ndarray): Features for training.</span>
+<span class="sd">            x_train (np.ndarray): observations for training.</span>
 <span class="sd">            y_train (np.ndarray): Labels for training.</span>
-<span class="sd">            x_validation (np.ndarray): Features for validation.</span>
+<span class="sd">            x_validation (np.ndarray): observations for validation.</span>
 <span class="sd">            y_validation (np.ndarray): Labels for validation.</span>
 <span class="sd">            training_parameters (Dict[str, Any], optional): Additional training parameters.</span>
 
@@ -341,10 +375,10 @@
 <div class="viewcode-block" id="RegressionModel.predict"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_models.RegressionModel.predict">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Makes predictions for the given input features.</span>
+<span class="sd">        Makes predictions for the given input observations.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            X (np.ndarray): Features for prediction.</span>
+<span class="sd">            X (np.ndarray): observations for prediction.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: The predicted values.</span>
@@ -353,6 +387,7 @@
 <span class="sd">            NotImplementedError: Must be implemented by subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
+
 </pre></div>
 
            </div>

@@ -18,7 +18,7 @@ apc_param_grid = {
     'max_depth': 3
 }
 ipc_cv = min(4, int(datasets_manager.get_dataset_by_type('reference', True).get_observations().shape[0] / 2))
-results = Med3paExperiment.run(datasets_manager=datasets_manager,set='reference', predicted_probabilities=predicted_prob, base_model_manager=None, ipc_grid_params=ipc_param_grid,
-                                  ipc_cv=ipc_cv, apc_params=apc_param_grid, evaluate_models=False)
+ref_results, test_results = Med3paExperiment.run(datasets_manager=datasets_manager, predicted_probabilities=predicted_prob, base_model_manager=None, ipc_grid_params=ipc_param_grid,
+                                  ipc_cv=ipc_cv, apc_params=apc_param_grid, evaluate_models=False, samples_ratio_min = 0, samples_ratio_max=10, samples_ratio_step=5)
 
-results.save('./tests/tests_med3pa/med3pa_results')
+ref_results.save('./tests/tests_med3pa/med3pa_results')

@@ -4,7 +4,7 @@ med3pa subpackage
 Overview
 ---------
 
-The ``med3pa`` subpackage represents a modularized and enhanced version of the original MED3PA code, 
+The ``med3pa`` subpackage represents a modularized and enhanced version of the original `"MED3PA code" <https://github.com/Olivier998/3PA/tree/dev>`__, 
 designed to augment clinical decision-making by providing a robust framework for evaluating and managing **model uncertainty** in healthcare applications. 
 It introduces a sophisticated approach to assessing model performance that transcends **traditional global metrics**, 
 focusing instead on the concept of predictive confidence at both individual and aggregated levels.

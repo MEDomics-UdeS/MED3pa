@@ -13,29 +13,67 @@ from det3pa.med3pa.tree import TreeRepresentation
 from det3pa.models.abstract_models import RegressionModel
 from det3pa.models.concrete_regressors import DecisionTreeRegressorModel, RandomForestRegressorModel
 from det3pa.models.data_strategies import ToDataframesStrategy
-
+from det3pa.models import rfr_params, dtr_params
 
 class IPCModel:
     """
     IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.
     """
     default_params = {'random_state': 54288}
+    
+    supported_regressors_mapping = {
+        'RandomForestRegressor' : RandomForestRegressorModel
+    }
 
-    def __init__(self, model_class: Type[RegressionModel] = RandomForestRegressorModel, params: Optional[Dict[str, Any]] = None) -> None:
+    supported_regressos_params = {
+            'RandomForestRegressor' : {
+                'params' : rfr_params.rfr_params,
+                'grid_params' : rfr_params.rfr_gridsearch_params
+            }
+    }
+    
+    def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None) -> None:
         """
-        Initializes the IPCModel with a regression model class and optional parameters.
+        Initializes the IPCModel with a regression model class name and optional parameters.
 
         Args:
-            model_class (Type[RegressionModel]): The regression model class to use, default is RandomForestRegressorModel.
+            model_name (str): The name of the regression model class to use, default is 'RandomForestRegressor'.
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.
         """
+        if model_name not in self.regressors_mapping:
+            raise ValueError(f"Unsupported model name: {model_name}. Supported models are: {self.supported_ipc_models()}")
+
+        model_class = self.regressors_mapping[model_name]
+
         if params is None:
-            params = self.default_params
+            params = self.default_params.copy()
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
+        
         self.model = model_class(params)
+    
+    @classmethod
+    def supported_ipc_models(cls) -> list:
+        """
+        Returns a list of supported IPC models.
 
+        Returns:
+            list: A list of supported regression model names.
+        """
+        return list(cls.supported_regressors_mapping.keys())
+    
+    @classmethod
+    def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
+        """
+        Returns a dictionary containing the supported models and their parameters and grid search parameters.
+
+        Returns:
+            Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing 
+                                    'params' and 'grid_search_params' for each model.
+        """
+        return cls.supported_regressos_params
+    
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
         """
         Optimizes the model parameters using GridSearchCV.
@@ -97,6 +135,14 @@ class APCModel:
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.
     """
     default_params = {'max_depth': 3, 'min_samples_leaf': 1, 'random_state': 54288}
+    
+    supported_params = {
+            'DecisionTreeRegressor' : {
+                'params' : dtr_params.dtr_params,
+                'grid_params' : dtr_params.dtr_gridsearch_params
+            }
+    }
+
     def __init__(self, features: list, params: Optional[Dict[str, Any]] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.
@@ -117,6 +163,17 @@ class APCModel:
         self.dataPreparationStrategy = ToDataframesStrategy()
         self.features = features
 
+    @classmethod
+    def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
+        """
+        Returns a dictionary containing the supported models and their parameters and grid search parameters.
+
+        Returns:
+            Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing 
+                                    'params' and 'grid_search_params' for each model.
+        """
+        return cls.supported_params
+    
     def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
         """
         Trains the model using the provided data and error probabilities and builds the tree representation.
@@ -190,7 +247,7 @@ class MPCModel:
     """
     MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.
     """
-    def __init__(self, IPC_values: np.ndarray, APC_values: np.ndarray) -> None:
+    def __init__(self, IPC_values: np.ndarray=None, APC_values: np.ndarray=None) -> None:
         """
         Initializes the MPCModel with IPC and APC values.
 
@@ -201,19 +258,21 @@ class MPCModel:
         self.IPC_values = IPC_values
         self.APC_values = APC_values
 
-    def predict(self, min_samples_ratio: float = 0) -> np.ndarray:
+    def predict(self) -> np.ndarray:
         """
         Combines IPC and APC values to predict MPC values.
-
-        Args:
-            min_samples_ratio (float, optional): Minimum sample ratio to consider.
 
         Returns:
             np.ndarray: Combined MPC values.
         """
-        if min_samples_ratio >= 0:
-            MPC_values = np.minimum(self.IPC_values, self.APC_values)
-        else:
+        if self.APC_values is None and self.IPC_values is None:
+            raise ValueError("Both APC values and IPC values are not set!")
+        
+        if self.APC_values is None:
             MPC_values = self.IPC_values
+        elif self.IPC_values is None:
+            MPC_values = self.APC_values
+        else:
+            MPC_values = np.minimum(self.IPC_values, self.APC_values)
 
         return MPC_values

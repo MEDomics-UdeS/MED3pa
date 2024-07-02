@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -82,8 +85,9 @@
 <span class="sd">It defines the DetectronRecord class, which captures individual records of Detectron results, storing evaluation metrics and probabilities associated with each model in the ensemble and across each run. </span>
 <span class="sd">The DetectronRecordsManager class manages a collection of these records, facilitating updates, retrieval, and analysis of the results.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 <span class="kn">from</span> <span class="nn">det3pa.models.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
 
 <div class="viewcode-block" id="DetectronRecord"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecord">[docs]</a><span class="k">class</span> <span class="nc">DetectronRecord</span><span class="p">:</span>
@@ -139,6 +143,7 @@
             <span class="s1">&#39;rejected_count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected_samples</span>
         <span class="p">}</span></div></div>
 
+
 <div class="viewcode-block" id="DetectronRecordsManager"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager">[docs]</a><span class="k">class</span> <span class="nc">DetectronRecordsManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages a collection of DetectronRecords, providing methods to update, retrieve, and analyze the records.</span>
@@ -168,18 +173,18 @@
 
 <div class="viewcode-block" id="DetectronRecordsManager.update"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_data_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">val_data_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
                <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Model</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-            <span class="n">predicted_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+               <span class="n">predicted_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_data_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the records manager with new run results, adding a new DetectronRecord.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            val_data_x (np.ndarray): Features from the validation dataset used for evaluation.</span>
+<span class="sd">            val_data_x (np.ndarray): observations from the validation dataset used for evaluation.</span>
 <span class="sd">            val_data_y (np.ndarray): True labels from the validation dataset.</span>
 <span class="sd">            sample_size (int): The number of samples used in this update.</span>
 <span class="sd">            model (Model): The model instance used for evaluation, which should have an `evaluate` method.</span>
 <span class="sd">            model_id (int): The identifier of the model within the ensemble.</span>
 <span class="sd">            predicted_probabilities (np.ndarray, optional): Predicted probabilities from the model on the test dataset.</span>
-<span class="sd">            test_data_x (np.ndarray, optional): Features from the test dataset used for evaluation.</span>
+<span class="sd">            test_data_x (np.ndarray, optional): observations from the test dataset used for evaluation.</span>
 <span class="sd">            test_data_y (np.ndarray, optional): True labels from the test dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;Seed must be set before updating the record&#39;</span>
@@ -209,7 +214,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DetectronRecordsManager.save"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronRecordsManager.save"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the current records to a CSV file at the specified path.</span>
 
@@ -219,7 +224,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DetectronRecordsManager.load"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.load">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads records from a CSV file into a DetectronRecordsManager instance.</span>
 
@@ -234,7 +239,7 @@
         <span class="n">x</span><span class="o">.</span><span class="n">sample_size</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;model_id==0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">x</span></div>
 
-<div class="viewcode-block" id="DetectronRecordsManager.counts"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.counts">[docs]</a>    <span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronRecordsManager.counts"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.counts">[docs]</a>    <span class="k">def</span> <span class="nf">counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the number of samples kept for each run, optionally limited to a maximum ensemble size.</span>
 
@@ -254,7 +259,7 @@
             <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DetectronRecordsManager.rejection_rates"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejection_rates">[docs]</a>    <span class="k">def</span> <span class="nf">rejection_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronRecordsManager.rejection_rates"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejection_rates">[docs]</a>    <span class="k">def</span> <span class="nf">rejection_rates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the rejection rates for each run, optionally limited to a certain number of models.</span>
 
@@ -274,7 +279,7 @@
             <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;rejection_rate&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DetectronRecordsManager.predicted_probabilities"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.predicted_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">predicted_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronRecordsManager.predicted_probabilities"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.predicted_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">predicted_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the predicted probabilities for each model in the ensemble for each run.</span>
 
@@ -313,7 +318,7 @@
 
         <span class="k">return</span> <span class="n">predicted_probs_array</span></div>
     
-<div class="viewcode-block" id="DetectronRecordsManager.rejected_counts"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejected_counts">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronRecordsManager.rejected_counts"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejected_counts">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the number of samples rejected for each run, optionally limited to a maximum ensemble size.</span>
 
@@ -333,19 +338,20 @@
             <span class="n">counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;rejected_count&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DetectronRecordsManager.count_quantile"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronRecordsManager.count_quantile"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        return the specified quantile of the kept points counts</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">(</span><span class="n">max_ensemble_size</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;inverted_cdf&#39;</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DetectronRecordsManager.rejected_count_quantile"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronRecordsManager.rejected_count_quantile"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile">[docs]</a>    <span class="k">def</span> <span class="nf">rejected_count_quantile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantile</span><span class="p">,</span> <span class="n">max_ensemble_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        return the specified quantile of the rejected points counts</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rejected_counts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rejected_counts</span><span class="p">(</span><span class="n">max_ensemble_size</span><span class="o">=</span><span class="n">max_ensemble_size</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">rejected_counts</span><span class="p">,</span> <span class="n">quantile</span><span class="p">)</span></div></div>
+
 
 </pre></div>
 

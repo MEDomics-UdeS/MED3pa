@@ -272,4 +272,3 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         }
         return results
 
-

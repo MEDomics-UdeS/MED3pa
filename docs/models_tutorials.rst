@@ -164,14 +164,14 @@ Step 3: Evaluating the Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Evaluate the model's performance using various metrics to understand its effectiveness in making predictions. The supported metrics include Accuracy, AUC, Precision, Recall, and F1 Score, among others. The ``evaluate`` method will handle the model predictions and then evaluate the model based on these predictions. You only need to specify the test data.
 
-To retrieve the list of supported ``classification_metrics``, you can use ``classification_metrics.get_supported_metrics()``:
+To retrieve the list of supported ``classification_metrics``, you can use ``ClassificationEvaluationMetrics.supported_metrics()``:
 
 .. code-block:: python
 
-    from det3pa.models import classification_metrics
+    from det3pa.models import ClassificationEvaluationMetrics
 
     # Display supported metrics
-    print("Supported evaluation metrics:", classification_metrics.supported_classification_metrics())
+    print("Supported evaluation metrics:", ClassificationEvaluationMetrics.supported_metrics())
 
     # Evaluate the model
     evaluation_results = xgb_model.evaluate(X_test, y_test, eval_metrics=['Auc', 'Accuracy'], print_results=True)
@@ -212,3 +212,11 @@ The ``get_info`` method provides detailed information about the model, including
                 'device': 'cpu'},
      'data_preparation_strategy': 'ToDmatrixStrategy',
      'pickled_model': False}
+
+Step 5: Saving Model Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You can save the model by using the `save` method, which will save the underlying model instance as a pickled file, and the model's information as a .json file:
+
+.. code-block:: none
+
+    xgb_model.save("./models/saved_model")

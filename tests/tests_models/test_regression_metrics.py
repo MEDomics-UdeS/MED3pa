@@ -25,7 +25,7 @@ class TestRegressionMetrics(unittest.TestCase):
     def test_empty_arrays(self):
         metric_function = RegressionEvaluationMetrics.get_metric('MSE')
         result = metric_function(np.array([]), np.array([]))
-        self.assertTrue(np.isnan(result))
+        self.assertIsNone(result)
 
     def test_identical_arrays(self):
         metric_function = RegressionEvaluationMetrics.get_metric('MSE')

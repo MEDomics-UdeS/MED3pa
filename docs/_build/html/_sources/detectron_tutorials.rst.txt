@@ -41,19 +41,22 @@ Execute the Detectron experiment with the specified datasets and base model. You
 
 .. code-block:: python
 
-    from det3pa.detectron import DetectronExperiment, DisagreementStrategy_z_mean
+    from det3pa.detectron import DetectronExperiment
 
     # Execute the Detectron experiment
     experiment_results = DetectronExperiment.run(datasets=datasets, base_model_manager=base_model_manager)
 
 Step 4: Analyzing the Results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Finally, evaluate the outcomes of the experiment using a specified strategy to determine the probability of a shift in dataset distributions.
+Finally, evaluate the outcomes of the experiment using different strategies to determine the probability of a shift in dataset distributions:
 
 .. code-block:: python
 
-    # Analyze the results using the chosen disagreement strategy
-    experiment_results.analyze_results(DisagreementStrategy_z_mean)
+    from det3pa.detectron.strategies import *
+
+    # Analyze the results using the disagreement strategies
+    test_strategies = [EnhancedDisagreementStrategy, MannWhitneyStrategy]
+    experiment_results.analyze_results(test_strategies)
 
 **Output**
 
@@ -61,15 +64,33 @@ The following output provides a detailed assessment of dataset stability:
 
 .. code-block:: none
 
-    "shift_probability": 0.93,
-    "test_statistic": 11.15,
-    "baseline_mean": 7.78,
-    "baseline_std": 2.555699512853575,
-    "significance_description": {
-        "no shift": 14.760000000000002,
-        "small": 25.39,
-        "moderate": 37.93,
-        "large": 21.92
-    },
-    "Strategy": "DisagreementStrategy_z_mean"}
+    [
+        {
+            "shift_probability": 0.8111111111111111,
+            "test_statistic": 8.466666666666667,
+            "baseline_mean": 7.4,
+            "baseline_std": 1.2631530214330944,
+            "significance_description": {
+                "no shift": 38.34567901234568,
+                "small": 15.592592592592592,
+                "moderate": 16.34567901234568,
+                "large": 29.716049382716047
+            },
+            "Strategy": "EnhancedDisagreementStrategy"
+        },
+        {
+            "p_value": 0.00016360887668277182,
+            "u_statistic": 3545.0,
+            "z-score": 0.4685784328619402,
+            "shift significance": "Small",
+            "Strategy": "MannWhitneyStrategy"
+        }
+    ]
 
+Step 5: Saving the Results
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You can save the experiment results using the ``save`` method, while specifying the path.
+
+.. code-block:: python
+    
+    experiment_results.save("./detectron_experiment_results")

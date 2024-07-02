@@ -76,12 +76,12 @@ class TestClassificationMetrics(unittest.TestCase):
     def test_empty_arrays(self):
         metric_function = ClassificationEvaluationMetrics.get_metric('Accuracy')
         result = metric_function(np.array([]), np.array([]))
-        self.assertTrue(np.isnan(result))
+        self.assertIsNone(result)
 
     def test_single_class_roc_auc(self):
         metric_function = ClassificationEvaluationMetrics.get_metric('Auc')
         result = metric_function(np.array([1, 1, 1]), np.array([0.9, 0.8, 0.7]))
-        self.assertTrue(np.isnan(result))
+        self.assertIsNone(result)
 
 if __name__ == '__main__':
     unittest.main()

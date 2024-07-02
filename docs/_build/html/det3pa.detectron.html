@@ -60,7 +60,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -207,13 +210,13 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 <p>Manages a collection of DetectronRecords, providing methods to update, retrieve, and analyze the records.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.count_quantile">
-<span class="sig-name descname"><span class="pre">count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.count_quantile" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.count_quantile" title="Permalink to this definition"></a></dt>
 <dd><p>return the specified quantile of the kept points counts</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.counts">
-<span class="sig-name descname"><span class="pre">counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.counts" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.counts" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the number of samples kept for each run, optionally limited to a maximum ensemble size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -250,7 +253,7 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.load">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.load" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.load" title="Permalink to this definition"></a></dt>
 <dd><p>Loads records from a CSV file into a DetectronRecordsManager instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -267,7 +270,7 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.predicted_probabilities">
-<span class="sig-name descname"><span class="pre">predicted_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.predicted_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.predicted_probabilities" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predicted_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.predicted_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.predicted_probabilities" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the predicted probabilities for each model in the ensemble for each run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -284,13 +287,13 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile">
-<span class="sig-name descname"><span class="pre">rejected_count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejected_count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rejected_count_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejected_count_quantile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile" title="Permalink to this definition"></a></dt>
 <dd><p>return the specified quantile of the rejected points counts</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.rejected_counts">
-<span class="sig-name descname"><span class="pre">rejected_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejected_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejected_counts" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rejected_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejected_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejected_counts" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the number of samples rejected for each run, optionally limited to a maximum ensemble size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -307,7 +310,7 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.rejection_rates">
-<span class="sig-name descname"><span class="pre">rejection_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejection_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejection_rates" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">rejection_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_ensemble_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.rejection_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.rejection_rates" title="Permalink to this definition"></a></dt>
 <dd><p>Calculates the rejection rates for each run, optionally limited to a certain number of models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -324,7 +327,7 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 
 <dl class="py method">
 <dt class="sig sig-object py" id="det3pa.detectron.record.DetectronRecordsManager.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.save" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/record.html#DetectronRecordsManager.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#det3pa.detectron.record.DetectronRecordsManager.save" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the current records to a CSV file at the specified path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -351,13 +354,13 @@ the model with id 0 represents the base model, whilst other ids represent the cd
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val_data_x</strong> (<em>np.ndarray</em>) – Features from the validation dataset used for evaluation.</p></li>
+<li><p><strong>val_data_x</strong> (<em>np.ndarray</em>) – observations from the validation dataset used for evaluation.</p></li>
 <li><p><strong>val_data_y</strong> (<em>np.ndarray</em>) – True labels from the validation dataset.</p></li>
 <li><p><strong>sample_size</strong> (<em>int</em>) – The number of samples used in this update.</p></li>
 <li><p><strong>model</strong> (<a class="reference internal" href="det3pa.models.html#det3pa.models.abstract_models.Model" title="det3pa.models.abstract_models.Model"><em>Model</em></a>) – The model instance used for evaluation, which should have an <cite>evaluate</cite> method.</p></li>
 <li><p><strong>model_id</strong> (<em>int</em>) – The identifier of the model within the ensemble.</p></li>
 <li><p><strong>predicted_probabilities</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Predicted probabilities from the model on the test dataset.</p></li>
-<li><p><strong>test_data_x</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Features from the test dataset used for evaluation.</p></li>
+<li><p><strong>test_data_x</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – observations from the test dataset used for evaluation.</p></li>
 <li><p><strong>test_data_y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – True labels from the test dataset.</p></li>
 </ul>
 </dd>
@@ -426,120 +429,19 @@ such as empirical cumulative distribution functions (ECDF) and hypothesis tests 
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DisagreementStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
-<p>Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).
-This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,
-and statistical measures such as the mean and standard deviation of the calibration tests.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Executes the disagreement detection strategy using the ECDF approach.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
-<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The statistical significance level used for tests.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,</dt><dd><p>and a shift indicator which is True if a shift is detected at the given significance level.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DisagreementStrategy_KS</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_KS"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
-<p>Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
-from calibration runs and test runs.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_KS.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
-<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The statistical significance level used for tests.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True</dt><dd><p>if a shift is detected at the given significance level.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DisagreementStrategy_MW</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_MW"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
-<p>Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
-from calibration runs and test runs.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_MW.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Executes the disagreement detection strategy using the Mann-Whitney U test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
-<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The statistical significance level used for tests.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,</dt><dd><p>and a shift indicator based on the significance level.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">DisagreementStrategy_z_mean</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_z_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">EnhancedDisagreementStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#EnhancedDisagreementStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
 <p>Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.
 This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion_to_cut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#DisagreementStrategy_z_mean.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">trim_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proportion_to_cut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#EnhancedDisagreementStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Executes the disagreement detection strategy using z-score analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
 <li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
-<li><p><strong>significance_level</strong> (<em>float</em>) – The significance level used for statistical testing.</p></li>
 <li><p><strong>trim_data</strong> (<em>bool</em>) – Whether to trim the data using a specified proportion to cut.</p></li>
 <li><p><strong>proportion_to_cut</strong> (<em>float</em>) – The proportion of data to cut from both ends if trimming is enabled.</p></li>
 </ul>
@@ -559,12 +461,101 @@ This strategy calculates the probability of a shift based on the counts where te
 
 </dd></dl>
 
-<dl class="py function">
+<dl class="py class">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">ecdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#ecdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Compute the empirical cumulative distribution function
-:param x: array of 1-D numerical data
-:return: a function that takes a value and returns the probability that a random sample from x is less than or equal to that value</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">KolmogorovSmirnovStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#KolmogorovSmirnovStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
+from calibration runs and test runs.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#KolmogorovSmirnovStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True</dt><dd><p>if a shift is detected at the given significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">MannWhitneyStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#MannWhitneyStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
+from calibration runs and test runs.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#MannWhitneyStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the Mann-Whitney U test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the calculated p-value, U statistic, z-score quantifying the shift intensity,</dt><dd><p>and a shift indicator based on the significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">det3pa.detectron.strategies.</span></span><span class="sig-name descname"><span class="pre">OriginalDisagreementStrategy</span></span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#OriginalDisagreementStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetectronStrategy</span></code></p>
+<p>Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).
+This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,
+and statistical measures such as the mean and standard deviation of the calibration tests.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><span class="pre">DetectronRecordsManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/strategies.html#OriginalDisagreementStrategy.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Executes the disagreement detection strategy using the ECDF approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing calibration phase records.</p></li>
+<li><p><strong>test_records</strong> (<a class="reference internal" href="#det3pa.detectron.record.DetectronRecordsManager" title="det3pa.detectron.record.DetectronRecordsManager"><em>DetectronRecordsManager</em></a>) – Manager storing test phase records.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,</dt><dd><p>and a shift indicator which is True if a shift is detected at the given significance level.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -622,11 +613,17 @@ providing methods to access and analyze the trajectories and outcomes of this me
 <p>A class to store the results of a Detectron test</p>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">analyze_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DetectronStrategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.analyze_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Stores the results of the Detectron tests.</p>
+<span class="sig-name descname"><span class="pre">analyze_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">DetectronStrategy</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/det3pa/detectron/experiment.html#DetectronResult.analyze_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Appends the results of the Detectron tests for each strategy to self.test_results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>strategy</strong> (<em>DetectronStrategy</em>) – The strategy to use for detecting covariate shift.</p>
+<dd class="field-odd"><p><strong>strategies</strong> (<em>Union</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>, </em><em>List</em><em>[</em><em>Type</em><em>[</em><em>DetectronStrategy</em><em>]</em><em>]</em><em>]</em>) – Class type or list of strategy class types.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated list containing results for each strategy.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>

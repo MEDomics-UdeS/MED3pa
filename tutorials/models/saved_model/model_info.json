@@ -1,0 +1,1 @@
+{"model": "XGBoostModel", "model_type": "Booster", "params": {"objective": "binary:logistic", "eval_metric": "logloss", "eta": 0.1, "max_depth": 6, "subsample": 0.8, "colsample_bytree": 0.8, "min_child_weight": 1, "nthread": 4, "tree_method": "hist", "device": "cpu"}, "data_preparation_strategy": "ToDmatrixStrategy", "pickled_model": false}

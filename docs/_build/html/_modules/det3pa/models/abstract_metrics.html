@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -80,11 +83,10 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The ``abstract_metrics.py`` module defines the ``EvaluationMetric`` abstract base class, </span>
 <span class="sd">providing a standard interface for calculating metric values for model evaluations. </span>
-<span class="sd">It includes specialized subclasses like ``ClassificationEvaluationMetric`` and ``RegressionEvaluationMetric`` to cater to specific needs of classification and regression tasks, </span>
-<span class="sd">facilitating the integration and extension of new evaluation metrics.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
 
 <div class="viewcode-block" id="EvaluationMetric"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric">[docs]</a><span class="k">class</span> <span class="nc">EvaluationMetric</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -92,33 +94,28 @@
 <span class="sd">    metric values across different types of tasks, ensuring consistency and reusability.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EvaluationMetric.calculate"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.calculate">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="EvaluationMetric.get_metric"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.get_metric">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_metric</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the metric value based on true labels/values and predicted labels/values.</span>
+<span class="sd">        Get the metric function based on the metric name.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            y_true (np.ndarray): True labels or values, representing the ground truth data.</span>
-<span class="sd">            y_pred (np.ndarray): Predicted scores, labels, or values, as produced by a model.</span>
-<span class="sd">            sample_weight (np.ndarray, optional): Array of weights that are assigned to individual</span>
-<span class="sd">                                                  samples, mainly used in averaging the metric.</span>
+<span class="sd">            metric_name (str): The name of the metric.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            float: The calculated metric value.</span>
+<span class="sd">            function: The function corresponding to the metric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="EvaluationMetric.supported_metrics"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">supported_metrics</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a list of supported regression metrics.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of supported regression metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
-
-<div class="viewcode-block" id="ClassificationEvaluationMetric"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.ClassificationEvaluationMetric">[docs]</a><span class="k">class</span> <span class="nc">ClassificationEvaluationMetric</span><span class="p">(</span><span class="n">EvaluationMetric</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for classification metrics.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="RegressionEvaluationMetric"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.abstract_metrics.RegressionEvaluationMetric">[docs]</a><span class="k">class</span> <span class="nc">RegressionEvaluationMetric</span><span class="p">(</span><span class="n">EvaluationMetric</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for regression metrics.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
 </pre></div>
 
            </div>

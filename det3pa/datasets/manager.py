@@ -1,5 +1,5 @@
 """
-The manager.py module manages datasets for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. 
+The manager.py module manages the different datasets needed for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. 
 It includes the ``DatasetsManager`` class that contains the training, validation, reference, and testing datasets for a specific ML task.
 """
 

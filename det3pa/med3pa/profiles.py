@@ -21,9 +21,10 @@ class Profile:
         self.path = path
         self.mean_value = mean_value
         self.metrics = None
+        self.node_information = None
         self.detectron_results = None
 
-    def to_dict(self):
+    def to_dict(self, save_all:bool=True):
         """
         Converts the Profile instance into a dictionary format suitable for serialization.
 
@@ -31,13 +32,19 @@ class Profile:
             dict: A dictionary representation of the Profile instance including the node ID, path, mean value, 
                   metrics, and any detectron results.
         """
-        return {
-            'id': self.node_id,
-            'path': self.path,
-            'value': self.mean_value,
-            'metrics': self.metrics, 
-            'detectron_results' : self.detectron_results
-        }
+        if save_all:
+            return {
+                'id': self.node_id,
+                'path': self.path,
+                'metrics': self.metrics,
+                'node information': self.node_information, 
+                'detectron_results' : self.detectron_results
+            }
+        else:
+            return {
+                'id': self.node_id,
+                'path': self.path,
+            }
     
     def update_detectron_results(self, detectron_results: dict):
         """
@@ -56,6 +63,16 @@ class Profile:
             detectron_results (dict): The results from the Detectron experiment to be added to the profile.
         """
         self.metrics = metrics
+    
+    def update_node_information(self, info : dict):
+        """
+        Updates the information associated with this profile.
+
+        Args:
+            info (dict): The updated node information.
+        """
+        self.node_information = info
+
 
 
 class ProfilesManager:
@@ -85,7 +102,7 @@ class ProfilesManager:
         """
         if min_samples_ratio not in self.profiles_records:
             self.profiles_records[min_samples_ratio] = {}
-        self.profiles_records[min_samples_ratio][dr] = profiles
+        self.profiles_records[min_samples_ratio][dr] = profiles.copy()
 
     def insert_lost_profiles(self, dr:int, min_samples_ratio:int, profiles: list[Profile]):
         """
@@ -98,7 +115,7 @@ class ProfilesManager:
         """
         if min_samples_ratio not in self.lost_profiles_records:
             self.lost_profiles_records[min_samples_ratio] = {}
-        self.lost_profiles_records[min_samples_ratio][dr] = profiles
+        self.lost_profiles_records[min_samples_ratio][dr] = profiles.copy()    
 
     def get_profiles(self, min_samples_ratio:int=None, dr:int=None):
         """

@@ -49,7 +49,10 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
 </ul>
 
         </div>
@@ -83,10 +86,11 @@
 <span class="sd">This setup allows easy extension to support additional file types as needed.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
 
 <div class="viewcode-block" id="DataLoadingStrategy"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.DataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">DataLoadingStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -102,11 +106,12 @@
 <span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[List[str], np.ndarray, np.ndarray]: A tuple containing the column labels, features as a NumPy array, </span>
+<span class="sd">            Tuple[List[str], np.ndarray, np.ndarray]: A tuple containing the column labels, observations as a NumPy array, </span>
 <span class="sd">            and the target as a NumPy array.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
+
 
 <div class="viewcode-block" id="CSVDataLoadingStrategy"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">CSVDataLoadingStrategy</span><span class="p">(</span><span class="n">DataLoadingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -114,34 +119,36 @@
 
 <span class="sd">    Methods:</span>
 <span class="sd">        execute(path_to_file: str, target_column_name: str) -&gt; Tuple[List[str], np.ndarray, np.ndarray]:</span>
-<span class="sd">            Loads CSV data from the given path, separates features and target, and converts them to NumPy arrays.</span>
+<span class="sd">            Loads CSV data from the given path, separates observations and target, and converts them to NumPy arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CSVDataLoadingStrategy.execute"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Loads CSV data from the given path, separates features and target, and converts them to NumPy arrays.</span>
+<span class="sd">        Loads CSV data from the given path, separates observations and target, and converts them to NumPy arrays.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path_to_file (str): The path to the CSV file to be loaded.</span>
 <span class="sd">            target_column_name (str): The name of the target column in the dataset.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[List[str], np.ndarray, np.ndarray]: Column labels, features as a NumPy array, and target as a NumPy array.</span>
+<span class="sd">            Tuple[List[str], np.ndarray, np.ndarray]: Column labels, observations as a NumPy array, and target as a NumPy array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Read the CSV file</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">)</span>
         
-        <span class="c1"># Separate features and target</span>
-        <span class="n">features</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">target_column_name</span><span class="p">])</span>  
+        <span class="c1"># Separate observations and target</span>
+        <span class="n">observations</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">target_column_name</span><span class="p">])</span>  
         <span class="n">target</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_column_name</span><span class="p">]</span>  
-        <span class="n">column_labels</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">column_labels</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
         <span class="c1"># Convert to NumPy arrays</span>
-        <span class="n">features_np</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">obs_np</span> <span class="o">=</span> <span class="n">observations</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">target_np</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         
-        <span class="k">return</span> <span class="n">column_labels</span><span class="p">,</span> <span class="n">features_np</span><span class="p">,</span> <span class="n">target_np</span></div></div>
+        <span class="k">return</span> <span class="n">column_labels</span><span class="p">,</span> <span class="n">obs_np</span><span class="p">,</span> <span class="n">target_np</span></div></div>
+
+
 </pre></div>
 
            </div>
