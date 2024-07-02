@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import xgboost as xgb
 from unittest.mock import patch, MagicMock
-from det3pa.models.concrete_classifiers import XGBoostModel
+from MED3pa.models.concrete_classifiers import XGBoostModel
 
 
 class TestXGBoostModel(unittest.TestCase):

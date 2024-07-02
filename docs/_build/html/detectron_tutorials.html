@@ -45,10 +45,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
@@ -96,7 +96,7 @@
 <section id="step-1-setting-up-the-datasets">
 <h2>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Permalink to this heading"></a></h2>
 <p>First, configure the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> to manage the necessary datasets for the experiment. For this, we need the <code class="docutils literal notranslate"><span class="pre">training_dataset</span></code> used to train the model, alongside the <code class="docutils literal notranslate"><span class="pre">validation_dataset</span></code>. We also need an unseen <code class="docutils literal notranslate"><span class="pre">reference_dataset</span></code> from the model’s domain, and finally the dataset we want to inspect if it is possibly shifted, the <code class="docutils literal notranslate"><span class="pre">test_dataset</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
 
 <span class="c1"># Initialize the DatasetsManager</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">DatasetsManager</span><span class="p">()</span>
@@ -112,7 +112,7 @@
 <section id="step-2-configuring-the-model">
 <h2>Step 2: Configuring the Model<a class="headerlink" href="#step-2-configuring-the-model" title="Permalink to this heading"></a></h2>
 <p>Next, utilize the <code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code> to load a pre-trained model, setting it as the base model for the experiment. Alternatively, you can train your own model and use it.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">ModelFactory</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">ModelFactory</span>
 
 <span class="c1"># Initialize the model factory and load the pre-trained model</span>
 <span class="n">factory</span> <span class="o">=</span> <span class="n">ModelFactory</span><span class="p">()</span>
@@ -127,7 +127,7 @@
 <section id="step-3-running-the-detectron-experiment">
 <h2>Step 3: Running the Detectron Experiment<a class="headerlink" href="#step-3-running-the-detectron-experiment" title="Permalink to this heading"></a></h2>
 <p>Execute the Detectron experiment with the specified datasets and base model. You can also specify other parameters.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span>
 
 <span class="c1"># Execute the Detectron experiment</span>
 <span class="n">experiment_results</span> <span class="o">=</span> <span class="n">DetectronExperiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">base_model_manager</span><span class="o">=</span><span class="n">base_model_manager</span><span class="p">)</span>
@@ -137,7 +137,7 @@
 <section id="step-4-analyzing-the-results">
 <h2>Step 4: Analyzing the Results<a class="headerlink" href="#step-4-analyzing-the-results" title="Permalink to this heading"></a></h2>
 <p>Finally, evaluate the outcomes of the experiment using different strategies to determine the probability of a shift in dataset distributions:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.detectron.strategies</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.detectron.strategies</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># Analyze the results using the disagreement strategies</span>
 <span class="n">test_strategies</span> <span class="o">=</span> <span class="p">[</span><span class="n">EnhancedDisagreementStrategy</span><span class="p">,</span> <span class="n">MannWhitneyStrategy</span><span class="p">]</span>

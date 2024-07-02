@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.med3pa.mdr &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.med3pa.mdr &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.med3pa.mdr</li>
+      <li class="breadcrumb-item active">MED3pa.med3pa.mdr</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.med3pa.mdr</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.med3pa.mdr</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR). </span>
 <span class="sd">The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.</span>
@@ -87,15 +87,15 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
-<span class="kn">from</span> <span class="nn">det3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronStrategy</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
-<span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronStrategy</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.tree</span> <span class="kn">import</span> <span class="n">TreeRepresentation</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="MDRCalculator"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator">[docs]</a><span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
+<div class="viewcode-block" id="MDRCalculator"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator">[docs]</a><span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to calculate various metrics and profiles for the MED3PA method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -249,7 +249,7 @@
 
         <span class="k">return</span> <span class="n">filtered_x</span><span class="p">,</span> <span class="n">filtered_y_true</span><span class="p">,</span> <span class="n">filtered_prob</span><span class="p">,</span> <span class="n">filtered_y_pred</span><span class="p">,</span> <span class="n">filtered_confidence_scores</span>
             
-<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_metrics_by_dr</span><span class="p">(</span><span class="n">datasets_manager</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">set</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</span>
@@ -320,7 +320,7 @@
         <span class="c1"># return the global dictionnary</span>
         <span class="k">return</span> <span class="n">metrics_by_dr</span></div>
     
-<div class="viewcode-block" id="MDRCalculator.calc_profiles"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator.calc_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change</span>
@@ -371,7 +371,7 @@
             <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">profiles_current</span><span class="p">)</span>
             <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">lost_profiles_all</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_metrics_by_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">datasets_manager</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">,</span> <span class="nb">set</span> <span class="o">=</span> <span class="s1">&#39;reference&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates various metrics for different profiles and declaration rates based on provided datasets.</span>
@@ -427,7 +427,7 @@
                     <span class="n">profile</span><span class="o">.</span><span class="n">update_metrics_results</span><span class="p">(</span><span class="n">metrics_dict</span><span class="p">)</span>
                     <span class="n">profile</span><span class="o">.</span><span class="n">update_node_information</span><span class="p">(</span><span class="n">info_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">detectron_by_profiles</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
                               <span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span>
                               <span class="n">training_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>

@@ -14,7 +14,7 @@ Start by importing the required classes and utilities for model management:
 .. code-block:: python
 
     from pprint import pprint
-    from det3pa.models import factories
+    from MED3pa.models import factories
 
 Step 2: Creating an Instance of ModelFactory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -168,7 +168,7 @@ To retrieve the list of supported ``classification_metrics``, you can use ``Clas
 
 .. code-block:: python
 
-    from det3pa.models import ClassificationEvaluationMetrics
+    from MED3pa.models import ClassificationEvaluationMetrics
 
     # Display supported metrics
     print("Supported evaluation metrics:", ClassificationEvaluationMetrics.supported_metrics())

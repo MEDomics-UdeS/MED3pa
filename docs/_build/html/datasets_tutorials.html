@@ -45,10 +45,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
@@ -108,11 +108,11 @@
 This tutorial will guide you through using this subpackage to handle and prepare your data efficiently.</p>
 <section id="using-the-datasetsmanager-class">
 <h2>Using the DatasetsManager class<a class="headerlink" href="#using-the-datasetsmanager-class" title="Permalink to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> class in the <code class="docutils literal notranslate"><span class="pre">det3pa.datasets</span></code> submodule is designed to facilitate the management of various datasets needed for model training and evaluation. This tutorial provides a step-by-step guide on setting up and using the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> to handle data efficiently.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> class in the <code class="docutils literal notranslate"><span class="pre">MED3pa.datasets</span></code> submodule is designed to facilitate the management of various datasets needed for model training and evaluation. This tutorial provides a step-by-step guide on setting up and using the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> to handle data efficiently.</p>
 <section id="step-1-importing-the-datasetsmanager">
 <h3>Step 1: Importing the DatasetsManager<a class="headerlink" href="#step-1-importing-the-datasetsmanager" title="Permalink to this heading"></a></h3>
-<p>First, import the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> from the <code class="docutils literal notranslate"><span class="pre">det3pa.datasets</span></code> submodule:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
+<p>First, import the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> from the <code class="docutils literal notranslate"><span class="pre">MED3pa.datasets</span></code> submodule:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
 </pre></div>
 </div>
 </section>
@@ -201,11 +201,11 @@ column_labels: [&#39;feature_1&#39;, &#39;feature_2&#39;, ..., &#39;feature_23&#
 </section>
 <section id="using-the-maskeddataset-class">
 <h2>Using the MaskedDataset Class<a class="headerlink" href="#using-the-maskeddataset-class" title="Permalink to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code> class, a crucial component of the <code class="docutils literal notranslate"><span class="pre">det3pa.datasets</span></code> submodule, facilitates nuanced data operations that are essential for custom data manipulation and model training processes. This tutorial details common usage scenarios of the <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code> class, a crucial component of the <code class="docutils literal notranslate"><span class="pre">MED3pa.datasets</span></code> submodule, facilitates nuanced data operations that are essential for custom data manipulation and model training processes. This tutorial details common usage scenarios of the <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code>.</p>
 <section id="step-1-importing-necessary-modules">
 <h3>Step 1: Importing Necessary Modules<a class="headerlink" href="#step-1-importing-necessary-modules" title="Permalink to this heading"></a></h3>
 <p>Begin by importing the <code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code> and <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code>, along with NumPy for additional data operations:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">DatasetsManager</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">DatasetsManager</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>

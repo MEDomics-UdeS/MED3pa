@@ -11,7 +11,7 @@ First, configure the `DatasetsManager`. In the case of MED3pa only experiment yo
 
 .. code-block:: python
 
-    from det3pa.datasets import DatasetsManager
+    from MED3pa.datasets import DatasetsManager
 
     # Initialize the DatasetsManager
     datasets = DatasetsManager()
@@ -26,7 +26,7 @@ Next, utilize the ``ModelFactory`` to load a pre-trained model, and set it as th
 
 .. code-block:: python
 
-    from det3pa.models import BaseModelManager, ModelFactory
+    from MED3pa.models import BaseModelManager, ModelFactory
 
     # Initialize the model factory and load the pre-trained model
     factory = ModelFactory()
@@ -44,9 +44,9 @@ The experiment outputs two structure one for the reference set and the other for
 
 .. code-block:: python
 
-    from det3pa.med3pa import Med3paExperiment
-    from det3pa.med3pa.uncertainty import AbsoluteError
-    from det3pa.models.concrete_regressors import RandomForestRegressorModel
+    from MED3pa.med3pa import Med3paExperiment
+    from MED3pa.med3pa.uncertainty import AbsoluteError
+    from MED3pa.models.concrete_regressors import RandomForestRegressorModel
 
     # Define parameters for the experiment
     ipc_params = {'n_estimators': 100}
@@ -91,8 +91,8 @@ You can also run an experiment that combines the forces of Detectron in covariat
 
 .. code-block:: python
 
-    from det3pa.med3pa import Med3paDetectronExperiment
-    from det3pa.detectron.strategies import EnhancedDisagreementStrategy
+    from MED3pa.med3pa import Med3paDetectronExperiment
+    from MED3pa.detectron.strategies import EnhancedDisagreementStrategy
 
     # Execute the integrated MED3PA and Detectron experiment
     reference_results, test_results, detectron_results = Med3paDetectronExperiment.run(

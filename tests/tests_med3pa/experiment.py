@@ -1,5 +1,5 @@
-from det3pa.med3pa.experiment import Med3paExperiment
-from det3pa.datasets import DatasetsManager
+from MED3pa.med3pa.experiment import Med3paExperiment
+from MED3pa.datasets import DatasetsManager
 import pandas as pd
 import numpy as np
 

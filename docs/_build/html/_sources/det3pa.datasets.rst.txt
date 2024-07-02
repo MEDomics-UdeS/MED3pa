@@ -28,7 +28,7 @@ The package includes the following classes:
 **loading\_context module**
 ---------------------------
 
-.. automodule:: det3pa.datasets.loading_context
+.. automodule:: MED3pa.datasets.loading_context
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,7 +36,7 @@ The package includes the following classes:
 **loading\_strategies module**
 ------------------------------
 
-.. automodule:: det3pa.datasets.loading_strategies
+.. automodule:: MED3pa.datasets.loading_strategies
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,7 +44,7 @@ The package includes the following classes:
 **manager module**
 ------------------------------
 
-.. automodule:: det3pa.datasets.manager
+.. automodule:: MED3pa.datasets.manager
    :members:
    :undoc-members:
    :show-inheritance:
@@ -52,7 +52,7 @@ The package includes the following classes:
 **masked module**
 ------------------------------
 
-.. automodule:: det3pa.datasets.masked
+.. automodule:: MED3pa.datasets.masked
    :members:
    :undoc-members:
    :show-inheritance:

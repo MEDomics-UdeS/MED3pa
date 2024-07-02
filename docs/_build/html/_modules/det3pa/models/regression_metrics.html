@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.models.regression_metrics &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.models.regression_metrics &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.models.regression_metrics</li>
+      <li class="breadcrumb-item active">MED3pa.models.regression_metrics</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.models.regression_metrics</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.models.regression_metrics</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The ``regression_metrics.py`` module defines the ``RegressionEvaluationMetrics`` class, </span>
 <span class="sd">that contains various regression metrics that can be used to assess the model&#39;s performance. </span>
@@ -91,12 +91,12 @@
 <span class="kn">from</span> <span class="nn">.abstract_metrics</span> <span class="kn">import</span> <span class="n">EvaluationMetric</span>
 
 
-<div class="viewcode-block" id="RegressionEvaluationMetrics"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics">[docs]</a><span class="k">class</span> <span class="nc">RegressionEvaluationMetrics</span><span class="p">(</span><span class="n">EvaluationMetric</span><span class="p">):</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics">[docs]</a><span class="k">class</span> <span class="nc">RegressionEvaluationMetrics</span><span class="p">(</span><span class="n">EvaluationMetric</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class to compute various regression evaluation metrics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.mean_squared_error"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.mean_squared_error"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the Mean Squared Error (MSE).</span>
@@ -113,7 +113,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.root_mean_squared_error"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.root_mean_squared_error"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">root_mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the Root Mean Squared Error (RMSE).</span>
@@ -130,7 +130,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">))</span></div>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.mean_absolute_error"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.mean_absolute_error"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the Mean Absolute Error (MAE).</span>
@@ -147,7 +147,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.r2_score"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.r2_score"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the R-squared (R2) score.</span>
@@ -164,7 +164,7 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.get_metric"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.get_metric"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_metric</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the metric function based on the metric name.</span>
@@ -187,7 +187,7 @@
             <span class="n">metric_function</span> <span class="o">=</span> <span class="n">metrics_mappings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">metric_name</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">metric_function</span></div>
     
-<div class="viewcode-block" id="RegressionEvaluationMetrics.supported_metrics"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RegressionEvaluationMetrics.supported_metrics"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">supported_metrics</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of supported classification metrics.</span>

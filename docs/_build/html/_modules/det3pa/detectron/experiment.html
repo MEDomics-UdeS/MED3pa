@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.detectron.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.detectron.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.detectron.experiment</li>
+      <li class="breadcrumb-item active">MED3pa.detectron.experiment</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.detectron.experiment</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.detectron.experiment</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module encapsulates the execution logic for the Detectron method, managing the orchestration of the entire pipeline. It includes the ``DetectronExperiment`` abstract class, </span>
 <span class="sd">which outlines the protocol for setting up and running experiments. </span>
@@ -98,7 +98,7 @@
 <span class="kn">from</span> <span class="nn">.strategies</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="DetectronResult"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult">[docs]</a><span class="k">class</span> <span class="nc">DetectronResult</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronResult"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult">[docs]</a><span class="k">class</span> <span class="nc">DetectronResult</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class to store the results of a Detectron test</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -115,7 +115,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span> <span class="o">=</span> <span class="n">test_record</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="DetectronResult.calibration_trajectories"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.calibration_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">calibration_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronResult.calibration_trajectories"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.calibration_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">calibration_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the results for each run and each model in the ensemble from the reference set.</span>
 
@@ -125,7 +125,7 @@
         <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_record</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">rec</span><span class="p">[[</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id&#39;</span><span class="p">,</span> <span class="s1">&#39;rejection_rate&#39;</span><span class="p">]]</span></div>
 
-<div class="viewcode-block" id="DetectronResult.test_trajectories"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.test_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">test_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronResult.test_trajectories"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.test_trajectories">[docs]</a>    <span class="k">def</span> <span class="nf">test_trajectories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the results for each run and each model in the ensemble from the testing set.</span>
 
@@ -135,7 +135,7 @@
         <span class="n">rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_record</span><span class="o">.</span><span class="n">get_record</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">rec</span><span class="p">[[</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id&#39;</span><span class="p">,</span> <span class="s1">&#39;rejection_rate&#39;</span><span class="p">]]</span></div>
 
-<div class="viewcode-block" id="DetectronResult.get_experiments_results"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.get_experiments_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_experiments_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronResult.get_experiments_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.get_experiments_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_experiments_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the Detectron tests using the specified strategy and records.</span>
 
@@ -145,7 +145,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
     
     
-<div class="viewcode-block" id="DetectronResult.analyze_results"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.analyze_results">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronResult.analyze_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.analyze_results">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategies</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DetectronStrategy</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Appends the results of the Detectron tests for each strategy to self.test_results.</span>
 
@@ -170,7 +170,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_results</span></div>
 
-<div class="viewcode-block" id="DetectronResult.save"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronResult.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detectron_results&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronResult.save"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronResult.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;detectron_results&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the Detectron results to JSON format.</span>
 
@@ -184,14 +184,14 @@
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_results</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
         
     
-<div class="viewcode-block" id="DetectronExperiment"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">DetectronExperiment</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronExperiment"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">DetectronExperiment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class that defines the protocol for running Detectron experiments.</span>
 
 <span class="sd">    Methods:</span>
 <span class="sd">        run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DetectronExperiment.run"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.experiment.DetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DetectronExperiment.run"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.experiment.DetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
             <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
             <span class="n">training_params</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

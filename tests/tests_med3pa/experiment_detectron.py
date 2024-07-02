@@ -1,7 +1,7 @@
-from det3pa.models.factories import ModelFactory
-from det3pa.models.base import BaseModelManager
-from det3pa.datasets import DatasetsManager
-from det3pa.med3pa.experiment import *
+from MED3pa.models.factories import ModelFactory
+from MED3pa.models.base import BaseModelManager
+from MED3pa.datasets import DatasetsManager
+from MED3pa.med3pa.experiment import *
 
 XGB_PARAMS = {
     'objective': 'binary:logistic',

@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.models.regression_metrics import RegressionEvaluationMetrics
+from MED3pa.models.regression_metrics import RegressionEvaluationMetrics
 
 class TestRegressionMetrics(unittest.TestCase):
     def setUp(self):

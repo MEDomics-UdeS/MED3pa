@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.models.data_strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.models.data_strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.models.data_strategies</li>
+      <li class="breadcrumb-item active">MED3pa.models.data_strategies</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.models.data_strategies</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.models.data_strategies</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module is crucial for data handling, utilizing the **Strategy design pattern** and therefor offering multiple strategies to transform raw data into formats that enhance model training and evaluation.</span>
 <span class="sd">According to the model type.</span>
@@ -90,12 +90,12 @@
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
 
-<div class="viewcode-block" id="DataPreparingStrategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.DataPreparingStrategy">[docs]</a><span class="k">class</span> <span class="nc">DataPreparingStrategy</span><span class="p">:</span>
+<div class="viewcode-block" id="DataPreparingStrategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.DataPreparingStrategy">[docs]</a><span class="k">class</span> <span class="nc">DataPreparingStrategy</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for data preparation strategies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DataPreparingStrategy.execute"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.DataPreparingStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DataPreparingStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.DataPreparingStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prepares data for model training or prediction.</span>
@@ -114,12 +114,12 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement this method.&quot;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ToDmatrixStrategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToDmatrixStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToDmatrixStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="ToDmatrixStrategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToDmatrixStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete implementation for converting data into DMatrix format suitable for XGBoost models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ToDmatrixStrategy.is_supported_data"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ToDmatrixStrategy.is_supported_data"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">is_supported_data</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if the data types of observations, labels, and weights are supported for conversion to DMatrix.</span>
@@ -137,7 +137,7 @@
 
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">is_supported</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">[</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">weights</span><span class="p">]</span> <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ToDmatrixStrategy.execute"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToDmatrixStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ToDmatrixStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts observations, labels, and weights into an XGBoost DMatrix.</span>
@@ -158,12 +158,12 @@
         <span class="k">return</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">observations</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ToNumpyStrategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToNumpyStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToNumpyStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="ToNumpyStrategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToNumpyStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToNumpyStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts input data to NumPy arrays, ensuring compatibility with models expecting NumPy inputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ToNumpyStrategy.execute"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToNumpyStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ToNumpyStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToNumpyStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts observations, labels, and weights into NumPy arrays.</span>
@@ -191,12 +191,12 @@
         <span class="k">return</span> <span class="n">obs_np</span><span class="p">,</span> <span class="n">labels_np</span><span class="p">,</span> <span class="n">weights_np</span></div></div>
 
 
-<div class="viewcode-block" id="ToDataframesStrategy"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToDataframesStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToDataframesStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="ToDataframesStrategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToDataframesStrategy">[docs]</a><span class="k">class</span> <span class="nc">ToDataframesStrategy</span><span class="p">(</span><span class="n">DataPreparingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts input data to pandas DataFrames, suitable for models requiring DataFrame inputs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ToDataframesStrategy.execute"><a class="viewcode-back" href="../../../det3pa.models.html#det3pa.models.data_strategies.ToDataframesStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ToDataframesStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.data_strategies.ToDataframesStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts observations, labels, and weights into pandas DataFrames with specified column labels.</span>

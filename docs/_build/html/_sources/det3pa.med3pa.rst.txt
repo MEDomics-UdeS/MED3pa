@@ -46,7 +46,7 @@ this subpackage includes the following classes:
 uncertainty module
 -------------------
 
-.. automodule:: det3pa.med3pa.uncertainty
+.. automodule:: MED3pa.med3pa.uncertainty
    :members:
    :undoc-members:
    :show-inheritance:
@@ -54,7 +54,7 @@ uncertainty module
 models module
 ---------------------------
 
-.. automodule:: det3pa.med3pa.models
+.. automodule:: MED3pa.med3pa.models
    :members:
    :undoc-members:
    :show-inheritance:
@@ -62,7 +62,7 @@ models module
 tree module
 -------------------------
 
-.. automodule:: det3pa.med3pa.tree
+.. automodule:: MED3pa.med3pa.tree
    :members:
    :undoc-members:
    :show-inheritance:
@@ -70,7 +70,7 @@ tree module
 Profiles module
 -----------------------------
 
-.. automodule:: det3pa.med3pa.profiles
+.. automodule:: MED3pa.med3pa.profiles
    :members:
    :undoc-members:
    :show-inheritance:
@@ -78,7 +78,7 @@ Profiles module
 MDR module
 -------------------------------
 
-.. automodule:: det3pa.med3pa.mdr
+.. automodule:: MED3pa.med3pa.mdr
    :members:
    :undoc-members:
    :show-inheritance:
@@ -86,7 +86,7 @@ MDR module
 experiment module
 -------------------------------
 
-.. automodule:: det3pa.med3pa.experiment
+.. automodule:: MED3pa.med3pa.experiment
    :members:
    :undoc-members:
    :show-inheritance:

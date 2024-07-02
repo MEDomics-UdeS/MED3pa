@@ -45,10 +45,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
@@ -111,7 +111,7 @@
 <h3>Step 1: Importing Necessary Modules<a class="headerlink" href="#step-1-importing-necessary-modules" title="Permalink to this heading"></a></h3>
 <p>Start by importing the required classes and utilities for model management:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">factories</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">factories</span>
 </pre></div>
 </div>
 </section>
@@ -241,7 +241,7 @@
 <h3>Step 3: Evaluating the Model<a class="headerlink" href="#step-3-evaluating-the-model" title="Permalink to this heading"></a></h3>
 <p>Evaluate the model’s performance using various metrics to understand its effectiveness in making predictions. The supported metrics include Accuracy, AUC, Precision, Recall, and F1 Score, among others. The <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method will handle the model predictions and then evaluate the model based on these predictions. You only need to specify the test data.</p>
 <p>To retrieve the list of supported <code class="docutils literal notranslate"><span class="pre">classification_metrics</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.supported_metrics()</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">det3pa.models</span> <span class="kn">import</span> <span class="n">ClassificationEvaluationMetrics</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">ClassificationEvaluationMetrics</span>
 
 <span class="c1"># Display supported metrics</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported evaluation metrics:&quot;</span><span class="p">,</span> <span class="n">ClassificationEvaluationMetrics</span><span class="o">.</span><span class="n">supported_metrics</span><span class="p">())</span>

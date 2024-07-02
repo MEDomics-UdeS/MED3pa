@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.med3pa.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.med3pa.experiment &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.med3pa.experiment</li>
+      <li class="breadcrumb-item active">MED3pa.med3pa.experiment</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.med3pa.experiment</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.med3pa.experiment</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Orchestrates the execution of the med3pa method and integrates the functionality of other modules to run comprehensive experiments. </span>
 <span class="sd">It includes classes to manage and store results ``Med3paResults``, execute experiments like ``Med3paExperiment`` and ``Med3paDetectronExperiment``, and integrate results from the Detectron method ``Med3paDetectronResults``</span>
@@ -91,18 +91,18 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-<span class="kn">from</span> <span class="nn">det3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">MaskedDataset</span>
-<span class="kn">from</span> <span class="nn">det3pa.detectron.experiment</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronResult</span><span class="p">,</span> <span class="n">DetectronStrategy</span><span class="p">,</span> <span class="n">EnhancedDisagreementStrategy</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.mdr</span> <span class="kn">import</span> <span class="n">MDRCalculator</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.models</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
-<span class="kn">from</span> <span class="nn">det3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.base</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">det3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span><span class="p">,</span> <span class="n">MaskedDataset</span>
+<span class="kn">from</span> <span class="nn">MED3pa.detectron.experiment</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span><span class="p">,</span> <span class="n">DetectronResult</span><span class="p">,</span> <span class="n">DetectronStrategy</span><span class="p">,</span> <span class="n">EnhancedDisagreementStrategy</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.mdr</span> <span class="kn">import</span> <span class="n">MDRCalculator</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.profiles</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">ProfilesManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.base</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.classification_metrics</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">MED3pa.models.concrete_regressors</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="to_serializable"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.to_serializable">[docs]</a><span class="k">def</span> <span class="nf">to_serializable</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">additional_arg</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="to_serializable"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.to_serializable">[docs]</a><span class="k">def</span> <span class="nf">to_serializable</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">additional_arg</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an object to a JSON-serializable format.</span>
 
 <span class="sd">    Args:</span>
@@ -127,7 +127,7 @@
     <span class="k">return</span> <span class="n">obj</span></div>
 
 
-<div class="viewcode-block" id="Med3paResults"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults">[docs]</a><span class="k">class</span> <span class="nc">Med3paResults</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults">[docs]</a><span class="k">class</span> <span class="nc">Med3paResults</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to store and manage results from the MED3PA method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -137,7 +137,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">MaskedDataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     
-<div class="viewcode-block" id="Med3paResults.set_metrics_by_dr"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.set_metrics_by_dr">[docs]</a>    <span class="k">def</span> <span class="nf">set_metrics_by_dr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics_by_dr</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.set_metrics_by_dr"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_metrics_by_dr">[docs]</a>    <span class="k">def</span> <span class="nf">set_metrics_by_dr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics_by_dr</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the calculated metrics by declaration rate.</span>
 
@@ -146,7 +146,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics_by_dr</span> <span class="o">=</span> <span class="n">metrics_by_dr</span></div>
     
-<div class="viewcode-block" id="Med3paResults.set_profiles_manager"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.set_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">set_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_manager</span> <span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.set_profiles_manager"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">set_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_manager</span> <span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the profile manager for this Med3paResults instance.</span>
 <span class="sd"> </span>
@@ -155,7 +155,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span> <span class="o">=</span> <span class="n">profile_manager</span></div>
 
-<div class="viewcode-block" id="Med3paResults.set_models_evaluation"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.set_models_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">set_models_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ipc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">apc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.set_models_evaluation"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_models_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">set_models_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ipc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">apc_evaluation</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set models evaluation metrics.</span>
 
@@ -166,7 +166,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">[</span><span class="s1">&#39;IPC_evaluation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipc_evaluation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation</span><span class="p">[</span><span class="s1">&#39;APC_evaluation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">apc_evaluation</span></div>
     
-<div class="viewcode-block" id="Med3paResults.set_dataset"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.set_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">MaskedDataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.set_dataset"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_dataset">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">MaskedDataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the dataset for a given sample ratio.</span>
 
@@ -177,7 +177,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">samples_ratio</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span></div>
 
-<div class="viewcode-block" id="Med3paResults.save"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.save"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the experiment results.</span>
 
@@ -201,18 +201,18 @@
             <span class="n">dataset_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;dataset_</span><span class="si">{</span><span class="n">samples_ratio</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
             <span class="n">dataset</span><span class="o">.</span><span class="n">save_to_csv</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Med3paResults.get_profiles_manager"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paResults.get_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">get_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProfilesManager</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paResults.get_profiles_manager"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.get_profiles_manager">[docs]</a>    <span class="k">def</span> <span class="nf">get_profiles_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProfilesManager</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the profiles manager for this Med3paResults instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_manager</span></div></div>
 
 
-<div class="viewcode-block" id="Med3paExperiment"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paExperiment</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paExperiment"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paExperiment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to run the MED3PA method experiment.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Med3paExperiment.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Med3paExperiment.run"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets_manager</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
             <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">]</span> <span class="o">=</span> <span class="n">AbsoluteError</span><span class="p">,</span>
@@ -422,8 +422,8 @@
         <span class="k">return</span> <span class="n">results</span>  </div>
 
 
-<div class="viewcode-block" id="Med3paDetectronExperiment"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paDetectronExperiment</span><span class="p">:</span>
-<div class="viewcode-block" id="Med3paDetectronExperiment.run"><a class="viewcode-back" href="../../../det3pa.med3pa.html#det3pa.med3pa.experiment.Med3paDetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Med3paDetectronExperiment"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment">[docs]</a><span class="k">class</span> <span class="nc">Med3paDetectronExperiment</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paDetectronExperiment.run"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment.run">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
             <span class="n">base_model_manager</span><span class="p">:</span> <span class="n">BaseModelManager</span><span class="p">,</span>
             <span class="n">uncertainty_metric</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UncertaintyMetric</span><span class="p">]</span> <span class="o">=</span> <span class="n">AbsoluteError</span><span class="p">,</span>

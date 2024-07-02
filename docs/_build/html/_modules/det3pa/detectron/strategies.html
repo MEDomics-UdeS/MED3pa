@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.detectron.strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.detectron.strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.detectron.strategies</li>
+      <li class="breadcrumb-item active">MED3pa.detectron.strategies</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.detectron.strategies</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.detectron.strategies</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">In this module, various strategies to assess the presence of covariate shift are defined. </span>
 <span class="sd">Each strategy class, deriving from the original **Disagreement test**, implements a method to evaluate shifts between calibration and testing datasets using different statistical approaches, </span>
@@ -92,25 +92,25 @@
 <span class="kn">from</span> <span class="nn">.record</span> <span class="kn">import</span> <span class="n">DetectronRecordsManager</span>
 
 
-<div class="viewcode-block" id="DetectronStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DetectronStrategy">[docs]</a><span class="k">class</span> <span class="nc">DetectronStrategy</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.DetectronStrategy">[docs]</a><span class="k">class</span> <span class="nc">DetectronStrategy</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for defining various strategies to evaluate the shifts and discrepancies between calibration and testing datasets.</span>
 
 <span class="sd">    Methods:</span>
 <span class="sd">        execute: Must be implemented by subclasses to execute the strategy.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DetectronStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.DetectronStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DetectronStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.DetectronStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
         <span class="k">pass</span></div></div>
 
 
-<div class="viewcode-block" id="OriginalDisagreementStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.OriginalDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">OriginalDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="OriginalDisagreementStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.OriginalDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">OriginalDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the empirical cumulative distribution function (ECDF).</span>
 <span class="sd">    This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,</span>
 <span class="sd">    and statistical measures such as the mean and standard deviation of the calibration tests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="OriginalDisagreementStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.OriginalDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="OriginalDisagreementStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.OriginalDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span> <span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the ECDF approach.</span>
 
@@ -158,12 +158,12 @@
         <span class="k">return</span> <span class="n">results</span></div></div>
 
 
-<div class="viewcode-block" id="MannWhitneyStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.MannWhitneyStrategy">[docs]</a><span class="k">class</span> <span class="nc">MannWhitneyStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="MannWhitneyStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.MannWhitneyStrategy">[docs]</a><span class="k">class</span> <span class="nc">MannWhitneyStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results</span>
 <span class="sd">    from calibration runs and test runs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="MannWhitneyStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.MannWhitneyStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="MannWhitneyStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.MannWhitneyStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the Mann-Whitney U test.</span>
 
@@ -210,12 +210,12 @@
         <span class="k">return</span> <span class="n">results</span></div></div>
 
 
-<div class="viewcode-block" id="KolmogorovSmirnovStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.KolmogorovSmirnovStrategy">[docs]</a><span class="k">class</span> <span class="nc">KolmogorovSmirnovStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.KolmogorovSmirnovStrategy">[docs]</a><span class="k">class</span> <span class="nc">KolmogorovSmirnovStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results</span>
 <span class="sd">    from calibration runs and test runs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="KolmogorovSmirnovStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.KolmogorovSmirnovStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
+<div class="viewcode-block" id="KolmogorovSmirnovStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.KolmogorovSmirnovStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span><span class="n">DetectronRecordsManager</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.</span>
 
@@ -265,12 +265,12 @@
         <span class="k">return</span> <span class="n">results</span></div></div>
 
 
-<div class="viewcode-block" id="EnhancedDisagreementStrategy"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.EnhancedDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">EnhancedDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="EnhancedDisagreementStrategy"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.EnhancedDisagreementStrategy">[docs]</a><span class="k">class</span> <span class="nc">EnhancedDisagreementStrategy</span><span class="p">(</span><span class="n">DetectronStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.</span>
 <span class="sd">    This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="EnhancedDisagreementStrategy.execute"><a class="viewcode-back" href="../../../det3pa.detectron.html#det3pa.detectron.strategies.EnhancedDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">trim_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<div class="viewcode-block" id="EnhancedDisagreementStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.strategies.EnhancedDisagreementStrategy.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">calibration_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">test_records</span><span class="p">:</span> <span class="n">DetectronRecordsManager</span><span class="p">,</span> <span class="n">trim_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">proportion_to_cut</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the disagreement detection strategy using z-score analysis.</span>
 

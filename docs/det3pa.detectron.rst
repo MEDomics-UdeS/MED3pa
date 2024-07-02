@@ -36,7 +36,7 @@ this subpackage includes the following classes:
 ensemble module
 --------------------------------
 
-.. automodule:: det3pa.detectron.ensemble
+.. automodule:: MED3pa.detectron.ensemble
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,7 +44,7 @@ ensemble module
 record module
 ------------------------------
 
-.. automodule:: det3pa.detectron.record
+.. automodule:: MED3pa.detectron.record
    :members:
    :undoc-members:
    :show-inheritance:
@@ -52,7 +52,7 @@ record module
 stopper module
 -------------------------------
 
-.. automodule:: det3pa.detectron.stopper
+.. automodule:: MED3pa.detectron.stopper
    :members:
    :undoc-members:
    :show-inheritance:
@@ -60,7 +60,7 @@ stopper module
 strategies module
 ----------------------------------
 
-.. automodule:: det3pa.detectron.strategies
+.. automodule:: MED3pa.detectron.strategies
    :members:
    :undoc-members:
    :show-inheritance:
@@ -69,7 +69,7 @@ strategies module
 experiment module
 ----------------------------------
 
-.. automodule:: det3pa.detectron.experiment
+.. automodule:: MED3pa.detectron.experiment
    :members:
    :undoc-members:
    :show-inheritance:

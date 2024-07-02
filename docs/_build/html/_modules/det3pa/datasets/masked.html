@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.datasets.masked &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.datasets.masked &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.datasets.masked</li>
+      <li class="breadcrumb-item active">MED3pa.datasets.masked</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.datasets.masked</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.datasets.masked</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The masked.py module includes the ``MaskedDataset`` class that is capable of handling many dataset related operations, such as cloning, sampling, refining...etc.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -90,7 +90,7 @@
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
 
 
-<div class="viewcode-block" id="MaskedDataset"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset">[docs]</a><span class="k">class</span> <span class="nc">MaskedDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<div class="viewcode-block" id="MaskedDataset"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset">[docs]</a><span class="k">class</span> <span class="nc">MaskedDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A dataset wrapper for PyTorch that supports masking and sampling of data points.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -139,7 +139,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__indices</span><span class="p">)</span>
     
-<div class="viewcode-block" id="MaskedDataset.refine"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.refine">[docs]</a>    <span class="k">def</span> <span class="nf">refine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.refine"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.refine">[docs]</a>    <span class="k">def</span> <span class="nf">refine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refines the dataset by applying a mask to select specific data points.</span>
 
@@ -169,11 +169,11 @@
 
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__observations</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.reset_indices"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.reset_indices">[docs]</a>    <span class="k">def</span> <span class="nf">reset_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.reset_indices"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.reset_indices">[docs]</a>    <span class="k">def</span> <span class="nf">reset_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets the indices of the dataset to the original indices.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_indices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.sample_uniform"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.sample_uniform">[docs]</a>    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.sample_uniform"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.sample_uniform">[docs]</a>    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Samples N data points from the dataset, prioritizing the least sampled points.</span>
 
@@ -217,7 +217,7 @@
         <span class="n">sampled_set</span><span class="o">.</span><span class="n">set_confidence_scores</span><span class="p">(</span><span class="n">sampled_confidence_scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">sampled_confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">sampled_set</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.sample_random"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.sample_random">[docs]</a>    <span class="k">def</span> <span class="nf">sample_random</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.sample_random"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.sample_random">[docs]</a>    <span class="k">def</span> <span class="nf">sample_random</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Samples N data points randomly from the dataset using the given seed.</span>
 
@@ -252,7 +252,7 @@
         <span class="n">sampled_set</span><span class="o">.</span><span class="n">set_confidence_scores</span><span class="p">(</span><span class="n">sampled_confidence_scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">sampled_confidence_scores</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">sampled_set</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_observations"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_observations">[docs]</a>    <span class="k">def</span> <span class="nf">get_observations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_observations"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_observations">[docs]</a>    <span class="k">def</span> <span class="nf">get_observations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the observations vectors of the dataset.</span>
 
@@ -261,7 +261,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__observations</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_pseudo_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_pseudo_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_pseudo_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_pseudo_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_pseudo_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_pseudo_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the pseudo labels of the dataset.</span>
 
@@ -270,7 +270,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pseudo_labels</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_true_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_true_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_true_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_true_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_true_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_true_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the true labels of the dataset.</span>
 
@@ -279,7 +279,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__true_labels</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_pseudo_probabilities"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_pseudo_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">get_pseudo_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_pseudo_probabilities"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_pseudo_probabilities">[docs]</a>    <span class="k">def</span> <span class="nf">get_pseudo_probabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the pseudo probabilities of the dataset.</span>
 
@@ -288,7 +288,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pseudo_probabilities</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_confidence_scores"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">get_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_confidence_scores"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">get_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the confidence scores of the dataset.</span>
 
@@ -297,7 +297,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__confidence_scores</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_sample_counts"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_sample_counts">[docs]</a>    <span class="k">def</span> <span class="nf">get_sample_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_sample_counts"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_sample_counts">[docs]</a>    <span class="k">def</span> <span class="nf">get_sample_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the how many times each element of the dataset was sampled.</span>
 
@@ -306,7 +306,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_counts</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.set_pseudo_probs_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_pseudo_probs_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_probs_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.set_pseudo_probs_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_pseudo_probs_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_probs_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by</span>
 <span class="sd">        applying a threshold to the probabilities.</span>
@@ -324,7 +324,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__pseudo_probabilities</span> <span class="o">=</span> <span class="n">pseudo_probabilities</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__pseudo_labels</span> <span class="o">=</span> <span class="n">pseudo_probabilities</span> <span class="o">&gt;=</span> <span class="n">threshold</span></div>
         
-<div class="viewcode-block" id="MaskedDataset.set_confidence_scores"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">set_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.set_confidence_scores"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_confidence_scores">[docs]</a>    <span class="k">def</span> <span class="nf">set_confidence_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the confidence scores for the dataset.</span>
 
@@ -339,7 +339,7 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">__confidence_scores</span> <span class="o">=</span> <span class="n">confidence_scores</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.set_pseudo_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.set_pseudo_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.set_pseudo_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_pseudo_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_pseudo_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds pseudo labels to the dataset.</span>
 
@@ -353,7 +353,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The length of pseudo_labels must match the number of samples in the dataset.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__pseudo_labels</span> <span class="o">=</span> <span class="n">pseudo_labels</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.clone"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.clone"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MaskedDataset&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a clone of the current MaskedDataset instance.</span>
 
@@ -367,7 +367,7 @@
 
         <span class="k">return</span> <span class="n">cloned_set</span></div>
     
-<div class="viewcode-block" id="MaskedDataset.get_info"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.get_info"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns information about the MaskedDataset.</span>
 
@@ -383,7 +383,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">info</span></div>
         
-<div class="viewcode-block" id="MaskedDataset.summarize"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.summarize"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints a summary of the dataset.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -394,7 +394,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has pseudo probabilities: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;has_pseudo_probabilities&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has confidence scores: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;has_confidence_scores&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.to_dataframe"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.to_dataframe"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the dataset to a pandas DataFrame.</span>
 
@@ -422,7 +422,7 @@
         
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="MaskedDataset.save_to_csv"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.masked.MaskedDataset.save_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MaskedDataset.save_to_csv"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.save_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the dataset to a CSV file.</span>
 

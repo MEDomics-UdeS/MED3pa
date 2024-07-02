@@ -42,7 +42,7 @@ The package includes the following classes:
 **factories module**
 ------------------------------
 
-.. automodule:: det3pa.models.factories
+.. automodule:: MED3pa.models.factories
    :members:
    :undoc-members:
    :show-inheritance:
@@ -50,7 +50,7 @@ The package includes the following classes:
 **abstract\_models module**
 -------------------------------------
 
-.. automodule:: det3pa.models.abstract_models
+.. automodule:: MED3pa.models.abstract_models
    :members:
    :undoc-members:
    :show-inheritance:
@@ -58,7 +58,7 @@ The package includes the following classes:
 **concrete\_classifiers module**
 ------------------------------------------
 
-.. automodule:: det3pa.models.concrete_classifiers
+.. automodule:: MED3pa.models.concrete_classifiers
    :members:
    :undoc-members:
    :show-inheritance:
@@ -66,7 +66,7 @@ The package includes the following classes:
 **concrete\_regressors module**
 -----------------------------------------
 
-.. automodule:: det3pa.models.concrete_regressors
+.. automodule:: MED3pa.models.concrete_regressors
    :members:
    :undoc-members:
    :show-inheritance:
@@ -74,7 +74,7 @@ The package includes the following classes:
 **abstract\_metrics module**
 --------------------------------------
 
-.. automodule:: det3pa.models.abstract_metrics
+.. automodule:: MED3pa.models.abstract_metrics
    :members:
    :undoc-members:
    :show-inheritance:
@@ -82,7 +82,7 @@ The package includes the following classes:
 **classification\_metrics module**
 --------------------------------------------
 
-.. automodule:: det3pa.models.classification_metrics
+.. automodule:: MED3pa.models.classification_metrics
    :members:
    :undoc-members:
    :show-inheritance:
@@ -90,7 +90,7 @@ The package includes the following classes:
 **regression\_metrics module**
 ----------------------------------------
 
-.. automodule:: det3pa.models.regression_metrics
+.. automodule:: MED3pa.models.regression_metrics
    :members:
    :undoc-members:
    :show-inheritance:
@@ -98,7 +98,7 @@ The package includes the following classes:
 **data\_strategies module**
 -------------------------------------
 
-.. automodule:: det3pa.models.data_strategies
+.. automodule:: MED3pa.models.data_strategies
    :members:
    :undoc-members:
    :show-inheritance:
@@ -106,7 +106,7 @@ The package includes the following classes:
 **base module**
 -------------------------
 
-.. automodule:: det3pa.models.base
+.. automodule:: MED3pa.models.base
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.datasets import CSVDataLoadingStrategy
+from MED3pa.datasets import CSVDataLoadingStrategy
 
 class TestCSVDataLoadingStrategy(unittest.TestCase):
     # verify that CSVDataLoadingStrategy correctly loads data from a CSV file and separates it into features and target arrays.

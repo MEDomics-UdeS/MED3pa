@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.datasets import DatasetsManager
+from MED3pa.datasets import DatasetsManager
 from unittest.mock import patch
 
 class TestDatasetsManager(unittest.TestCase):
@@ -10,7 +10,7 @@ class TestDatasetsManager(unittest.TestCase):
         self.true_labels = np.array([0, 1, 0])
         
         # Mock the data loading context
-        self.patcher = patch('det3pa.datasets.loading_context.DataLoadingContext.load_as_np', return_value=(['feature1', 'feature2'], self.features, self.true_labels))
+        self.patcher = patch('MED3pa.datasets.loading_context.DataLoadingContext.load_as_np', return_value=(['feature1', 'feature2'], self.features, self.true_labels))
         self.mock_load = self.patcher.start()
     
     def tearDown(self):
@@ -45,7 +45,7 @@ class TestDatasetsManager(unittest.TestCase):
         self.manager.set_from_file('training','training.csv', 'target')
         
         # Now, mock the load_as_np to return different column labels for the validation call
-        with patch('det3pa.datasets.loading_context.DataLoadingContext.load_as_np', return_value=(['feature1', 'feature2', 'extra'], self.features, self.true_labels)):
+        with patch('MED3pa.datasets.loading_context.DataLoadingContext.load_as_np', return_value=(['feature1', 'feature2', 'extra'], self.features, self.true_labels)):
             with self.assertRaises(ValueError):
                 self.manager.set_from_file('validation', 'validation.csv', 'target')
 

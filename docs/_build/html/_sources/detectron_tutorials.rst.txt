@@ -8,7 +8,7 @@ First, configure the ``DatasetsManager`` to manage the necessary datasets for th
 
 .. code-block:: python
 
-    from det3pa.datasets import DatasetsManager
+    from MED3pa.datasets import DatasetsManager
 
     # Initialize the DatasetsManager
     datasets = DatasetsManager()
@@ -25,7 +25,7 @@ Next, utilize the ``ModelFactory`` to load a pre-trained model, setting it as th
 
 .. code-block:: python
 
-    from det3pa.models import BaseModelManager, ModelFactory
+    from MED3pa.models import BaseModelManager, ModelFactory
 
     # Initialize the model factory and load the pre-trained model
     factory = ModelFactory()
@@ -41,7 +41,7 @@ Execute the Detectron experiment with the specified datasets and base model. You
 
 .. code-block:: python
 
-    from det3pa.detectron import DetectronExperiment
+    from MED3pa.detectron import DetectronExperiment
 
     # Execute the Detectron experiment
     experiment_results = DetectronExperiment.run(datasets=datasets, base_model_manager=base_model_manager)
@@ -52,7 +52,7 @@ Finally, evaluate the outcomes of the experiment using different strategies to d
 
 .. code-block:: python
 
-    from det3pa.detectron.strategies import *
+    from MED3pa.detectron.strategies import *
 
     # Analyze the results using the disagreement strategies
     test_strategies = [EnhancedDisagreementStrategy, MannWhitneyStrategy]

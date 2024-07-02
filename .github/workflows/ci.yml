@@ -34,6 +34,6 @@ jobs:
 
     - name: Activate Conda environment and run tests
       run: |
-        conda activate det3pa
+        conda activate MED3pa
         python -m unittest discover -s tests
       shell: cmd

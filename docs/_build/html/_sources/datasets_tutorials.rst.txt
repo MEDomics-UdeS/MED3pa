@@ -6,16 +6,16 @@ This tutorial will guide you through using this subpackage to handle and prepare
 Using the DatasetsManager class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``DatasetsManager`` class in the ``det3pa.datasets`` submodule is designed to facilitate the management of various datasets needed for model training and evaluation. This tutorial provides a step-by-step guide on setting up and using the ``DatasetsManager`` to handle data efficiently.
+The ``DatasetsManager`` class in the ``MED3pa.datasets`` submodule is designed to facilitate the management of various datasets needed for model training and evaluation. This tutorial provides a step-by-step guide on setting up and using the ``DatasetsManager`` to handle data efficiently.
 
 Step 1: Importing the DatasetsManager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-First, import the ``DatasetsManager`` from the ``det3pa.datasets`` submodule:
+First, import the ``DatasetsManager`` from the ``MED3pa.datasets`` submodule:
 
 .. code-block:: python
 
-    from det3pa.datasets import DatasetsManager
+    from MED3pa.datasets import DatasetsManager
 
 Step 2: Creating an Instance of DatasetsManager
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,7 +121,7 @@ When you run the ``summary`` method, you should get an output similar to this, i
 
 Using the MaskedDataset Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ``MaskedDataset`` class, a crucial component of the ``det3pa.datasets`` submodule, facilitates nuanced data operations that are essential for custom data manipulation and model training processes. This tutorial details common usage scenarios of the ``MaskedDataset``.
+The ``MaskedDataset`` class, a crucial component of the ``MED3pa.datasets`` submodule, facilitates nuanced data operations that are essential for custom data manipulation and model training processes. This tutorial details common usage scenarios of the ``MaskedDataset``.
 
 Step 1: Importing Necessary Modules
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -129,7 +129,7 @@ Begin by importing the ``MaskedDataset`` and ``DatasetsManager``, along with Num
 
 .. code-block:: python
 
-    from det3pa.datasets import MaskedDataset, DatasetsManager
+    from MED3pa.datasets import MaskedDataset, DatasetsManager
     import numpy as np
 
 Step 2: Loading Data with DatasetsManager

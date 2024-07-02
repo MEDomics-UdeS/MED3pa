@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.datasets import MaskedDataset
+from MED3pa.datasets import MaskedDataset
 
 class TestMaskedDataset(unittest.TestCase):
     # sets up common variables that are used across tests

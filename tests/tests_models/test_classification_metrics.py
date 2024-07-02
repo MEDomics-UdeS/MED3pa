@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.models.classification_metrics import ClassificationEvaluationMetrics
+from MED3pa.models.classification_metrics import ClassificationEvaluationMetrics
 
 class TestClassificationMetrics(unittest.TestCase):
     def setUp(self):

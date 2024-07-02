@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.datasets.manager &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.datasets.manager &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.datasets.manager</li>
+      <li class="breadcrumb-item active">MED3pa.datasets.manager</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.datasets.manager</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.datasets.manager</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The manager.py module manages the different datasets needed for machine learning workflows, particularly for ``Detectron`` and ``Med3pa`` methods. </span>
 <span class="sd">It includes the ``DatasetsManager`` class that contains the training, validation, reference, and testing datasets for a specific ML task.</span>
@@ -92,7 +92,7 @@
 <span class="kn">from</span> <span class="nn">.masked</span> <span class="kn">import</span> <span class="n">MaskedDataset</span>
 
 
-<div class="viewcode-block" id="DatasetsManager"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager">[docs]</a><span class="k">class</span> <span class="nc">DatasetsManager</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager">[docs]</a><span class="k">class</span> <span class="nc">DatasetsManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages various datasets for execution of detectron and med3pa methods.</span>
 
@@ -108,7 +108,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span>
     
-<div class="viewcode-block" id="DatasetsManager.set_from_file"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.set_from_file"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads and sets the specified dataset from a file.</span>
 
@@ -143,7 +143,7 @@
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="DatasetsManager.set_from_data"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_from_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.set_from_data"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">observations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">true_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">column_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the specified dataset using numpy arrays for observations and true labels.</span>
 
@@ -176,7 +176,7 @@
             <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DatasetsManager.set_column_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.set_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.set_column_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">set_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the column labels for the datasets, excluding the target column.</span>
 
@@ -202,7 +202,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="n">columns</span></div>
 
-<div class="viewcode-block" id="DatasetsManager.get_column_labels"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetsManager.get_column_labels"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_column_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the column labels of the manager</span>
 <span class="sd">        </span>
@@ -212,7 +212,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span></div>
     
-<div class="viewcode-block" id="DatasetsManager.get_info"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.get_info"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns information about all the datasets managed by the DatasetsManager.</span>
 
@@ -240,7 +240,7 @@
             <span class="p">}</span>
         <span class="k">return</span> <span class="n">datasets_info</span></div>
     
-<div class="viewcode-block" id="DatasetsManager.summarize"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.summarize"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.summarize">[docs]</a>    <span class="k">def</span> <span class="nf">summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints a summary of the manager.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -251,7 +251,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;testing_set: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;testing_set&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;column_labels: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;column_labels&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DatasetsManager.reset_datasets"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.reset_datasets">[docs]</a>    <span class="k">def</span> <span class="nf">reset_datasets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.reset_datasets"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.reset_datasets">[docs]</a>    <span class="k">def</span> <span class="nf">reset_datasets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resets all datasets in the manager.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -261,7 +261,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">testing_set</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">column_labels</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="DatasetsManager.get_dataset_by_type"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.get_dataset_by_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataset_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MaskedDataset</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.get_dataset_by_type"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_dataset_by_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataset_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MaskedDataset</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper method to get a dataset by type.</span>
 
@@ -285,7 +285,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid dataset_type provided: </span><span class="si">{</span><span class="n">dataset_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DatasetsManager.save_dataset_to_csv"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.manager.DatasetsManager.save_dataset_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_dataset_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DatasetsManager.save_dataset_to_csv"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.save_dataset_to_csv">[docs]</a>    <span class="k">def</span> <span class="nf">save_dataset_to_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the specified dataset to a CSV file.</span>
 

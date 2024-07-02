@@ -1,8 +1,8 @@
-from det3pa.detectron.experiment import DetectronExperiment
-from det3pa.datasets.manager import DatasetsManager
-from det3pa.models.base import BaseModelManager
-from det3pa.models.factories import ModelFactory
-from det3pa.detectron.strategies import EnhancedDisagreementStrategy
+from MED3pa.detectron.experiment import DetectronExperiment
+from MED3pa.datasets.manager import DatasetsManager
+from MED3pa.models.base import BaseModelManager
+from MED3pa.models.factories import ModelFactory
+from MED3pa.detectron.strategies import EnhancedDisagreementStrategy
 import pandas as pd
 import numpy as np
 import json

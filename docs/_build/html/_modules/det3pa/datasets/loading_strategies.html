@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>det3pa.datasets.loading_strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
+  <title>MED3pa.datasets.loading_strategies &mdash; Med3pa documentation 0.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
@@ -42,10 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.datasets.html">datasets subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.models.html">models subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.detectron.html">detectron subpackage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../det3pa.med3pa.html">med3pa subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">det3pa.datasets.loading_strategies</li>
+      <li class="breadcrumb-item active">MED3pa.datasets.loading_strategies</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for det3pa.datasets.loading_strategies</h1><div class="highlight"><pre>
+  <h1>Source code for MED3pa.datasets.loading_strategies</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module provides strategies for loading data from files into usable Python formats, focusing on converting data into **NumPy** arrays. </span>
 <span class="sd">It includes an abstract base class ``DataLoadingStrategy`` for defining common interfaces and concrete implementations of this class, such as ``CSVDataLoadingStrategy`` for handling CSV files.</span>
@@ -92,11 +92,11 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 
-<div class="viewcode-block" id="DataLoadingStrategy"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.DataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">DataLoadingStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="DataLoadingStrategy"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.loading_strategies.DataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">DataLoadingStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for data loading strategies. Defines a common interface for all data loading strategies.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DataLoadingStrategy.execute"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.DataLoadingStrategy.execute">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="DataLoadingStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.loading_strategies.DataLoadingStrategy.execute">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Abstract method to execute the data loading strategy.</span>
@@ -113,7 +113,7 @@
         <span class="k">pass</span></div></div>
 
 
-<div class="viewcode-block" id="CSVDataLoadingStrategy"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">CSVDataLoadingStrategy</span><span class="p">(</span><span class="n">DataLoadingStrategy</span><span class="p">):</span>
+<div class="viewcode-block" id="CSVDataLoadingStrategy"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.loading_strategies.CSVDataLoadingStrategy">[docs]</a><span class="k">class</span> <span class="nc">CSVDataLoadingStrategy</span><span class="p">(</span><span class="n">DataLoadingStrategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Strategy class for loading CSV data. Implements the abstract execute method to handle CSV files.</span>
 
@@ -122,7 +122,7 @@
 <span class="sd">            Loads CSV data from the given path, separates observations and target, and converts them to NumPy arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CSVDataLoadingStrategy.execute"><a class="viewcode-back" href="../../../det3pa.datasets.html#det3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="CSVDataLoadingStrategy.execute"><a class="viewcode-back" href="../../../MED3pa.datasets.html#MED3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads CSV data from the given path, separates observations and target, and converts them to NumPy arrays.</span>

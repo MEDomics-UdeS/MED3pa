@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from det3pa.models.concrete_regressors import RandomForestRegressorModel, DecisionTreeRegressorModel
+from MED3pa.models.concrete_regressors import RandomForestRegressorModel, DecisionTreeRegressorModel
 
 class TestRandomForestRegressorModel(unittest.TestCase):
     def setUp(self):

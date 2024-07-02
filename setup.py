@@ -20,10 +20,10 @@ setup(
     description="Python Open-source package for ensuring robust and reliable ML models deployments",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/lyna1404/det3pa",
+    url="https://github.com/lyna1404/MED3pa",
     project_urls={
         'Documentation': 'https://medimage.readthedocs.io/en/latest/index.html',
-        'Github': 'https://github.com/lyna1404/det3pa'
+        'Github': 'https://github.com/lyna1404/MED3pa'
     },
     classifiers=[
         'Development Status :: 3 - Alpha',
