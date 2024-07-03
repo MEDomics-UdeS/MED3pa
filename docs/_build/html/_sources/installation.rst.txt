@@ -8,7 +8,7 @@ Prerequisites
 
 Before installing the package, ensure you have the following prerequisites:
 
-- Python 3.9 or later
+- Python 3.10 or later
 - pip (Python package installer)
 
 Installation
