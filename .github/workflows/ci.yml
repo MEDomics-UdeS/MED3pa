@@ -57,3 +57,25 @@ jobs:
         READTHEDOCS_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
       run: |
         curl -X POST -d "project=${{ env.READTHEDOCS_PROJECT }}" https://readthedocs.org/build/${{ secrets.READTHEDOCS_PROJECT }} -H "Authorization: token ${{ secrets.READTHEDOCS_TOKEN }}"
+
+    - name: Set up pip
+      run: |
+        conda activate MED3pa
+        python -m pip install --upgrade pip
+      shell: cmd
+
+    - name: Build package
+      run: |
+        conda activate MED3pa
+        python setup.py sdist bdist_wheel
+      shell: cmd
+
+    - name: Publish package to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        conda activate MED3pa
+        python -m pip install twine
+        python -m twine upload dist/*
+      shell: cmd
