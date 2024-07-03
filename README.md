@@ -16,7 +16,7 @@
 
 ## Overview
 
-<img src="./docs/diagrams/package_white_bg.svg" alt="Overview" style="width:100%;">
+<img src="https://github.com/lyna1404/MED3pa/blob/main/docs/diagrams/package_white_bg.svg" alt="Overview" style="width:100%;">
 
 The **MED3pa** package is specifically designed to address critical challenges in deploying machine learning models, particularly focusing on the robustness and reliability of models under real-world conditions. It provides comprehensive tools for evaluating model stability and performance in the face of **covariate shifts**, **uncertainty**, and **problematic data profiles**.
 
@@ -31,7 +31,7 @@ The **MED3pa** package is specifically designed to address critical challenges i
 ## Subpackages
 
 <p align="center">
-    <img src="./docs/diagrams/subpackages.svg" alt="Overview">
+    <img src="https://github.com/lyna1404/MED3pa/blob/main/docs/diagrams/subpackages.svg" alt="Overview">
 </p>
 
 The package is structured into four distinct subpackages:
