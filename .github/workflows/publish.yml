@@ -53,11 +53,18 @@ jobs:
       
       - name: Build package
         run: |
-          python setup.py sdist bdist_wheel  # Could also be python -m build
+          python setup.py sdist bdist_wheel
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@v1.5.1  # Updated to the latest version
         with:
-          repository-url: https://upload.pypi.org/legacy/
-          skip-existing: true
-      
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Build and deploy documentation to Read the Docs
+        run: |
+          pip install sphinx
+          cd docs
+          make html
+          sphinx-build -b html . _build/html
+        env:
+          READTHEDOCS: "True"  # Ensure that the Read the Docs environment variable is set
