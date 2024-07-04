@@ -65,12 +65,10 @@ jobs:
           repository-url: https://upload.pypi.org/legacy/
           skip-existing: true
       
-      - name: Trigger Read the Docs Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build documentation
         run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/<your-org>/<your-repo>/dispatches \
-          -d '{"event_type":"rtd-build"}'
+          conda activate MED3pa
+          cd docs
+          make clean
+          make html
+        shell: bash
