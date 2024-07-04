@@ -54,7 +54,7 @@ jobs:
       - name: Clean dist directory
         run: |
           rm -rf dist/
-
+      
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel  # Could also be python -m build
@@ -64,6 +64,11 @@ jobs:
         with:
           repository-url: https://upload.pypi.org/legacy/
           skip-existing: true
+      
+      - name: Initialize Conda
+        run: |
+          conda init bash
+        shell: bash
 
       - name: Build documentation
         run: |
