@@ -13,10 +13,6 @@ jobs:
       id-token: write
       contents: read
 
-    strategy:
-      matrix:
-        python-version: '3.12'
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -24,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
 
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
