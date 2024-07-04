@@ -65,21 +65,12 @@ jobs:
           repository-url: https://upload.pypi.org/legacy/
           skip-existing: true
       
-      - name: Initialize Conda
-        run: |
-          conda init bash
-        shell: bash
-
-      - name: Build documentation
-        run: |
-          conda activate MED3pa
-          cd docs
-          make html
-        shell: bash
-
-      - name: Upload documentation to Read the Docs
+      - name: Trigger Read the Docs Build
         env:
-          READTHEDOCS_PROJECT: ${{ secrets.READTHEDOCS_PROJECT }}
-          READTHEDOCS_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -X POST -d "project=${{ env.READTHEDOCS_PROJECT }}" https://readthedocs.org/build/${{ secrets.READTHEDOCS_PROJECT }} -H "Authorization: token ${{ secrets.READTHEDOCS_TOKEN }}"
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/<your-org>/<your-repo>/dispatches \
+          -d '{"event_type":"rtd-build"}'
