@@ -1,7 +1,7 @@
 Installation Guide
 ==========================================
 
-Welcome to the installation guide of ``MED3pa``. Follow the steps below to install and get started with the package.
+Welcome to the installation guide of ``MED3pa`` package. Follow the steps below to install and get started with the package.
 
 Prerequisites
 -------------

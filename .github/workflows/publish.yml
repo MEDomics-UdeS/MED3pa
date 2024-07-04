@@ -65,10 +65,3 @@ jobs:
           repository-url: https://upload.pypi.org/legacy/
           skip-existing: true
       
-      - name: Build documentation
-        run: |
-          conda activate MED3pa
-          cd docs
-          make clean
-          make html
-        shell: bash
