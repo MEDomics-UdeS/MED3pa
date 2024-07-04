@@ -50,11 +50,3 @@ jobs:
         cd docs
         make html
       shell: cmd
-
-    - name: Upload documentation to Read the Docs
-      env:
-        READTHEDOCS_PROJECT: ${{ secrets.READTHEDOCS_PROJECT }}
-        READTHEDOCS_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
-      run: |
-        curl -X POST -d "project=${{ env.READTHEDOCS_PROJECT }}" https://readthedocs.org/build/${{ secrets.READTHEDOCS_PROJECT }} -H "Authorization: token ${{ secrets.READTHEDOCS_TOKEN }}"
-

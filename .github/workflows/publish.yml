@@ -1,4 +1,4 @@
-name: Upload Python Package to PyPI when a Release is Created
+name: Upload Python Package to PyPI and Deploy Documentation to Read the Docs
 
 on:
   release:
@@ -6,25 +6,56 @@ on:
 
 jobs:
   pypi-publish:
-    name: Publish release to PyPI
+    name: Publish release to PyPI and Deploy Documentation
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/MED3pa
-    permissions:
-      id-token: write
+
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.10"
+          python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel
+          pip install setuptools wheel sphinx sphinx_rtd_theme
+
+      - name: Create Conda environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+
+      - name: Create and Activate Conda environment
+        run: |
+          conda env create -f environment.yaml
+          conda activate MED3pa
+      shell: bash
+
       - name: Build package
         run: |
           python setup.py sdist bdist_wheel  # Could also be python -m build
+
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_TOKEN }}
+
+      - name: Build documentation
+        run: |
+          conda activate MED3pa
+          cd docs
+          make html
+      shell: bash
+
+      - name: Upload documentation to Read the Docs
+        env:
+          READTHEDOCS_PROJECT: ${{ secrets.READTHEDOCS_PROJECT }}
+          READTHEDOCS_TOKEN: ${{ secrets.READTHEDOCS_TOKEN }}
+        run: |
+          curl -X POST -d "project=${{ env.READTHEDOCS_PROJECT }}" https://readthedocs.org/build/${{ secrets.READTHEDOCS_PROJECT }} -H "Authorization: token ${{ secrets.READTHEDOCS_TOKEN }}"
