@@ -27,12 +27,18 @@ jobs:
         with:
           auto-update-conda: true
 
+      - name: Initialize Conda
+        run: |
+          conda init bash
+        shell: bash
+
       - name: Create Conda environment
         run: |
           conda env create -f environment.yaml
 
-      - name: Create and Activate Conda environment
+      - name: Activate Conda environment
         run: |
+          source ~/.bashrc
           conda activate MED3pa
         shell: bash
 
@@ -47,7 +53,7 @@ jobs:
 
       - name: Build package
         run: |
-          python setup.py sdist bdist_wheel  
+          python setup.py sdist bdist_wheel  # Could also be python -m build
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
