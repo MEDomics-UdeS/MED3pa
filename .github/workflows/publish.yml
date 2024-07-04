@@ -9,6 +9,10 @@ jobs:
     name: Publish release to PyPI and Deploy Documentation
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: read
+
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12']
@@ -57,6 +61,9 @@ jobs:
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://upload.pypi.org/legacy/
+          skip-existing: true
 
       - name: Build documentation
         run: |
