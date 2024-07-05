@@ -21,6 +21,6 @@ setup(
         'Github': 'https://github.com/lyna1404/MED3pa'
     },
     packages=find_packages(exclude=['docs', 'tests', 'experiments']),
-    python_requires='>=3.10',
+    python_requires='>=3.9',
     install_requires=requirements,
 )
