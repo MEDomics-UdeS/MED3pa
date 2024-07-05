@@ -44,10 +44,9 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         return [to_serializable(v) for v in obj]
     return obj
 
-
-class Med3paResults:
+class Med3paRecord:
     """
-    Class to store and manage results from the MED3PA method.
+    Class to store and manage results from the MED3PA method on one set.
     """
     def __init__(self) -> None:
         self.metrics_by_dr: Dict[int, Dict] = {}
@@ -98,15 +97,6 @@ class Med3paResults:
 
         self.datasets[samples_ratio] = dataset
 
-    def set_experiment_config(self, config: Dict[str, Any]) -> None:
-        """
-        Sets or updates the configuration for the Med3pa experiment.
-
-        Args:
-            config (Dict[str, Any]): A dictionary of experiment configuration.
-        """
-        self.experiment_config.update(config)
-
     def save(self, file_path: str) -> None:
         """
         Saves the experiment results.
@@ -119,10 +109,7 @@ class Med3paResults:
 
         with open(f'{file_path}/metrics_dr.json', 'w') as file:
             json.dump(self.metrics_by_dr, file, default=to_serializable, indent=4)
-        
-        with open(f'{file_path}/experiment_config.json', 'w') as file:
-            json.dump(self.experiment_config, file, default=to_serializable, indent=4)
-        
+         
         if self.profiles_manager is not None:
             with open(f'{file_path}/profiles.json', 'w') as file:
                 json.dump(self.profiles_manager.get_profiles(), file, default=to_serializable, indent=4)
@@ -143,6 +130,43 @@ class Med3paResults:
         """
         return self.profiles_manager
 
+
+class Med3paResults:
+    """
+    Class to store and manage results from the MED3PA complete experiment.
+    """
+    def __init__(self, reference_record:Med3paRecord, test_record:Med3paRecord) -> None:
+        self.reference_record = reference_record
+        self.test_record = test_record
+        self.experiment_config ={}
+
+    def set_experiment_config(self, config: Dict[str, Any]) -> None:
+        """
+        Sets or updates the configuration for the Med3pa experiment.
+
+        Args:
+            config (Dict[str, Any]): A dictionary of experiment configuration.
+        """
+        self.experiment_config.update(config)
+
+    def save(self, file_path: str) -> None:
+        """
+        Saves the experiment results.
+
+        Args:
+            file_path (str): The file path to save the JSON files.
+        """
+        # Ensure the main directory exists
+        os.makedirs(file_path, exist_ok=True)
+        
+        reference_path = f'{file_path}/reference/'
+        test_path = f'{file_path}/test/'
+        self.reference_record.save(file_path=reference_path)
+        self.test_record.save(file_path=test_path)
+
+        with open(f'{file_path}/experiment_config.json', 'w') as file:
+            json.dump(self.experiment_config, file, default=to_serializable, indent=4)
+        
 
 class Med3paExperiment:
     """
@@ -165,7 +189,7 @@ class Med3paExperiment:
             med3pa_metrics: List[str] = [],
             evaluate_models: bool = False,
             mode: str = 'mpc',
-            models_metrics: List[str] = ['MSE', 'RMSE']) -> Tuple[Med3paResults, Med3paResults]:
+            models_metrics: List[str] = ['MSE', 'RMSE']) -> Med3paResults:
         
         """Runs the MED3PA experiment on both reference and testing sets.
 
@@ -188,7 +212,7 @@ class Med3paExperiment:
             models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
 
         Returns:
-            Tuple[Med3paResults, Med3paResults]: the results of the MED3PA experiment on the reference set and testing set.
+            Med3paResults: the results of the MED3PA experiment on the reference set and testing set.
         """
         print("Running MED3pa Experiment on the reference set:")
         results_reference, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
@@ -204,7 +228,10 @@ class Med3paExperiment:
                                                          apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, 
                                                          samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
                                                          med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
+        
+        results = Med3paResults(results_reference, results_testing)
         experiment_config = {
+            'experiment_name': "Med3paExperiment",
             'datasets':datasets_manager.get_info(),
             'base_model': base_model_manager.get_instance().get_info(),
             'uncertainty_metric': uncertainty_metric,
@@ -218,10 +245,9 @@ class Med3paExperiment:
             'models_evaluation_metrics': models_metrics,
             'mode':mode
         }
-        results_reference.set_experiment_config(experiment_config)
-        results_testing.set_experiment_config(experiment_config)
+        results.set_experiment_config(experiment_config)
 
-        return results_reference, results_testing
+        return results
     
     @staticmethod
     def _run_by_set(datasets_manager: DatasetsManager,
@@ -241,7 +267,7 @@ class Med3paExperiment:
             med3pa_metrics: List[str] = [],
             evaluate_models: bool = False,
             mode: str = 'mpc',
-            models_metrics: List[str] = ['MSE', 'RMSE']) -> Tuple[Med3paResults, dict, dict]:
+            models_metrics: List[str] = ['MSE', 'RMSE']) -> Tuple[Med3paRecord, dict, dict]:
         
         """Orchestrates the MED3PA experiment on one specific set of the dataset.
 
@@ -264,7 +290,7 @@ class Med3paExperiment:
             models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
 
         Returns:
-            Med3paResults: the results of the MED3PA experiment.
+            Med3paRecord: the results of the MED3PA experiment.
         """
         # retrieve the dataset based on the set type
         try:
@@ -317,7 +343,7 @@ class Med3paExperiment:
         if med3pa_metrics == []:
             med3pa_metrics = ClassificationEvaluationMetrics.supported_metrics()
         
-        results = Med3paResults()
+        results = Med3paRecord()
 
         # Create and train IPCModel
         IPC_model = IPCModel(ipc_type, ipc_params)
@@ -458,7 +484,7 @@ class Med3paDetectronExperiment:
             all_dr (bool, optional): Whether to run for all declaration rates, by default False.
 
         Returns:
-            Tuple[Med3paResults, Med3paResults, DetectronResult]: Results of MED3pa on reference and testing sets, plus Detectron Results.
+            Tuple[Med3paResults, DetectronResult]: Results of MED3pa on reference and testing sets, plus Detectron Results.
         """
         
         valid_modes = ['mpc', 'apc']
@@ -466,7 +492,7 @@ class Med3paDetectronExperiment:
         if mode not in valid_modes:
             raise ValueError(f"Invalid mode '{mode}'. The mode must be one of {valid_modes}.")
         
-        reference_3pa_res, testing_3pa_res = Med3paExperiment.run(datasets_manager=datasets, 
+        med3pa_results = Med3paExperiment.run(datasets_manager=datasets, 
                                                                 base_model_manager=base_model_manager, uncertainty_metric=uncertainty_metric,
                                                                 ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, ipc_type=ipc_type,
                                                                 apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv,
@@ -481,13 +507,14 @@ class Med3paDetectronExperiment:
         detectron_results.analyze_results(test_strategies)
         
         print("Running Profiled Detectron Experiment:")
-        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets, profiles_manager=testing_3pa_res.get_profiles_manager(),training_params=training_params, 
+        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets, profiles_manager=med3pa_results.test_record.get_profiles_manager(),training_params=training_params, 
                                                                      base_model_manager=base_model_manager,
                                                                      samples_size=samples_size_profiles, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
                                                                      patience=patience, strategies=test_strategies,
                                                                      allow_margin=allow_margin, margin=margin, all_dr=all_dr)
         
         experiment_config = {
+            'experiment_name': "Med3paDetectronExperiment",
             'additional_training_params': training_params,
             'profiles_samples_size': samples_size_profiles,
             'cdcs_ensemble_size': ensemble_size,
@@ -497,8 +524,7 @@ class Med3paDetectronExperiment:
             'margin': margin
         }
 
-        reference_3pa_res.set_experiment_config(experiment_config)
-        testing_3pa_res.set_experiment_config(experiment_config)
+        med3pa_results.set_experiment_config(experiment_config)
 
-        return reference_3pa_res, testing_3pa_res, detectron_results
+        return med3pa_results, detectron_results
 

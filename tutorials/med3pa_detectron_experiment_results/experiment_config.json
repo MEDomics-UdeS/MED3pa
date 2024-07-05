@@ -1,5 +1,5 @@
 {
-    "experiment_name": "DetectronExperiment",
+    "experiment_name": "Med3paDetectronExperiment",
     "datasets": {
         "training_set": {
             "num_samples": 537,
@@ -103,14 +103,42 @@
         "data_preparation_strategy": "ToDmatrixStrategy",
         "pickled_model": true
     },
+    "uncertainty_metric": "absolute_error",
+    "ipc_model": {
+        "model_name": "RandomForestRegressor",
+        "params": {
+            "n_estimators": 100,
+            "random_state": 54288
+        },
+        "optimized": false
+    },
+    "apc_model": {
+        "model_name": "DecisionTreeRegressor",
+        "params": {
+            "max_depth": 3,
+            "random_state": 54288
+        },
+        "optimized": false
+    },
+    "samples_ratio_min": 0,
+    "samples_ratio_max": 50,
+    "samples_ratio_step": 5,
+    "med3pa_metrics": [
+        "Auc",
+        "Accuracy",
+        "BalancedAccuracy"
+    ],
+    "evaluate_models": true,
+    "models_evaluation_metrics": [
+        "MSE",
+        "RMSE"
+    ],
+    "mode": "mpc",
     "additional_training_params": null,
-    "samples_size": 20,
+    "profiles_samples_size": 10,
     "cdcs_ensemble_size": 10,
     "num_runs": 100,
     "patience": 3,
     "allow_margin": false,
-    "margin": 0.05,
-    "test_strategies": [
-        "enhanced_disagreement_strategy"
-    ]
+    "margin": 0.05
 }

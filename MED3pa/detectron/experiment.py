@@ -215,6 +215,7 @@ class DetectronExperiment:
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
         experiment_config = {
+            'experiment_name': "DetectronExperiment",
             'datasets':datasets.get_info(),
             'base_model': base_model_manager.get_instance().get_info(),
             'additional_training_params': training_params,

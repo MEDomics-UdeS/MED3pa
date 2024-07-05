@@ -59,7 +59,7 @@ The experiment outputs two structure one for the reference set and the other for
     med3pa_metrics = ['Auc', 'Accuracy', 'BalancedAccuracy']
 
     # Execute the MED3PA experiment
-    reference_results, test_results = Med3paExperiment.run(
+    results = Med3paExperiment.run(
                                         datasets_manager=datasets,
                                         base_model_manager=base_model_manager,
                                         uncertainty_metric="absolute_error",
@@ -81,8 +81,7 @@ After running the experiment, you can analyze and save the results using the ret
 .. code-block:: python
 
     # Save the results to a specified directory
-    reference_results.save(file_path='./med3pa_experiment_results/reference')
-    test_results.save(file_path='./med3pa_experiment_results/test')
+    results.save(file_path='./med3pa_experiment_results/')
 
 
 Running the MED3pa and Detectron Experiment
@@ -95,7 +94,7 @@ You can also run an experiment that combines the forces of Detectron in covariat
     from MED3pa.detectron.strategies import EnhancedDisagreementStrategy
 
     # Execute the integrated MED3PA and Detectron experiment
-    reference_results, test_results, detectron_results = Med3paDetectronExperiment.run(
+    med3pa_results, detectron_results = Med3paDetectronExperiment.run(
         datasets=datasets,
         base_model_manager=base_model_manager,
         uncertainty_metric="absolute_error",
@@ -117,6 +116,5 @@ You can also run an experiment that combines the forces of Detectron in covariat
     )
 
     # Save the results to a specified directory
-    reference_results.save(file_path='./med3pa_detectron_experiment_results/reference')
-    test_results.save(file_path='./med3pa_detectron_experiment_results/test')
+    med3pa_results.save(file_path='./med3pa_detectron_experiment_results/')
     detectron_results.save(file_path='./med3pa_detectron_experiment_results/detectron')
