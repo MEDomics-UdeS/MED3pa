@@ -1,0 +1,116 @@
+{
+    "datasets": {
+        "training_set": {
+            "num_samples": 537,
+            "num_observations": 8,
+            "has_pseudo_labels": false,
+            "has_pseudo_probabilities": false,
+            "has_confidence_scores": false
+        },
+        "validation_set": {
+            "num_samples": 115,
+            "num_observations": 8,
+            "has_pseudo_labels": false,
+            "has_pseudo_probabilities": false,
+            "has_confidence_scores": false
+        },
+        "reference_set": {
+            "num_samples": 116,
+            "num_observations": 8,
+            "has_pseudo_labels": false,
+            "has_pseudo_probabilities": false,
+            "has_confidence_scores": false
+        },
+        "testing_set": {
+            "num_samples": 116,
+            "num_observations": 8,
+            "has_pseudo_labels": false,
+            "has_pseudo_probabilities": false,
+            "has_confidence_scores": false
+        },
+        "column_labels": [
+            "Pregnancies",
+            "Glucose",
+            "BloodPressure",
+            "SkinThickness",
+            "Insulin",
+            "BMI",
+            "DiabetesPedigreeFunction",
+            "Age"
+        ]
+    },
+    "base_model": {
+        "model": "XGBoostModel",
+        "model_type": "Booster",
+        "params": {
+            "device": "cpu",
+            "fail_on_invalid_gpu_id": 0,
+            "n_jobs": 0,
+            "nthread": 0,
+            "random_state": 0,
+            "seed": 10,
+            "seed_per_iteration": 0,
+            "validate_parameters": 1,
+            "process_type": "default",
+            "tree_method": "auto",
+            "updater": "grow_quantile_histmaker",
+            "updater_seq": "grow_quantile_histmaker",
+            "alpha": 0,
+            "cache_opt": 1,
+            "colsample_bylevel": 1,
+            "colsample_bynode": 1,
+            "colsample_bytree": 0.824717641,
+            "eta": 0.0710294247,
+            "gamma": 0.302559406,
+            "grow_policy": "depthwise",
+            "interaction_constraints": "",
+            "lambda": 1,
+            "learning_rate": 0.0710294247,
+            "max_bin": 256,
+            "max_cat_threshold": 64,
+            "max_cat_to_onehot": 4,
+            "max_delta_step": 0,
+            "max_depth": 9,
+            "max_leaves": 0,
+            "min_child_weight": 1,
+            "min_split_loss": 0.302559406,
+            "monotone_constraints": "()",
+            "refresh_leaf": 1,
+            "reg_alpha": 0,
+            "reg_lambda": 1,
+            "sampling_method": "uniform",
+            "sketch_ratio": 2,
+            "sparse_threshold": 0.2,
+            "subsample": 0.817121327,
+            "debug_synchronize": 0,
+            "max_cached_hist_node": 65536,
+            "booster": "gbtree",
+            "disable_default_eval_metric": 0,
+            "multi_strategy": "one_output_per_tree",
+            "objective": "reg:squarederror",
+            "scale_pos_weight": 1,
+            "base_score": 0.3500931,
+            "boost_from_average": 1,
+            "num_class": 0,
+            "num_feature": 8,
+            "num_target": 1,
+            "eval_metric": [
+                "auc"
+            ],
+            "num_boost_rounds": 30
+        },
+        "data_preparation_strategy": "ToDmatrixStrategy",
+        "pickled_model": true
+    },
+    "additional_training_params": null,
+    "samples_size": 20,
+    "cdcs_ensemble_size": 10,
+    "num_runs": 100,
+    "patience": 3,
+    "allow_margin": false,
+    "margin": 0.05,
+    "test_strategies": [
+        "enhanced_disagreement_strategy",
+        "mannwhitney_strategy"
+    ]
+}

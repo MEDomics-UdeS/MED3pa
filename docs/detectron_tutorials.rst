@@ -52,10 +52,8 @@ Finally, evaluate the outcomes of the experiment using different strategies to d
 
 .. code-block:: python
 
-    from MED3pa.detectron.strategies import *
-
     # Analyze the results using the disagreement strategies
-    test_strategies = [EnhancedDisagreementStrategy, MannWhitneyStrategy]
+    test_strategies = ["enhanced_disagreement_strategy", "mannwhitney_strategy"]
     experiment_results.analyze_results(test_strategies)
 
 **Output**

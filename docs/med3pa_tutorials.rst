@@ -62,8 +62,8 @@ The experiment outputs two structure one for the reference set and the other for
     reference_results, test_results = Med3paExperiment.run(
                                         datasets_manager=datasets,
                                         base_model_manager=base_model_manager,
-                                        uncertainty_metric=AbsoluteError,
-                                        ipc_type=RandomForestRegressorModel,
+                                        uncertainty_metric="absolute_error",
+                                        ipc_type='RandomForestRegressor',
                                         ipc_params=ipc_params,
                                         apc_params=apc_params,
                                         samples_ratio_min=0,
@@ -98,7 +98,7 @@ You can also run an experiment that combines the forces of Detectron in covariat
     reference_results, test_results, detectron_results = Med3paDetectronExperiment.run(
         datasets=datasets,
         base_model_manager=base_model_manager,
-        uncertainty_metric=AbsoluteError,
+        uncertainty_metric="absolute_error",
         samples_size=20,
         ensemble_size=10,
         num_calibration_runs=100,

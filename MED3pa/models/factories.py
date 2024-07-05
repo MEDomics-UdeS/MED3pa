@@ -128,6 +128,7 @@ class XGBoostFactory(ModelFactory):
 
         Args:
             loaded_model (xgb.Booster | xgb.XGBClassifier): The loaded model object, expected to be an instance of xgb.Booster or xgb.XGBClassifier.
+            pickled_file_path (str): The file path to the pickled model file.
 
         Returns:
             XGBoostModel: An instance of XGBoostModel created from the loaded model.

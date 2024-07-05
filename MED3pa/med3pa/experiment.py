@@ -54,6 +54,7 @@ class Med3paResults:
         self.models_evaluation: Dict[str, Dict] = {}
         self.profiles_manager: ProfilesManager = None
         self.datasets: Dict[int, MaskedDataset] = {}
+        self.experiment_config = {}
     
     def set_metrics_by_dr(self, metrics_by_dr: Dict) -> None:
         """
@@ -97,6 +98,15 @@ class Med3paResults:
 
         self.datasets[samples_ratio] = dataset
 
+    def set_experiment_config(self, config: Dict[str, Any]) -> None:
+        """
+        Sets or updates the configuration for the Med3pa experiment.
+
+        Args:
+            config (Dict[str, Any]): A dictionary of experiment configuration.
+        """
+        self.experiment_config.update(config)
+
     def save(self, file_path: str) -> None:
         """
         Saves the experiment results.
@@ -109,6 +119,9 @@ class Med3paResults:
 
         with open(f'{file_path}/metrics_dr.json', 'w') as file:
             json.dump(self.metrics_by_dr, file, default=to_serializable, indent=4)
+        
+        with open(f'{file_path}/experiment_config.json', 'w') as file:
+            json.dump(self.experiment_config, file, default=to_serializable, indent=4)
         
         if self.profiles_manager is not None:
             with open(f'{file_path}/profiles.json', 'w') as file:
@@ -138,7 +151,7 @@ class Med3paExperiment:
     @staticmethod
     def run(datasets_manager: DatasetsManager,
             base_model_manager: BaseModelManager = None,
-            uncertainty_metric: Type[UncertaintyMetric] = AbsoluteError,
+            uncertainty_metric: str = 'absolute_error',
             ipc_type: str = 'RandomForestRegressor',
             ipc_params: Dict = None,
             ipc_grid_params: Dict = None, 
@@ -159,7 +172,7 @@ class Med3paExperiment:
         Args:
             datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
             base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.
-            uncertainty_metric (Type[UncertaintyMetric], optional): Instance of UncertaintyMetric to calculate uncertainty, by default AbsoluteError.
+            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
             ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
             ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
             ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
@@ -178,19 +191,35 @@ class Med3paExperiment:
             Tuple[Med3paResults, Med3paResults]: the results of the MED3PA experiment on the reference set and testing set.
         """
         print("Running MED3pa Experiment on the reference set:")
-        results_reference = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
+        results_reference, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
                                                          uncertainty_metric=uncertainty_metric,
                                                          ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, 
                                                          apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, 
                                                          samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
                                                          med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
         print("Running MED3pa Experiment on the reference set:")
-        results_testing = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
+        results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
                                                          uncertainty_metric=uncertainty_metric,
                                                          ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, 
                                                          apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, 
                                                          samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
                                                          med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
+        experiment_config = {
+            'datasets':datasets_manager.get_info(),
+            'base_model': base_model_manager.get_instance().get_info(),
+            'uncertainty_metric': uncertainty_metric,
+            'ipc_model': ipc_config,
+            'apc_model': apc_config,
+            'samples_ratio_min': samples_ratio_min,
+            'samples_ratio_max': samples_ratio_max,
+            'samples_ratio_step': samples_ratio_step,
+            'med3pa_metrics': med3pa_metrics,
+            'evaluate_models':evaluate_models,
+            'models_evaluation_metrics': models_metrics,
+            'mode':mode
+        }
+        results_reference.set_experiment_config(experiment_config)
+        results_testing.set_experiment_config(experiment_config)
 
         return results_reference, results_testing
     
@@ -198,7 +227,7 @@ class Med3paExperiment:
     def _run_by_set(datasets_manager: DatasetsManager,
             set: str = 'reference',
             base_model_manager: BaseModelManager = None,
-            uncertainty_metric: Type[UncertaintyMetric] = AbsoluteError,
+            uncertainty_metric: str = 'absolute_error',
             ipc_type: str = 'RandomForestRegressor',
             ipc_params: Dict = None,
             ipc_grid_params: Dict = None, 
@@ -212,14 +241,14 @@ class Med3paExperiment:
             med3pa_metrics: List[str] = [],
             evaluate_models: bool = False,
             mode: str = 'mpc',
-            models_metrics: List[str] = ['MSE', 'RMSE']) -> Med3paResults:
+            models_metrics: List[str] = ['MSE', 'RMSE']) -> Tuple[Med3paResults, dict, dict]:
         
         """Orchestrates the MED3PA experiment on one specific set of the dataset.
 
         Args:
             datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
             base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.
-            uncertainty_metric (Type[UncertaintyMetric], optional): Instance of UncertaintyMetric to calculate uncertainty, by default AbsoluteError.
+            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
             ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
             ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
             ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
@@ -358,26 +387,29 @@ class Med3paExperiment:
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 APC_evaluation = APC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 results.set_models_evaluation(IPC_evaluation, APC_evaluation)
+                ipc_config = IPC_model.get_info()
+                apc_config = APC_model.get_info() 
             else :
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 results.set_models_evaluation(IPC_evaluation, None)
-            
-
-        return results  
+                ipc_config = IPC_model.get_info()
+                apc_config = None 
+        
+        return results, ipc_config, apc_config  
 
 
 class Med3paDetectronExperiment:
     @staticmethod
     def run(datasets: DatasetsManager,
             base_model_manager: BaseModelManager,
-            uncertainty_metric: Type[UncertaintyMetric] = AbsoluteError,
+            uncertainty_metric: str = 'absolute_error',
             training_params: Dict =None,
             samples_size: int = 20,
             samples_size_profiles: int = 10,
             ensemble_size: int = 10,
             num_calibration_runs: int = 100,
             patience: int = 3,
-            test_strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]] = EnhancedDisagreementStrategy,
+            test_strategies: Union[str, List[str]] = "enhanced_disagreement_strategy",
             allow_margin: bool = False, 
             margin: float = 0.05,
             ipc_type: str = 'RandomForestRegressor',
@@ -401,13 +433,13 @@ class Med3paDetectronExperiment:
             datasets (DatasetsManager): The datasets manager instance.
             training_params (dict): Parameters for training the models.
             base_model_manager (BaseModelManager): The base model manager instance.
-            uncertainty_metric (Type[UncertaintyMetric]): The uncertainty metric to use.
+            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
             samples_size (int, optional): Sample size for the Detectron experiment, by default 20.
             samples_size_profiles (int, optional): Sample size for Profiles Detectron experiment, by default 10.
             ensemble_size (int, optional): Number of models in the ensemble, by default 10.
             num_calibration_runs (int, optional): Number of calibration runs, by default 100.
             patience (int, optional): Patience for early stopping, by default 3.
-            test_strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): strategies for testing disagreement, by default EnhancedDisagreementStrategy.
+            test_strategies (Union[str, List[str]): strategies for testing disagreement, by default enhanced_disagreement_strategies.
             allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
             margin (float, optional): Margin value for the test, by default 0.05.
             ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
@@ -455,5 +487,18 @@ class Med3paDetectronExperiment:
                                                                      patience=patience, strategies=test_strategies,
                                                                      allow_margin=allow_margin, margin=margin, all_dr=all_dr)
         
+        experiment_config = {
+            'additional_training_params': training_params,
+            'profiles_samples_size': samples_size_profiles,
+            'cdcs_ensemble_size': ensemble_size,
+            'num_runs': num_calibration_runs,
+            'patience': patience,
+            'allow_margin': allow_margin,
+            'margin': margin
+        }
+
+        reference_3pa_res.set_experiment_config(experiment_config)
+        testing_3pa_res.set_experiment_config(experiment_config)
+
         return reference_3pa_res, testing_3pa_res, detectron_results
 

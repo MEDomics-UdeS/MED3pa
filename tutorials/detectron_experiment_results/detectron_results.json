@@ -10,13 +10,13 @@
             "moderate": 16.34567901234568,
             "large": 29.716049382716047
         },
-        "Strategy": "EnhancedDisagreementStrategy"
+        "Strategy": "enhanced_disagreement_strategy"
     },
     {
         "p_value": 0.00016360887668277182,
         "u_statistic": 3545.0,
         "z-score": 0.4685784328619402,
         "shift significance": "Small",
-        "Strategy": "MannWhitneyStrategy"
+        "Strategy": "mannwhitney_strategy"
     }
 ]

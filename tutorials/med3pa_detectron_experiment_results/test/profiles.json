@@ -35,7 +35,7 @@
                                 "moderate": 0,
                                 "large": 0
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -98,7 +98,7 @@
                                 "moderate": 0,
                                 "large": 0
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -209,7 +209,7 @@
                                 "moderate": 6.135802469135802,
                                 "large": 1.6666666666666667
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -297,7 +297,7 @@
                                 "moderate": 1.4814814814814816,
                                 "large": 0
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -361,7 +361,7 @@
                                 "moderate": 20.39506172839506,
                                 "large": 54.37037037037037
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -399,7 +399,7 @@
                                 "moderate": 20.82716049382716,
                                 "large": 43.839506172839506
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -436,7 +436,7 @@
                                 "moderate": 20.061728395061728,
                                 "large": 30.80246913580247
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }
@@ -472,7 +472,7 @@
                                 "moderate": 14.506172839506174,
                                 "large": 21.49382716049383
                             },
-                            "Strategy": "EnhancedDisagreementStrategy"
+                            "Strategy": "enhanced_disagreement_strategy"
                         }
                     ]
                 }

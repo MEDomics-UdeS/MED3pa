@@ -10,6 +10,6 @@
             "moderate": 16.34567901234568,
             "large": 29.716049382716047
         },
-        "Strategy": "EnhancedDisagreementStrategy"
+        "Strategy": "enhanced_disagreement_strategy"
     }
 ]

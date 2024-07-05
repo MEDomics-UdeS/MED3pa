@@ -18,8 +18,14 @@ from .strategies import *
 
 class DetectronResult:
     """
-    A class to store the results of a Detectron test
+    A class to store the results of a Detectron test.
     """
+
+    strategy_mapping = {
+        'original_disagreement_strategy': OriginalDisagreementStrategy,
+        'mannwhitney_strategy': MannWhitneyStrategy,
+        'enhanced_disagreement_strategy': EnhancedDisagreementStrategy
+    }
 
     def __init__(self, cal_record: DetectronRecordsManager, test_record: DetectronRecordsManager):
         """
@@ -32,6 +38,7 @@ class DetectronResult:
         self.cal_record = cal_record
         self.test_record = test_record
         self.test_results = []
+        self.experiment_config = {}
 
     def calibration_trajectories(self):
         """
@@ -61,32 +68,43 @@ class DetectronResult:
             dict: Results from executing the Detectron test.
         """
         return self.test_results
-    
-    
-    def analyze_results(self, strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]) -> list:
+
+    def analyze_results(self, strategies: Union[str, List[str]]= ["enhanced_disagreement_strategy", "mannwhitney_strategy", "original_disagreement_strategy"]) -> list:
         """
         Appends the results of the Detectron tests for each strategy to self.test_results.
 
         Args:
-            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): Class type or list of strategy class types.
+            strategies (Union[str, List[str]]): Strategy name or list of strategy names.
 
         Returns:
             list: Updated list containing results for each strategy.
         """
-        # Ensure strategies is a list of classes
-        if isinstance(strategies, Type):
-            strategies = [strategies]  # Convert single class type to list
 
-        for strategy_class in strategies:
-            if not issubclass(strategy_class, DetectronStrategy):
-                raise TypeError("Each strategy must be a subclass of DetectronStrategy.")
+        # Ensure strategies is a list of strategy names
+        if isinstance(strategies, str):
+            strategies = [strategies]  # Convert single strategy name to list
 
+        self.experiment_config['test_strategies'] = strategies
+
+        for strategy_name in strategies:
+            if strategy_name not in self.strategy_mapping:
+                raise ValueError(f"Unrecognized strategy name: {strategy_name}. Available strategies: {list(self.strategy_mapping.keys())}")
+
+            strategy_class = self.strategy_mapping[strategy_name]
             strategy_results = strategy_class.execute(self.cal_record, self.test_record)
-            strategy_name = strategy_class.__name__
             strategy_results['Strategy'] = strategy_name
             self.test_results.append(strategy_results)
 
         return self.test_results
+    
+    def set_experiment_config(self, config: dict):
+        """
+        Sets or updates the configuration for the Detectron experiment.
+
+        Args:
+            config (dict): A dictionary of hyperparameters used in the experiment.
+        """
+        self.experiment_config.update(config)
 
     def save(self, file_path: str, file_name: str = 'detectron_results'):
         """
@@ -100,7 +118,18 @@ class DetectronResult:
         os.makedirs(file_path, exist_ok=True)
         with open(f'{file_path}/{file_name}.json', 'w') as file:
             json.dump(self.test_results, file, indent=4)
-        
+        with open(f'{file_path}/experiment_config.json', 'w') as file:
+            json.dump(self.experiment_config, file, indent=4)
+
+    @classmethod
+    def get_supported_strategies(cls) -> list:
+        """
+        Returns a list of supported strategy names.
+
+        Returns:
+            list: A list of strings representing the names of the supported strategies.
+        """
+        return list(cls.strategy_mapping.keys())
     
 class DetectronExperiment:
     """
@@ -185,8 +214,19 @@ class DetectronExperiment:
     
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
-        
-        # calculate the detectron test
+        experiment_config = {
+            'datasets':datasets.get_info(),
+            'base_model': base_model_manager.get_instance().get_info(),
+            'additional_training_params': training_params,
+            'samples_size': samples_size,
+            'cdcs_ensemble_size': ensemble_size,
+            'num_runs': num_calibration_runs,
+            'patience': patience,
+            'allow_margin': allow_margin,
+            'margin': margin
+        }
+        detectron_results.set_experiment_config(experiment_config)
+        # return the Detectron results
         return detectron_results
 
 

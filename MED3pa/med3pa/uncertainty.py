@@ -53,14 +53,21 @@ class UncertaintyCalculator:
     """
     Class for calculating uncertainty using a specified uncertainty metric.
     """
-    def __init__(self, metric: UncertaintyMetric) -> None:
+    metric_mapping = {
+        'absolute_error': AbsoluteError,
+    }
+
+    def __init__(self, metric_name: str) -> None:
         """
         Initializes the UncertaintyCalculator with a specific uncertainty metric.
 
         Args:
-            metric (UncertaintyMetric): The uncertainty metric to use for calculations.
+            metric_name (str): The name of the uncertainty metric to use for calculations.
         """
-        self.metric = metric
+        if metric_name not in self.metric_mapping:
+            raise ValueError(f"Unrecognized metric name: {metric_name}. Available metrics: {list(self.metric_mapping.keys())}")
+        
+        self.metric = self.metric_mapping[metric_name]
     
     def calculate_uncertainty(self, x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray) -> np.ndarray:
         """
@@ -75,3 +82,13 @@ class UncertaintyCalculator:
             np.ndarray: Uncertainty values for each prediction, computed using the specified metric.
         """
         return self.metric.calculate(x, predicted_prob, y_true)
+
+    @classmethod
+    def supported_metrics(cls) -> list:
+        """
+        Returns a list of supported uncertainty metrics.
+
+        Returns:
+            list: A list of strings representing the names of the supported uncertainty metrics.
+        """
+        return list(cls.metric_mapping.keys())

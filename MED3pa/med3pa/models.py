@@ -52,6 +52,9 @@ class IPCModel:
             params.update(random_state_params)
         
         self.model = model_class(params)
+        self.params = params
+        self.optimized = False
+        self.model_name = model_name
     
     @classmethod
     def supported_ipc_models(cls) -> list:
@@ -90,6 +93,9 @@ class IPCModel:
         grid_search = GridSearchCV(estimator=self.model.model, param_grid=param_grid, cv=cv, n_jobs=-1, verbose=0)
         grid_search.fit(x, error_prob, sample_weight=sample_weight)
         self.model.set_model(grid_search.best_estimator_)
+        self.model.update_params(grid_search.best_params_)
+        self.params.update(grid_search.best_params_)
+        self.optimized = True
 
     def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
         """
@@ -129,7 +135,19 @@ class IPCModel:
         evaluation_results = self.model.evaluate(X, y, eval_metrics, print_results)
         return evaluation_results
 
+    def get_info(self) -> Dict[str, Any]:
+        """
+        Returns information about the IPCModel instance.
 
+        Returns:
+            Dict[str, Any]: A dictionary containing the model name, parameters, whether the model was optimized, and other relevant details.
+        """
+        return {
+            'model_name': self.model_name,
+            'params': self.params,
+            'optimized': self.optimized,
+        }
+    
 class APCModel:
     """
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.
@@ -162,6 +180,9 @@ class APCModel:
         self.treeRepresentation = TreeRepresentation(features=features)
         self.dataPreparationStrategy = ToDataframesStrategy()
         self.features = features
+        self.params = params
+        self.optimized = False
+
 
     @classmethod
     def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
@@ -202,7 +223,11 @@ class APCModel:
         grid_search = GridSearchCV(estimator=self.model.model, param_grid=param_grid, cv=cv, n_jobs=-1, verbose=0)
         grid_search.fit(x, error_prob, sample_weight=sample_weight)
         self.model.set_model(grid_search.best_estimator_)
-    
+        self.model.update_params(grid_search.best_params_)
+        self.params.update(grid_search.best_params_)
+        self.optimized = True
+        
+
     def predict(self, X: np.ndarray, depth: int = None, min_samples_ratio: float = 0) -> np.ndarray:
         """
         Predicts error probabilities using the tree representation for the given input observations.
@@ -242,7 +267,19 @@ class APCModel:
         evaluation_results = self.model.evaluate(X, y, eval_metrics, print_results)
         return evaluation_results
     
+    def get_info(self) -> Dict[str, Any]:
+        """
+        Returns information about the APCModel instance.
 
+        Returns:
+            Dict[str, Any]: A dictionary containing the model name, parameters, whether the model was optimized, and other relevant details.
+        """
+        return {
+            'model_name': "DecisionTreeRegressor",
+            'params': self.params,
+            'optimized': self.optimized,
+        }
+    
 class MPCModel:
     """
     MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.
