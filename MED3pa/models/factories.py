@@ -8,6 +8,7 @@ import json
 import pickle
 import re
 import warnings
+from typing import Union
 
 import xgboost as xgb
 
@@ -122,7 +123,7 @@ class XGBoostFactory(ModelFactory):
         """
         return XGBoostModel(params=hyperparams)
 
-    def create_model_from_pickled(self, loaded_model: xgb.Booster | xgb.XGBClassifier) -> XGBoostModel:
+    def create_model_from_pickled(self, loaded_model: Union[xgb.Booster, xgb.XGBClassifier]) -> XGBoostModel:
         """
         Recreates an XGBoostModel from a loaded pickled model.
 
@@ -146,7 +147,7 @@ class XGBoostFactory(ModelFactory):
         else:
             raise TypeError("Loaded model is not an XGBoost model")
 
-    def check_version(self, loaded_model: xgb.Booster | xgb.XGBClassifier) -> bool:
+    def check_version(self, loaded_model: Union[xgb.Booster, xgb.XGBClassifier]) -> bool:
         """
         Checks the version of the loaded XGBoost model to ensure it is supported.
 
@@ -171,7 +172,7 @@ class XGBoostFactory(ModelFactory):
         else:
             return False
 
-    def extract_params(self, loaded_model: xgb.Booster | xgb.XGBClassifier) -> dict:
+    def extract_params(self, loaded_model: Union[xgb.Booster, xgb.XGBClassifier]) -> dict:
         """
         Extracts the parameters from a loaded XGBoost model.
 
