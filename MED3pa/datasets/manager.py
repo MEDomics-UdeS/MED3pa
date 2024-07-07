@@ -49,17 +49,17 @@ class DatasetsManager:
         
         dataset = MaskedDataset(obs_np, true_labels_np, column_labels=self.column_labels)
 
-        match dataset_type:
-            case 'training':
-                self.base_model_training_set = dataset
-            case 'validation':
-                self.base_model_validation_set = dataset
-            case 'reference':
-                self.reference_set = dataset
-            case 'testing':
-                self.testing_set = dataset
-            case _:
-                raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
+        if dataset_type == 'training':
+            self.base_model_training_set = dataset
+        elif dataset_type == 'validation':
+            self.base_model_validation_set = dataset
+        elif dataset_type == 'reference':
+            self.reference_set = dataset
+        elif dataset_type == 'testing':
+            self.testing_set = dataset
+        else:
+            raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
+
         
     def set_from_data(self, dataset_type: str, observations: np.ndarray, true_labels: np.ndarray, column_labels: list = None) -> None:
         """
@@ -82,17 +82,17 @@ class DatasetsManager:
 
         dataset = MaskedDataset(observations, true_labels, column_labels=self.column_labels)
         
-        match dataset_type:
-            case 'training':
-                self.base_model_training_set = dataset
-            case 'validation':
-                self.base_model_validation_set = dataset
-            case 'reference':
-                self.reference_set = dataset
-            case 'testing':
-                self.testing_set = dataset
-            case _:
-                raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
+        if dataset_type == 'training':
+            self.base_model_training_set = dataset
+        elif dataset_type == 'validation':
+            self.base_model_validation_set = dataset
+        elif dataset_type == 'reference':
+            self.reference_set = dataset
+        elif dataset_type == 'testing':
+            self.testing_set = dataset
+        else:
+            raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
+
 
     def set_column_labels(self, columns: list) -> None:
         """
