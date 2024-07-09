@@ -48,7 +48,8 @@ class DatasetsManager:
             raise ValueError(f"The shape of observations {obs_np.shape} does not match the length of column labels {len(column_labels)}")
         
         dataset = MaskedDataset(obs_np, true_labels_np, column_labels=self.column_labels)
-
+        dataset.set_file_path(file=file)
+        
         if dataset_type == 'training':
             self.base_model_training_set = dataset
         elif dataset_type == 'validation':

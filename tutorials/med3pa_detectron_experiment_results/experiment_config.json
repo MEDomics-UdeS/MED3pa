@@ -2,6 +2,7 @@
     "experiment_name": "Med3paDetectronExperiment",
     "datasets": {
         "training_set": {
+            "file_path": "./data/train_data.csv",
             "num_samples": 537,
             "num_observations": 8,
             "has_pseudo_labels": false,
@@ -9,6 +10,7 @@
             "has_confidence_scores": false
         },
         "validation_set": {
+            "file_path": "./data/val_data.csv",
             "num_samples": 115,
             "num_observations": 8,
             "has_pseudo_labels": false,
@@ -16,6 +18,7 @@
             "has_confidence_scores": false
         },
         "reference_set": {
+            "file_path": "./data/test_data.csv",
             "num_samples": 116,
             "num_observations": 8,
             "has_pseudo_labels": true,
@@ -23,6 +26,7 @@
             "has_confidence_scores": true
         },
         "testing_set": {
+            "file_path": "./data/test_data_shifted_0.6.csv",
             "num_samples": 116,
             "num_observations": 8,
             "has_pseudo_labels": true,
@@ -101,7 +105,8 @@
             "num_boost_rounds": 30
         },
         "data_preparation_strategy": "ToDmatrixStrategy",
-        "pickled_model": true
+        "pickled_model": true,
+        "file_path": "./models/diabetes_xgb_model.pkl"
     },
     "uncertainty_metric": "absolute_error",
     "ipc_model": {

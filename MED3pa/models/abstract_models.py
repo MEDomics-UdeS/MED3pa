@@ -33,6 +33,7 @@ class Model(ABC):
         self.params = None
         self.data_preparation_strategy = None
         self.pickled_model = False
+        self.file_path = None
 
     def get_model(self) -> Any:
         """
@@ -42,6 +43,15 @@ class Model(ABC):
             Any: The underlying model instance if set, None otherwise.
         """
         return self.model
+    
+    def get_path(self) -> Any:
+        """
+        Retrieves the file path of the model if it has been loaded from a pickled file.
+
+        Returns:
+            str: The file path of the model if it has been loaded from a pickled file, None otherwise.
+        """
+        return self.file_path
     
     def get_model_type(self)-> Optional[str]:
         """
@@ -100,6 +110,15 @@ class Model(ABC):
         """
         self.params = params
     
+    def set_file_path(self, file_path : str):
+        """
+        Sets the file path of the model. 
+
+        Args:
+            file_path (str): the file path of the model.
+        """
+        self.file_path = file_path
+
     def update_params(self, params : dict):
         """
         Updates the current model parameters by merging new parameter values from the given dictionary.
@@ -132,7 +151,8 @@ class Model(ABC):
             "model_type": self.get_model_type(),
             "params": self.get_params(),
             "data_preparation_strategy": self.get_data_strategy() if self.get_data_strategy() else None,
-            "pickled_model": self.is_pickled()
+            "pickled_model": self.is_pickled(),
+            "file_path": self.get_path()
         }
     
     def save(self, path: str) -> None:

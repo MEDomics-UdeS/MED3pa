@@ -107,17 +107,22 @@ class Med3paRecord:
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
 
-        with open(f'{file_path}/metrics_dr.json', 'w') as file:
+        metrics_file_path = os.path.join(file_path, 'metrics_dr.json')
+        with open(metrics_file_path, 'w') as file:
             json.dump(self.metrics_by_dr, file, default=to_serializable, indent=4)
-         
+        
         if self.profiles_manager is not None:
-            with open(f'{file_path}/profiles.json', 'w') as file:
+            profiles_file_path = os.path.join(file_path, 'profiles.json')
+            with open(profiles_file_path, 'w') as file:
                 json.dump(self.profiles_manager.get_profiles(), file, default=to_serializable, indent=4)
-            with open(f'{file_path}/lost_profiles.json', 'w') as file:
-                json.dump(self.profiles_manager.get_lost_profiles(), file, default=lambda x: to_serializable(x, additional_arg = False), indent=4)
+            
+            lost_profiles_file_path = os.path.join(file_path, 'lost_profiles.json')
+            with open(lost_profiles_file_path, 'w') as file:
+                json.dump(self.profiles_manager.get_lost_profiles(), file, default=lambda x: to_serializable(x, additional_arg=False), indent=4)
         
         if self.models_evaluation is not None:
-            with open(f'{file_path}/models_evaluation.json', 'w') as file:
+            models_evaluation_file_path = os.path.join(file_path, 'models_evaluation.json')
+            with open(models_evaluation_file_path, 'w') as file:
                 json.dump(self.models_evaluation, file, default=to_serializable, indent=4)
         
         for samples_ratio, dataset in self.datasets.items():
@@ -169,16 +174,17 @@ class Med3paResults:
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
         
-        reference_path = f'{file_path}/reference/'
-        test_path = f'{file_path}/test/'
-        detectron_path = f'{file_path}/detectron/'
+        reference_path = os.path.join(file_path, 'reference')
+        test_path = os.path.join(file_path, 'test')
+        detectron_path = os.path.join(file_path, 'detectron')
 
         self.reference_record.save(file_path=reference_path)
         self.test_record.save(file_path=test_path)
         if self.detectron_results is not None:
             self.detectron_results.save(file_path=detectron_path, save_config=False)
 
-        with open(f'{file_path}/experiment_config.json', 'w') as file:
+        experiment_config_path = os.path.join(file_path, 'experiment_config.json')
+        with open(experiment_config_path, 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
         
 

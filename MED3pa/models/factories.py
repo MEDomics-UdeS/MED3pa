@@ -100,7 +100,7 @@ class ModelFactory:
         for model_type, model_classes in ModelFactory.model_mapping.items():
             if any(isinstance(loaded_model, model_class) for model_class in model_classes):
                 factory = ModelFactory.get_factory(model_type)
-                return factory.create_model_from_pickled(loaded_model)
+                return factory.create_model_from_pickled(pickled_file_path)
 
         raise TypeError("The loaded model is not of a supported type")
 
@@ -123,25 +123,34 @@ class XGBoostFactory(ModelFactory):
         """
         return XGBoostModel(params=hyperparams)
 
-    def create_model_from_pickled(self, loaded_model: Union[xgb.Booster, xgb.XGBClassifier]) -> XGBoostModel:
+    def create_model_from_pickled(self, pickled_file_path: str) -> XGBoostModel:
         """
         Recreates an XGBoostModel from a loaded pickled model.
 
         Args:
-            loaded_model (xgb.Booster | xgb.XGBClassifier): The loaded model object, expected to be an instance of xgb.Booster or xgb.XGBClassifier.
             pickled_file_path (str): The file path to the pickled model file.
 
         Returns:
             XGBoostModel: An instance of XGBoostModel created from the loaded model.
 
         Raises:
+            IOError: If there is an error loading the model from the file.
             TypeError: If the loaded model is not a supported implementation of the XGBoost model.
             ValueError: If the XGBoost model version is not supported.
         """
+        warnings.filterwarnings("ignore", message=r".*WARNING.*", category=UserWarning, module="xgboost.core")
+        try:
+            with open(pickled_file_path, 'rb') as file:
+                loaded_model = pickle.load(file)
+        except Exception as e:
+            raise IOError(f"Failed to load the model from {pickled_file_path}: {e}")
+        
         if isinstance(loaded_model, (xgb.Booster, xgb.XGBClassifier)):
             if self.check_version(loaded_model):
                 extracted_params = self.extract_params(loaded_model)
-                return XGBoostModel(params=extracted_params, model=loaded_model)
+                xgb_model =  XGBoostModel(params=extracted_params, model=loaded_model)
+                xgb_model.set_file_path(file_path=pickled_file_path)
+                return xgb_model
             else:
                 raise ValueError("XGBoost model version is not supported. Please use version 2.0.0 or later.")
         else:

@@ -31,6 +31,7 @@ class MaskedDataset(Dataset):
         self.__pseudo_labels = None 
         self.__confidence_scores = None
         self.__column_labels = column_labels if column_labels is not None else [f'feature_{i}' for i in range(observations.shape[1])]
+        self.__file_path = None
 
     def __getitem__(self, index: int) -> tuple:
         """
@@ -224,6 +225,15 @@ class MaskedDataset(Dataset):
         """
         return self.__sample_counts
     
+    def get_file_path(self) -> str :
+        """
+        Gets the file path of the dataset if it has been set from a file.
+
+        Returns:
+            str: The file path of the dataset.
+        """
+        return self.__file_path
+    
     def set_pseudo_probs_labels(self, pseudo_probabilities: np.ndarray, threshold=0.5) -> None:
         """
         Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by
@@ -271,6 +281,16 @@ class MaskedDataset(Dataset):
             raise ValueError("The length of pseudo_labels must match the number of samples in the dataset.")
         self.__pseudo_labels = pseudo_labels
 
+    def set_file_path(self, file: str) -> None:
+        """
+        Sets the file path of the dataset if it has been set from a file.
+
+        Args:
+            file (str): The file path of the dataset.
+
+        """
+        self.__file_path = file
+        
     def clone(self) -> 'MaskedDataset':
         """
         Creates a clone of the current MaskedDataset instance.
@@ -293,6 +313,7 @@ class MaskedDataset(Dataset):
             dict: A dictionary containing dataset information.
         """
         info = {
+            'file_path': self.__file_path,
             'num_samples': len(self.__observations),
             'num_observations': self.__observations.shape[1] if self.__observations.ndim > 1 else 1,
             'has_pseudo_labels': self.__pseudo_labels is not None,

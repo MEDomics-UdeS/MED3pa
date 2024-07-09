@@ -116,11 +116,14 @@ class DetectronResult:
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
-        with open(f'{file_path}/{file_name}.json', 'w') as file:
+        
+        file_name_path = os.path.join(file_path, f'{file_name}.json')
+        with open(file_name_path, 'w') as file:
             json.dump(self.test_results, file, indent=4)
         
         if save_config:
-            with open(f'{file_path}/experiment_config.json', 'w') as file:
+            config_file_path = os.path.join(file_path, 'experiment_config.json')
+            with open(config_file_path, 'w') as file:
                 json.dump(self.experiment_config, file, indent=4)
 
     @classmethod
