@@ -139,7 +139,6 @@ class Med3paResults:
         self.reference_record = reference_record
         self.test_record = test_record
         self.experiment_config ={}
-
     def set_experiment_config(self, config: Dict[str, Any]) -> None:
         """
         Sets or updates the configuration for the Med3pa experiment.
@@ -407,20 +406,20 @@ class Med3paExperiment:
         metrics_by_dr = MDRCalculator.calc_metrics_by_dr(datasets_manager=datasets_manager, metrics_list=med3pa_metrics, set=set)
         results.set_metrics_by_dr(metrics_by_dr)
 
-        # evaluate models
-        if evaluate_models:
-            if mode in ['mpc', 'apc']:
+        if mode in ['mpc', 'apc']:
+            ipc_config = IPC_model.get_info()
+            apc_config = APC_model.get_info() 
+            if evaluate_models:
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 APC_evaluation = APC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 results.set_models_evaluation(IPC_evaluation, APC_evaluation)
-                ipc_config = IPC_model.get_info()
-                apc_config = APC_model.get_info() 
-            else :
+        else:
+            ipc_config = IPC_model.get_info()
+            apc_config = None
+            if evaluate_models:
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 results.set_models_evaluation(IPC_evaluation, None)
-                ipc_config = IPC_model.get_info()
-                apc_config = None 
-        
+                  
         return results, ipc_config, apc_config  
 
 

@@ -79,3 +79,12 @@ class BaseModelManager:
             
             return cloned_model
 
+    @classmethod
+    def reset(cls):
+        """
+        Resets the singleton instance, allowing for reinitialization.
+        
+        This method clears the current base model, enabling the set_base_model method
+        to set a new base model.
+        """
+        cls.__baseModel = None
