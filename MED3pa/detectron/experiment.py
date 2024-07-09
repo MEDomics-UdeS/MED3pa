@@ -106,7 +106,7 @@ class DetectronResult:
         """
         self.experiment_config.update(config)
 
-    def save(self, file_path: str, file_name: str = 'detectron_results'):
+    def save(self, file_path: str, file_name: str = 'detectron_results', save_config=True):
         """
         Saves the Detectron results to JSON format.
 
@@ -118,8 +118,10 @@ class DetectronResult:
         os.makedirs(file_path, exist_ok=True)
         with open(f'{file_path}/{file_name}.json', 'w') as file:
             json.dump(self.test_results, file, indent=4)
-        with open(f'{file_path}/experiment_config.json', 'w') as file:
-            json.dump(self.experiment_config, file, indent=4)
+        
+        if save_config:
+            with open(f'{file_path}/experiment_config.json', 'w') as file:
+                json.dump(self.experiment_config, file, indent=4)
 
     @classmethod
     def get_supported_strategies(cls) -> list:

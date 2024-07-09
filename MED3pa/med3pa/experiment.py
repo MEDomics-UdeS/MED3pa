@@ -138,7 +138,18 @@ class Med3paResults:
     def __init__(self, reference_record:Med3paRecord, test_record:Med3paRecord) -> None:
         self.reference_record = reference_record
         self.test_record = test_record
-        self.experiment_config ={}
+        self.experiment_config = {}
+        self.detectron_results = None
+    
+    def set_detectron_results(self, detectron_results: DetectronResult=None) -> None:
+        """
+        Sets the detectron results for the Med3paDetectron experiment.
+
+        Args:
+            detectron_results (DetectronResult): The structure holding the detectron results.
+        """
+        self.detectron_results = detectron_results
+
     def set_experiment_config(self, config: Dict[str, Any]) -> None:
         """
         Sets or updates the configuration for the Med3pa experiment.
@@ -160,8 +171,12 @@ class Med3paResults:
         
         reference_path = f'{file_path}/reference/'
         test_path = f'{file_path}/test/'
+        detectron_path = f'{file_path}/detectron/'
+
         self.reference_record.save(file_path=reference_path)
         self.test_record.save(file_path=test_path)
+        if self.detectron_results is not None:
+            self.detectron_results.save(file_path=detectron_path, save_config=False)
 
         with open(f'{file_path}/experiment_config.json', 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
@@ -515,6 +530,7 @@ class Med3paDetectronExperiment:
         experiment_config = {
             'experiment_name': "Med3paDetectronExperiment",
             'additional_training_params': training_params,
+            'samples_size': samples_size,
             'profiles_samples_size': samples_size_profiles,
             'cdcs_ensemble_size': ensemble_size,
             'num_runs': num_calibration_runs,
@@ -523,7 +539,8 @@ class Med3paDetectronExperiment:
             'margin': margin
         }
 
+        med3pa_results.set_detectron_results(detectron_results)
         med3pa_results.set_experiment_config(experiment_config)
 
-        return med3pa_results, detectron_results
+        return med3pa_results
 

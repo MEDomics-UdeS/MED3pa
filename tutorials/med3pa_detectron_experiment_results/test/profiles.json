@@ -27,8 +27,8 @@
                         {
                             "shift_probability": 0.0,
                             "test_statistic": 0.0,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
                                 "no shift": 100.0,
                                 "small": 0,
@@ -88,14 +88,14 @@
                     "Tested Profile size": 22,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.011111111111111112,
-                            "test_statistic": 0.6888888888888889,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.0,
+                            "test_statistic": 0.9666666666666667,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 96.82716049382717,
-                                "small": 3.0123456790123457,
-                                "moderate": 0.16049382716049382,
+                                "no shift": 98.39506172839506,
+                                "small": 1.6049382716049383,
+                                "moderate": 0,
                                 "large": 0
                             },
                             "Strategy": "enhanced_disagreement_strategy"
@@ -199,15 +199,15 @@
                     "Tested Profile size": 28,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.18888888888888888,
-                            "test_statistic": 1.488888888888889,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.23333333333333334,
+                            "test_statistic": 2.3555555555555556,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 82.90123456790124,
-                                "small": 13.382716049382717,
-                                "moderate": 3.5185185185185186,
-                                "large": 0.19753086419753088
+                                "no shift": 80.60493827160494,
+                                "small": 11.592592592592593,
+                                "moderate": 6.135802469135802,
+                                "large": 1.6666666666666667
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
@@ -287,15 +287,15 @@
                     "Tested Profile size": 13,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.6,
-                            "test_statistic": 2.611111111111111,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.23333333333333334,
+                            "test_statistic": 2.2666666666666666,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 57.24691358024692,
-                                "small": 28.074074074074073,
-                                "moderate": 12.30864197530864,
-                                "large": 2.3703703703703702
+                                "no shift": 89.70370370370371,
+                                "small": 8.814814814814815,
+                                "moderate": 1.4814814814814816,
+                                "large": 0
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
@@ -351,15 +351,15 @@
                     "Tested Profile size": 67,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.9444444444444444,
-                            "test_statistic": 5.0,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 1.0,
+                            "test_statistic": 6.311111111111111,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 10.876543209876544,
-                                "small": 15.271604938271604,
-                                "moderate": 22.320987654320987,
-                                "large": 51.53086419753087
+                                "no shift": 12.518518518518517,
+                                "small": 12.716049382716049,
+                                "moderate": 20.39506172839506,
+                                "large": 54.37037037037037
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
@@ -389,15 +389,15 @@
                     "Tested Profile size": 75,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.9444444444444444,
-                            "test_statistic": 4.7,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.8333333333333334,
+                            "test_statistic": 5.844444444444444,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 16.925925925925924,
-                                "small": 19.0,
-                                "moderate": 22.666666666666664,
-                                "large": 41.40740740740741
+                                "no shift": 19.234567901234566,
+                                "small": 16.098765432098766,
+                                "moderate": 20.82716049382716,
+                                "large": 43.839506172839506
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
@@ -426,15 +426,15 @@
                     "Tested Profile size": 88,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.9444444444444444,
-                            "test_statistic": 4.311111111111111,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.8333333333333334,
+                            "test_statistic": 5.155555555555556,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 19.271604938271604,
+                                "no shift": 30.12345679012346,
                                 "small": 19.012345679012345,
-                                "moderate": 23.59259259259259,
-                                "large": 38.123456790123456
+                                "moderate": 20.061728395061728,
+                                "large": 30.80246913580247
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
@@ -462,15 +462,15 @@
                     "Tested Profile size": 116,
                     "Tests Results": [
                         {
-                            "shift_probability": 0.8333333333333334,
-                            "test_statistic": 3.477777777777778,
-                            "baseline_mean": 2.422222222222222,
-                            "baseline_std": 1.105318232484079,
+                            "shift_probability": 0.7333333333333333,
+                            "test_statistic": 4.411111111111111,
+                            "baseline_mean": 3.6555555555555554,
+                            "baseline_std": 1.4541978400563975,
                             "significance_description": {
-                                "no shift": 36.18518518518519,
-                                "small": 25.061728395061728,
-                                "moderate": 19.864197530864196,
-                                "large": 18.88888888888889
+                                "no shift": 45.80246913580247,
+                                "small": 18.19753086419753,
+                                "moderate": 14.506172839506174,
+                                "large": 21.49382716049383
                             },
                             "Strategy": "enhanced_disagreement_strategy"
                         }
