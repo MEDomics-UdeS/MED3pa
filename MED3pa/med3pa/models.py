@@ -4,12 +4,13 @@ where the regressor type can be specified by the user.
 Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of similar data points, 
 and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC models.
 """
+import json
 from typing import Any, Dict, List, Optional, Type
 
 import numpy as np
 from sklearn.model_selection import GridSearchCV
 
-from MED3pa.med3pa.tree import TreeRepresentation
+from MED3pa.med3pa.tree import TreeRepresentation, _TreeNode
 from MED3pa.models.abstract_models import RegressionModel
 from MED3pa.models.concrete_regressors import DecisionTreeRegressorModel, RandomForestRegressorModel
 from MED3pa.models.data_strategies import ToDataframesStrategy
@@ -148,6 +149,7 @@ class IPCModel:
             'optimized': self.optimized,
         }
     
+
 class APCModel:
     """
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.
@@ -161,28 +163,44 @@ class APCModel:
             }
     }
 
-    def __init__(self, features: list, params: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None, tree_file_path: Optional[str] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.
 
         Args:
             features (List[str]): List of features used in the model.
-            model_class (Type[RegressionModel]): The regression model class to use for tree-based modeling, default is DecisionTreeRegressorModel.
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is settings for a basic decision tree.
+            tree_file_path (Optional[str]): Path to the saved tree JSON file, default is None.
         """
         if params is None:
             params = self.default_params
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
-            
+        
         self.model = DecisionTreeRegressorModel(params)
         self.treeRepresentation = TreeRepresentation(features=features)
         self.dataPreparationStrategy = ToDataframesStrategy()
         self.features = features
         self.params = params
         self.optimized = False
+        self.loaded_tree = None
 
+        if tree_file_path:
+           self.load_tree(tree_file_path)
+
+    def load_tree(self, file_path: str) -> None:
+        """
+        Loads the tree structure from a JSON file and initializes the tree representation.
+
+        Args:
+            file_path (str): The file path from which the tree structure will be loaded.
+        """
+        with open(file_path, 'r') as file:
+            tree_dict = json.load(file)
+        
+        self.loaded_tree = tree_dict
+        print(self.loaded_tree)
 
     @classmethod
     def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
@@ -195,7 +213,7 @@ class APCModel:
         """
         return cls.supported_params
     
-    def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
+    def train(self, x: np.ndarray, error_prob: np.ndarray,) -> None:
         """
         Trains the model using the provided data and error probabilities and builds the tree representation.
 
@@ -205,7 +223,8 @@ class APCModel:
         """
         self.model.train(x, error_prob)
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
-        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0)
+        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0, loaded_tree=self.loaded_tree)
+        
     
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
         """
@@ -225,10 +244,12 @@ class APCModel:
         self.model.set_model(grid_search.best_estimator_)
         self.model.update_params(grid_search.best_params_)
         self.params.update(grid_search.best_params_)
+        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
+        self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
         self.optimized = True
         
 
-    def predict(self, X: np.ndarray, depth: int = None, min_samples_ratio: float = 0) -> np.ndarray:
+    def predict(self, X: np.ndarray) -> np.ndarray:
         """
         Predicts error probabilities using the tree representation for the given input observations.
 
@@ -244,7 +265,7 @@ class APCModel:
 
         for index, row in df_X.iterrows():
             if self.treeRepresentation.head is not None:
-                prediction = self.treeRepresentation.head.assign_node(row, depth, min_samples_ratio)
+                prediction = self.treeRepresentation.head.assign_node(row)
                 predictions.append(prediction)
             else:
                 raise ValueError("The Tree Representation has not been initialized, try fitting the APCModel first.")

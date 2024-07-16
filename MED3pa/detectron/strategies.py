@@ -103,26 +103,38 @@ class MannWhitneyStrategy(DetectronStrategy):
                 
         # Perform the Mann-Whitney U test
         u_statistic, p_value = stats.mannwhitneyu(cal_counts, test_counts, alternative='less')
-        z_score = (test_mean - cal_mean) / cal_std
+        
+        # Calculate the z-scores for the test data
+        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts)
+
+        # Define thresholds for categorizing
+        def categorize_z_score(z):
+            if z <= 0:
+                return 'no significant shift'
+            elif abs(z) < 1:
+                return 'small'
+            elif abs(z) < 2:
+                return 'moderate'
+            else:
+                return 'large'
+
+        # Categorize each test count based on its z-score
+        categories = np.array([categorize_z_score(z) for z in z_scores.flatten()])
+        # Calculate the percentage of each category
+        category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
         # Describe the significance of the shift based on the z-score
-        significance_description = ""
-        if z_score <= 0 :
-            significance_description = "no significant shift"
-        elif abs(z_score) < 1.0:
-            significance_description = "Small"
-        elif abs(z_score) < 2.0:
-            significance_description = "Moderate"
-        elif abs(z_score) < 3.0:
-            significance_description = "Large"
-        else:
-            significance_description = "Very large"
-        # Results dictionary including rank statistics
+        significance_description = {
+            'no shift': category_counts.get('no significant shift', 0),
+            'small': category_counts.get('small', 0),
+            'moderate': category_counts.get('moderate', 0),
+            'large': category_counts.get('large', 0)
+        }
+
         results = {
             'p_value': p_value,
             'u_statistic': u_statistic,
-            'z-score':z_score,
-            'shift significance' : significance_description
+            'significance_description' : significance_description
         }
 
         return results
@@ -239,7 +251,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         # Define thresholds for categorizing
         def categorize_z_score(z):
             if z <= 0:
-                return 'no shift'
+                return 'no significant shift'
             elif abs(z) < 1:
                 return 'small'
             elif abs(z) < 2:
@@ -257,7 +269,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
 
         # Describe the significance of the shift based on the z-score
         significance_description = {
-            'no shift': category_counts.get('no shift', 0),
+            'no shift': category_counts.get('no significant shift', 0),
             'small': category_counts.get('small', 0),
             'moderate': category_counts.get('moderate', 0),
             'large': category_counts.get('large', 0)

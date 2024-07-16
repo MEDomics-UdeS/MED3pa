@@ -47,7 +47,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Recall score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -66,7 +66,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: ROC AUC score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true))==1:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -85,7 +85,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Average precision score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true))==1:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -104,11 +104,11 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Matthews correlation coefficient.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return matthews_corrcoef(y_true, y_pred, sample_weight=sample_weight)
+            return matthews_corrcoef(y_true, y_pred)
     
     @staticmethod
     def precision(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
@@ -123,7 +123,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Precision score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -142,7 +142,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: F1 score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -161,11 +161,11 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Sensitivity score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return recall_score(y_true, y_pred, pos_label=1, zero_division=0)
+            return recall_score(y_true, y_pred, pos_label=1, sample_weight=sample_weight, zero_division=0)
     
     @staticmethod
     def specificity(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
@@ -180,11 +180,11 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Specificity score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return recall_score(y_true, y_pred, pos_label=0, zero_division=0)
+            return recall_score(y_true, y_pred, pos_label=0, sample_weight=sample_weight, zero_division=0)
     
     @staticmethod
     def ppv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
@@ -203,7 +203,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return precision_score(y_true, y_pred, pos_label=1, zero_division=0)
+            return precision_score(y_true, y_pred, pos_label=1, sample_weight=sample_weight, zero_division=0)
     
     @staticmethod
     def npv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
@@ -222,7 +222,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return precision_score(y_true, y_pred, pos_label=0, zero_division=0)
+            return precision_score(y_true, y_pred, pos_label=0, sample_weight=sample_weight, zero_division=0)
     
     @staticmethod
     def balanced_accuracy(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
@@ -237,7 +237,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Balanced accuracy score.
         """
-        if y_true.size == 0 or y_pred.size == 0:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         sens = ClassificationEvaluationMetrics.sensitivity(y_true, y_pred)
         spec = ClassificationEvaluationMetrics.specificity(y_true, y_pred)
@@ -259,7 +259,7 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Log loss score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true))==1:
+        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
             return None
         y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
         with warnings.catch_warnings():

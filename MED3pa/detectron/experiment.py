@@ -121,6 +121,14 @@ class DetectronResult:
         with open(file_name_path, 'w') as file:
             json.dump(self.test_results, file, indent=4)
         
+        counts_dict = {}
+        counts_dict['reference'] = self.cal_record.rejected_counts().tolist()
+        counts_dict['test'] = self.test_record.rejected_counts().tolist()
+        
+        file_name_path_counts = os.path.join(file_path, 'rejection_counts.json')
+        with open(file_name_path_counts, 'w') as file:
+            json.dump(counts_dict, file, indent=4)
+
         if save_config:
             config_file_path = os.path.join(file_path, 'experiment_config.json')
             with open(config_file_path, 'w') as file:

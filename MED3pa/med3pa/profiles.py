@@ -7,7 +7,7 @@ class Profile:
     Represents a profile containing metrics and values associated with a specific node.
     """
 
-    def __init__(self, node_id: int, path: list[str], mean_value: float):
+    def __init__(self, node_id: int, path: list[str]):
         """
         Initializes a Profile instance with node details and associated metrics.
 
@@ -19,7 +19,7 @@ class Profile:
         """
         self.node_id = node_id
         self.path = path
-        self.mean_value = mean_value
+        self.mean_value = None
         self.metrics = None
         self.node_information = None
         self.detectron_results = None
@@ -151,7 +151,7 @@ class ProfilesManager:
         return self.lost_profiles_records
 
     @staticmethod
-    def transform_to_profiles(profiles_list : list[dict], to_dict:bool=True):
+    def transform_to_profiles(profiles_list : list[dict], to_dict:bool=False):
         """
         Transforms a list of profile data into instances of the Profile class or dictionaries.
         
@@ -165,9 +165,9 @@ class ProfilesManager:
         profiles = []
         for profile in profiles_list:
             if to_dict:
-                profile_ins = Profile(profile['id'], profile['path'], profile['value']).to_dict()
+                profile_ins = Profile(profile['node_id'], profile['path']).to_dict()
             else:
-                profile_ins = Profile(profile['id'], profile['path'], profile['value'])
+                profile_ins = Profile(profile['node_id'], profile['path'])
             profiles.append(profile_ins)
         return profiles
     
