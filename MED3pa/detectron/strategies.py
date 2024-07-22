@@ -125,7 +125,7 @@ class MannWhitneyStrategy(DetectronStrategy):
 
         # Describe the significance of the shift based on the z-score
         significance_description = {
-            'no shift': category_counts.get('no significant shift', 0),
+            'unsignificant shift': category_counts.get('no significant shift', 0),
             'small': category_counts.get('small', 0),
             'moderate': category_counts.get('moderate', 0),
             'large': category_counts.get('large', 0)
@@ -269,7 +269,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
 
         # Describe the significance of the shift based on the z-score
         significance_description = {
-            'no shift': category_counts.get('no significant shift', 0),
+            'unsignificant shift': category_counts.get('no significant shift', 0),
             'small': category_counts.get('small', 0),
             'moderate': category_counts.get('moderate', 0),
             'large': category_counts.get('large', 0)

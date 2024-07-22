@@ -62,6 +62,7 @@ class IPCModel:
         
         self.model = model_class(params)
         self.params = params
+        self.grid_search_params = {}
         self.optimized = False
         self.pretrained = False
         self.model_name = model_name
@@ -108,6 +109,7 @@ class IPCModel:
         self.model.set_model(grid_search.best_estimator_)
         self.model.update_params(grid_search.best_params_)
         self.params.update(grid_search.best_params_)
+        self.grid_search_params = param_grid
         self.optimized = True
 
     def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
@@ -159,6 +161,7 @@ class IPCModel:
             'model_name': self.model_name,
             'params': self.params,
             'optimized': self.optimized,
+            'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained
         }
     
@@ -222,6 +225,7 @@ class APCModel:
         self.dataPreparationStrategy = ToDataframesStrategy()
         self.features = features
         self.params = params
+        self.grid_search_params = {}
         self.optimized = False
         self.loaded_tree = None
         self.pretrained = False
@@ -287,6 +291,7 @@ class APCModel:
         self.model.set_model(grid_search.best_estimator_)
         self.model.update_params(grid_search.best_params_)
         self.params.update(grid_search.best_params_)
+        self.grid_search_params = param_grid
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
         self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
         self.optimized = True
@@ -342,6 +347,7 @@ class APCModel:
             'model_name': "DecisionTreeRegressor",
             'params': self.params,
             'optimized': self.optimized,
+            'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained
         }
     
