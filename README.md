@@ -142,5 +142,6 @@ The **MED3pa** package is developed and tested with Python 3.12.3.
 Additionally, it is compatible with the following Python versions:
 - Python 3.11.x
 - Python 3.10.x
+- Python 3.9.x
 
 While the package may work with other versions of Python, these are the versions we officially support and recommend.
