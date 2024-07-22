@@ -91,3 +91,11 @@ experiment module
    :undoc-members:
    :show-inheritance:
 
+compraison module
+-------------------------------
+
+.. automodule:: MED3pa.med3pa.comparaison
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

@@ -84,7 +84,7 @@ class DetectronResult:
         if isinstance(strategies, str):
             strategies = [strategies]  # Convert single strategy name to list
 
-        self.experiment_config['test_strategies'] = strategies
+        self.experiment_config['experiment_params']['test_strategies'] = strategies
 
         for strategy_name in strategies:
             if strategy_name not in self.strategy_mapping:
@@ -227,10 +227,7 @@ class DetectronExperiment:
     
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
-        experiment_config = {
-            'experiment_name': "DetectronExperiment",
-            'datasets':datasets.get_info(),
-            'base_model': base_model_manager.get_instance().get_info(),
+        detectron_params = {
             'additional_training_params': training_params,
             'samples_size': samples_size,
             'cdcs_ensemble_size': ensemble_size,
@@ -238,6 +235,13 @@ class DetectronExperiment:
             'patience': patience,
             'allow_margin': allow_margin,
             'margin': margin
+        }
+        experiment_config = {
+            'experiment_name': "DetectronExperiment",
+            'datasets':datasets.get_info(),
+            'base_model': base_model_manager.get_instance().get_info(),
+            'experiment_params': detectron_params
+            
         }
         detectron_results.set_experiment_config(experiment_config)
         # return the Detectron results

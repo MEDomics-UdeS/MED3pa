@@ -1,0 +1,179 @@
+{
+    "threshold": -0.47749535739421844,
+    "feature": "Age",
+    "feature_id": 7,
+    "node_id": 1,
+    "path": [
+        "*"
+    ],
+    "c_left": {
+        "threshold": 0.6258995831012726,
+        "feature": "BloodPressure",
+        "feature_id": 2,
+        "node_id": 2,
+        "path": [
+            "*",
+            "Age <= -0.47749535739421844"
+        ],
+        "c_left": {
+            "threshold": -0.11787476763129234,
+            "feature": "BMI",
+            "feature_id": 5,
+            "node_id": 3,
+            "path": [
+                "*",
+                "Age <= -0.47749535739421844",
+                "BloodPressure <= 0.6258995831012726"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 4,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure <= 0.6258995831012726",
+                    "BMI <= -0.11787476763129234"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 5,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure <= 0.6258995831012726",
+                    "BMI > -0.11787476763129234"
+                ]
+            }
+        },
+        "c_right": {
+            "threshold": 4.561587452888489,
+            "feature": "DiabetesPedigreeFunction",
+            "feature_id": 6,
+            "node_id": 6,
+            "path": [
+                "*",
+                "Age <= -0.47749535739421844",
+                "BloodPressure > 0.6258995831012726"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 7,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure > 0.6258995831012726",
+                    "DiabetesPedigreeFunction <= 4.561587452888489"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 8,
+                "path": [
+                    "*",
+                    "Age <= -0.47749535739421844",
+                    "BloodPressure > 0.6258995831012726",
+                    "DiabetesPedigreeFunction > 4.561587452888489"
+                ]
+            }
+        }
+    },
+    "c_right": {
+        "threshold": -0.5681067705154419,
+        "feature": "Glucose",
+        "feature_id": 1,
+        "node_id": 9,
+        "path": [
+            "*",
+            "Age > -0.47749535739421844"
+        ],
+        "c_left": {
+            "threshold": 0.1833609789609909,
+            "feature": "BloodPressure",
+            "feature_id": 2,
+            "node_id": 10,
+            "path": [
+                "*",
+                "Age > -0.47749535739421844",
+                "Glucose <= -0.5681067705154419"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 11,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose <= -0.5681067705154419",
+                    "BloodPressure <= 0.1833609789609909"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 12,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose <= -0.5681067705154419",
+                    "BloodPressure > 0.1833609789609909"
+                ]
+            }
+        },
+        "c_right": {
+            "threshold": 2.236921191215515,
+            "feature": "DiabetesPedigreeFunction",
+            "feature_id": 6,
+            "node_id": 13,
+            "path": [
+                "*",
+                "Age > -0.47749535739421844",
+                "Glucose > -0.5681067705154419"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 14,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose > -0.5681067705154419",
+                    "DiabetesPedigreeFunction <= 2.236921191215515"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 15,
+                "path": [
+                    "*",
+                    "Age > -0.47749535739421844",
+                    "Glucose > -0.5681067705154419",
+                    "DiabetesPedigreeFunction > 2.236921191215515"
+                ]
+            }
+        }
+    },
+    "features": [
+        "Pregnancies",
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction",
+        "Age"
+    ]
+}

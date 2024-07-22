@@ -23,6 +23,9 @@ These include sophisticated tools for managing ensemble classifiers, meticulousl
 
 - **experiment.py**: Orchestrates the setup and execution of Detectron method, managing the flow of data, model training, and evaluations.
 
+- **comparaison.py**: Compares or aggregates the results of two DetectronExperiments.
+
+
 this subpackage includes the following classes:
 
 .. image:: ./diagrams/detectron.svg
@@ -70,6 +73,15 @@ experiment module
 ----------------------------------
 
 .. automodule:: MED3pa.detectron.experiment
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+comparaison module
+----------------------------------
+
+.. automodule:: MED3pa.detectron.comparaison
    :members:
    :undoc-members:
    :show-inheritance:

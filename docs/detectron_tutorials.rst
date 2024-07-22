@@ -19,6 +19,14 @@ First, configure the ``DatasetsManager`` to manage the necessary datasets for th
     datasets.set_from_file(dataset_type="reference", file='./path_to_reference_dataset.csv', target_column_name='y_true')
     datasets.set_from_file(dataset_type="testing", file='./path_to_test_dataset.csv', target_column_name='y_true')
 
+    datasets2 = DatasetsManager()
+
+    # Load datasets for training, validation, reference, and testing
+    datasets2.set_from_file(dataset_type="training", file='./data/train_data.csv', target_column_name='Outcome')
+    datasets2.set_from_file(dataset_type="validation", file='./data/val_data.csv', target_column_name='Outcome')
+    datasets2.set_from_file(dataset_type="reference", file='./data/test_data.csv', target_column_name='Outcome')
+    datasets2.set_from_file(dataset_type="testing", file='./data/test_data_shifted_1.6.csv', target_column_name='Outcome')
+
 Step 2: Configuring the Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Next, utilize the ``ModelFactory`` to load a pre-trained model, setting it as the base model for the experiment. Alternatively, you can train your own model and use it.
@@ -45,6 +53,7 @@ Execute the Detectron experiment with the specified datasets and base model. You
 
     # Execute the Detectron experiment
     experiment_results = DetectronExperiment.run(datasets=datasets, base_model_manager=base_model_manager)
+    experiment_results2 = DetectronExperiment.run(datasets=datasets2, base_model_manager=base_model_manager)
 
 Step 4: Analyzing the Results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -55,6 +64,8 @@ Finally, evaluate the outcomes of the experiment using different strategies to d
     # Analyze the results using the disagreement strategies
     test_strategies = ["enhanced_disagreement_strategy", "mannwhitney_strategy"]
     experiment_results.analyze_results(test_strategies)
+    experiment_results2.analyze_results(test_strategies)
+
 
 **Output**
 
@@ -92,3 +103,15 @@ You can save the experiment results using the ``save`` method, while specifying 
 .. code-block:: python
     
     experiment_results.save("./detectron_experiment_results")
+    experiment_results2.save("./detectron_experiment_results2")
+
+Step 6: Comparing the Results
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You can compare between two detectron experiments using the ``DetectronComparaison`` class, as follows:
+.. code-block:: python
+    
+    from MED3pa.detectron.comparaison import DetectronComparison
+
+    comparaison = DetectronComparison("./detectron_experiment_results", "./detectron_experiment_results2")
+    comparaison.compare_experiments()
+    comparaison.save("./detectron_experiment_comparaison")

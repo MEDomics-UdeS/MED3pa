@@ -1,3 +1,6 @@
+"""
+Compares between two experiments, either two ``Med3paExperiment`` or two ``Med3paDetectronExperiment`` 
+"""
 import json
 import os
 from typing import Any, Dict, List, Tuple, Type, Union
@@ -20,6 +23,8 @@ class Med3paComparison:
         self.profiles_metrics_comparaison = {}
         self.profiles_detectron_comparaison = {}
         self.global_metrics_comparaison = {}
+        self.models_evaluation_comparaison = {}
+        self.config_file = {}
         self.compare_profiles = False
         self.compare_detectron = False
         self._check_experiment_name()
@@ -161,6 +166,58 @@ class Med3paComparison:
                 combined[dr_str]['metrics_dr_2'] = dr2[dr_str]
 
         self.global_metrics_comparaison = combined
+    
+    def compare_models_evaluation(self):
+        """
+        Compares IPC and APC evaluation between two experiments.
+        """
+        combined = {}
+        file_1 = os.path.join(self.results1_path, 'test', 'models_evaluation.json')
+        file_2 = os.path.join(self.results2_path, 'test', 'models_evaluation.json')
+
+        with open(file_1, 'r') as f1, open(file_2, 'r') as f2:
+            models1 = json.load(f1)
+            models2 = json.load(f2)
+        
+        if "IPC_evaluation" in models1 and "IPC_evaluation" in models2:
+            combined['IPC_evaluation1'] = models1["IPC_evaluation"]
+            combined['IPC_evaluation2'] = models2["IPC_evaluation"]
+
+        if "APC_evaluation" in models1 and "APC_evaluation" in models2:
+            combined['APC_evaluation1'] = models1["APC_evaluation"]
+            combined['APC_evaluation2'] = models2["APC_evaluation"]
+
+
+        self.models_evaluation_comparaison = combined
+
+    def compare_config(self):
+        """
+        Compares the config files of the two experiments.
+        """
+        combined = {}
+        config_file_1 = os.path.join(self.results1_path, 'experiment_config.json')
+        config_file_2 = os.path.join(self.results2_path, 'experiment_config.json')
+
+        with open(config_file_1, 'r') as f1, open(config_file_2, 'r') as f2:
+            config1 = json.load(f1)
+            config2 = json.load(f2)
+
+        combined['datasets1'] = config1["datasets"]
+        combined['datasets2'] = config2["datasets"]
+
+        combined['base_model1'] = config1["base_model"]
+        combined['base_model2'] = config2["base_model"]
+
+        combined['apc_model1'] = config1["apc_model"]
+        combined['apc_model2'] = config2["apc_model"]
+
+        combined['ipc_model1'] = config1["ipc_model"]
+        combined['ipc_model2'] = config2["ipc_model"]
+
+        combined['experiment_params1'] = config1["experiment_params"]
+        combined['experiment_params2'] = config2["experiment_params"]
+
+        self.config_file = combined
 
     def compare_experiments(self):
         """
@@ -172,6 +229,9 @@ class Med3paComparison:
             self.compare_profiles_metrics()
         if self.compare_detectron:
             self.compare_profiles_detectron_results()
+        
+        self.compare_config()
+        self.compare_models_evaluation()
 
     def save(self, directory_path: str) -> None:
         """
@@ -186,6 +246,14 @@ class Med3paComparison:
         global_comparaison_path = os.path.join(directory_path, 'global_metrics_comparaison.json')
         with open(global_comparaison_path, 'w') as f:
                 json.dump(self.global_metrics_comparaison, f, indent=4)
+
+        config_path = os.path.join(directory_path, 'experiment_config_comparaison.json')
+        with open(config_path, 'w') as f:
+                json.dump(self.config_file, f, indent=4)
+        
+        evaluation_path = os.path.join(directory_path, 'models_evaluation_comparaison.json')
+        with open(evaluation_path, 'w') as f:
+                json.dump(self.models_evaluation_comparaison, f, indent=4)
 
         if self.profiles_detectron_comparaison is not {} and self.compare_detectron:
             profiles_detectron_path = os.path.join(directory_path, 'profiles_detectron_comparaison.json')

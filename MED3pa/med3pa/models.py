@@ -6,9 +6,12 @@ and Mixed Predictive Confidence (MPC) models that combine the predictions from I
 """
 import json
 from typing import Any, Dict, List, Optional, Type
+import pickle
 
 import numpy as np
 from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
 
 from MED3pa.med3pa.tree import TreeRepresentation, _TreeNode
 from MED3pa.models.abstract_models import RegressionModel
@@ -26,6 +29,10 @@ class IPCModel:
         'RandomForestRegressor' : RandomForestRegressorModel
     }
 
+    underlying_models_mapping = {
+        'RandomForestRegressor' : RandomForestRegressor
+    }
+
     supported_regressos_params = {
             'RandomForestRegressor' : {
                 'params' : rfr_params.rfr_params,
@@ -33,13 +40,14 @@ class IPCModel:
             }
     }
     
-    def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None, pretrained_model: Optional[str] = None) -> None:
         """
         Initializes the IPCModel with a regression model class name and optional parameters.
 
         Args:
             model_name (str): The name of the regression model class to use, default is 'RandomForestRegressor'.
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.
+            pretrained_mode (Optional[str]): Path to a pretrained regression model, serving as ipc model, default is None.
         """
         if model_name not in self.supported_regressors_mapping:
             raise ValueError(f"Unsupported model name: {model_name}. Supported models are: {self.supported_ipc_models()}")
@@ -55,7 +63,11 @@ class IPCModel:
         self.model = model_class(params)
         self.params = params
         self.optimized = False
+        self.pretrained = False
         self.model_name = model_name
+
+        if pretrained_model:
+            self.load_model(pretrained_model)
     
     @classmethod
     def supported_ipc_models(cls) -> list:
@@ -147,8 +159,34 @@ class IPCModel:
             'model_name': self.model_name,
             'params': self.params,
             'optimized': self.optimized,
+            'pretrained': self.pretrained
         }
     
+    def save_model(self, file_path: str) -> None:
+        """
+        Saves the trained model to a pickle file.
+
+        Args:
+            file_path (str): The path to the file where the model will be saved.
+        """
+        with open(file_path, 'wb') as file:
+            pickle.dump(self.model.model, file)
+
+    def load_model(self, file_path: str) -> None:
+        """
+        Loads a pre-trained model from a pickle file.
+
+        Args:
+            file_path (str): The path to the pickle file.
+        """
+        with open(file_path, 'rb') as file:
+            loaded_model = pickle.load(file)
+
+        if not isinstance(loaded_model, self.underlying_models_mapping[self.model_name]):
+            raise TypeError(f"The loaded model type does not match the specified model type: {self.model_name}")
+
+        self.model.model = loaded_model
+        self.pretrained = True
 
 class APCModel:
     """
@@ -163,7 +201,7 @@ class APCModel:
             }
     }
 
-    def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None, tree_file_path: Optional[str] = None) -> None:
+    def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None, tree_file_path: Optional[str] = None, pretrained_model: Optional[str] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.
 
@@ -171,6 +209,7 @@ class APCModel:
             features (List[str]): List of features used in the model.
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is settings for a basic decision tree.
             tree_file_path (Optional[str]): Path to the saved tree JSON file, default is None.
+            pretrained_mode (Optional[str]): Path to a pretrained DecisionTree model, serving as apc model, default is None.
         """
         if params is None:
             params = self.default_params
@@ -185,9 +224,13 @@ class APCModel:
         self.params = params
         self.optimized = False
         self.loaded_tree = None
+        self.pretrained = False
 
         if tree_file_path:
            self.load_tree(tree_file_path)
+
+        if pretrained_model:
+            self.load_model(pretrained_model)
 
     def load_tree(self, file_path: str) -> None:
         """
@@ -200,7 +243,6 @@ class APCModel:
             tree_dict = json.load(file)
         
         self.loaded_tree = tree_dict
-        print(self.loaded_tree)
 
     @classmethod
     def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
@@ -221,7 +263,8 @@ class APCModel:
             x (np.ndarray): Feature matrix for training.
             error_prob (np.ndarray): Error probabilities corresponding to each training instance.
         """
-        self.model.train(x, error_prob)
+        if not self.pretrained:
+            self.model.train(x, error_prob)
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
         self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0, loaded_tree=self.loaded_tree)
         
@@ -299,8 +342,35 @@ class APCModel:
             'model_name': "DecisionTreeRegressor",
             'params': self.params,
             'optimized': self.optimized,
+            'pretrained': self.pretrained
         }
     
+    def save_model(self, file_path: str) -> None:
+        """
+        Saves the trained model to a pickle file.
+
+        Args:
+            file_path (str): The path to the file where the model will be saved.
+        """
+        with open(file_path, 'wb') as file:
+            pickle.dump(self.model.model, file)
+
+    def load_model(self, file_path: str) -> None:
+        """
+        Loads a pre-trained model from a pickle file.
+
+        Args:
+            file_path (str): The path to the pickle file.
+        """
+        with open(file_path, 'rb') as file:
+            loaded_model = pickle.load(file)
+
+        if not isinstance(loaded_model, DecisionTreeRegressor):
+            raise TypeError(f"The loaded model type does not match the specified model type: DecisionTreeRegressor")
+
+        self.model.model = loaded_model
+        self.pretrained = True
+
 class MPCModel:
     """
     MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.

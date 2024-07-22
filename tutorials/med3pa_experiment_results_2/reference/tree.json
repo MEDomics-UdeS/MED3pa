@@ -1,0 +1,179 @@
+{
+    "threshold": -0.8201243877410889,
+    "feature": "Age",
+    "feature_id": 7,
+    "node_id": 1,
+    "path": [
+        "*"
+    ],
+    "c_left": {
+        "threshold": 0.4599476158618927,
+        "feature": "BloodPressure",
+        "feature_id": 2,
+        "node_id": 2,
+        "path": [
+            "*",
+            "Age <= -0.8201243877410889"
+        ],
+        "c_left": {
+            "threshold": 0.14760887809097767,
+            "feature": "BMI",
+            "feature_id": 5,
+            "node_id": 3,
+            "path": [
+                "*",
+                "Age <= -0.8201243877410889",
+                "BloodPressure <= 0.4599476158618927"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 4,
+                "path": [
+                    "*",
+                    "Age <= -0.8201243877410889",
+                    "BloodPressure <= 0.4599476158618927",
+                    "BMI <= 0.14760887809097767"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 5,
+                "path": [
+                    "*",
+                    "Age <= -0.8201243877410889",
+                    "BloodPressure <= 0.4599476158618927",
+                    "BMI > 0.14760887809097767"
+                ]
+            }
+        },
+        "c_right": {
+            "threshold": -0.8362943232059479,
+            "feature": "Pregnancies",
+            "feature_id": 0,
+            "node_id": 6,
+            "path": [
+                "*",
+                "Age <= -0.8201243877410889",
+                "BloodPressure > 0.4599476158618927"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 7,
+                "path": [
+                    "*",
+                    "Age <= -0.8201243877410889",
+                    "BloodPressure > 0.4599476158618927",
+                    "Pregnancies <= -0.8362943232059479"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 8,
+                "path": [
+                    "*",
+                    "Age <= -0.8201243877410889",
+                    "BloodPressure > 0.4599476158618927",
+                    "Pregnancies > -0.8362943232059479"
+                ]
+            }
+        }
+    },
+    "c_right": {
+        "threshold": -1.1250337362289429,
+        "feature": "Glucose",
+        "feature_id": 1,
+        "node_id": 9,
+        "path": [
+            "*",
+            "Age > -0.8201243877410889"
+        ],
+        "c_left": {
+            "threshold": 2.3453876972198486,
+            "feature": "DiabetesPedigreeFunction",
+            "feature_id": 6,
+            "node_id": 10,
+            "path": [
+                "*",
+                "Age > -0.8201243877410889",
+                "Glucose <= -1.1250337362289429"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 11,
+                "path": [
+                    "*",
+                    "Age > -0.8201243877410889",
+                    "Glucose <= -1.1250337362289429",
+                    "DiabetesPedigreeFunction <= 2.3453876972198486"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 12,
+                "path": [
+                    "*",
+                    "Age > -0.8201243877410889",
+                    "Glucose <= -1.1250337362289429",
+                    "DiabetesPedigreeFunction > 2.3453876972198486"
+                ]
+            }
+        },
+        "c_right": {
+            "threshold": -0.882927417755127,
+            "feature": "BMI",
+            "feature_id": 5,
+            "node_id": 13,
+            "path": [
+                "*",
+                "Age > -0.8201243877410889",
+                "Glucose > -1.1250337362289429"
+            ],
+            "c_left": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 14,
+                "path": [
+                    "*",
+                    "Age > -0.8201243877410889",
+                    "Glucose > -1.1250337362289429",
+                    "BMI <= -0.882927417755127"
+                ]
+            },
+            "c_right": {
+                "threshold": null,
+                "feature": null,
+                "feature_id": null,
+                "node_id": 15,
+                "path": [
+                    "*",
+                    "Age > -0.8201243877410889",
+                    "Glucose > -1.1250337362289429",
+                    "BMI > -0.882927417755127"
+                ]
+            }
+        }
+    },
+    "features": [
+        "Pregnancies",
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction",
+        "Age"
+    ]
+}

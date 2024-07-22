@@ -1,0 +1,15 @@
+[
+    {
+        "shift_probability": 0.8111111111111111,
+        "test_statistic": 8.466666666666667,
+        "baseline_mean": 7.4,
+        "baseline_std": 1.2631530214330944,
+        "significance_description": {
+            "no shift": 38.34567901234568,
+            "small": 15.592592592592592,
+            "moderate": 16.34567901234568,
+            "large": 29.716049382716047
+        },
+        "Strategy": "enhanced_disagreement_strategy"
+    }
+]
