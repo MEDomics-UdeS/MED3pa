@@ -116,7 +116,7 @@ Step 5: Running experiments from pretrained models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 If you don't want to re-train new APC and IPC models in your experiment, you can directly use a previously saved instances. as follows:
 
-.. code-bloack:: python
+.. code-block:: python
 
     from MED3pa.med3pa import Med3paExperiment
     from MED3pa.med3pa.uncertainty import AbsoluteError
