@@ -6,6 +6,7 @@ from typing import List
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
+
 from .abstract_metrics import EvaluationMetric
 
 
