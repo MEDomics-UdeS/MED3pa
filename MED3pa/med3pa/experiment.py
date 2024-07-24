@@ -194,26 +194,40 @@ class Med3paResults:
         with open(experiment_config_path, 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
 
-    def save_models(self, file_path: str) -> None:
+    def save_models(self, file_path: str, mode:str ='all') -> None:
         """
         Saves the experiment ipc and apc models as a .pkl files, alongside the tree structure for the test set.
         Args:
             file_path (str): The file path to save the pickled files.
+            mode (str): Defines the type of models to save, either ipc, apc, or both.
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
-        if self.ipc_model:
-            ipc_path = os.path.join(file_path, 'ipc_model.pkl')
-            self.ipc_model.save_model(ipc_path)
+        
+        if mode=='all':
+            if self.ipc_model:
+                ipc_path = os.path.join(file_path, 'ipc_model.pkl')
+                self.ipc_model.save_model(ipc_path)
+            if self.apc_model:
+                apc_path = os.path.join(file_path, 'apc_model.pkl')
+                self.apc_model.save_model(apc_path)
+            tree_structure = self.test_record.tree
+            tree_structure_path = os.path.join(file_path, 'tree.json')
+            if tree_structure:
+                tree_structure.save_tree(tree_structure_path)
+        elif mode=='ipc':
+            if self.ipc_model:
+                ipc_path = os.path.join(file_path, 'ipc_model.pkl')
+                self.ipc_model.save_model(ipc_path)
+        elif mode=='apc':
+            if self.apc_model:
+                apc_path = os.path.join(file_path, 'apc_model.pkl')
+                self.apc_model.save_model(apc_path)
 
-        if self.apc_model:
-            apc_path = os.path.join(file_path, 'apc_model.pkl')
-            self.apc_model.save_model(apc_path)
-
-        tree_structure = self.test_record.tree
-        tree_structure_path = os.path.join(file_path, 'tree.json')
-        if tree_structure:
-            tree_structure.save_tree(tree_structure_path)
+            tree_structure = self.test_record.tree
+            tree_structure_path = os.path.join(file_path, 'tree.json')
+            if tree_structure:
+                tree_structure.save_tree(tree_structure_path)
 
 class Med3paExperiment:
     """
