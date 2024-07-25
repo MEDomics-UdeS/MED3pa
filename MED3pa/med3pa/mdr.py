@@ -425,6 +425,7 @@ class MDRCalculator:
     @staticmethod
     def detectron_by_profiles(datasets: DatasetsManager,
                               profiles_manager: ProfilesManager,
+                              confidence_scores: np.ndarray,
                               training_params: Dict,
                               base_model_manager: BaseModelManager,
                               strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]],
@@ -460,7 +461,6 @@ class MDRCalculator:
         min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k >= 0])
         profiles_by_dr = profiles_manager.get_profiles(min_samples_ratio=min_positive_ratio)
         last_min_confidence_level = -1   
-        confidence_scores = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True).get_confidence_scores()  
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False

@@ -3,6 +3,8 @@ from MED3pa.datasets.manager import DatasetsManager
 from MED3pa.models.base import BaseModelManager
 from MED3pa.models.factories import ModelFactory
 from MED3pa.detectron.strategies import EnhancedDisagreementStrategy
+from MED3pa.datasets import DatasetsManager
+
 import pandas as pd
 import numpy as np
 import json
@@ -20,26 +22,25 @@ XGB_PARAMS = {
     'device': 'cpu'
 }
 
-
-# prepare the BaseModelManager
-loaded_model = ModelFactory.create_model_from_pickled("./tests/tests_detectron/model.pkl")
-bm_manager = BaseModelManager()
-bm_manager.set_base_model(loaded_model)
-
-# prepare the DatasetManager
+# Initialize the DatasetsManager
 datasets = DatasetsManager()
-datasets.set_from_file("training","./tests/tests_detectron/cleveland_train.csv", "y_true")
-datasets.set_from_file("validation", "./tests/tests_detectron/cleveland_val.csv", "y_true")
-datasets.set_from_file("reference","./tests/tests_detectron/cleveland_test.csv", "y_true")
-datasets.set_from_file("testing","./tests/tests_detectron/ood_va_sampled_seed_3.csv", "y_true")
 
+# Load datasets for reference, and testing
+datasets.set_from_file(dataset_type="training", file='./tests/tests_med3pa/data/train_data.csv', target_column_name='Outcome')
+datasets.set_from_file(dataset_type="validation", file='./tests/tests_med3pa/data/val_data.csv', target_column_name='Outcome')
+datasets.set_from_file(dataset_type="reference", file='./tests/tests_med3pa/data/test_data.csv', target_column_name='Outcome')
+datasets.set_from_file(dataset_type="testing", file='./tests/tests_med3pa/data/test_data_shifted_0.1.csv', target_column_name='Outcome')
 
-detectron_results = DetectronExperiment.run(
-    datasets=datasets, 
-    training_params=XGB_PARAMS, 
-    base_model_manager=bm_manager, 
-)
+# Initialize the model factory and load the pre-trained model
+factory = ModelFactory()
+model = factory.create_model_from_pickled("./tests/tests_med3pa/models/diabetes_xgb_model.pkl")
 
-analysis_results = detectron_results.analyze_results(EnhancedDisagreementStrategy)
-detectron_results.save("./tests/tests_detectron/", "detectron_results")
+# Set the base model using BaseModelManager
+base_model_manager = BaseModelManager()
+base_model_manager.set_base_model(model=model)
+
+experiment_results = DetectronExperiment.run(datasets=datasets, base_model_manager=base_model_manager, training_params=XGB_PARAMS)
+
+analysis_results = experiment_results.analyze_results("enhanced_disagreement_strategy")
+experiment_results.save("./tests/tests_detectron/detectron_results")
 

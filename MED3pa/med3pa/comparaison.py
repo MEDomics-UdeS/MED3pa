@@ -116,31 +116,24 @@ class Med3paComparison:
             profiles2 = json.load(f2)
 
         # Determine the smallest positive samples_ratio
-        smallest_samples_ratio = min(filter(lambda x: float(x) > 0, profiles1.keys()))
+        smallest_samples_ratio = min([int(k) for k in profiles1.keys() if int(k) >= 0])
+        smallest_samples_ratio = str(smallest_samples_ratio)
 
-        for profiles in [profiles1, profiles2]:
+        for profiles, key in zip([profiles1, profiles2], ['detectron_results_1', 'detectron_results_2']):
             if smallest_samples_ratio not in profiles:
                 continue
-            
+
             dr_dict = profiles[smallest_samples_ratio]
-            
-            if smallest_samples_ratio not in combined:
-                combined[smallest_samples_ratio] = {}
-            
+
             if "100" not in dr_dict:
                 continue
-            
+
             for profile in dr_dict["100"]:
                 profile_path = " / ".join(profile["path"])
-                if profile_path not in combined[smallest_samples_ratio]:
-                    combined[smallest_samples_ratio][profile_path] = {}
-                if "100" not in combined[smallest_samples_ratio][profile_path]:
-                    combined[smallest_samples_ratio][profile_path]["100"] = {}
+                if profile_path not in combined:
+                    combined[profile_path] = {}
                 
-                if profiles is profiles1:
-                    combined[smallest_samples_ratio][profile_path]["100"]['detectron_results_1'] = profile["detectron_results"]
-                else:
-                    combined[smallest_samples_ratio][profile_path]["100"]['detectron_results_2'] = profile["detectron_results"]
+                combined[profile_path][key] = profile["detectron_results"]
 
         self.profiles_detectron_comparaison = combined
 
@@ -208,14 +201,13 @@ class Med3paComparison:
         combined['base_model1'] = config1["base_model"]
         combined['base_model2'] = config2["base_model"]
 
-        combined['apc_model1'] = config1["apc_model"]
-        combined['apc_model2'] = config2["apc_model"]
+        if not self.compare_detectron :
+            combined['experiment_params1'] = config1["med3pa_params"]
+            combined['experiment_params2'] = config2["med3pa_params"]
+        else:
+            combined['experiment_params1'] = config1["med3pa_detectron_params"]
+            combined['experiment_params2'] = config2["med3pa_detectron_params"]
 
-        combined['ipc_model1'] = config1["ipc_model"]
-        combined['ipc_model2'] = config2["ipc_model"]
-
-        combined['experiment_params1'] = config1["experiment_params"]
-        combined['experiment_params2'] = config2["experiment_params"]
 
         self.config_file = combined
 
