@@ -53,7 +53,7 @@ class TreeRepresentation:
         self.head = None
         self.nb_nodes = 0
 
-    def build_tree_deprecated(self, dtr: DecisionTreeRegressorModel, X: DataFrame, y: Series, node_id: int = 0, path: list = ['*']) -> '_TreeNode':
+    def build_tree(self, dtr: DecisionTreeRegressorModel, X: DataFrame, y: Series, node_id: int = 0, path: list = ['*']) -> '_TreeNode':
         """
         Recursively builds the tree representation starting from the specified node.
 
@@ -100,84 +100,6 @@ class TreeRepresentation:
                                             node_id=right_child, path=right_path)
 
         return curr_node
-
-    def build_tree(self, dtr: DecisionTreeRegressorModel = None, X: DataFrame = None, y: Series = None, 
-               node_id: int = 0, path: list = ['*'], loaded_tree: dict = None) -> '_TreeNode':
-        """
-        Recursively builds the tree representation starting from the specified node, either from a trained decision tree model
-        or from a JSON structure.
-
-        Args:
-            dtr (DecisionTreeRegressorModel, optional): Trained decision tree regressor model.
-            X (DataFrame, optional): Training data observations.
-            y (Series, optional): Training data labels.
-            node_id (int): Node ID to start building from. Defaults to 0.
-            path (Optional[List[str]]): Path to the current node. Defaults to ['*'].
-            json_node (dict, optional): JSON structure representing the tree node.
-
-        Returns:
-            _TreeNode: The root node of the tree representation.
-        """
-        self.nb_nodes += 1
-        # Building tree from JSON structure
-        if loaded_tree is not None:
-            node_feature = loaded_tree.get("feature")
-            node_thresh = loaded_tree.get("threshold")
-            node_feature_id = loaded_tree.get("feature_id")
-
-            if node_feature is not None and node_thresh is not None:
-                left_mask = X[node_feature] <= node_thresh
-                right_mask = X[node_feature] > node_thresh
-
-                curr_node = _TreeNode(
-                    value=y.mean(), value_max=y.max(), samples_ratio=len(y) / len(X) * 100,
-                    threshold=node_thresh, feature=node_feature, feature_id=node_feature_id,
-                    node_id=self.nb_nodes, path=loaded_tree.get("path", [])
-                )
-
-                if "c_left" in loaded_tree:
-                    curr_node.c_left = self.build_tree(X=X[left_mask], y=y[left_mask], loaded_tree=loaded_tree["c_left"])
-                if "c_right" in loaded_tree:
-                    curr_node.c_right = self.build_tree(X=X[right_mask], y=y[right_mask], loaded_tree=loaded_tree["c_right"])
-            else:
-                curr_node = _TreeNode(
-                    value=y.mean(), value_max=y.max(), samples_ratio=len(y) / len(X) * 100,
-                    node_id=self.nb_nodes, path=loaded_tree.get("path", [])
-                )
-            return curr_node 
-        else: 
-            # Building tree from DecisionTreeRegressorModel
-            left_child = dtr.model.tree_.children_left[node_id]
-            right_child = dtr.model.tree_.children_right[node_id]
-
-            node_value = y.mean()
-            node_max = y.max()
-            node_samples_ratio = dtr.model.tree_.n_node_samples[node_id] / dtr.model.tree_.n_node_samples[0] * 100
-
-            # If we are at a leaf
-            if left_child == -1:
-                curr_node = _TreeNode(value=node_value, value_max=node_max, samples_ratio=node_samples_ratio,
-                                    node_id=self.nb_nodes, path=path)
-                return curr_node
-
-            node_thresh = dtr.model.tree_.threshold[node_id]
-            node_feature_id = dtr.model.tree_.feature[node_id]
-            node_feature = self.features[node_feature_id]
-
-            curr_path = list(path)  # Copy the current path to avoid modifying the original list
-            curr_node = _TreeNode(value=node_value, value_max=node_max, samples_ratio=node_samples_ratio,
-                                threshold=node_thresh, feature=node_feature, feature_id=node_feature_id,
-                                node_id=self.nb_nodes, path=curr_path)
-
-            # Update paths for child nodes
-            left_path = curr_path + [f"{node_feature} <= {node_thresh}"]
-            right_path = curr_path + [f"{node_feature} > {node_thresh}"]
-            curr_node.c_left = self.build_tree(dtr, X=X.loc[X[node_feature] <= node_thresh], y=y[X[node_feature] <= node_thresh],
-                                            node_id=left_child, path=left_path)
-            curr_node.c_right = self.build_tree(dtr, X=X.loc[X[node_feature] > node_thresh], y=y[X[node_feature] > node_thresh],
-                                                node_id=right_child, path=right_path)
-
-            return curr_node
 
     def get_all_profiles(self, min_ca: float = 0, min_samples_ratio: float = 0) -> list:
         """
@@ -396,3 +318,18 @@ class _TreeNode:
             node_dict['c_right'] = self.c_right.to_dict()
         return node_dict
     
+    def print_tree(self, depth=0):
+        """
+        Prints the tree structure.
+        """
+        indent = "  " * depth
+        if self.threshold is None:
+            print(f"{indent}Leaf node (ID: {self.node_id}, Value: {self.value:.4f}, Max Value: {self.value_max:.4f}, Samples Ratio: {self.samples_ratio:.2f}%)")
+        else:
+            print(f"{indent}Node (ID: {self.node_id}, Feature: {self.feature}, Threshold: {self.threshold:.4f}, Value: {self.value:.4f}, Max Value: {self.value_max:.4f}, Samples Ratio: {self.samples_ratio:.2f}%)")
+        if self.c_left:
+            print(f"{indent}  Left:")
+            self.c_left.print_tree(depth + 1)
+        if self.c_right:
+            print(f"{indent}  Right:")
+            self.c_right.print_tree(depth + 1)

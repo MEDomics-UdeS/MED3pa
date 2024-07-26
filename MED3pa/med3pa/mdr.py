@@ -5,7 +5,7 @@ The ``MDRCalculator`` class offers methods to assess model performance across di
 from typing import Dict, Type, Union
 import numpy as np
 
-from MED3pa.datasets import DatasetsManager
+from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.detectron import DetectronExperiment, DetectronStrategy
 from MED3pa.med3pa.profiles import Profile, ProfilesManager
 from MED3pa.med3pa.tree import TreeRepresentation
@@ -89,13 +89,13 @@ class MDRCalculator:
         return [d for d in list1 if d[key] in unique_to_list1]
 
     @staticmethod
-    def _filter_by_profile(datasets_manager : DatasetsManager, path : List, set:str = 'reference', min_confidence_level:float = None):
+    def _filter_by_profile(dataset : MaskedDataset, path : List, features: list, min_confidence_level:float = None):
         """
         Filters datasets based on specific profile conditions described by a path.
 
         Args:
-            datasets_manager (DatasetsManager): The DatasetManager containing the datasets
-            set (str): the set to calculate the metrics on.
+            dataset (MaskedDataset): The dataset to filter.
+            features (list): the list of features to filter on.
             path (list): Conditions describing the profile path.
             min_confidence_level(float): possibility to filter according a minimum confidence score if specified.
 
@@ -103,21 +103,13 @@ class MDRCalculator:
             tuple: Filtered datasets including observations, true labels, predicted probabilities, predicted labels, and mpc values.
         """
         
-        # retrieve the dataset based on the set type
-        if set == 'reference':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        elif set == 'testing':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="testing", return_instance=True)
-        else:
-            raise ValueError("The set must be either the reference set or the testing set")
-
         # retrieve different dataset components to calculate the metrics
         x = dataset.get_observations()
         y_true = dataset.get_true_labels()
         y_pred = dataset.get_pseudo_labels()
         predicted_prob = dataset.get_pseudo_probabilities()
         confidence_scores = dataset.get_confidence_scores()
-        observations = datasets_manager.get_column_labels()
+        
 
         # Start with a mask that selects all rows
         mask = np.ones(len(x), dtype=bool)
@@ -128,7 +120,7 @@ class MDRCalculator:
 
             # Parse the condition string
             column_name, operator, value_str = condition.split(' ')
-            column_index = observations.index(column_name)  # Map feature name to index
+            column_index = features.index(column_name)  # Map feature name to index
             try:
                 value = float(value_str)
             except ValueError:
@@ -169,25 +161,19 @@ class MDRCalculator:
         return filtered_x, filtered_y_true, filtered_prob, filtered_y_pred, filtered_confidence_scores
             
     @staticmethod
-    def calc_metrics_by_dr(datasets_manager: DatasetsManager, confidence_scores: np.ndarray, metrics_list: list, set = 'reference'):
+    def calc_metrics_by_dr(dataset: MaskedDataset, confidence_scores: np.ndarray, metrics_list: list):
         """
         Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.
 
         Args:
-            datasets_manager (DatasetsManager): The DatasetManager containing the datasets
+            dataset (MaskedDataset): The dataset to filter.
+            confidence_scores (np.ndarray): the confidence scores used for filtering.
             metrics_list (list): List of metric names to be calculated (e.g., 'AUC', 'Accuracy').
             set (str): the set to calculate the metrics on.
 
         Returns:
             dict: A dictionary containing metrics computed for each declaration rate from 100% to 0%, including metrics and population percentage.
         """
-        # retrieve the dataset based on the set type
-        if set == 'reference':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        elif set == 'testing':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="testing", return_instance=True)
-        else:
-            raise ValueError("The set must be either the reference set or the testing set")
 
         # retrieve different dataset components to calculate the metrics
         y_true = dataset.get_true_labels()
@@ -295,7 +281,7 @@ class MDRCalculator:
         
         return min_confidence_levels_dict
 
-    def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, datasets_manager, confidence_scores: np.ndarray, min_samples_ratio: int, set:str ='reference') -> Dict[int, float]:
+    def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, dataset:MaskedDataset, features:list, confidence_scores: np.ndarray, min_samples_ratio: int) -> Dict[int, float]:
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change
         across different confidence levels derived from predicted accuracies.
@@ -303,7 +289,8 @@ class MDRCalculator:
         Args:
             profiles_manager (ProfilesManager): Manager for storing and retrieving profile information.
             tree (TreeRepresentation): Tree structure from which profiles are derived.
-            datasets_manager (DatasetsManager): Manager for handling datasets.
+            dataset (MaskedDataset): The dataset to filter.
+            features (list): the list of features to filter on.
             confidence_scores (np.ndarray): Array of predicted accuracy values used for thresholding profiles.
             min_samples_ratio (int): Minimum sample ratio to consider for including a profile.
 
@@ -337,7 +324,7 @@ class MDRCalculator:
                 for node in all_nodes:
                     # filter the data that belongs to this node, and filter according to min_confidence_level threshold
                     _, _, _, _, filtered_confidence_scores = MDRCalculator._filter_by_profile(
-                    datasets_manager, node['path'], set=set, min_confidence_level=min_confidence_level)
+                    dataset, node['path'], features=features, min_confidence_level=min_confidence_level)
                     
                     # calculate the samples_ratio (pop%) and mean_confidence_level of this node, if the filtered data isnt empty
                     if len(filtered_confidence_scores) > 0:
@@ -366,25 +353,17 @@ class MDRCalculator:
         return min_confidence_levels_dict
     
     @staticmethod
-    def calc_metrics_by_profiles(profiles_manager, datasets_manager : DatasetsManager, confidence_scores: np.ndarray, min_samples_ratio: int, metrics_list, set = 'reference'):
+    def calc_metrics_by_profiles(profiles_manager, dataset : MaskedDataset, features:list, confidence_scores: np.ndarray, min_samples_ratio: int, metrics_list):
         """
         Calculates various metrics for different profiles and declaration rates based on provided datasets.
 
         Args:
             profiles_manager (ProfilesManager): Manager handling profiles.
-            datasets_manager (DatasetsManager): The DatasetManager containing the datasets
+            dataset (MaskedDataset): the dataset to use.
             set (str): the set to calculate the metrics on.
             metrics_list (list): List of metrics to calculate.
 
         """
-        # retrieve the dataset based on the set type
-        if set == 'reference':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        elif set == 'testing':
-            dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        else:
-            raise ValueError("The set must be either the reference set or the testing set")
-
         # retrieve different dataset components to calculate the metrics
         all_y_true = dataset.get_true_labels()
         all_confidence_scores = confidence_scores
@@ -400,7 +379,7 @@ class MDRCalculator:
                 
                 # go through each profile in the profile list
                 for profile in profiles:
-                    x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(datasets_manager, profile.path, set)
+                    x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(dataset, profile.path, features)
                     # calculate the metrics for this profile
                     confidence_mask = confidence_scores >= min_confidence_level
                     metrics_dict = MDRCalculator._calculate_metrics(y_true=y_true[confidence_mask],
@@ -459,8 +438,11 @@ class MDRCalculator:
             Dict: Dictionary of med3pa profiles with detectron results.
         """
         min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k >= 0])
+        test_dataset = datasets.get_dataset_by_type('testing', True)
+        test_dataset.set_confidence_scores(confidence_scores=confidence_scores)
         profiles_by_dr = profiles_manager.get_profiles(min_samples_ratio=min_positive_ratio)
         last_min_confidence_level = -1   
+        features = datasets.get_column_labels()
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False
@@ -471,7 +453,7 @@ class MDRCalculator:
                 for profile in profiles:
                     detectron_results_dict = {}
                     
-                    q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(datasets_manager=datasets, path=profile.path, set='testing', min_confidence_level=min_confidence_level)
+                    q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path, features=features, min_confidence_level=min_confidence_level)
                     p_x, p_y_true = datasets.get_dataset_by_type("reference")
                     if len(q_y_true) != 0:
                         if len(q_y_true) < samples_size: 

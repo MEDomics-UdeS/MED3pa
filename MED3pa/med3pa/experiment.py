@@ -264,7 +264,6 @@ class Med3paExperiment:
             apc_params: Dict = None,
             apc_grid_params: Dict = None,
             apc_cv: int = 4,
-            fixed_tree:str = None,
             pretrained_apc: str = None,
             samples_ratio_min: int = 0,
             samples_ratio_max: int = 50, 
@@ -288,7 +287,6 @@ class Med3paExperiment:
             apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
             apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
             apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
-            fixed_tree (int, optional): a tree structure to use, by default None.
             pretrained_apc (str, optional): path to a pretrained apc, by default None.
             use_ref_models (bool, optional): whether or not to use the trained IPC and APC models from the reference set on the test set.
             samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
@@ -302,7 +300,7 @@ class Med3paExperiment:
         """
         print("Running MED3pa Experiment on the reference set:")
         results_reference, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
-                                                         uncertainty_metric=uncertainty_metric, fixed_tree=fixed_tree,
+                                                         uncertainty_metric=uncertainty_metric,
                                                          ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc,
                                                          apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc,
                                                          samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
@@ -310,14 +308,14 @@ class Med3paExperiment:
         print("Running MED3pa Experiment on the test set:")
         if use_ref_models:
             results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
-                                                            uncertainty_metric=uncertainty_metric, fixed_tree=fixed_tree,
+                                                            uncertainty_metric=uncertainty_metric,
                                                             ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc, ipc_instance=ipc_config,
                                                             apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc, apc_instance=apc_config,
                                                             samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
                                                             med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
         else:
             results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
-                                                            uncertainty_metric=uncertainty_metric, fixed_tree=fixed_tree,
+                                                            uncertainty_metric=uncertainty_metric,
                                                             ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc, ipc_instance=None,
                                                             apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc, apc_instance=None,
                                                             samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
@@ -361,7 +359,6 @@ class Med3paExperiment:
             apc_grid_params: Dict = None,
             apc_cv: int = 4,
             apc_instance: APCModel = None,
-            fixed_tree:str = None,
             pretrained_apc:str = None,
             samples_ratio_min: int = 0,
             samples_ratio_max: int = 50, 
@@ -462,15 +459,17 @@ class Med3paExperiment:
         IPC_values = IPC_model.predict(x)
         print("Individualized confidence scores calculated.")
         # Save the calculated confidence scores by the APCmodel
-        dataset.set_confidence_scores(IPC_values)
-        cloned_dataset = dataset.clone()
-        results.set_dataset(mode="ipc", dataset=cloned_dataset)
+        ipc_dataset = dataset.clone()
+        ipc_dataset.set_confidence_scores(IPC_values)
+        results.set_dataset(mode="ipc", dataset=ipc_dataset)
         results.set_confidence_scores(IPC_values, "ipc")
+        metrics_by_dr = MDRCalculator.calc_metrics_by_dr(dataset=ipc_dataset, confidence_scores=IPC_values, metrics_list=med3pa_metrics)
+        results.set_metrics_by_dr(metrics_by_dr)
         if mode in ['mpc', 'apc']:
 
             # Step 6: Create and train APCModel
             if pretrained_apc is None and apc_instance is None:
-                APC_model = APCModel(features=features, params=apc_params, tree_file_path=fixed_tree)
+                APC_model = APCModel(features=features, params=apc_params)
                 APC_model.train(x, IPC_values)
                 print("APC Model training complete.")
                 # optimize APC model if grid params were provided
@@ -492,9 +491,9 @@ class Med3paExperiment:
             tree = APC_model.treeRepresentation
             results.set_tree(tree=tree)
             # Save the calculated confidence scores by the APCmodel
-            dataset.set_confidence_scores(APC_values)
-            cloned_dataset = dataset.clone()
-            results.set_dataset(mode="apc", dataset=cloned_dataset)
+            apc_dataset = dataset.clone()
+            apc_dataset.set_confidence_scores(APC_values)
+            results.set_dataset(mode="apc", dataset=apc_dataset)
             results.set_confidence_scores(APC_values, "apc")
 
             # Step 7: Create and train MPCModel
@@ -503,27 +502,25 @@ class Med3paExperiment:
                 MPC_model = MPCModel(IPC_values=IPC_values, APC_values=APC_values)
                 MPC_values = MPC_model.predict()
                 # Save the calculated confidence scores by the MPCmodel
-                dataset.set_confidence_scores(MPC_values)
-                cloned_dataset = dataset.clone()
-                results.set_dataset(mode="mpc", dataset=cloned_dataset)
+                mpc_dataset = dataset.clone()
+                mpc_dataset.set_confidence_scores(MPC_values)
+                results.set_dataset(mode="mpc", dataset=mpc_dataset)
                 results.set_confidence_scores(MPC_values, "mpc")
             else:
                 MPC_model = MPCModel(APC_values=APC_values)
                 MPC_values = MPC_model.predict()
+                mpc_dataset = dataset.clone()
+                mpc_dataset.set_confidence_scores(MPC_values)
 
             print("Mixed confidence scores calculated.")
-
-            # Calculate metrics by declaration rate
-            metrics_by_dr = MDRCalculator.calc_metrics_by_dr(datasets_manager=datasets_manager, confidence_scores=MPC_values, metrics_list=med3pa_metrics, set=set)
-            results.set_metrics_by_dr(metrics_by_dr)
             
             # Step 8: Calculate the profiles for the different samples_ratio and drs
             profiles_manager = ProfilesManager(features)
             for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
 
                 # Calculate profiles and their metrics by declaration rate                
-                MDRCalculator.calc_profiles(profiles_manager, tree, datasets_manager, MPC_values, samples_ratio, set=set)                
-                MDRCalculator.calc_metrics_by_profiles(profiles_manager, datasets_manager, MPC_values, samples_ratio, med3pa_metrics, set=set)
+                MDRCalculator.calc_profiles(profiles_manager, tree, mpc_dataset, features, MPC_values, samples_ratio)                
+                MDRCalculator.calc_metrics_by_profiles(profiles_manager, mpc_dataset, features, MPC_values, samples_ratio, med3pa_metrics)
                 results.set_profiles_manager(profiles_manager)                
                 print("Results extracted for minimum_samples_ratio = ", samples_ratio)
 
@@ -566,7 +563,6 @@ class Med3paDetectronExperiment:
             apc_params: Dict = None,
             apc_grid_params: Dict = None,
             apc_cv: int = None,
-            fixed_tree:str = None,
             pretrained_apc: str = None,
             samples_ratio_min: int = 0,
             samples_ratio_max: int = 50, 
@@ -598,7 +594,6 @@ class Med3paDetectronExperiment:
             pretrained_ipc (str, optional): path to a pretrained ipc, by default None.
             apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
             apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
-            fixed_tree (int, optional): a tree structure to use, by default None.
             pretrained_apc (str, optional): path to a pretrained apc, by default None.
             apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
             samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
@@ -620,7 +615,7 @@ class Med3paDetectronExperiment:
         med3pa_results = Med3paExperiment.run(datasets_manager=datasets, 
                                                                 base_model_manager=base_model_manager, uncertainty_metric=uncertainty_metric,
                                                                 ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,
-                                                                apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv, fixed_tree=fixed_tree, pretrained_apc=pretrained_apc,
+                                                                apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc,
                                                                 evaluate_models=evaluate_models, models_metrics=models_metrics,
                                                                 samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step,
                                                                 med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)

@@ -11,7 +11,7 @@ import pickle
 import numpy as np
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.tree import DecisionTreeRegressor, export_text
 
 from MED3pa.med3pa.tree import TreeRepresentation, _TreeNode
 from MED3pa.models.abstract_models import RegressionModel
@@ -270,9 +270,19 @@ class APCModel:
         if not self.pretrained:
             self.model.train(x, error_prob)
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
-        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0, loaded_tree=self.loaded_tree)
+        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0)
         
-    
+    def print_decision_tree_structure(tree_model, feature_names=None):
+        """
+        Prints the structure of a trained DecisionTreeRegressor.
+        
+        Args:
+        tree_model: The trained DecisionTreeRegressor model.
+        feature_names: List of feature names to use in the output. Default is None.
+        """
+        tree_rules = export_text(tree_model, feature_names=feature_names)
+        print(tree_rules)
+
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
         """
         Optimizes the model parameters using GridSearchCV.
