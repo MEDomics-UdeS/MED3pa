@@ -78,6 +78,7 @@ class DetectronRecordsManager:
         self.idx = 0
         self.__seed = None
         self.sampling_counts = None
+        self.model_evaluation = {}
 
     def seed(self, seed: int):
         """
@@ -113,6 +114,21 @@ class DetectronRecordsManager:
         record.update(validation_auc, testing_auc, predicted_probabilities, sample_size)
         self.records.append(record.to_dict())
         self.idx += 1
+
+    def set_evaluation(self, evaluation:dict):
+        """
+        Saves the base model evaluation.
+
+        Args:
+            evaluation (dict): evaluation results on different metrics.
+        """
+        self.model_evaluation = evaluation
+
+    def get_evaluation(self):
+        """
+        gets the base model evaluation.
+        """
+        return self.model_evaluation
 
     def freeze(self):
         """

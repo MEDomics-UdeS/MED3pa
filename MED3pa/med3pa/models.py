@@ -159,7 +159,7 @@ class IPCModel:
         """
         return {
             'model_name': self.model_name,
-            'params': self.params,
+            'params': self.params if not self.pretrained else {},
             'optimized': self.optimized,
             'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained
@@ -355,7 +355,7 @@ class APCModel:
         """
         return {
             'model_name': "DecisionTreeRegressor",
-            'params': self.params,
+            'params': self.params if not self.pretrained else {},
             'optimized': self.optimized,
             'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained

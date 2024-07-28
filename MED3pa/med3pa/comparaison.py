@@ -195,18 +195,49 @@ class Med3paComparison:
             config1 = json.load(f1)
             config2 = json.load(f2)
 
-        combined['datasets1'] = config1["datasets"]
-        combined['datasets2'] = config2["datasets"]
+        combined['datasets'] = {}
+        
+        if config1["datasets"] == config2["datasets"]:
+            combined['datasets']['different'] = False
+        else:
+            combined['datasets']['different'] = True
 
-        combined['base_model1'] = config1["base_model"]
-        combined['base_model2'] = config2["base_model"]
+        combined['datasets']['datasets1'] = config1["datasets"]
+        combined['datasets']['datasets2'] = config2["datasets"]
+
+        combined['base_model'] = {}
+
+        if config1["base_model"] == config2["base_model"]:
+            combined['base_model']['different'] = False
+        else:
+            combined['base_model']['different'] = True
+
+        combined['base_model']['base_model1'] = config1["base_model"]
+        combined['base_model']['base_model2'] = config2["base_model"]
 
         if not self.compare_detectron :
-            combined['experiment_params1'] = config1["med3pa_params"]
-            combined['experiment_params2'] = config2["med3pa_params"]
+            
+            combined['med3pa_params'] = {}
+
+            if config1["med3pa_params"] == config2["med3pa_params"]:
+                combined['med3pa_params']['different'] = False
+            else:
+                combined['med3pa_params']['different'] = True
+
+            combined['med3pa_params']['med3pa_params1'] = config1["med3pa_params"]
+            combined['med3pa_params']['med3pa_params2'] = config2["med3pa_params"]
+        
         else:
-            combined['experiment_params1'] = config1["med3pa_detectron_params"]
-            combined['experiment_params2'] = config2["med3pa_detectron_params"]
+
+            combined['med3pa_detectron_params'] = {}
+
+            if config1["med3pa_detectron_params"] == config2["med3pa_detectron_params"]:
+                combined['med3pa_detectron_params']['different'] = False
+            else:
+                combined['med3pa_detectron_params']['different'] = True
+
+            combined['med3pa_detectron_params']['med3pa_detectron_params1'] = config1["med3pa_detectron_params"]
+            combined['med3pa_detectron_params']['med3pa_detectron_params2'] = config2["med3pa_detectron_params"]
 
 
         self.config_file = combined

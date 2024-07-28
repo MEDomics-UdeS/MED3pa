@@ -85,7 +85,9 @@ class DetectronEnsemble:
 
         # set up the records manager
         record = DetectronRecordsManager(sample_size=samples_size)
-
+        model_evaluation = self.base_model.evaluate(testing_data.get_observations(), testing_data.get_true_labels(), ['Auc', 'Accuracy'])
+        record.set_evaluation(model_evaluation)
+        
         # evaluate the ensemble for n_runs of runs
         for seed in tqdm(range(n_runs), desc='running seeds'):
             # sample the testing set according to the provided sample_size and current seed
