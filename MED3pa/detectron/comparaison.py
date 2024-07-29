@@ -54,7 +54,29 @@ class DetectronComparison:
         combined['detectron_results1'] = detectron1
         combined['detectron_results2'] = detectron2
 
-        self.detectron_results_comparaison = combined
+        comparison_results = {}
+        for r1 in detectron1:
+            for r2 in detectron2:
+                if r1["Strategy"] == r2["Strategy"]:
+                    strategy = r1["Strategy"]
+                    strategy_dict = {}
+                    if "p_value" in r1 and "p_value" in r2:
+                        strategy_dict["detectron_results1"] = r1["p_value"]
+                        strategy_dict["detectron_results2"] = r2["p_value"]
+                        strategy_dict["comparison_criteria"] = "p_value"
+                        strategy_dict["best"] = "detectron_results2" if r2["p_value"] > r1["p_value"] else "detectron_results1"
+
+                    if "shift_probability" in r1 and "shift_probability" in r2:
+                        strategy_dict["detectron_results1"] = r1["shift_probability"]
+                        strategy_dict["detectron_results2"] = r2["shift_probability"]
+                        strategy_dict["comparison_criteria"] = "shift_probability"
+                        strategy_dict["best"] = "detectron_results2" if r2["shift_probability"] < r1["shift_probability"] else "detectron_results1"
+                    
+                    if strategy not in comparison_results:
+                        comparison_results[strategy] = {}
+                        comparison_results[strategy] = strategy_dict
+                    
+        self.detectron_results_comparaison = comparison_results
 
     def compare_evaluation(self):
         """
@@ -70,8 +92,17 @@ class DetectronComparison:
 
         combined['model_evaluation1'] = detectron1
         combined['model_evaluation2'] = detectron2
-
-        self.model_evaluation_comparaison = combined
+        comparison = {}
+        metrics = detectron1["test"].keys()  # Assuming both experiments have the same metrics
+        
+        for metric in metrics:
+            comparison[metric] = {
+                "detectron_results1": detectron1["test"][metric],
+                "detectron_results2": detectron2["test"][metric],
+                "best": "detectron_results1" if detectron1["test"][metric] > detectron2["test"][metric] else "detectron_results2"
+            }
+            
+        self.model_evaluation_comparaison = comparison
 
     def compare_counts(self):
         """
