@@ -60,29 +60,34 @@ class DetectronComparison:
                 if r1["Strategy"] == r2["Strategy"]:
                     strategy = r1["Strategy"]
                     strategy_dict = {}
+
                     if "p_value" in r1 and "p_value" in r2:
                         strategy_dict["detectron_results1"] = r1["p_value"]
                         strategy_dict["detectron_results2"] = r2["p_value"]
                         strategy_dict["comparison_criteria"] = "p_value"
-                        strategy_dict["best"] = "detectron_results2" if r2["p_value"] > r1["p_value"] else "detectron_results1"
+                        if r1["p_value"] == r2["p_value"]:
+                            strategy_dict["best"] = None
+                        else:
+                            strategy_dict["best"] = "detectron_results2" if r2["p_value"] > r1["p_value"] else "detectron_results1"
 
                     if "shift_probability" in r1 and "shift_probability" in r2:
                         strategy_dict["detectron_results1"] = r1["shift_probability"]
                         strategy_dict["detectron_results2"] = r2["shift_probability"]
                         strategy_dict["comparison_criteria"] = "shift_probability"
-                        strategy_dict["best"] = "detectron_results2" if r2["shift_probability"] < r1["shift_probability"] else "detectron_results1"
-                    
+                        if r1["shift_probability"] == r2["shift_probability"]:
+                            strategy_dict["best"] = None
+                        else:
+                            strategy_dict["best"] = "detectron_results2" if r2["shift_probability"] < r1["shift_probability"] else "detectron_results1"
+
                     if strategy not in comparison_results:
-                        comparison_results[strategy] = {}
                         comparison_results[strategy] = strategy_dict
-                    
+                        
         self.detectron_results_comparaison = comparison_results
 
     def compare_evaluation(self):
         """
         Compares model evaluations two sets of results and stores them in a dictionary.
         """
-        combined = {}
         file_1 = os.path.join(self.results1_path, 'model_evaluation.json')
         file_2 = os.path.join(self.results2_path, 'model_evaluation.json')
 
@@ -90,16 +95,21 @@ class DetectronComparison:
             detectron1 = json.load(f1)
             detectron2 = json.load(f2)
 
-        combined['model_evaluation1'] = detectron1
-        combined['model_evaluation2'] = detectron2
         comparison = {}
         metrics = detectron1["test"].keys()  # Assuming both experiments have the same metrics
         
         for metric in metrics:
+            value1 = detectron1["test"][metric]
+            value2 = detectron2["test"][metric]
+            if value1 == value2:
+                best = None
+            else:
+                best = "detectron_results1" if value1 > value2 else "detectron_results2"
+            
             comparison[metric] = {
-                "detectron_results1": detectron1["test"][metric],
-                "detectron_results2": detectron2["test"][metric],
-                "best": "detectron_results1" if detectron1["test"][metric] > detectron2["test"][metric] else "detectron_results2"
+                "detectron_results1": value1,
+                "detectron_results2": value2,
+                "best": best
             }
             
         self.model_evaluation_comparaison = comparison

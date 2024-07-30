@@ -52,7 +52,7 @@ class Med3paRecord:
         self.profiles_manager: ProfilesManager = None
         self.datasets: Dict[int, MaskedDataset] = {}
         self.experiment_config = {}
-        self.tree = {}
+        self.tree = None
         self.ipc_scores = None
         self.apc_scores = None
         self.mpc_scores = None
@@ -187,8 +187,7 @@ class Med3paResults:
 
     def set_models(self, ipc_model: IPCModel, apc_model:APCModel = None):
         self.ipc_model = ipc_model
-        if apc_model:
-            self.apc_model = apc_model
+        self.apc_model = apc_model 
 
     def save(self, file_path: str) -> None:
         """
@@ -212,41 +211,50 @@ class Med3paResults:
         with open(experiment_config_path, 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
 
-    def save_models(self, file_path: str, mode:str ='all') -> None:
+    import os
+
+    def save_models(self, file_path: str, mode: str = 'all', id: str = None) -> None:
         """
-        Saves the experiment ipc and apc models as a .pkl files, alongside the tree structure for the test set.
+        Saves the experiment ipc and apc models as .pkl files, alongside the tree structure for the test set.
         Args:
             file_path (str): The file path to save the pickled files.
             mode (str): Defines the type of models to save, either ipc, apc, or both.
+            id (str): Optional identifier to append to the filenames.
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
         
-        if mode=='all':
+        # Function to generate the file name with optional id
+        def generate_file_name(base_name, id):
+            return f"{id}_{base_name}" if id else base_name
+        
+        if mode == 'all':
             if self.ipc_model:
-                ipc_path = os.path.join(file_path, 'ipc_model.pkl')
+                ipc_model_name = generate_file_name('ipc_model.pkl', id)
+                ipc_path = os.path.join(file_path, ipc_model_name)
                 self.ipc_model.save_model(ipc_path)
             if self.apc_model:
-                apc_path = os.path.join(file_path, 'apc_model.pkl')
+                apc_model_name = generate_file_name('apc_model.pkl', id)
+                apc_path = os.path.join(file_path, apc_model_name)
                 self.apc_model.save_model(apc_path)
-            tree_structure = self.test_record.tree
-            tree_structure_path = os.path.join(file_path, 'tree.json')
-            if tree_structure:
-                tree_structure.save_tree(tree_structure_path)
-        elif mode=='ipc':
+            if self.test_record.tree:
+                tree_structure_name = generate_file_name('tree.json', id)
+                tree_structure_path = os.path.join(file_path, tree_structure_name)
+                self.test_record.tree.save_tree(tree_structure_path)
+        elif mode == 'ipc':
             if self.ipc_model:
-                ipc_path = os.path.join(file_path, 'ipc_model.pkl')
+                ipc_model_name = generate_file_name('ipc_model.pkl', id)
+                ipc_path = os.path.join(file_path, ipc_model_name)
                 self.ipc_model.save_model(ipc_path)
-        elif mode=='apc':
+        elif mode == 'apc':
             if self.apc_model:
-                apc_path = os.path.join(file_path, 'apc_model.pkl')
+                apc_model_name = generate_file_name('apc_model.pkl', id)
+                apc_path = os.path.join(file_path, apc_model_name)
                 self.apc_model.save_model(apc_path)
-
-            tree_structure = self.test_record.tree
-            tree_structure_path = os.path.join(file_path, 'tree.json')
-            if tree_structure:
-                tree_structure.save_tree(tree_structure_path)
-
+            if self.test_record.tree:
+                tree_structure_name = generate_file_name('tree.json', id)
+                tree_structure_path = os.path.join(file_path, tree_structure_name)
+                self.test_record.tree.save_tree(tree_structure_path)
 
 class Med3paExperiment:
     """
@@ -332,7 +340,7 @@ class Med3paExperiment:
             'models_evaluation_metrics': models_metrics,
             'mode':mode, 
             'ipc_model': ipc_config.get_info(),
-            'apc_model': apc_config.get_info(),
+            'apc_model': apc_config.get_info() if apc_config is not None else None,
         }
         experiment_config = {
             'experiment_name': "Med3paExperiment",
