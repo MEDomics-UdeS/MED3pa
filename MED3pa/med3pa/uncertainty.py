@@ -49,12 +49,35 @@ class AbsoluteError(UncertaintyMetric):
         return 1 - np.abs(y_true - predicted_prob)
 
 
+class SigmoidalError(UncertaintyMetric):
+    """
+    Concrete implementation of the UncertaintyMetric class using Sigmoidal error.
+    """
+    def calculate(x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray, threshold=0.5) -> np.ndarray:
+        """
+        Calculates the Sigmoidal error between predicted probabilities and true labels, providing a measure of
+        prediction accuracy.
+
+        Args:
+            x (np.ndarray): Input features (not used in this metric but included for interface consistency).
+            predicted_prob (np.ndarray): Predicted probabilities.
+            y_true (np.ndarray): True labels.
+            threshold (float): Classification threshold
+
+        Returns:
+            np.ndarray: Sigmoidal errors between predicted probabilities and true labels.
+        """
+        return 1 / (
+                1 + np.exp(10 * np.log(3) * (np.abs(y_true - predicted_prob) - np.abs(threshold - y_true))))
+
+
 class UncertaintyCalculator:
     """
     Class for calculating uncertainty using a specified uncertainty metric.
     """
     metric_mapping = {
         'absolute_error': AbsoluteError,
+        'sigmoidal_error': SigmoidalError,
     }
 
     def __init__(self, metric_name: str) -> None:
