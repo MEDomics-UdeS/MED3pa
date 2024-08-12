@@ -81,7 +81,7 @@ class MannWhitneyStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
     from calibration runs and test runs.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager):
+    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager, trim_data=True, proportion_to_cut=0.05):
         """
         Executes the disagreement detection strategy using the Mann-Whitney U test.
 
@@ -97,23 +97,41 @@ class MannWhitneyStrategy(DetectronStrategy):
         cal_counts = calibration_records.rejected_counts()
         test_counts = test_records.rejected_counts()
         
-        cal_mean = np.mean(cal_counts)
-        cal_std = np.std(cal_counts)
-        test_mean = np.mean(test_counts)
+        # Ensure there are enough records to perform bootstrap
+        if len(cal_counts) < 2 or len(test_counts) == 0:
+            raise ValueError("Not enough records to perform the statistical test.")
+
+        def trim_dataset(data, proportion_to_cut):
+            if not 0 <= proportion_to_cut < 0.5:
+                raise ValueError("proportion_to_cut must be between 0 and 0.5")
+            
+            data_sorted = np.sort(data)
+            n = len(data)
+            trim_count = int(n * proportion_to_cut)
+            
+            return data_sorted[trim_count:n - trim_count]
+
+        if trim_data:
+            # Trim calibration and test data if trimming is enabled
+            cal_counts = trim_dataset(cal_counts, proportion_to_cut)
+            test_counts = trim_dataset(test_counts, proportion_to_cut)
+
+        baseline_mean = np.mean(cal_counts)
+        baseline_std = np.std(cal_counts)
                 
         # Perform the Mann-Whitney U test
         u_statistic, p_value = stats.mannwhitneyu(cal_counts, test_counts, alternative='less')
         
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts)
+        z_scores = (test_counts - baseline_mean) / baseline_std
 
         # Define thresholds for categorizing
         def categorize_z_score(z):
             if z <= 0:
                 return 'no significant shift'
-            elif abs(z) < 1:
+            elif 0 < z <= 1:
                 return 'small'
-            elif abs(z) < 2:
+            elif 1 < z <= 2:
                 return 'moderate'
             else:
                 return 'large'
@@ -238,29 +256,27 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
 
         # Calculate the baseline mean and standard deviation on trimmed or full data
         baseline_mean = np.mean(cal_counts)
-        test_mean = np.mean(test_counts)
         baseline_std = np.std(cal_counts)
-        test_std = np.std(test_counts)
 
         # Calculate the test statistic (mean of test data)
         test_statistic = np.mean(test_counts)
 
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts)
+        z_scores = (test_counts - baseline_mean) / baseline_std
 
         # Define thresholds for categorizing
         def categorize_z_score(z):
             if z <= 0:
                 return 'no significant shift'
-            elif abs(z) < 1:
+            elif 0 < z <= 1:
                 return 'small'
-            elif abs(z) < 2:
+            elif 1 < z <= 2:
                 return 'moderate'
             else:
                 return 'large'
 
         # Categorize each test count based on its z-score
-        categories = np.array([categorize_z_score(z) for z in z_scores.flatten()])
+        categories = np.array([categorize_z_score(z) for z in z_scores])
         # Calculate the percentage of each category
         category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
