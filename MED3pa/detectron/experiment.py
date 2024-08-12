@@ -122,8 +122,8 @@ class DetectronResult:
             json.dump(self.test_results, file, indent=4)
         
         counts_dict = {}
-        counts_dict['reference'] = self.cal_record.rejected_counts().tolist()
-        counts_dict['test'] = self.test_record.rejected_counts().tolist()
+        counts_dict['reference'] = np.sort(self.cal_record.rejected_counts()).tolist()
+        counts_dict['test'] = np.sort(self.test_record.rejected_counts()).tolist()
         
         file_name_path_counts = os.path.join(file_path, 'rejection_counts.json')
         with open(file_name_path_counts, 'w') as file:

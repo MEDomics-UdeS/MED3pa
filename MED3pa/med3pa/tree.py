@@ -80,15 +80,23 @@ class TreeRepresentation:
             curr_node = _TreeNode(value=node_value, value_max=node_max, samples_ratio=node_samples_ratio,
                                   node_id=self.nb_nodes, path=path)
             return curr_node
-
+        
         node_thresh = dtr.model.tree_.threshold[node_id]
         node_feature_id = dtr.model.tree_.feature[node_id]
         node_feature = self.features[node_feature_id]
 
+        # Check if the split would result in an empty set, if so, stop the recursion
+        if y[X[node_feature] <= node_thresh].size == 0 or y[X[node_feature] > node_thresh].size == 0:
+            print("split would results in an empty data section")
+            curr_node = _TreeNode(value=node_value, value_max=node_max, samples_ratio=node_samples_ratio,
+                                node_id=self.nb_nodes, path=path)
+            return curr_node
+        
         curr_path = list(path)  # Copy the current path to avoid modifying the original list
         curr_node = _TreeNode(value=node_value, value_max=node_max, samples_ratio=node_samples_ratio,
                               threshold=node_thresh, feature=node_feature, feature_id=node_feature_id,
                               node_id=self.nb_nodes, path=curr_path)
+        
 
         # Update paths for child nodes
         left_path = curr_path + [f"{node_feature} <= {node_thresh}"]
