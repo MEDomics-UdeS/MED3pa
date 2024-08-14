@@ -1,0 +1,12 @@
+{
+    "Auc": {
+        "detectron_results1": 0.8212806626314112,
+        "detectron_results2": 0.7817776361898694,
+        "best": "detectron_results1"
+    },
+    "Accuracy": {
+        "detectron_results1": 0.7758620689655172,
+        "detectron_results2": 0.7068965517241379,
+        "best": "detectron_results1"
+    }
+}

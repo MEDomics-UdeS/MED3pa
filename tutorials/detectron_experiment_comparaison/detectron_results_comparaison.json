@@ -1,0 +1,20 @@
+{
+    "enhanced_disagreement_strategy": {
+        "detectron_results1": 0.4421052631578947,
+        "detectron_results2": 0.8421052631578947,
+        "comparison_criteria": "shift_probability",
+        "best": "detectron_results1"
+    },
+    "mannwhitney_strategy": {
+        "detectron_results1": 0.09145056471994106,
+        "detectron_results2": 1.95388272998725e-18,
+        "comparison_criteria": "p_value",
+        "best": "detectron_results1"
+    },
+    "original_disagreement_strategy": {
+        "detectron_results1": 0.04,
+        "detectron_results2": 0.05,
+        "comparison_criteria": "p_value",
+        "best": "detectron_results2"
+    }
+}

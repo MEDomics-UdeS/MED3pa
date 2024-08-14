@@ -139,7 +139,7 @@ class DetectronEnsemble:
                 cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(), 
                                       x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(), 
                                       x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
-                                      training_parameters=training_params,
+                                      training_parameters=cdc_training_params,
                                       balance_train_classes=True, 
                                       N=updated_count)
                 
