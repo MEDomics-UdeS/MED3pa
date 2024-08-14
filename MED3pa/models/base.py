@@ -5,6 +5,7 @@ It employs the **Singleton and Prototype** design patterns to ensure that the ba
 """
 import pickle
 from io import BytesIO
+import copy
 
 from .abstract_models import Model
 
@@ -72,10 +73,10 @@ class BaseModelManager:
                 cloned_model.model = pickle.load(buffer)
                 cloned_model.model_class = cls.__baseModel.model_class
                 cloned_model.pickled_model = True
-                cloned_model.params = cls.__baseModel.params
+                cloned_model.params = copy.deepcopy(cls.__baseModel.params)
             else:
                 for attribute, value in vars(cls.__baseModel).items():
-                    setattr(cloned_model, attribute, value)
+                    setattr(cloned_model, attribute, copy.deepcopy(value))
             
             return cloned_model
 
