@@ -81,7 +81,7 @@ class MannWhitneyStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
     from calibration runs and test runs.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager, trim_data=True, proportion_to_cut=0.05):
+    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager, trim_data=True):
         """
         Executes the disagreement detection strategy using the Mann-Whitney U test.
 
@@ -100,16 +100,6 @@ class MannWhitneyStrategy(DetectronStrategy):
         # Ensure there are enough records to perform bootstrap
         if len(cal_counts) < 2 or len(test_counts) == 0:
             raise ValueError("Not enough records to perform the statistical test.")
-
-        def trim_dataset(data, proportion_to_cut):
-            if not 0 <= proportion_to_cut < 0.5:
-                raise ValueError("proportion_to_cut must be between 0 and 0.5")
-            
-            data_sorted = np.sort(data)
-            n = len(data)
-            trim_count = int(n * proportion_to_cut)
-            
-            return data_sorted[trim_count:n - trim_count]
 
         def remove_outliers_based_on_iqr(arr1, arr2):
             # Calculate Q1 (25th percentile) and Q3 (75th percentile)
@@ -248,7 +238,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.
     This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=True, proportion_to_cut=0.05):
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=True):
         """
         Executes the disagreement detection strategy using z-score analysis.
 
@@ -268,16 +258,6 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         # Ensure there are enough records to perform bootstrap
         if len(cal_counts) < 2 or len(test_counts) == 0:
             raise ValueError("Not enough records to perform the statistical test.")
-
-        def trim_dataset(data, proportion_to_cut):
-            if not 0 <= proportion_to_cut < 0.5:
-                raise ValueError("proportion_to_cut must be between 0 and 0.5")
-            
-            data_sorted = np.sort(data)
-            n = len(data)
-            trim_count = int(n * proportion_to_cut)
-            
-            return data_sorted[trim_count:n - trim_count]
 
         def remove_outliers_based_on_iqr(arr1, arr2):
             # Calculate Q1 (25th percentile) and Q3 (75th percentile)

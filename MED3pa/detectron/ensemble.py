@@ -4,6 +4,7 @@ It coordinates the training and evaluation of multiple CDCs, aiming to disagree 
 The ensemble leverages a base model, provided by ``BaseModelManager``, to generate models that are designed to systematically disagree with it in a controlled fashion.
 """
 import numpy as np
+import copy 
 
 from tqdm import tqdm
 
@@ -128,10 +129,11 @@ class DetectronEnsemble:
                 model_id = i
                 
                 # update the training params with the current seed which is the model id
-                if training_params is not None :
-                    training_params.update({'seed':i})
+                cdc_training_params = copy.deepcopy(training_params)
+                if cdc_training_params is not None :
+                    cdc_training_params.update({'seed': i})
                 else:
-                    training_params = {'seed':i}
+                    cdc_training_params={'seed': i}
 
                 # train this cdc to disagree
                 cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(), 
