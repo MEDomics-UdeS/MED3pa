@@ -27,6 +27,7 @@ class Med3paComparison:
         self.config_file = {}
         self.compare_profiles = False
         self.compare_detectron = False
+        self.mode = ""
         self._check_experiment_name()
 
     def _check_experiment_name(self) -> None:
@@ -78,6 +79,12 @@ class Med3paComparison:
             can_compare = True
         elif base_model_different and not datasets_different and not params_different:
             can_compare = True
+
+        if can_compare:
+            if self.compare_detectron:
+                self.mode = self.config_file['med3pa_detectron_params']['med3pa_detectron_params1']['med3pa_params']['mode']
+            else:
+                self.mode = self.config_file['med3pa_params']['med3pa_params1']['mode']
 
         return can_compare
     
@@ -281,11 +288,13 @@ class Med3paComparison:
             raise ValueError("The two experiments cannot be compared based on the provided criteria.")
         
         self.compare_global_metrics()
-        self._check_experiment_tree()
-        if self.compare_profiles:
-            self.compare_profiles_metrics()
-        if self.compare_detectron:
-            self.compare_profiles_detectron_results()
+
+        if self.mode in ['apc', 'mpc']:
+            self._check_experiment_tree()
+            if self.compare_profiles:
+                self.compare_profiles_metrics()
+            if self.compare_detectron:
+                self.compare_profiles_detectron_results()
         
         self.compare_config()
         self.compare_models_evaluation()
