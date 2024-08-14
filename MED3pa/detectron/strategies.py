@@ -111,14 +111,44 @@ class MannWhitneyStrategy(DetectronStrategy):
             
             return data_sorted[trim_count:n - trim_count]
 
+        def remove_outliers_based_on_iqr(arr1, arr2):
+            # Calculate Q1 (25th percentile) and Q3 (75th percentile)
+            Q1 = np.percentile(arr1, 25)
+            Q3 = np.percentile(arr1, 75)
+            IQR = Q3 - Q1
+
+            # Determine the lower and upper bounds for outliers
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+
+            # Identify the indices of outliers in arr1
+            outlier_indices = np.where((arr1 < lower_bound) | (arr1 > upper_bound))[0]
+            
+            # Calculate the mean of arr2
+            mean_arr2 = np.mean(arr2)
+            
+            # Calculate the absolute differences from the mean for arr2
+            abs_diff_from_mean = np.abs(arr2 - mean_arr2)
+            
+            # Get indices of elements furthest from the mean in arr2
+            furthest_indices = np.argsort(-abs_diff_from_mean)[:len(outlier_indices)]
+            
+            # Remove outliers from arr1 and corresponding elements from arr2
+            arr1_cleaned = np.delete(arr1, outlier_indices)
+            arr2_cleaned = np.delete(arr2, furthest_indices)
+            
+            return arr1_cleaned, arr2_cleaned, len(outlier_indices)
+        
         if trim_data:
             # Trim calibration and test data if trimming is enabled
-            cal_counts = trim_dataset(cal_counts, proportion_to_cut)
-            test_counts = trim_dataset(test_counts, proportion_to_cut)
+            #cal_counts = trim_dataset(cal_counts, proportion_to_cut)
+            #test_counts = trim_dataset(test_counts, proportion_to_cut)
+
+            cal_counts, test_counts, _ = remove_outliers_based_on_iqr(cal_counts, test_counts)
 
         baseline_mean = np.mean(cal_counts)
         baseline_std = np.std(cal_counts)
-                
+
         # Perform the Mann-Whitney U test
         u_statistic, p_value = stats.mannwhitneyu(cal_counts, test_counts, alternative='less')
         
@@ -249,15 +279,44 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
             
             return data_sorted[trim_count:n - trim_count]
 
+        def remove_outliers_based_on_iqr(arr1, arr2):
+            # Calculate Q1 (25th percentile) and Q3 (75th percentile)
+            Q1 = np.percentile(arr1, 25)
+            Q3 = np.percentile(arr1, 75)
+            IQR = Q3 - Q1
+
+            # Determine the lower and upper bounds for outliers
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+
+            # Identify the indices of outliers in arr1
+            outlier_indices = np.where((arr1 < lower_bound) | (arr1 > upper_bound))[0]
+            
+            # Calculate the mean of arr2
+            mean_arr2 = np.mean(arr2)
+            
+            # Calculate the absolute differences from the mean for arr2
+            abs_diff_from_mean = np.abs(arr2 - mean_arr2)
+            
+            # Get indices of elements furthest from the mean in arr2
+            furthest_indices = np.argsort(-abs_diff_from_mean)[:len(outlier_indices)]
+            
+            # Remove outliers from arr1 and corresponding elements from arr2
+            arr1_cleaned = np.delete(arr1, outlier_indices)
+            arr2_cleaned = np.delete(arr2, furthest_indices)
+            
+            return arr1_cleaned, arr2_cleaned, len(outlier_indices)
+        
         if trim_data:
             # Trim calibration and test data if trimming is enabled
-            cal_counts = trim_dataset(cal_counts, proportion_to_cut)
-            test_counts = trim_dataset(test_counts, proportion_to_cut)
+            #cal_counts = trim_dataset(cal_counts, proportion_to_cut)
+            #test_counts = trim_dataset(test_counts, proportion_to_cut)
+
+            cal_counts, test_counts, _ = remove_outliers_based_on_iqr(cal_counts, test_counts)
 
         # Calculate the baseline mean and standard deviation on trimmed or full data
         baseline_mean = np.mean(cal_counts)
         baseline_std = np.std(cal_counts)
-
         # Calculate the test statistic (mean of test data)
         test_statistic = np.mean(test_counts)
 
@@ -281,7 +340,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
         # Calculate the one-tailed p-value (test_statistic > baseline_mean)
-        p_value = np.mean(cal_counts < test_statistic)
+        p_value = np.mean(baseline_mean < test_counts)
 
         # Describe the significance of the shift based on the z-score
         significance_description = {

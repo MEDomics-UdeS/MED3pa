@@ -50,6 +50,37 @@ class Med3paComparison:
         if config1['experiment_name'] == 'Med3paDetectronExperiment':
             self.compare_detectron = True
     
+    def is_comparable(self) -> bool:
+        """
+        Determines whether the two experiments can be compared based on the given criteria.
+        Two experiments can be compared if either:
+        - The datasets are different, but the base model and experiment parameters are the same.
+        - The base model is different, but the datasets and experiment parameters are the same.
+
+        Returns:
+            bool: True if the experiments can be compared, False otherwise.
+        """
+        # Load the config files if they haven't been compared yet
+        if not self.config_file:
+            self.compare_config()
+
+        datasets_different = self.config_file['datasets']['different']
+        base_model_different = self.config_file['base_model']['different']
+        
+        if self.compare_detectron:
+            params_different = self.config_file['med3pa_detectron_params']['different']
+        else:
+            params_different = self.config_file['med3pa_params']['different']
+
+        # Check the conditions for comparability
+        can_compare = False
+        if datasets_different and not base_model_different and not params_different:
+            can_compare = True
+        elif base_model_different and not datasets_different and not params_different:
+            can_compare = True
+
+        return can_compare
+    
     def _check_experiment_tree(self) -> None:
         """
         Checks if the experiment trees in the results paths are the same.
@@ -246,6 +277,9 @@ class Med3paComparison:
         """
         Compares the experiments by global metrics, profiles, and Detectron results if applicable.
         """
+        if not self.is_comparable():
+            raise ValueError("The two experiments cannot be compared based on the provided criteria.")
+        
         self.compare_global_metrics()
         self._check_experiment_tree()
         if self.compare_profiles:
@@ -263,6 +297,10 @@ class Med3paComparison:
         Args:
             directory_path (str): The directory where the comparison results will be saved.
         """
+        
+        if not self.is_comparable():
+            raise ValueError("The two experiments cannot be compared based on the provided criteria.")
+        
         # Ensure the main directory exists
         os.makedirs(directory_path, exist_ok=True)
 

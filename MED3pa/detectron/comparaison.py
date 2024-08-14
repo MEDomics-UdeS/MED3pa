@@ -21,6 +21,33 @@ class DetectronComparison:
         self.rejection_counts_comparaison = {}
         self._check_experiment_name()
 
+    def is_comparable(self) -> bool:
+        """
+        Determines whether the two experiments can be compared based on the given criteria.
+        Two experiments can be compared if either:
+        - The datasets are different, but the base model and detectron_params are the same.
+        - The base model is different, but the datasets and detectron_params are the same.
+
+        Returns:
+            bool: True if the experiments can be compared, False otherwise.
+        """
+        # Load the config files if they haven't been compared yet
+        if not self.config_file:
+            self.compare_config()
+
+        datasets_different = self.config_file['datasets']['different']
+        base_model_different = self.config_file['base_model']['different']
+        detectron_params_different = self.config_file['detectron_params']['different']
+
+        # Check the conditions for comparability
+        can_compare = False
+        if datasets_different and not base_model_different and not detectron_params_different:
+            can_compare = True
+        elif base_model_different and not datasets_different and not detectron_params_different:
+            can_compare = True
+
+        return can_compare
+    
     def _check_experiment_name(self) -> None:
         """
         Checks if the experiment_name in the config_file of both results paths is the same.
@@ -179,10 +206,13 @@ class DetectronComparison:
         """
         Compares the experiments by detectron_results.
         """
+        if not self.is_comparable():
+            raise ValueError("The two experiments cannot be compared based on the provided criteria.")
+        
         self.compare_detectron_results()
         self.compare_counts()
         self.compare_evaluation()
-        self.compare_config()
+        self.compare_config()   
 
     def save(self, directory_path: str) -> None:
         """
@@ -191,6 +221,9 @@ class DetectronComparison:
         Args:
             directory_path (str): The directory where the comparison results will be saved.
         """
+        if not self.is_comparable():
+            raise ValueError("The two experiments cannot be compared based on the provided criteria.")
+        
         # Ensure the main directory exists
         os.makedirs(directory_path, exist_ok=True)
 
@@ -209,3 +242,4 @@ class DetectronComparison:
         counts_path = os.path.join(directory_path, 'rejection_counts_comparaison.json')
         with open(counts_path, 'w') as f:
                 json.dump(self.rejection_counts_comparaison, f, indent=4)
+    

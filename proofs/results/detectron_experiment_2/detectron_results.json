@@ -1,0 +1,33 @@
+[
+    {
+        "p_value": 0.22,
+        "test_statistic": 11,
+        "baseline_mean": 12.47,
+        "baseline_std": 1.920702996301094,
+        "Strategy": "original_disagreement_strategy"
+    },
+    {
+        "p_value": 1.1541732594283197e-23,
+        "u_statistic": 775.0,
+        "significance_description": {
+            "unsignificant shift": 2.1052631578947367,
+            "small": 13.684210526315791,
+            "moderate": 35.78947368421053,
+            "large": 48.421052631578945
+        },
+        "Strategy": "mannwhitney_strategy"
+    },
+    {
+        "shift_probability": 0.9789473684210527,
+        "test_statistic": 11.052631578947368,
+        "baseline_mean": 7.231578947368421,
+        "baseline_std": 1.4396829444740318,
+        "significance_description": {
+            "unsignificant shift": 2.1052631578947367,
+            "small": 13.684210526315791,
+            "moderate": 35.78947368421053,
+            "large": 48.421052631578945
+        },
+        "Strategy": "enhanced_disagreement_strategy"
+    }
+]
