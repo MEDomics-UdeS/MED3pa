@@ -84,7 +84,7 @@ class TreeRepresentation:
         node_thresh = dtr.model.tree_.threshold[node_id]
         node_feature_id = dtr.model.tree_.feature[node_id]
         node_feature = self.features[node_feature_id]
-
+        
         # Check if the split would result in an empty set, if so, stop the recursion
         if y[X[node_feature] <= node_thresh].size == 0 or y[X[node_feature] > node_thresh].size == 0:
             print("split would results in an empty data section")

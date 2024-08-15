@@ -24,11 +24,41 @@ class Med3paComparison:
         self.profiles_detectron_comparaison = {}
         self.global_metrics_comparaison = {}
         self.models_evaluation_comparaison = {}
+        self.shared_profiles = {}  # New variable to store shared profiles
         self.config_file = {}
-        self.compare_profiles = False
+        self.compare_profiles = True
         self.compare_detectron = False
         self.mode = ""
         self._check_experiment_name()
+
+    def identify_shared_profiles(self):
+        """
+        Identifies the shared profiles between the two experiments and stores them in shared_profiles.
+        """
+        profiles_file_1 = os.path.join(self.results1_path, 'test', 'profiles.json')
+        profiles_file_2 = os.path.join(self.results2_path, 'test', 'profiles.json')
+
+        with open(profiles_file_1, 'r') as f1, open(profiles_file_2, 'r') as f2:
+            profiles1 = json.load(f1)
+            profiles2 = json.load(f2)
+
+        shared = {}
+
+        for samples_ratio, dr_dict in profiles1.items():
+            if samples_ratio in profiles2:  # Only proceed if samples_ratio is in both profiles
+                if samples_ratio not in shared:
+                    shared[samples_ratio] = {}
+                for dr, profiles in dr_dict.items():
+                    if dr in profiles2[samples_ratio]:  # Only proceed if dr is in both profiles
+                        for profile in profiles:
+                            profile_path = " / ".join(profile["path"])
+                            # Check if the profile_path exists in both profiles1 and profiles2
+                            matching_profile = next((p for p in profiles2[samples_ratio][dr] if p["path"] == profile["path"]), None)
+                            if matching_profile:
+                                if profile_path not in shared[samples_ratio]:
+                                    shared[samples_ratio][profile_path] = profile["path"]
+
+        self.shared_profiles = shared  # Store shared profiles
 
     def _check_experiment_name(self) -> None:
         """
@@ -69,10 +99,25 @@ class Med3paComparison:
         base_model_different = self.config_file['base_model']['different']
         
         if self.compare_detectron:
-            params_different = self.config_file['med3pa_detectron_params']['different']
+            # Extract med3pa_detectron_params for comparison, excluding apc_model and ipc_model
+            params1 = self.config_file['med3pa_detectron_params']['med3pa_detectron_params1'].copy()
+            params2 = self.config_file['med3pa_detectron_params']['med3pa_detectron_params2'].copy()
+            # Remove apc_model and ipc_model from comparison
+            params1['med3pa_params'].pop('apc_model', None)
+            params1['med3pa_params'].pop('ipc_model', None)
+            params2['med3pa_params'].pop('apc_model', None)
+            params2['med3pa_params'].pop('ipc_model', None)
         else:
-            params_different = self.config_file['med3pa_params']['different']
+            # Extract med3pa_params for comparison, excluding apc_model and ipc_model
+            params1 = self.config_file['med3pa_params']['med3pa_params1'].copy()
+            params2 = self.config_file['med3pa_params']['med3pa_params2'].copy()
+            params1.pop('apc_model', None)
+            params1.pop('ipc_model', None)
+            params2.pop('apc_model', None)
+            params2.pop('ipc_model', None)
 
+
+        params_different = (params1 != params2)
         # Check the conditions for comparability
         can_compare = False
         if datasets_different and not base_model_different and not params_different:
@@ -105,7 +150,8 @@ class Med3paComparison:
 
     def compare_profiles_metrics(self):
         """
-        Compares profile metrics between two sets of results and stores them in a dictionary.
+        Compares profile metrics between two sets of results and stores them in a dictionary,
+        using only the shared profiles.
         """
         combined = {}
         profiles_file_1 = os.path.join(self.results1_path, 'test', 'profiles.json')
@@ -115,37 +161,36 @@ class Med3paComparison:
             profiles1 = json.load(f1)
             profiles2 = json.load(f2)
 
-        for samples_ratio, dr_dict in profiles1.items():
-            if samples_ratio not in combined:
-                combined[samples_ratio] = {}
-            for dr, profiles in dr_dict.items():
-                for profile in profiles:
-                    profile_path = " / ".join(profile["path"])
-                    if profile_path not in combined[samples_ratio]:
-                        combined[samples_ratio][profile_path] = {}
-                    if dr not in combined[samples_ratio][profile_path]:
-                        combined[samples_ratio][profile_path][dr] = {}
-                    combined[samples_ratio][profile_path][dr]['metrics_1'] = profile["metrics"]
+        for samples_ratio, profiles_dict in self.shared_profiles.items():
+            combined[samples_ratio] = {}
+            for profile_path_list in profiles_dict.values():
+                profile_path = " / ".join(profile_path_list)  # Convert the list to a string
 
-        for samples_ratio, dr_dict in profiles2.items():
-            if samples_ratio not in combined:
-                combined[samples_ratio] = {}
-            for dr, profiles in dr_dict.items():
-                for profile in profiles:
-                    profile_path = " / ".join(profile["path"])
+                # Extract possible drs (decision rules) where profiles match in profiles1
+                drs = [dr for dr, profiles in profiles1[samples_ratio].items()]
+                for dr in drs:
+                    # Attempt to find matching profiles in both profiles1 and profiles2
+                    matching_profile_1 = next((p for p in profiles1[samples_ratio][dr] if " / ".join(p["path"]) == profile_path), None)
+                    matching_profile_2 = next((p for p in profiles2[samples_ratio][dr] if " / ".join(p["path"]) == profile_path), None)
+
                     if profile_path not in combined[samples_ratio]:
                         combined[samples_ratio][profile_path] = {}
-                    if dr not in combined[samples_ratio][profile_path]:
-                        combined[samples_ratio][profile_path][dr] = {}
-                    combined[samples_ratio][profile_path][dr]['metrics_2'] = profile["metrics"]
+
+                    combined[samples_ratio][profile_path][dr] = {
+                        'metrics_1': matching_profile_1["metrics"] if matching_profile_1 else None,
+                        'metrics_2': matching_profile_2["metrics"] if matching_profile_2 else None
+                    }
 
         self.profiles_metrics_comparaison = combined
-    
+
+
     def compare_profiles_detectron_results(self):
         """
-        Compares Detectron results between two sets of profiles and stores them in a dictionary.
+        Compares Detectron results between two sets of profiles and stores them in a dictionary,
+        using only the shared profiles.
         """
         combined = {}
+
         profiles_file_1 = os.path.join(self.results1_path, 'test', 'profiles.json')
         profiles_file_2 = os.path.join(self.results2_path, 'test', 'profiles.json')
 
@@ -153,27 +198,23 @@ class Med3paComparison:
             profiles1 = json.load(f1)
             profiles2 = json.load(f2)
 
-        # Determine the smallest positive samples_ratio
-        smallest_samples_ratio = min([int(k) for k in profiles1.keys() if int(k) >= 0])
-        smallest_samples_ratio = str(smallest_samples_ratio)
+        for samples_ratio, profiles_dict in self.shared_profiles.items():
+            combined[samples_ratio] = {}
+            for profile_path_list in profiles_dict.values():
+                profile_path = " / ".join(profile_path_list)  # Convert the list to a string
 
-        for profiles, key in zip([profiles1, profiles2], ['detectron_results_1', 'detectron_results_2']):
-            if smallest_samples_ratio not in profiles:
-                continue
+                # Attempt to find matching profiles in both profiles1 and profiles2
+                matching_profile_1 = next((p for p in profiles1[samples_ratio]["100"] if " / ".join(p["path"]) == profile_path), None)
+                matching_profile_2 = next((p for p in profiles2[samples_ratio]["100"] if " / ".join(p["path"]) == profile_path), None)
 
-            dr_dict = profiles[smallest_samples_ratio]
+                if profile_path not in combined[samples_ratio]:
+                    combined[samples_ratio][profile_path] = {}
 
-            if "100" not in dr_dict:
-                continue
-
-            for profile in dr_dict["100"]:
-                profile_path = " / ".join(profile["path"])
-                if profile_path not in combined:
-                    combined[profile_path] = {}
-                
-                combined[profile_path][key] = profile["detectron_results"]
+                combined[samples_ratio][profile_path]['detectron_results_1'] = matching_profile_1["detectron_results"] if matching_profile_1 else None
+                combined[samples_ratio][profile_path]['detectron_results_2'] = matching_profile_2["detectron_results"] if matching_profile_2 else None
 
         self.profiles_detectron_comparaison = combined
+
 
     def compare_global_metrics(self):
         """
@@ -288,9 +329,8 @@ class Med3paComparison:
             raise ValueError("The two experiments cannot be compared based on the provided criteria.")
         
         self.compare_global_metrics()
-
+        self.identify_shared_profiles()  # Identify shared profiles before comparisons
         if self.mode in ['apc', 'mpc']:
-            self._check_experiment_tree()
             if self.compare_profiles:
                 self.compare_profiles_metrics()
             if self.compare_detectron:

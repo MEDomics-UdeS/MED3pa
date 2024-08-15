@@ -491,7 +491,7 @@ class Med3paExperiment:
             else:
                 APC_model = apc_instance
                 print("Used a trainde IPC instance.")
-
+            
             # Predict APC values
             APC_values = APC_model.predict(x)
             print("Aggregated confidence scores calculated.")
@@ -527,7 +527,7 @@ class Med3paExperiment:
             for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
 
                 # Calculate profiles and their metrics by declaration rate                
-                MDRCalculator.calc_profiles(profiles_manager, tree, mpc_dataset, features, MPC_values, samples_ratio)                
+                MDRCalculator.calc_profiles(profiles_manager, tree, mpc_dataset, features, MPC_values, samples_ratio)
                 MDRCalculator.calc_metrics_by_profiles(profiles_manager, mpc_dataset, features, MPC_values, samples_ratio, med3pa_metrics)
                 results.set_profiles_manager(profiles_manager)                
                 print("Results extracted for minimum_samples_ratio = ", samples_ratio)

@@ -304,7 +304,7 @@ class MDRCalculator:
         lost_profiles_all = []  # Saves lost profiles
         last_min_confidence_level = -1  # Last min confidence level
         min_confidence_levels_dict = {}  # Saves the min_confidence_level thresholds
-
+        precision = 14
         # Go through all declaration rates
         for dr in range(100, -1, -1):
             
@@ -329,10 +329,11 @@ class MDRCalculator:
                     # calculate the samples_ratio (pop%) and mean_confidence_level of this node, if the filtered data isnt empty
                     if len(filtered_confidence_scores) > 0:
                         samples_ratio = len(filtered_confidence_scores) / len(confidence_scores) * 100
-                        mean_cconfidence = np.mean(filtered_confidence_scores) if filtered_confidence_scores.size > 0 else 0
+                        mean_cconfidence = np.mean(filtered_confidence_scores)
                         # if the calculated samples_ratio and mean_confidence meet the conditions, keep this node
-                        if samples_ratio >= min_samples_ratio and mean_cconfidence >= min_confidence_level:
+                        if samples_ratio >= min_samples_ratio and round(mean_cconfidence, precision) >= round(min_confidence_level, precision):
                             profiles_current.append(node)
+    
                     
 
                 # If the last profiles are different from current profiles

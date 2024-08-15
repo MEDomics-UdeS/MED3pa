@@ -282,7 +282,7 @@ class APCModel:
         """
         tree_rules = export_text(tree_model, feature_names=feature_names)
         print(tree_rules)
-
+        
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
         """
         Optimizes the model parameters using GridSearchCV.
@@ -303,7 +303,7 @@ class APCModel:
         self.params.update(grid_search.best_params_)
         self.grid_search_params = param_grid
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
-        self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
+        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
         self.optimized = True
         
 
