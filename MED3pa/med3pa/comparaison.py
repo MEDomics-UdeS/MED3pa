@@ -329,8 +329,8 @@ class Med3paComparison:
             raise ValueError("The two experiments cannot be compared based on the provided criteria.")
         
         self.compare_global_metrics()
-        self.identify_shared_profiles()  # Identify shared profiles before comparisons
         if self.mode in ['apc', 'mpc']:
+            self.identify_shared_profiles() 
             if self.compare_profiles:
                 self.compare_profiles_metrics()
             if self.compare_detectron:
