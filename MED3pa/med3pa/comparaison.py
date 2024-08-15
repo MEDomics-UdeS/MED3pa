@@ -365,12 +365,12 @@ class Med3paComparison:
         with open(evaluation_path, 'w') as f:
                 json.dump(self.models_evaluation_comparaison, f, indent=4)
 
-        if self.profiles_detectron_comparaison is not {} and self.compare_detectron:
+        if self.profiles_detectron_comparaison != {} and self.compare_detectron:
             profiles_detectron_path = os.path.join(directory_path, 'profiles_detectron_comparaison.json')
             with open(profiles_detectron_path, 'w') as f:
                 json.dump(self.profiles_detectron_comparaison, f, indent=4)
         
-        if self.profiles_metrics_comparaison is not {} and self.compare_profiles:
+        if self.profiles_metrics_comparaison != {} and self.compare_profiles:
             profiles_metrics_path = os.path.join(directory_path, 'profiles_metrics_comparaison.json')
             with open(profiles_metrics_path, 'w') as f:
                 json.dump(self.profiles_metrics_comparaison, f, indent=4)
