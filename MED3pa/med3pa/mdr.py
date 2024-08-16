@@ -333,8 +333,6 @@ class MDRCalculator:
                         # if the calculated samples_ratio and mean_confidence meet the conditions, keep this node
                         if samples_ratio >= min_samples_ratio and round(mean_cconfidence, precision) >= round(min_confidence_level, precision):
                             profiles_current.append(node)
-    
-                    
 
                 # If the last profiles are different from current profiles
                 if len(last_profiles) != len(profiles_current):

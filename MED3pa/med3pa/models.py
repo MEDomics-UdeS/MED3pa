@@ -303,6 +303,7 @@ class APCModel:
         self.params.update(grid_search.best_params_)
         self.grid_search_params = param_grid
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
+        self.treeRepresentation = TreeRepresentation(features=self.features)
         self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
         self.optimized = True
         
