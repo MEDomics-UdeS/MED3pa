@@ -394,7 +394,7 @@ class MDRCalculator:
                     info_dict['Mean confidence level'] = np.mean(confidence_scores[confidence_mask]) * 100 if \
                         confidence_scores[confidence_mask].size > 0 else None
                     # the positive class percentage in this profile at this dr
-                    info_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
+                    info_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(all_y_true) * 100 if \
                         len(y_true[confidence_mask]) > 0 else None
                     # update the calculated metrics in the profile
                     profile.update_metrics_results(metrics_dict)
