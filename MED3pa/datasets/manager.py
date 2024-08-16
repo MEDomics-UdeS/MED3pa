@@ -301,3 +301,50 @@ class DatasetsManager:
         else:
             raise ValueError("Testing set not initialized.")
 
+    def combine(self, dataset_types: list = None) -> MaskedDataset:
+        """
+        Combines the specified datasets and returns a new MaskedDataset instance.
+
+        Args:
+            dataset_types (list, optional): List of dataset types to combine. Valid options are
+                                            'training', 'validation', 'reference', 'testing'.
+                                            If None, combines all datasets that are set.
+
+        Returns:
+            MaskedDataset: A new MaskedDataset instance containing the combined data.
+
+        Raises:
+            ValueError: If any specified dataset is not set or if no datasets are provided.
+        """
+        if dataset_types is None:
+            dataset_types = ['training', 'validation', 'reference', 'testing']
+
+        combined_observations = []
+        combined_true_labels = []
+
+        for dataset_type in dataset_types:
+            dataset = self.get_dataset_by_type(dataset_type, True)
+            if dataset is None:
+                raise ValueError(f"Dataset '{dataset_type}' is not set.")
+            
+            combined_observations.append(dataset.get_observations())
+            combined_true_labels.append(dataset.get_true_labels())
+        
+        # Combine all observations and true labels into single arrays
+        combined_observations = np.vstack(combined_observations)
+        combined_true_labels = np.concatenate(combined_true_labels)
+        
+        # Create a new MaskedDataset instance with the combined data
+        combined_dataset = MaskedDataset(combined_observations, combined_true_labels, column_labels=self.column_labels)
+        
+        return combined_dataset
+    
+    def reset(self) -> None:
+        """
+        Resets all datasets in the manager and clears the column labels.
+        """
+        self.base_model_training_set = None
+        self.base_model_validation_set = None
+        self.reference_set = None
+        self.testing_set = None
+        self.column_labels = None

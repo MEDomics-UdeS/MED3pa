@@ -96,6 +96,7 @@ class Med3paComparison:
             self.compare_config()
 
         datasets_different = self.config_file['datasets']['different']
+        datasets_different_sets = self.config_file['datasets']['different_datasets']
         base_model_different = self.config_file['base_model']['different']
         
         if self.compare_detectron:
@@ -120,11 +121,13 @@ class Med3paComparison:
         params_different = (params1 != params2)
         # Check the conditions for comparability
         can_compare = False
-        if datasets_different and not base_model_different and not params_different:
+        # First condition: params are the same, base model is the same, only the testing_set is different
+        if not params_different and not base_model_different and datasets_different_sets == ['testing_set']:
             can_compare = True
-        elif base_model_different and not datasets_different and not params_different:
+        # Second condition: base model is different, params are the same, datasets are the same or only differ in training and validation sets
+        elif base_model_different and not params_different and (not datasets_different or set(datasets_different_sets) <= {'training_set', 'validation_set'}):
             can_compare = True
-
+            
         if can_compare:
             if self.compare_detectron:
                 self.mode = self.config_file['med3pa_detectron_params']['med3pa_detectron_params1']['med3pa_params']['mode']
@@ -275,11 +278,19 @@ class Med3paComparison:
             config2 = json.load(f2)
 
         combined['datasets'] = {}
-        
+        dataset_keys = ['training_set', 'validation_set', 'reference_set', 'testing_set']
+        different_datasets = []
+
         if config1["datasets"] == config2["datasets"]:
             combined['datasets']['different'] = False
         else:
             combined['datasets']['different'] = True
+
+        for key in dataset_keys:
+            if config1["datasets"].get(key) != config2["datasets"].get(key):
+                different_datasets.append(key)
+
+        combined['datasets']['different_datasets'] = different_datasets
 
         combined['datasets']['datasets1'] = config1["datasets"]
         combined['datasets']['datasets2'] = config2["datasets"]
