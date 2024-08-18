@@ -125,7 +125,7 @@ class Med3paComparison:
         if not params_different and not base_model_different and datasets_different_sets == ['testing_set']:
             can_compare = True
         # Second condition: base model is different, params are the same, datasets are the same or only differ in training and validation sets
-        elif base_model_different and not params_different and (not datasets_different or set(datasets_different_sets) <= {'training_set', 'validation_set'}):
+        elif base_model_different and not params_different and (not datasets_different or set(datasets_different_sets) <= {'training_set', 'validation_set', 'reference_set'}):
             can_compare = True
             
         if can_compare:

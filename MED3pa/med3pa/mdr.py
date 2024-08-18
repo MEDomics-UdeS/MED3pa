@@ -589,7 +589,7 @@ class MDRCalculator:
 
                     if len(q_y_true) != 0:
                         if len(q_y_true) < samples_size or len(p_y_true) < samples_size: 
-                            detectron_results_dict['Executed'] = "Not enough samples"
+                            detectron_results_dict['Executed'] = "Not enough samples in tested profile"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
                             detectron_results_dict['Tests Results'] = None         
 
