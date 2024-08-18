@@ -227,6 +227,31 @@ class MDRCalculator:
         return metrics_by_dr
     
     @staticmethod
+    def update_min_confidence(metrics_by_dr: dict, confidence_scores: np.ndarray):
+        """
+        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.
+
+        Args:
+            dataset (MaskedDataset): The dataset to filter.
+            confidence_scores (np.ndarray): the confidence scores used for filtering.
+            metrics_list (list): List of metric names to be calculated (e.g., 'AUC', 'Accuracy').
+            set (str): the set to calculate the metrics on.
+
+        Returns:
+            dict: A dictionary containing metrics computed for each declaration rate from 100% to 0%, including metrics and population percentage.
+        """
+
+        # initialize the dictionaries used for results storage
+        for dr, metrics in metrics_by_dr.items():
+            min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
+            # Update the min_confidence_level
+            updated_metrics = metrics.copy()
+            updated_metrics['min_confidence_level'] = min_confidence_level
+            metrics_by_dr[dr] = updated_metrics
+        # return the global dictionnary
+        return metrics_by_dr
+    
+    @staticmethod
     def calc_profiles_deprecated(profiles_manager: ProfilesManager, tree: TreeRepresentation, confidence_scores: np.ndarray, min_samples_ratio: int):
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change

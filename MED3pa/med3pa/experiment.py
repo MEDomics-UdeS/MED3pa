@@ -521,7 +521,8 @@ class Med3paExperiment:
                 mpc_dataset.set_confidence_scores(MPC_values)
 
             print("Mixed confidence scores calculated.")
-            
+            new_metrics_by_dr = MDRCalculator.update_min_confidence(metrics_by_dr, MPC_values)
+            results.set_metrics_by_dr(new_metrics_by_dr)
             # Step 8: Calculate the profiles for the different samples_ratio and drs
             profiles_manager = ProfilesManager(features)
             for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
