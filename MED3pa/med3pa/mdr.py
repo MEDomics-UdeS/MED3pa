@@ -146,9 +146,9 @@ class MDRCalculator:
         # Filter the data according to the path mask
         filtered_x = x[mask]
         filtered_y_true = y_true[mask]
-        filtered_prob = predicted_prob[mask]
-        filtered_y_pred = y_pred[mask]
-        filtered_confidence_scores = confidence_scores[mask]
+        filtered_prob = predicted_prob[mask] if predicted_prob is not None else None
+        filtered_y_pred = y_pred[mask] if y_pred is not None else None
+        filtered_confidence_scores = confidence_scores[mask] if confidence_scores is not None else None
 
         # filter once again according to the min_confidence_level if specified
         if min_confidence_level is not None:
@@ -401,7 +401,7 @@ class MDRCalculator:
                     profile.update_node_information(info_dict)
 
     @staticmethod
-    def detectron_by_profiles(datasets: DatasetsManager,
+    def detectron_by_profiles_deprecated(datasets: DatasetsManager,
                               profiles_manager: ProfilesManager,
                               confidence_scores: np.ndarray,
                               training_params: Dict,
@@ -512,3 +512,126 @@ class MDRCalculator:
 
         return profiles_by_dr
 
+    def _filter_with_fallback(dataset, profile, features, min_confidence_level):
+        # Initial attempt to filter with the full profile path
+        q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(dataset, path=profile.path, features=features, min_confidence_level=min_confidence_level)
+        
+        # If the result is empty, start reducing conditions
+        current_path = profile.path.copy()
+        while len(q_y_true) == 0 and len(current_path) >= 1:
+            # Remove the last condition
+            current_path.pop()
+            
+            # Attempt to filter with the reduced path
+            q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(dataset, path=current_path, features=features, min_confidence_level=min_confidence_level)
+        
+        return q_x, q_y_true
+
+    def detectron_by_profiles(datasets: DatasetsManager,
+                              profiles_manager: ProfilesManager,
+                              confidence_scores: np.ndarray,
+                              training_params: Dict,
+                              base_model_manager: BaseModelManager,
+                              strategies: Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]],
+                              samples_size: int = 20,
+                              ensemble_size: int = 10,
+                              num_calibration_runs: int = 100,
+                              patience: int = 3,
+                              allow_margin: bool = False, 
+                              margin: float = 0.05, 
+                              all_dr: bool = True) -> Dict:
+        
+        """Runs the Detectron method on the different testing set profiles.
+
+        Args:
+            datasets (DatasetsManager): The datasets manager instance.
+            profiles_manager (ProfilesManager): the manager containing the profiles of the testing set.
+            training_params (dict): Parameters for training the models.
+            base_model_manager (BaseModelManager): The base model manager instance.
+            testing_mpc_values (np.ndarray): MPC values for the testing data.
+            reference_mpc_values (np.ndarray): MPC values for the reference data.
+            samples_size (int, optional): Sample size for the Detectron experiment, by default 20.
+            ensemble_size (int, optional): Number of models in the ensemble, by default 10.
+            num_calibration_runs (int, optional): Number of calibration runs, by default 100.
+            patience (int, optional): Patience for early stopping, by default 3.
+            strategies (Union[Type[DetectronStrategy], List[Type[DetectronStrategy]]]): The strategies for testing disagreement.
+            allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
+            margin (float, optional): Margin value for the test, by default 0.05.
+            all_dr (bool, optional): Whether to run for all declaration rates, by default False.
+
+        Returns:
+            Dict: Dictionary of med3pa profiles with detectron results.
+        """
+        min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k >= 0])
+        test_dataset = datasets.get_dataset_by_type('testing', True)
+        reference_dataset = datasets.get_dataset_by_type('reference', True)
+        test_dataset.set_confidence_scores(confidence_scores=confidence_scores)
+        profiles_by_dr = profiles_manager.get_profiles(min_samples_ratio=min_positive_ratio)
+        last_min_confidence_level = -1   
+        features = datasets.get_column_labels()
+        for dr, profiles in profiles_by_dr.items():
+            if not all_dr and dr != 100:
+                continue  # Skip all dr values except the first one if all_dr is False
+            
+            experiment_det = None
+            min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
+            if last_min_confidence_level != min_confidence_level:
+                for profile in profiles:
+                    detectron_results_dict = {}
+                    
+                    q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path, features=features, min_confidence_level=min_confidence_level)
+                    p_x_profile, p_y_true_profile = MDRCalculator._filter_with_fallback(reference_dataset, profile=profile, features=features, min_confidence_level=None)
+                    if len(p_y_true_profile)==0:
+                        p_x, p_y_true = datasets.get_dataset_by_type("reference")
+                    else:
+                        p_x = p_x_profile
+                        p_y_true = p_y_true_profile
+
+                    if len(q_y_true) != 0:
+                        if len(q_y_true) < samples_size or len(p_y_true) < samples_size: 
+                            detectron_results_dict['Executed'] = "Not enough samples"
+                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                            detectron_results_dict['Tests Results'] = None         
+
+                        else:
+                            profile_set = DatasetsManager()
+                            profile_set.set_column_labels(datasets.get_column_labels())
+                            profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
+                            profile_set.set_from_data(dataset_type="reference", observations=p_x, true_labels=p_y_true)
+                            profile_set.set_from_data(dataset_type="training", 
+                                                      observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
+                                                      true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
+                            profile_set.set_from_data(dataset_type="validation", 
+                                                      observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
+                                                      true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
+                            
+                            path_description = "*, " + " & ".join(profile.path[1:])
+                            print("Running Detectron on Profile:", path_description)
+                            
+                            experiment_det= DetectronExperiment.run(
+                            datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
+                            samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                            patience=patience, allow_margin=allow_margin, margin=margin)
+                            
+                    
+                            detectron_results = experiment_det.analyze_results(strategies=strategies)
+                            detectron_results_dict['Executed'] = "Yes"
+                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                            detectron_results_dict['Tests Results'] = detectron_results
+
+                    else:
+                        detectron_results_dict['Executed'] = "Empty profile in test data"
+                        detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                        detectron_results_dict['Tests Results'] = None
+
+
+                    profile.update_detectron_results(detectron_results_dict)
+                
+                last_profiles = profiles
+                last_min_confidence_level = min_confidence_level
+            else:
+                profiles = last_profiles
+
+        return profiles_by_dr
+
+    

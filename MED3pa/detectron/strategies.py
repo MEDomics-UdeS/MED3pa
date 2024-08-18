@@ -145,19 +145,34 @@ class MannWhitneyStrategy(DetectronStrategy):
         # Calculate the z-scores for the test data
         z_scores = (test_counts - baseline_mean) / baseline_std
 
-        # Define thresholds for categorizing
-        def categorize_z_score(z):
-            if z <= 0:
-                return 'no significant shift'
-            elif 0 < z <= 1:
-                return 'small'
-            elif 1 < z <= 2:
-                return 'moderate'
+        def categorize_z_score(z, std):
+            # if the std is 0
+            if std == 0:
+                if z == 0:
+                    return 'no significant shift'
+                elif 0 < abs(z) <= baseline_mean * 0.1:
+                    return 'small'
+                elif baseline_mean * 0.1 < abs(z) <= baseline_mean * 0.2:
+                    return 'moderate'
+                else:
+                    return 'large'
             else:
-                return 'large'
+                if z <= 0:
+                    return 'no significant shift'
+                elif 0 < z <= 1:
+                    return 'small'
+                elif 1 < z <= 2:
+                    return 'moderate'
+                else:
+                    return 'large'
 
-        # Categorize each test count based on its z-score
-        categories = np.array([categorize_z_score(z) for z in z_scores.flatten()])
+        if baseline_std == 0:
+            z_scores = test_counts - baseline_mean
+        else:
+            z_scores = (test_counts - baseline_mean) / baseline_std
+
+        categories = np.array([categorize_z_score(z, baseline_std) for z in z_scores])
+
         # Calculate the percentage of each category
         category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
@@ -176,62 +191,6 @@ class MannWhitneyStrategy(DetectronStrategy):
         }
 
         return results
-
-
-class KolmogorovSmirnovStrategy(DetectronStrategy):
-    """
-    Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
-    from calibration runs and test runs.
-    """
-    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager):
-        """
-        Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.
-
-        Args:
-            calibration_records (DetectronRecordsManager): Manager storing calibration phase records.
-            test_records (DetectronRecordsManager): Manager storing test phase records.
-
-        Returns:
-            dict: A dictionary containing the calculated p-value, KS statistic, and a shift indicator which is True
-                  if a shift is detected at the given significance level.
-        """
-        # Retrieve count data from both calibration and test records
-        cal_counts = calibration_records.rejected_counts()
-        test_counts = test_records.rejected_counts()
-        
-        # Perform the Kolmogorov-Smirnov test
-        ks_statistic, p_value = stats.ks_2samp(cal_counts, test_counts)
-
-        # Calculate statistics for interpretation
-        cal_mean = cal_counts.mean()
-        cal_std = cal_counts.std()
-        test_mean = test_counts.mean()
-        test_std = test_counts.std()
-        
-        z_score = (test_mean - cal_mean) / cal_std
-        # Describe the significance of the shift based on the z-score
-        significance_description = ""
-        if z_score <= 0:
-            significance_description = "no significant shift"
-        elif abs(z_score) < 1.0:
-            significance_description = "Small"
-        elif abs(z_score) < 2.0:
-            significance_description = "Moderate"
-        elif abs(z_score) < 3.0:
-            significance_description = "Large"
-        else:
-            significance_description = "Very Large"
-        # Results dictionary including rank statistics
-        # Results dictionary including KS test results and distribution statistics
-        results = {
-            'p_value': p_value,
-            'ks_statistic': ks_statistic,
-            'z-score':z_score,
-            'shift significance' : significance_description
-        }
-
-        return results
-
 
 class EnhancedDisagreementStrategy(DetectronStrategy):
     """
@@ -300,27 +259,47 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         # Calculate the test statistic (mean of test data)
         test_statistic = np.mean(test_counts)
 
-        # Calculate the z-scores for the test data
-        z_scores = (test_counts - baseline_mean) / baseline_std
-
-        # Define thresholds for categorizing
-        def categorize_z_score(z):
-            if z <= 0:
-                return 'no significant shift'
-            elif 0 < z <= 1:
-                return 'small'
-            elif 1 < z <= 2:
-                return 'moderate'
+        def categorize_z_score(z, std):
+            # if the std is 0
+            if std == 0:
+                if z == 0:
+                    return 'no significant shift'
+                elif 0 < abs(z) <= baseline_mean * 0.1:
+                    return 'small'
+                elif baseline_mean * 0.1 < abs(z) <= baseline_mean * 0.2:
+                    return 'moderate'
+                else:
+                    return 'large'
             else:
-                return 'large'
+                if z <= 0:
+                    return 'no significant shift'
+                elif 0 < z <= 1:
+                    return 'small'
+                elif 1 < z <= 2:
+                    return 'moderate'
+                else:
+                    return 'large'
 
-        # Categorize each test count based on its z-score
-        categories = np.array([categorize_z_score(z) for z in z_scores])
+        if baseline_std == 0:
+            z_scores = test_counts - baseline_mean
+        else:
+            z_scores = (test_counts - baseline_mean) / baseline_std
+
+        categories = np.array([categorize_z_score(z, baseline_std) for z in z_scores])
+
         # Calculate the percentage of each category
+        
         category_counts = pd.Series(categories).value_counts(normalize=True) * 100
 
         # Calculate the one-tailed p-value (test_statistic > baseline_mean)
         p_value = np.mean(baseline_mean < test_counts)
+        
+        # Pairwise comparison of each element in test_counts with each element in cal_counts
+        greater_counts = np.sum(test_counts[:, None] > cal_counts)
+        # Total number of comparisons
+        total_comparisons = len(test_counts) * len(cal_counts)
+        # Probability of elements in test_counts being greater than elements in cal_counts
+        probability = greater_counts / total_comparisons
 
         # Describe the significance of the shift based on the z-score
         significance_description = {
@@ -331,11 +310,10 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         }
 
         results = {
-            'shift_probability': p_value,
+            'shift_probability': probability,
             'test_statistic': test_statistic,
             'baseline_mean': baseline_mean,
             'baseline_std': baseline_std,
             'significance_description': significance_description,
         }
         return results
-

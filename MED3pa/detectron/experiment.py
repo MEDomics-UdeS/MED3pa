@@ -24,7 +24,7 @@ class DetectronResult:
     strategy_mapping = {
         'original_disagreement_strategy': OriginalDisagreementStrategy,
         'mannwhitney_strategy': MannWhitneyStrategy,
-        'enhanced_disagreement_strategy': EnhancedDisagreementStrategy
+        'enhanced_disagreement_strategy': EnhancedDisagreementStrategy,
     }
 
     def __init__(self, cal_record: DetectronRecordsManager, test_record: DetectronRecordsManager):
