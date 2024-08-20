@@ -606,48 +606,42 @@ class MDRCalculator:
                     
                     q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path, features=features, min_confidence_level=min_confidence_level)
                     p_x_profile, p_y_true_profile = MDRCalculator._filter_with_fallback(reference_dataset, profile=profile, features=features, min_confidence_level=None)
+                    
                     if len(p_y_true_profile)==0:
                         p_x, p_y_true = datasets.get_dataset_by_type("reference")
                     else:
                         p_x = p_x_profile
                         p_y_true = p_y_true_profile
 
-                    if len(q_y_true) != 0:
-                        if len(q_y_true) < samples_size or len(p_y_true) < samples_size: 
-                            detectron_results_dict['Executed'] = "Not enough samples in tested profile"
-                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
-                            detectron_results_dict['Tests Results'] = None         
-
-                        else:
-                            profile_set = DatasetsManager()
-                            profile_set.set_column_labels(datasets.get_column_labels())
-                            profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
-                            profile_set.set_from_data(dataset_type="reference", observations=p_x, true_labels=p_y_true)
-                            profile_set.set_from_data(dataset_type="training", 
-                                                      observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
-                            profile_set.set_from_data(dataset_type="validation", 
-                                                      observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
-                            
-                            path_description = "*, " + " & ".join(profile.path[1:])
-                            print("Running Detectron on Profile:", path_description)
-                            
-                            experiment_det= DetectronExperiment.run(
-                            datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
-                            samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                            patience=patience, allow_margin=allow_margin, margin=margin)
-                            
-                    
-                            detectron_results = experiment_det.analyze_results(strategies=strategies)
-                            detectron_results_dict['Executed'] = "Yes"
-                            detectron_results_dict['Tested Profile size'] = len(q_y_true)
-                            detectron_results_dict['Tests Results'] = detectron_results
-
-                    else:
-                        detectron_results_dict['Executed'] = "Empty profile in test data"
+                    if len(q_y_true) < samples_size or len(p_y_true) < samples_size: 
+                        detectron_results_dict['Executed'] = "Not enough samples in tested profile"
                         detectron_results_dict['Tested Profile size'] = len(q_y_true)
-                        detectron_results_dict['Tests Results'] = None
+                        detectron_results_dict['Tests Results'] = None         
+                    else:
+                        profile_set = DatasetsManager()
+                        profile_set.set_column_labels(datasets.get_column_labels())
+                        profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
+                        profile_set.set_from_data(dataset_type="reference", observations=p_x, true_labels=p_y_true)
+                        profile_set.set_from_data(dataset_type="training", 
+                                                    observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
+                                                    true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
+                        profile_set.set_from_data(dataset_type="validation", 
+                                                    observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
+                                                    true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
+                        
+                        path_description = "*, " + " & ".join(profile.path[1:])
+                        print("Running Detectron on Profile:", path_description)
+                        print("Profile length in reference: ", len(p_y_true), "Profile length in test", len(q_y_true))
+                        experiment_det= DetectronExperiment.run(
+                        datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
+                        samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+                        patience=patience, allow_margin=allow_margin, margin=margin)
+                        
+                
+                        detectron_results = experiment_det.analyze_results(strategies=strategies)
+                        detectron_results_dict['Executed'] = "Yes"
+                        detectron_results_dict['Tested Profile size'] = len(q_y_true)
+                        detectron_results_dict['Tests Results'] = detectron_results
 
 
                     profile.update_detectron_results(detectron_results_dict)

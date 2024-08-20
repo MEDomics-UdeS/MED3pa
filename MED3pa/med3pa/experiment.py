@@ -403,6 +403,7 @@ class Med3paExperiment:
 
         # Retrieve the dataset based on the set type
         if set == 'reference':
+            print(datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True))
             dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
         elif set == 'testing':
             dataset = datasets_manager.get_dataset_by_type(dataset_type="testing", return_instance=True)
@@ -621,6 +622,7 @@ class Med3paDetectronExperiment:
         if mode not in valid_modes:
             raise ValueError(f"Invalid mode '{mode}'. The mode must be one of {valid_modes}.")
 
+        print(datasets.get_dataset_by_type("reference", True))
         med3pa_results = Med3paExperiment.run(datasets_manager=datasets, 
                                                                 base_model_manager=base_model_manager, uncertainty_metric=uncertainty_metric,
                                                                 ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,

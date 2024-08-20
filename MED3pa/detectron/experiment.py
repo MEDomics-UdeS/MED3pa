@@ -168,6 +168,7 @@ class DetectronExperiment:
             ensemble_size=10,
             num_calibration_runs=100,
             patience=3,
+            sampling: str = "uniform",
             allow_margin : bool = False, 
             margin = 0.05):
         """
@@ -184,6 +185,7 @@ class DetectronExperiment:
             patience (int): Number of iterations with no improvement before stopping. Defaults to 3.
             allow_margin (bool): Allow a margin of error when comparing model outputs. Defaults to False.
             margin (float): Threshold for considering differences significant when margin is allowed. Defaults to 0.05.
+            sampling (str, optional): Specifies the method for sampling the data, by default set to 'uniform'.
 
         Returns:
             tuple: A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.
@@ -195,43 +197,47 @@ class DetectronExperiment:
         testing_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
         
         # ensure the reference set is larger compared to testing set
-        reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        if reference_set is not None:
-            test_size = len(reference_set)
-            assert test_size > samples_size, \
-                "The reference set must be larger than the testing set to perform statistical bootstrapping"
-            if test_size < 2 * samples_size:
-                warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
-            if calib_result is not None:
-                print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
-                cal_record = calib_result
-            else:
-            
-            # evaluate the calibration ensemble
-                cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                                    n_runs=num_calibration_runs,
-                                                                    samples_size=samples_size, 
-                                                                    training_params=training_params, 
-                                                                    set='reference', 
-                                                                    patience=patience, 
-                                                                    allow_margin=allow_margin,
-                                                                    margin=margin)
-                print("Detectron execution on reference set completed.")
-            
-            test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                            n_runs=num_calibration_runs, 
-                                                            samples_size=samples_size, 
-                                                            training_params=training_params,
-                                                            set='testing', 
-                                                            patience=patience,
-                                                            allow_margin=allow_margin,
-                                                            margin=margin)
-            print("Detectron execution on testing set completed.")
+        _, y_reference = datasets.get_dataset_by_type(dataset_type="reference")
+        reference_size = len(y_reference)
+        
+        if reference_size <= samples_size: 
+            print("The reference set must be larger than the sample size, ", reference_size,", ", samples_size)
+            raise ValueError("Not enough samples in the reference set!")
+        if reference_size < 2 * samples_size:
+            warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
+        
+        if calib_result is not None:
+            print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
+            cal_record = calib_result
+        else:
+        
+        # evaluate the calibration ensemble
+            cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
+                                                                n_runs=num_calibration_runs,
+                                                                samples_size=samples_size, 
+                                                                training_params=training_params, 
+                                                                set='reference', 
+                                                                patience=patience, 
+                                                                allow_margin=allow_margin,
+                                                                margin=margin,
+                                                                sampling=sampling)
+            print("Detectron execution on reference set completed.")
+        
+        test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
+                                                        n_runs=num_calibration_runs, 
+                                                        samples_size=samples_size, 
+                                                        training_params=training_params,
+                                                        set='testing', 
+                                                        patience=patience,
+                                                        allow_margin=allow_margin,
+                                                        margin=margin,
+                                                        sampling=sampling)
+        print("Detectron execution on testing set completed.")
 
 
-            assert cal_record.sample_size == test_record.sample_size, \
-                "The calibration record must have been generated with the same sample size as the observation set"
-            
+        assert cal_record.sample_size == test_record.sample_size, \
+            "The calibration record must have been generated with the same sample size as the observation set"
+        
     
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)

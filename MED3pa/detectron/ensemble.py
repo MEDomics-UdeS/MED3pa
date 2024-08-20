@@ -48,7 +48,8 @@ class DetectronEnsemble:
                           set : str = 'reference', 
                           patience : int = 3, 
                           allow_margin : bool = False,
-                          margin : int = None):
+                          margin : int = None, 
+                          sampling : str = "uniform"):
         
         """
         Trains the CDCs ensemble to disagree with the base model on a subset of data present in datasets. This process 
@@ -67,7 +68,7 @@ class DetectronEnsemble:
             allow_margin (bool, optional): Whether to use a probability margin to refine the disagreement. Default is False.
             margin (float, optional): The margin threshold above which disagreements in probabilities between the base model 
                                       and ensemble are considered significant, if allow_margin is True.
-
+            sampling (str, optional): Specifies the method for sampling the data, by default set to 'uniform'.
         Returns:
             DetectronRecordsManager: The records manager containing all the evaluation records from the ensemble runs.
 
@@ -92,8 +93,12 @@ class DetectronEnsemble:
         # evaluate the ensemble for n_runs of runs
         for seed in tqdm(range(n_runs), desc='running seeds'):
             # sample the testing set according to the provided sample_size and current seed
-            testing_set = testing_data.sample_uniform(samples_size, seed)
-
+            if sampling == "uniform":
+                testing_set = testing_data.sample_uniform(samples_size, seed)
+            elif sampling =="random":
+                testing_set = testing_data.sample_random(samples_size, seed)
+            else:
+                raise ValueError("Available sampling methods are: 'uniform' or 'random'.")
             # predict probabilities using the base model on the testing set
             base_model_pred_probs = self.base_model.predict(testing_set.get_observations(), True)
 
