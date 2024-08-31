@@ -156,6 +156,7 @@ class MaskedDataset(Dataset):
         # Set the seed for reproducibility and generate random indices
         rng = np.random.RandomState(seed)
         random_indices = rng.permutation(len(self.__observations))[:N]
+        self.__sample_counts[random_indices] += 1
 
         # Extract the sampled observations and labels
         sampled_obs = self.__observations[random_indices, :]

@@ -248,7 +248,8 @@ class DetectronExperiment:
             'num_runs': num_calibration_runs,
             'patience': patience,
             'allow_margin': allow_margin,
-            'margin': margin
+            'margin': margin,
+            'sampling-method':sampling,
         }
         experiment_config = {
             'experiment_name': "DetectronExperiment",
