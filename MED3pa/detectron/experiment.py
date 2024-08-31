@@ -200,7 +200,7 @@ class DetectronExperiment:
         _, y_reference = datasets.get_dataset_by_type(dataset_type="reference")
         reference_size = len(y_reference)
         
-        if reference_size <= samples_size: 
+        if reference_size < samples_size: 
             print("The reference set must be larger than the sample size, ", reference_size,", ", samples_size)
             raise ValueError("Not enough samples in the reference set!")
         if reference_size < 2 * samples_size:

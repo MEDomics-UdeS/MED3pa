@@ -19,10 +19,10 @@ rfr_params = [
 ]
 
 rfr_gridsearch_params = [
-    {"name": "n_estimators", "type": "int", "default": [100, 200, 300, 400, 500], "description": "The number of trees in the forest."},  
-    {"name": "max_depth", "type": "int", "default": [2, 3, 4, 5, 6], "description": "The maximum depth of the tree. Increasing this value will make the model more complex."},  
+    {"name": "n_estimators", "type": "int", "default": [10, 20, 50, 100, 200], "description": "The number of trees in the forest."},  
+    {"name": "max_depth", "type": "int", "default": [2, 3, 4], "description": "The maximum depth of the tree. Increasing this value will make the model more complex."},  
     {"name": "min_samples_split", "type": "int", "default": [2, 5, 10], "description": "The minimum number of samples required to split an internal node."},  
-    {"name": "min_samples_leaf", "type": "int", "default": [1, 2, 4], "description": "The minimum number of samples required to be at a leaf node."},  
+    {"name": "min_samples_leaf", "type": "int", "default": [5, 10, 15, 20], "description": "The minimum number of samples required to be at a leaf node."},  
     {"name": "max_features", "type": "string", "default": ["auto", "sqrt", "log2"], "description": "The number of features to consider when looking for the best split."},  
     {"name": "bootstrap", "type": "bool", "default": [True, False], "description": "Whether bootstrap samples are used when building trees. If False, the whole dataset is used to build each tree."}  
 ]
