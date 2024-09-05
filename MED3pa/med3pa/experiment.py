@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.detectron.experiment import DetectronExperiment, DetectronResult, DetectronStrategy, EnhancedDisagreementStrategy
+from MED3pa.med3pa.convert_results import generate_Med3paResults
 from MED3pa.med3pa.mdr import MDRCalculator
 from MED3pa.med3pa.models import *
 from MED3pa.med3pa.profiles import Profile, ProfilesManager
@@ -189,11 +190,12 @@ class Med3paResults:
         self.ipc_model = ipc_model
         self.apc_model = apc_model 
 
-    def save(self, file_path: str) -> None:
+    def save(self, file_path: str, save_med3paResults: bool = True) -> None:
         """
         Saves the experiment results.
         Args:
             file_path (str): The file path to save the JSON files.
+            save_med3paResults (bool, optional): Whether to save the results in a Med3paResults file. Defaults to True
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
@@ -210,6 +212,9 @@ class Med3paResults:
         experiment_config_path = os.path.join(file_path, 'experiment_config.json')
         with open(experiment_config_path, 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
+
+        if save_med3paResults:
+            generate_Med3paResults(file_path)
 
     import os
 
