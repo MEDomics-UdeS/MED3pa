@@ -19,28 +19,30 @@ from MED3pa.models.concrete_regressors import DecisionTreeRegressorModel, Random
 from MED3pa.models.data_strategies import ToDataframesStrategy
 from MED3pa.models import rfr_params, dtr_params
 
+
 class IPCModel:
     """
     IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data point.
     """
     default_params = {'random_state': 54288}
-    
+
     supported_regressors_mapping = {
-        'RandomForestRegressor' : RandomForestRegressorModel
+        'RandomForestRegressor': RandomForestRegressorModel
     }
 
     underlying_models_mapping = {
-        'RandomForestRegressor' : RandomForestRegressor
+        'RandomForestRegressor': RandomForestRegressor
     }
 
-    supported_regressos_params = {
-            'RandomForestRegressor' : {
-                'params' : rfr_params.rfr_params,
-                'grid_params' : rfr_params.rfr_gridsearch_params
-            }
+    supported_regressors_params = {
+        'RandomForestRegressor': {
+            'params': rfr_params.rfr_params,
+            'grid_params': rfr_params.rfr_gridsearch_params
+        }
     }
-    
-    def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None, pretrained_model: Optional[str] = None) -> None:
+
+    def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None,
+                 pretrained_model: Optional[str] = None) -> None:
         """
         Initializes the IPCModel with a regression model class name and optional parameters.
 
@@ -50,7 +52,8 @@ class IPCModel:
             pretrained_mode (Optional[str]): Path to a pretrained regression model, serving as ipc model, default is None.
         """
         if model_name not in self.supported_regressors_mapping:
-            raise ValueError(f"Unsupported model name: {model_name}. Supported models are: {self.supported_ipc_models()}")
+            raise ValueError(
+                f"Unsupported model name: {model_name}. Supported models are: {self.supported_ipc_models()}")
 
         model_class = self.supported_regressors_mapping[model_name]
 
@@ -59,7 +62,7 @@ class IPCModel:
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
-        
+
         self.model = model_class(params)
         self.params = params
         self.grid_search_params = {}
@@ -69,7 +72,7 @@ class IPCModel:
 
         if pretrained_model:
             self.load_model(pretrained_model)
-    
+
     @classmethod
     def supported_ipc_models(cls) -> list:
         """
@@ -79,7 +82,7 @@ class IPCModel:
             list: A list of supported regression model names.
         """
         return list(cls.supported_regressors_mapping.keys())
-    
+
     @classmethod
     def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
         """
@@ -89,9 +92,10 @@ class IPCModel:
             Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing 
                                     'params' and 'grid_search_params' for each model.
         """
-        return cls.supported_regressos_params
-    
-    def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
+        return cls.supported_regressors_params
+
+    def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray,
+                 sample_weight: np.ndarray = None) -> None:
         """
         Optimizes the model parameters using GridSearchCV.
 
@@ -133,8 +137,9 @@ class IPCModel:
             np.ndarray: Predicted error probabilities.
         """
         return self.model.predict(x)
-    
-    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[str, float]:
+
+    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[
+        str, float]:
         """
         Evaluates the model using specified metrics.
 
@@ -164,7 +169,7 @@ class IPCModel:
             'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained
         }
-    
+
     def save_model(self, file_path: str) -> None:
         """
         Saves the trained model to a pickle file.
@@ -191,20 +196,22 @@ class IPCModel:
         self.model.model = loaded_model
         self.pretrained = True
 
+
 class APCModel:
     """
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of similar data points.
     """
     default_params = {'max_depth': 3, 'min_samples_leaf': 1, 'random_state': 54288}
-    
+
     supported_params = {
-            'DecisionTreeRegressor' : {
-                'params' : dtr_params.dtr_params,
-                'grid_params' : dtr_params.dtr_gridsearch_params
-            }
+        'DecisionTreeRegressor': {
+            'params': dtr_params.dtr_params,
+            'grid_params': dtr_params.dtr_gridsearch_params
+        }
     }
 
-    def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None, tree_file_path: Optional[str] = None, pretrained_model: Optional[str] = None) -> None:
+    def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None,
+                 tree_file_path: Optional[str] = None, pretrained_model: Optional[str] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree representation.
 
@@ -219,7 +226,7 @@ class APCModel:
         else:
             random_state_params = {'random_state': 54288}
             params.update(random_state_params)
-        
+
         self.model = DecisionTreeRegressorModel(params)
         self.treeRepresentation = TreeRepresentation(features=features)
         self.dataPreparationStrategy = ToDataframesStrategy()
@@ -231,7 +238,7 @@ class APCModel:
         self.pretrained = False
 
         if tree_file_path:
-           self.load_tree(tree_file_path)
+            self.load_tree(tree_file_path)
 
         if pretrained_model:
             self.load_model(pretrained_model)
@@ -245,7 +252,7 @@ class APCModel:
         """
         with open(file_path, 'r') as file:
             tree_dict = json.load(file)
-        
+
         self.loaded_tree = tree_dict
 
     @classmethod
@@ -258,8 +265,8 @@ class APCModel:
                                     'params' and 'grid_search_params' for each model.
         """
         return cls.supported_params
-    
-    def train(self, x: np.ndarray, error_prob: np.ndarray,) -> None:
+
+    def train(self, x: np.ndarray, error_prob: np.ndarray, ) -> None:
         """
         Trains the model using the provided data and error probabilities and builds the tree representation.
 
@@ -269,9 +276,10 @@ class APCModel:
         """
         if not self.pretrained:
             self.model.train(x, error_prob)
-        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
+        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x,
+                                                                labels=error_prob)
         self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0)
-        
+
     def print_decision_tree_structure(tree_model, feature_names=None):
         """
         Prints the structure of a trained DecisionTreeRegressor.
@@ -283,7 +291,8 @@ class APCModel:
         tree_rules = export_text(tree_model, feature_names=feature_names)
         print(tree_rules)
 
-    def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray, sample_weight: np.ndarray = None) -> None:
+    def optimize(self, param_grid: dict, cv: int, x: np.ndarray, error_prob: np.ndarray,
+                 sample_weight: np.ndarray = None) -> None:
         """
         Optimizes the model parameters using GridSearchCV.
 
@@ -302,10 +311,10 @@ class APCModel:
         self.model.update_params(grid_search.best_params_)
         self.params.update(grid_search.best_params_)
         self.grid_search_params = param_grid
-        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x, labels=error_prob)
+        df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x,
+                                                                labels=error_prob)
         self.treeRepresentation.build_tree(self.model, df_X, error_prob, node_id=0)
         self.optimized = True
-        
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
@@ -329,8 +338,9 @@ class APCModel:
                 raise ValueError("The Tree Representation has not been initialized, try fitting the APCModel first.")
 
         return np.array(predictions)
-    
-    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[str, float]:
+
+    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False) -> Dict[
+        str, float]:
         """
         Evaluates the model using specified metrics.
 
@@ -345,7 +355,7 @@ class APCModel:
         """
         evaluation_results = self.model.evaluate(X, y, eval_metrics, print_results)
         return evaluation_results
-    
+
     def get_info(self) -> Dict[str, Any]:
         """
         Returns information about the APCModel instance.
@@ -360,7 +370,7 @@ class APCModel:
             'grid_search_params': self.grid_search_params,
             'pretrained': self.pretrained
         }
-    
+
     def save_model(self, file_path: str) -> None:
         """
         Saves the trained model to a pickle file.
@@ -387,11 +397,13 @@ class APCModel:
         self.model.model = loaded_model
         self.pretrained = True
 
+
 class MPCModel:
     """
     MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.
     """
-    def __init__(self, IPC_values: np.ndarray=None, APC_values: np.ndarray=None) -> None:
+
+    def __init__(self, IPC_values: np.ndarray = None, APC_values: np.ndarray = None) -> None:
         """
         Initializes the MPCModel with IPC and APC values.
 
@@ -411,7 +423,7 @@ class MPCModel:
         """
         if self.APC_values is None and self.IPC_values is None:
             raise ValueError("Both APC values and IPC values are not set!")
-        
+
         if self.APC_values is None:
             MPC_values = self.IPC_values
         elif self.IPC_values is None:
