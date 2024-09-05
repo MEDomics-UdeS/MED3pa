@@ -12,7 +12,7 @@ from pathlib import Path
 
 def generate_Med3paResults(path_to_results):
 
-    file_name = f"MED3paResults_{path_to_results}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}".replace(
+    file_name = f"/MED3paResults_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}".replace(
         r'[^a-zA-Z0-9-_]', "")
     is_detectron = False
     tabs = ["infoConfig", "reference", "test"]
@@ -44,7 +44,7 @@ def generate_Med3paResults(path_to_results):
                 load_and_handle_files(file_path, file_content, tab)
 
     file_content["isDetectron"] = is_detectron
-    save_dict_to_file(file_content, file_name + '.MED3paResults')
+    save_dict_to_file(file_content, path_to_results + file_name + '.MED3paResults')
 
 
 def get_all_text_in_folder(folder_path):
