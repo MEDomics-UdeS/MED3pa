@@ -281,15 +281,12 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
             'Accuracy': cls.accuracy,
             'BalancedAccuracy': cls.balanced_accuracy,
             'Precision': cls.precision,
-            'Recall': cls.recall,
             'F1Score': cls.f1_score,
             'Specificity': cls.specificity,
             'Sensitivity': cls.sensitivity,
             'Auc': cls.roc_auc,
             'LogLoss': cls.log_loss,
             'Auprc': cls.average_precision,
-            'NPV': cls.npv,
-            'PPV': cls.ppv,
             'MCC': cls.matthews_corrcoef
         }
         if metric_name == '':

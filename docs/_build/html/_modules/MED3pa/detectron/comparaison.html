@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MED3pa.detectron.comparaison &mdash; Med3pa documentation 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">MED3pa.detectron.comparaison</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for MED3pa.detectron.comparaison</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Compares between two ``DetectronExperiment``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<div class="viewcode-block" id="DetectronComparison"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison">[docs]</a><span class="k">class</span> <span class="nc">DetectronComparison</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to compare the results of two Med3paExperiment instances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results1_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">results2_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">results1_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">results2_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results_comparaison</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_evaluation_comparaison</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_experiment_name</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DetectronComparison.is_comparable"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.is_comparable">[docs]</a>    <span class="k">def</span> <span class="nf">is_comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines whether the two experiments can be compared based on the given criteria.</span>
+<span class="sd">        Two experiments can be compared if either:</span>
+<span class="sd">        - The datasets are different, but the base model and detectron_params are the same.</span>
+<span class="sd">        - The base model is different, but the datasets and detectron_params are the same.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the experiments can be compared, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Load the config files if they haven&#39;t been compared yet</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compare_config</span><span class="p">()</span>
+
+        <span class="n">datasets_different</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span>
+        <span class="n">datasets_different_sets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;different_datasets&#39;</span><span class="p">]</span>
+        <span class="n">base_model_different</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span>
+        <span class="n">detectron_params_different</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Check the conditions for comparability</span>
+        <span class="n">can_compare</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># First condition: params are the same, base model is the same, only the testing_set is different</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">detectron_params_different</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">base_model_different</span> <span class="ow">and</span> <span class="n">datasets_different_sets</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;testing_set&#39;</span><span class="p">]:</span>
+            <span class="n">can_compare</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Second condition: base model is different, params are the same, datasets are the same or only differ in training and validation sets</span>
+        <span class="k">elif</span> <span class="n">base_model_different</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">detectron_params_different</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">datasets_different</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">(</span><span class="n">datasets_different_sets</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">{</span><span class="s1">&#39;training_set&#39;</span><span class="p">,</span> <span class="s1">&#39;validation_set&#39;</span><span class="p">}):</span>
+            <span class="n">can_compare</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">can_compare</span></div>
+    
+    <span class="k">def</span> <span class="nf">_check_experiment_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the experiment_name in the config_file of both results paths is the same.</span>
+<span class="sd">        If not, raises a ValueError. Also sets the flag for Detectron comparison if applicable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config_file_1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span><span class="p">,</span> <span class="s1">&#39;experiment_config.json&#39;</span><span class="p">)</span>
+        <span class="n">config_file_2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span><span class="p">,</span> <span class="s1">&#39;experiment_config.json&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file_1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file_2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="n">config1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+            <span class="n">config2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;DetectronExperiment&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only DetectronExperiment can be compared using this class&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">config2</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The two results are not from the same experiment.&quot;</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="DetectronComparison.compare_detectron_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">compare_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compares detectron results two sets of results and stores them in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">file_1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span><span class="p">,</span> <span class="s1">&#39;detectron_results.json&#39;</span><span class="p">)</span>
+        <span class="n">file_2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span><span class="p">,</span> <span class="s1">&#39;detectron_results.json&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="n">detectron1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+            <span class="n">detectron2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_results1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">detectron1</span>
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_results2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">detectron2</span>
+
+        <span class="n">comparison_results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">r1</span> <span class="ow">in</span> <span class="n">detectron1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">r2</span> <span class="ow">in</span> <span class="n">detectron2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;Strategy&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;Strategy&quot;</span><span class="p">]:</span>
+                    <span class="n">strategy</span> <span class="o">=</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;Strategy&quot;</span><span class="p">]</span>
+                    <span class="n">strategy_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+                    <span class="k">if</span> <span class="s2">&quot;p_value&quot;</span> <span class="ow">in</span> <span class="n">r1</span> <span class="ow">and</span> <span class="s2">&quot;p_value&quot;</span> <span class="ow">in</span> <span class="n">r2</span><span class="p">:</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;detectron_results1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;detectron_results2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;comparison_criteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;p_value&quot;</span>
+                        <span class="k">if</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]:</span>
+                            <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;detectron_results2&quot;</span> <span class="k">if</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;detectron_results1&quot;</span>
+
+                    <span class="k">if</span> <span class="s2">&quot;shift_probability&quot;</span> <span class="ow">in</span> <span class="n">r1</span> <span class="ow">and</span> <span class="s2">&quot;shift_probability&quot;</span> <span class="ow">in</span> <span class="n">r2</span><span class="p">:</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;detectron_results1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;detectron_results2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]</span>
+                        <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;comparison_criteria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;shift_probability&quot;</span>
+                        <span class="k">if</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]:</span>
+                            <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">strategy_dict</span><span class="p">[</span><span class="s2">&quot;best&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;detectron_results2&quot;</span> <span class="k">if</span> <span class="n">r2</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">r1</span><span class="p">[</span><span class="s2">&quot;shift_probability&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;detectron_results1&quot;</span>
+
+                    <span class="k">if</span> <span class="n">strategy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">comparison_results</span><span class="p">:</span>
+                        <span class="n">comparison_results</span><span class="p">[</span><span class="n">strategy</span><span class="p">]</span> <span class="o">=</span> <span class="n">strategy_dict</span>
+                        
+        <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results_comparaison</span> <span class="o">=</span> <span class="n">comparison_results</span></div>
+
+<div class="viewcode-block" id="DetectronComparison.compare_evaluation"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">compare_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compares model evaluations two sets of results and stores them in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span><span class="p">,</span> <span class="s1">&#39;model_evaluation.json&#39;</span><span class="p">)</span>
+        <span class="n">file_2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span><span class="p">,</span> <span class="s1">&#39;model_evaluation.json&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="n">detectron1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+            <span class="n">detectron2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+
+        <span class="n">comparison</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="n">detectron1</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>  <span class="c1"># Assuming both experiments have the same metrics</span>
+        
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="n">value1</span> <span class="o">=</span> <span class="n">detectron1</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span>
+            <span class="n">value2</span> <span class="o">=</span> <span class="n">detectron2</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">value1</span> <span class="o">==</span> <span class="n">value2</span><span class="p">:</span>
+                <span class="n">best</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">best</span> <span class="o">=</span> <span class="s2">&quot;detectron_results1&quot;</span> <span class="k">if</span> <span class="n">value1</span> <span class="o">&gt;</span> <span class="n">value2</span> <span class="k">else</span> <span class="s2">&quot;detectron_results2&quot;</span>
+            
+            <span class="n">comparison</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;detectron_results1&quot;</span><span class="p">:</span> <span class="n">value1</span><span class="p">,</span>
+                <span class="s2">&quot;detectron_results2&quot;</span><span class="p">:</span> <span class="n">value2</span><span class="p">,</span>
+                <span class="s2">&quot;best&quot;</span><span class="p">:</span> <span class="n">best</span>
+            <span class="p">}</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_evaluation_comparaison</span> <span class="o">=</span> <span class="n">comparison</span></div>
+
+<div class="viewcode-block" id="DetectronComparison.compare_counts"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_counts">[docs]</a>    <span class="k">def</span> <span class="nf">compare_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compares rejection two sets of results and stores them in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">file_1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span><span class="p">,</span> <span class="s1">&#39;rejection_counts.json&#39;</span><span class="p">)</span>
+        <span class="n">file_2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span><span class="p">,</span> <span class="s1">&#39;rejection_counts.json&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="n">detectron1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+            <span class="n">detectron2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;rejection_counts1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">detectron1</span>
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;rejection_counts2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">detectron2</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
+
+<div class="viewcode-block" id="DetectronComparison.compare_config"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_config">[docs]</a>    <span class="k">def</span> <span class="nf">compare_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compares the config files of the two experiments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">combined</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">config_file_1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results1_path</span><span class="p">,</span> <span class="s1">&#39;experiment_config.json&#39;</span><span class="p">)</span>
+        <span class="n">config_file_2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results2_path</span><span class="p">,</span> <span class="s1">&#39;experiment_config.json&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file_1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file_2</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f2</span><span class="p">:</span>
+            <span class="n">config1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+            <span class="n">config2</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dataset_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;training_set&#39;</span><span class="p">,</span> <span class="s1">&#39;validation_set&#39;</span><span class="p">,</span> <span class="s1">&#39;reference_set&#39;</span><span class="p">,</span> <span class="s1">&#39;testing_set&#39;</span><span class="p">]</span>
+        <span class="n">different_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dataset_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">different_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;different_datasets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">different_datasets</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;datasets1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]</span>
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">][</span><span class="s1">&#39;datasets2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;datasets&quot;</span><span class="p">]</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;base_model&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;base_model&quot;</span><span class="p">]:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">][</span><span class="s1">&#39;base_model1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;base_model&quot;</span><span class="p">]</span>
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;base_model&#39;</span><span class="p">][</span><span class="s1">&#39;base_model2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;base_model&quot;</span><span class="p">]</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;detectron_params&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;detectron_params&quot;</span><span class="p">]:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;different&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;detectron_params1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config1</span><span class="p">[</span><span class="s2">&quot;detectron_params&quot;</span><span class="p">]</span>
+        <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;detectron_params2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;detectron_params&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">combined</span></div>
+        
+<div class="viewcode-block" id="DetectronComparison.compare_experiments"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_experiments">[docs]</a>    <span class="k">def</span> <span class="nf">compare_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compares the experiments by detectron_results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_comparable</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The two experiments cannot be compared based on the provided criteria.&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_detectron_results</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_counts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_evaluation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_config</span><span class="p">()</span>   </div>
+
+<div class="viewcode-block" id="DetectronComparison.save"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the comparison results to a specified directory.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            directory_path (str): The directory where the comparison results will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_comparable</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The two experiments cannot be compared based on the provided criteria.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Ensure the main directory exists</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">global_comparaison_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;detectron_results_comparaison.json&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">global_comparaison_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detectron_results_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        
+        <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;experiment_config_comparaison.json&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="n">eval_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;model_evaluation_comparaison.json&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">eval_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_evaluation_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="n">counts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;rejection_counts_comparaison.json&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">counts_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

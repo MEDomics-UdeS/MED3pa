@@ -201,20 +201,19 @@ class Med3paComparison:
             profiles1 = json.load(f1)
             profiles2 = json.load(f2)
 
-        for samples_ratio, profiles_dict in self.shared_profiles.items():
-            combined = {}
-            for profile_path_list in profiles_dict.values():
-                profile_path = " / ".join(profile_path_list)  # Convert the list to a string
+        profiles_dict = self.shared_profiles['0']
+        for profile_path_list in profiles_dict.values():
+            profile_path = " / ".join(profile_path_list)  # Convert the list to a string
 
-                # Attempt to find matching profiles in both profiles1 and profiles2
-                matching_profile_1 = next((p for p in profiles1[samples_ratio]["100"] if " / ".join(p["path"]) == profile_path), None)
-                matching_profile_2 = next((p for p in profiles2[samples_ratio]["100"] if " / ".join(p["path"]) == profile_path), None)
+            # Attempt to find matching profiles in both profiles1 and profiles2
+            matching_profile_1 = next((p for p in profiles1['0']["100"] if (p["path"]) == profile_path_list), None)
+            matching_profile_2 = next((p for p in profiles2['0']["100"] if (p["path"]) == profile_path_list), None)
 
-                if profile_path not in combined:
-                    combined[profile_path] = {}
+            if profile_path not in combined:
+                combined[profile_path] = {}
 
-                combined[profile_path]['detectron_results_1'] = matching_profile_1["detectron_results"] if matching_profile_1 else None
-                combined[profile_path]['detectron_results_2'] = matching_profile_2["detectron_results"] if matching_profile_2 else None
+            combined[profile_path]['detectron_results_1'] = matching_profile_1["detectron_results"] if matching_profile_1 else None
+            combined[profile_path]['detectron_results_2'] = matching_profile_2["detectron_results"] if matching_profile_2 else None
 
         self.profiles_detectron_comparaison = combined
 

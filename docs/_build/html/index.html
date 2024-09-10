@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to MED3pa documentation! &mdash; Med3pa documentation 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation Guide" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Med3pa documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Med3pa documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to MED3pa documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-med3pa-documentation">
+<h1>Welcome to MED3pa documentation!<a class="headerlink" href="#welcome-to-med3pa-documentation" title="Permalink to this heading"></a></h1>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/package.svg"><img alt="UML package diagram" class="align-center" src="_images/package.svg" width="100%" /></a>
+<div style="margin-bottom: 30px;"></div><section id="use-and-application-of-the-package">
+<h2>Use and Application of the package<a class="headerlink" href="#use-and-application-of-the-package" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">MED3pa</span></code> package is specifically designed to address critical challenges in deploying machine learning models, particularly focusing on the robustness and reliability of models under real-world conditions.
+It provides comprehensive tools for evaluating model stability and performance in the face of <strong>covariate shifts, and problematic data profiles.</strong></p>
+</section>
+<section id="key-functionalities">
+<h2>Key functionalities<a class="headerlink" href="#key-functionalities" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Covariate Shift Detection:</strong> Utilizing the detectron subpackage, MED3pa can identify significant shifts in data distributions that might affect the model’s predictions. This feature is crucial for applications such as healthcare, where early detection of shifts can prevent erroneous decisions.</p></li>
+<li><p><strong>Uncertainty and Confidence Estimation:</strong> Through the med3pa subpackage, the package measures the uncertainty and predictive confidence at both individual and group levels. This helps in understanding the reliability of model predictions and in making informed decisions based on model outputs.</p></li>
+<li><p><strong>Identification of Problematic Profiles</strong>: MED3pa analyzes data profiles that consistently lead to poor model performance. This capability allows developers to refine training datasets or retrain models to handle these edge cases effectively.</p></li>
+</ul>
+</section>
+<section id="software-engineering-principles">
+<h2>Software Engineering Principles<a class="headerlink" href="#software-engineering-principles" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">MED3pa</span></code> package is constructed with a strong emphasis on <strong>software engineering principles</strong>, making it a robust and scalable solution for machine learning model evaluation:</p>
+<ul class="simple">
+<li><p><strong>Modular Design</strong>: The package is structured into four distinct <strong>subpackages</strong> (detectron, med3pa, models, and datasets), each focusing on different aspects of model training and evaluation. This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.</p></li>
+<li><p><strong>Extensibility</strong>: Thanks to its modular architecture, the package can be effortlessly extended to include more functionalities or adapt to different use cases. New models, methods, or data handling procedures can be added with minimal impact on the existing system structure.</p></li>
+<li><p><strong>Use of Design Patterns</strong>: MED3pa employs various design patterns that enhance its maintainability and usability. For example, the use of factory patterns in model creation and strategy patterns in handling different file extensions ensures that the system remains flexible and adaptable to new requirements.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-1-install-via-pip">Step 1: Install via pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#step-2-verify-the-installation">Step 2: Verify the Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#basic-example">Basic Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="subpackages">
+<h1>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h1>
+<p>The package is structured into four distinct subpackages : <code class="docutils literal notranslate"><span class="pre">datasets</span></code>, <code class="docutils literal notranslate"><span class="pre">models</span></code>, <code class="docutils literal notranslate"><span class="pre">detectron</span></code> and <code class="docutils literal notranslate"><span class="pre">med3pa</span></code>, each focusing on different aspects of the package goals.
+This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.</p>
+<img alt="UML package diagram" class="align-center" src="_images/subpackages.svg" /><div style="margin-bottom: 30px;"></div><div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_context"><strong>loading_context module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_strategies"><strong>loading_strategies module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.manager"><strong>manager module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.masked"><strong>masked module</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.factories"><strong>factories module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_models"><strong>abstract_models module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_classifiers"><strong>concrete_classifiers module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_regressors"><strong>concrete_regressors module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_metrics"><strong>abstract_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.classification_metrics"><strong>classification_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.regression_metrics"><strong>regression_metrics module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.data_strategies"><strong>data_strategies module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.base"><strong>base module</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.ensemble">ensemble module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.record">record module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.stopper">stopper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#strategies-module">strategies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#experiment-module">experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#comparaison-module">comparaison module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MED3pa.med3pa.html">med3pa subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#key-components">Key Components:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#advanced-analysis-with-mdr">Advanced Analysis with MDR:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#extensibility-for-integration">Extensibility for Integration:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.uncertainty">uncertainty module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.tree">tree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.profiles">Profiles module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.mdr">MDR module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.experiment">experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.comparaison">compraison module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h1>
+<p>Welcome to the tutorials section of the med3pa documentation. Here, we offer comprehensive, step-by-step guides to help you effectively utilize the various subpackages within <code class="docutils literal notranslate"><span class="pre">med3pa</span></code>.
+Each tutorial is designed to enhance your understanding of the package’s capabilities and to provide practical examples of how to integrate these tools into your data science and machine learning workflows.</p>
+<p>Explore each tutorial to learn how to make the most of MED3pa’s robust functionalities for your projects.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datasets_tutorials.html">Working with datasets subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datasets_tutorials.html#using-the-datasetsmanager-class">Using the DatasetsManager class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-1-importing-the-datasetsmanager">Step 1: Importing the DatasetsManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-2-creating-an-instance-of-datasetsmanager">Step 2: Creating an Instance of DatasetsManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-3-loading-datasets">Step 3: Loading Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-4-ensuring-feature-consistency">Step 4: Ensuring Feature Consistency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-5-retrieving-data">Step 5: Retrieving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-6-getting-a-summary">Step 6: Getting a Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-7-saving-and-resetting-datasets">Step 7: Saving and Resetting Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#summary-of-outputs">Summary of Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datasets_tutorials.html#using-the-maskeddataset-class">Using the MaskedDataset Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-1-importing-necessary-modules">Step 1: Importing Necessary Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-2-loading-data-with-datasetsmanager">Step 2: Loading Data with DatasetsManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets_tutorials.html#step-3-performing-operations-on-maskeddataset">Step 3: Performing Operations on MaskedDataset</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models_tutorials.html">Working with the Models Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models_tutorials.html#using-the-modelfactory-class">Using the ModelFactory Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-1-importing-necessary-modules">Step 1: Importing Necessary Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-2-creating-an-instance-of-modelfactory">Step 2: Creating an Instance of ModelFactory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-3-discovering-supported-models">Step 3: Discovering Supported Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-4-specifying-and-creating-a-model">Step 4: Specifying and Creating a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-5-loading-a-model-from-a-serialized-state">Step 5: Loading a Model from a Serialized State</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models_tutorials.html#using-the-model-class">Using the Model Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-1-training-the-model">Step 1: Training the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-2-predicting-using-the-trained-model">Step 2: Predicting Using the Trained Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-3-evaluating-the-model">Step 3: Evaluating the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-4-retrieving-model-information">Step 4: Retrieving Model Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_tutorials.html#step-5-saving-model-information">Step 5: Saving Model Information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="detectron_tutorials.html">Working with the Detectron Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-3-running-the-detectron-experiment">Step 3: Running the Detectron Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-4-analyzing-the-results">Step 4: Analyzing the Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-5-saving-the-results">Step 5: Saving the Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detectron_tutorials.html#step-6-comparing-the-results">Step 6: Comparing the Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="med3pa_tutorials.html">Working with the med3pa Subpackage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="med3pa_tutorials.html#running-the-med3pa-experiment">Running the MED3pa Experiment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-1-setting-up-the-datasets">Step 1: Setting up the Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-2-configuring-the-model">Step 2: Configuring the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-3-running-the-med3pa-experiment">Step 3: Running the med3pa Experiment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-4-analyzing-and-saving-the-results">Step 4: Analyzing and Saving the Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-5-running-experiments-from-pretrained-models">Step 5: Running experiments from pretrained models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="med3pa_tutorials.html#step-6-comparing-two-experiments">Step 6: Comparing two experiments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="med3pa_tutorials.html#running-the-med3pa-and-detectron-experiment">Running the MED3pa and Detectron Experiment</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, MEDomics Consortium.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

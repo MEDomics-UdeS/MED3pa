@@ -21,9 +21,12 @@ from MED3pa.models.concrete_regressors import *
 from MED3pa.med3pa.tree import TreeRepresentation
 
 def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
-    """Convert an object to a JSON-serializable format.
+    """
+    Convert an object to a JSON-serializable format.
+    
     Args:
         obj (Any): The object to convert.
+    
     Returns:
         Any: The JSON-serializable representation of the object.
     """
@@ -60,6 +63,7 @@ class Med3paRecord:
     def set_metrics_by_dr(self, metrics_by_dr: Dict) -> None:
         """
         Set the calculated metrics by declaration rate.
+        
         Args:
             metrics_by_dr (Dict): Dictionary of metrics by declaration rate.
         """
@@ -77,6 +81,7 @@ class Med3paRecord:
     def set_models_evaluation(self, ipc_evaluation: Dict, apc_evaluation: Dict=None) -> None:
         """
         Set models evaluation metrics.
+        
         Args:
             ipc_evaluation (Dict): Evaluation metrics for IPC model.
             apc_evaluation (Dict): Evaluation metrics for APC model.
@@ -95,6 +100,7 @@ class Med3paRecord:
     def set_dataset(self, mode: str, dataset: MaskedDataset) -> None:
         """
         Saves the dataset for a given sample ratio.
+        
         Args:
             samples_ratio (int): The sample ratio.
             dataset (MaskedDataset): The MaskedDataset instance.
@@ -105,6 +111,7 @@ class Med3paRecord:
     def save(self, file_path: str) -> None:
         """
         Saves the experiment results.
+        
         Args:
             file_path (str): The file path to save the JSON files.
         """
@@ -172,6 +179,7 @@ class Med3paResults:
     def set_detectron_results(self, detectron_results: DetectronResult=None) -> None:
         """
         Sets the detectron results for the Med3paDetectron experiment.
+        
         Args:
             detectron_results (DetectronResult): The structure holding the detectron results.
         """
@@ -180,18 +188,23 @@ class Med3paResults:
     def set_experiment_config(self, config: Dict[str, Any]) -> None:
         """
         Sets or updates the configuration for the Med3pa experiment.
+        
         Args:
             config (Dict[str, Any]): A dictionary of experiment configuration.
         """
         self.experiment_config.update(config)
 
     def set_models(self, ipc_model: IPCModel, apc_model:APCModel = None):
+        """
+        Sets the models.
+        """
         self.ipc_model = ipc_model
         self.apc_model = apc_model 
 
     def save(self, file_path: str) -> None:
         """
         Saves the experiment results.
+        
         Args:
             file_path (str): The file path to save the JSON files.
         """
@@ -216,6 +229,7 @@ class Med3paResults:
     def save_models(self, file_path: str, mode: str = 'all', id: str = None) -> None:
         """
         Saves the experiment ipc and apc models as .pkl files, alongside the tree structure for the test set.
+        
         Args:
             file_path (str): The file path to save the pickled files.
             mode (str): Defines the type of models to save, either ipc, apc, or both.
@@ -276,35 +290,38 @@ class Med3paExperiment:
             samples_ratio_min: int = 0,
             samples_ratio_max: int = 50, 
             samples_ratio_step: int = 5,
-            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
+            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'MCC'],
             evaluate_models: bool = False,
             use_ref_models: bool = False, 
             mode: str = 'mpc',
             models_metrics: List[str] = ['MSE', 'RMSE', 'MAE']) -> Med3paResults:
 
-        """Runs the MED3PA experiment on both reference and testing sets.
-        Args:
-            datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
-            base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.
-            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
-            ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
-            ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
-            ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
-            ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.
-            pretrained_ipc (str, optional): path to a pretrained ipc, by default None.
-            apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
-            apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
-            apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
-            pretrained_apc (str, optional): path to a pretrained apc, by default None.
-            use_ref_models (bool, optional): whether or not to use the trained IPC and APC models from the reference set on the test set.
-            samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
-            samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
-            samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
-            med3pa_metrics (list of str, optional): List of metrics to calculate, by default ['Auc', 'Accuracy', 'BalancedAccuracy'].
-            evaluate_models (bool, optional): Whether to evaluate the models, by default False.
-            models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
-        Returns:
-            Med3paResults: the results of the MED3PA experiment on the reference set and testing set.
+        """
+            Runs the MED3PA experiment on both reference and testing sets.
+            
+            Args:
+                datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
+                base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.
+                uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
+                ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
+                ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
+                ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
+                ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.
+                pretrained_ipc (str, optional): path to a pretrained ipc, by default None.
+                apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
+                apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
+                apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
+                pretrained_apc (str, optional): path to a pretrained apc, by default None.
+                use_ref_models (bool, optional): whether or not to use the trained IPC and APC models from the reference set on the test set.
+                samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
+                samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
+                samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
+                med3pa_metrics (list of str, optional): List of metrics to calculate, by default ['Auc', 'Accuracy', 'BalancedAccuracy'].
+                evaluate_models (bool, optional): Whether to evaluate the models, by default False.
+                models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
+            
+            Returns:
+                Med3paResults: the results of the MED3PA experiment on the reference set and testing set.
         """
         print("Running MED3pa Experiment on the reference set:")
         results_reference, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
@@ -378,6 +395,7 @@ class Med3paExperiment:
 
         """
         Orchestrates the MED3PA experiment on one specific set of the dataset.
+        
         Args:
             datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
             base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model, by default None.
@@ -395,6 +413,7 @@ class Med3paExperiment:
             med3pa_metrics (list of str, optional): List of metrics to calculate, by default ['Auc', 'Accuracy', 'BalancedAccuracy'].
             evaluate_models (bool, optional): Whether to evaluate the models, by default False.
             models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
+        
         Returns:
             Med3paRecord: the results of the MED3PA experiment.
         """
@@ -403,7 +422,6 @@ class Med3paExperiment:
 
         # Retrieve the dataset based on the set type
         if set == 'reference':
-            print(datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True))
             dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
         elif set == 'testing':
             dataset = datasets_manager.get_dataset_by_type(dataset_type="testing", return_instance=True)
@@ -577,44 +595,47 @@ class Med3paDetectronExperiment:
             samples_ratio_min: int = 0,
             samples_ratio_max: int = 50, 
             samples_ratio_step: int = 5,
-            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
+            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'MCC'],
             evaluate_models: bool = False,
             use_ref_models: bool = False, 
             models_metrics: List[str] = ['MSE', 'RMSE', 'MAE'],
             mode: str = 'mpc',
             all_dr: bool = False) ->  Med3paResults:
-        """Runs the MED3PA and Detectron experiment.
-        Args:
-            datasets (DatasetsManager): The datasets manager instance.
-            training_params (dict): Parameters for training the models.
-            base_model_manager (BaseModelManager): The base model manager instance.
-            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
-            samples_size (int, optional): Sample size for the Detectron experiment, by default 20.
-            samples_size_profiles (int, optional): Sample size for Profiles Detectron experiment, by default 10.
-            ensemble_size (int, optional): Number of models in the ensemble, by default 10.
-            num_calibration_runs (int, optional): Number of calibration runs, by default 100.
-            patience (int, optional): Patience for early stopping, by default 3.
-            test_strategies (Union[str, List[str]): strategies for testing disagreement, by default enhanced_disagreement_strategies.
-            allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
-            margin (float, optional): Margin value for the test, by default 0.05.
-            ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
-            ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
-            ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
-            ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.
-            pretrained_ipc (str, optional): path to a pretrained ipc, by default None.
-            apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
-            apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
-            pretrained_apc (str, optional): path to a pretrained apc, by default None.
-            apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
-            samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
-            samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
-            samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
-            med3pa_metrics (list of str, optional): List of metrics to calculate, by default ['Auc', 'Accuracy', 'BalancedAccuracy'].
-            evaluate_models (bool, optional): Whether to evaluate the models, by default False.
-            models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
-            all_dr (bool, optional): Whether to run for all declaration rates, by default False.
-        Returns:
-            Med3paResults: Results of MED3pa on reference and testing sets, plus Detectron Results.
+        """
+            Runs the MED3PA and Detectron experiment.
+            
+            Args:
+                datasets (DatasetsManager): The datasets manager instance.
+                training_params (dict): Parameters for training the models.
+                base_model_manager (BaseModelManager): The base model manager instance.
+                uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty, by default absolute_error.
+                samples_size (int, optional): Sample size for the Detectron experiment, by default 20.
+                samples_size_profiles (int, optional): Sample size for Profiles Detectron experiment, by default 10.
+                ensemble_size (int, optional): Number of models in the ensemble, by default 10.
+                num_calibration_runs (int, optional): Number of calibration runs, by default 100.
+                patience (int, optional): Patience for early stopping, by default 3.
+                test_strategies (Union[str, List[str]): strategies for testing disagreement, by default enhanced_disagreement_strategies.
+                allow_margin (bool, optional): Whether to allow a margin in the test, by default False.
+                margin (float, optional): Margin value for the test, by default 0.05.
+                ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
+                ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
+                ipc_grid_params (dict, optional): Grid search parameters for optimizing the IPC model, by default None.
+                ipc_cv (int, optional): Number of cross-validation folds for optimizing the IPC model, by default None.
+                pretrained_ipc (str, optional): path to a pretrained ipc, by default None.
+                apc_params (dict, optional): Parameters for initializing the APC regressor model, by default None.
+                apc_grid_params (dict, optional): Grid search parameters for optimizing the APC model, by default None.
+                pretrained_apc (str, optional): path to a pretrained apc, by default None.
+                apc_cv (int, optional): Number of cross-validation folds for optimizing the APC model, by default None.
+                samples_ratio_min (int, optional): Minimum sample ratio, by default 0.
+                samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
+                samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
+                med3pa_metrics (list of str, optional): List of metrics to calculate, by default ['Auc', 'Accuracy', 'BalancedAccuracy'].
+                evaluate_models (bool, optional): Whether to evaluate the models, by default False.
+                models_metrics (list of str, optional): List of metrics for model evaluation, by default ['MSE', 'RMSE'].
+                all_dr (bool, optional): Whether to run for all declaration rates, by default False.
+            
+            Returns:
+                Med3paResults: Results of MED3pa on reference and testing sets, plus Detectron Results.
         """
 
         valid_modes = ['mpc', 'apc']

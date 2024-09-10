@@ -1,0 +1,15 @@
+.wy-nav-content {
+    max-width: 100% !important;
+}
+
+.github-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.github-link i {
+    margin-right: 8px;
+}
