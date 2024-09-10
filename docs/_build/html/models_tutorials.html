@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Working with the Models Subpackage &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -106,13 +108,13 @@
            <div itemprop="articleBody">
              
   <section id="working-with-the-models-subpackage">
-<h1>Working with the Models Subpackage<a class="headerlink" href="#working-with-the-models-subpackage" title="Permalink to this heading"></a></h1>
+<h1>Working with the Models Subpackage<a class="headerlink" href="#working-with-the-models-subpackage" title="Link to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">models</span></code> subpackage is crafted to offer a comprehensive suite of tools for creating and managing various machine learning models within the <code class="docutils literal notranslate"><span class="pre">MED3pa</span></code> package.</p>
 <section id="using-the-modelfactory-class">
-<h2>Using the ModelFactory Class<a class="headerlink" href="#using-the-modelfactory-class" title="Permalink to this heading"></a></h2>
+<h2>Using the ModelFactory Class<a class="headerlink" href="#using-the-modelfactory-class" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code> class within the <code class="docutils literal notranslate"><span class="pre">models</span></code> subpackage offers a streamlined approach to creating machine learning models, either from predefined configurations or from serialized states. Here’s how to leverage this functionality effectively:</p>
 <section id="step-1-importing-necessary-modules">
-<h3>Step 1: Importing Necessary Modules<a class="headerlink" href="#step-1-importing-necessary-modules" title="Permalink to this heading"></a></h3>
+<h3>Step 1: Importing Necessary Modules<a class="headerlink" href="#step-1-importing-necessary-modules" title="Link to this heading"></a></h3>
 <p>Start by importing the required classes and utilities for model management:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">factories</span>
@@ -120,14 +122,14 @@
 </div>
 </section>
 <section id="step-2-creating-an-instance-of-modelfactory">
-<h3>Step 2: Creating an Instance of ModelFactory<a class="headerlink" href="#step-2-creating-an-instance-of-modelfactory" title="Permalink to this heading"></a></h3>
+<h3>Step 2: Creating an Instance of ModelFactory<a class="headerlink" href="#step-2-creating-an-instance-of-modelfactory" title="Link to this heading"></a></h3>
 <p>Instantiate the <code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code>, which serves as your gateway to generating various model instances:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">factory</span> <span class="o">=</span> <span class="n">factories</span><span class="o">.</span><span class="n">ModelFactory</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="step-3-discovering-supported-models">
-<h3>Step 3: Discovering Supported Models<a class="headerlink" href="#step-3-discovering-supported-models" title="Permalink to this heading"></a></h3>
+<h3>Step 3: Discovering Supported Models<a class="headerlink" href="#step-3-discovering-supported-models" title="Link to this heading"></a></h3>
 <p>Before creating a model, check which models are currently supported by the factory:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supported models:&quot;</span><span class="p">,</span> <span class="n">factory</span><span class="o">.</span><span class="n">get_supported_models</span><span class="p">())</span>
 </pre></div>
@@ -139,7 +141,7 @@
 <p>With this knowledge, we can proceed to create a model with specific hyperparameters.</p>
 </section>
 <section id="step-4-specifying-and-creating-a-model">
-<h3>Step 4: Specifying and Creating a Model<a class="headerlink" href="#step-4-specifying-and-creating-a-model" title="Permalink to this heading"></a></h3>
+<h3>Step 4: Specifying and Creating a Model<a class="headerlink" href="#step-4-specifying-and-creating-a-model" title="Link to this heading"></a></h3>
 <p>Define hyperparameters for an XGBoost model and use these to instantiate a model:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xgb_params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;objective&#39;</span><span class="p">:</span> <span class="s1">&#39;binary:logistic&#39;</span><span class="p">,</span>
@@ -181,7 +183,7 @@
 <p>This gives us general information about the model, such as its <code class="docutils literal notranslate"><span class="pre">data_preparation_strategy</span></code>, indicating that the input data for training, prediction, and evaluation will be transformed to <code class="docutils literal notranslate"><span class="pre">Dmatrix</span></code> to better suit the <code class="docutils literal notranslate"><span class="pre">xgb.Booster</span></code> model. It also retrieves the model’s parameters, the underlying model instance class (<code class="docutils literal notranslate"><span class="pre">Booster</span></code> in this case), and the wrapper class (<code class="docutils literal notranslate"><span class="pre">XGBoostModel</span></code> in this case). Finally, it indicates whether this model has been created from a pickled file.</p>
 </section>
 <section id="step-5-loading-a-model-from-a-serialized-state">
-<h3>Step 5: Loading a Model from a Serialized State<a class="headerlink" href="#step-5-loading-a-model-from-a-serialized-state" title="Permalink to this heading"></a></h3>
+<h3>Step 5: Loading a Model from a Serialized State<a class="headerlink" href="#step-5-loading-a-model-from-a-serialized-state" title="Link to this heading"></a></h3>
 <p>For pre-trained models, we can make use of the <code class="docutils literal notranslate"><span class="pre">create_model_from_pickled</span></code> method to load a model from its serialized (pickled) state. You only need to specify the path to this pickled file. This function will examine the pickled file and extract all necessary information.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xgb_model_pkl</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_model_from_pickled</span><span class="p">(</span><span class="s1">&#39;path_to_model.pkl&#39;</span><span class="p">)</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">xgb_model_pkl</span><span class="o">.</span><span class="n">get_info</span><span class="p">())</span>
@@ -206,10 +208,10 @@
 </section>
 </section>
 <section id="using-the-model-class">
-<h2>Using the Model Class<a class="headerlink" href="#using-the-model-class" title="Permalink to this heading"></a></h2>
+<h2>Using the Model Class<a class="headerlink" href="#using-the-model-class" title="Link to this heading"></a></h2>
 <p>In this section, we will learn how to train, predict, and evaluate a machine learning model. For this, we will directly use the created model from the previous section.</p>
 <section id="step-1-training-the-model">
-<h3>Step 1: Training the Model<a class="headerlink" href="#step-1-training-the-model" title="Permalink to this heading"></a></h3>
+<h3>Step 1: Training the Model<a class="headerlink" href="#step-1-training-the-model" title="Link to this heading"></a></h3>
 <p>Generate Training and Validation Data:</p>
 <p>Prepare the data for training and validation. The following example generates synthetic data for demonstration purposes:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -232,7 +234,7 @@
 <p>This process optimizes the model based on the specified hyperparameters and validation data to prevent overfitting.</p>
 </section>
 <section id="step-2-predicting-using-the-trained-model">
-<h3>Step 2: Predicting Using the Trained Model<a class="headerlink" href="#step-2-predicting-using-the-trained-model" title="Permalink to this heading"></a></h3>
+<h3>Step 2: Predicting Using the Trained Model<a class="headerlink" href="#step-2-predicting-using-the-trained-model" title="Link to this heading"></a></h3>
 <p>Model Prediction:</p>
 <p>Once the model is trained, use it to predict labels or probabilities on a new dataset. This step demonstrates predicting binary labels for the test data. The <code class="docutils literal notranslate"><span class="pre">return_proba</span></code> parameter specifies whether to return the <code class="docutils literal notranslate"><span class="pre">predicted_probabilities</span></code> or the <code class="docutils literal notranslate"><span class="pre">predicted_labels</span></code>. The labels are calculated based on the <code class="docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -242,7 +244,7 @@
 </div>
 </section>
 <section id="step-3-evaluating-the-model">
-<h3>Step 3: Evaluating the Model<a class="headerlink" href="#step-3-evaluating-the-model" title="Permalink to this heading"></a></h3>
+<h3>Step 3: Evaluating the Model<a class="headerlink" href="#step-3-evaluating-the-model" title="Link to this heading"></a></h3>
 <p>Evaluate the model’s performance using various metrics to understand its effectiveness in making predictions. The supported metrics include Accuracy, AUC, Precision, Recall, and F1 Score, among others. The <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method will handle the model predictions and then evaluate the model based on these predictions. You only need to specify the test data.</p>
 <p>To retrieve the list of supported <code class="docutils literal notranslate"><span class="pre">classification_metrics</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.supported_metrics()</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">ClassificationEvaluationMetrics</span>
@@ -263,7 +265,7 @@ Accuracy: 0.50
 </div>
 </section>
 <section id="step-4-retrieving-model-information">
-<h3>Step 4: Retrieving Model Information<a class="headerlink" href="#step-4-retrieving-model-information" title="Permalink to this heading"></a></h3>
+<h3>Step 4: Retrieving Model Information<a class="headerlink" href="#step-4-retrieving-model-information" title="Link to this heading"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">get_info</span></code> method provides detailed information about the model, including its type, parameters, data preparation strategy, and whether it’s a pickled model. This is useful for understanding the configuration and state of the model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_info</span> <span class="o">=</span> <span class="n">xgb_model</span><span class="o">.</span><span class="n">get_info</span><span class="p">()</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">model_info</span><span class="p">)</span>
@@ -288,7 +290,7 @@ Accuracy: 0.50
 </div>
 </section>
 <section id="step-5-saving-model-information">
-<h3>Step 5: Saving Model Information<a class="headerlink" href="#step-5-saving-model-information" title="Permalink to this heading"></a></h3>
+<h3>Step 5: Saving Model Information<a class="headerlink" href="#step-5-saving-model-information" title="Link to this heading"></a></h3>
 <p>You can save the model by using the <cite>save</cite> method, which will save the underlying model instance as a pickled file, and the model’s information as a .json file:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>xgb_model.save(&quot;./models/saved_model&quot;)
 </pre></div>

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Working with the med3pa Subpackage &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -99,12 +101,12 @@
            <div itemprop="articleBody">
              
   <section id="working-with-the-med3pa-subpackage">
-<h1>Working with the med3pa Subpackage<a class="headerlink" href="#working-with-the-med3pa-subpackage" title="Permalink to this heading"></a></h1>
+<h1>Working with the med3pa Subpackage<a class="headerlink" href="#working-with-the-med3pa-subpackage" title="Link to this heading"></a></h1>
 <p>This tutorial guides you through the process of setting up and running comprehensive experiments using the <code class="docutils literal notranslate"><span class="pre">med3pa</span></code> subpackage. It includes steps to execute MED3pa experiment with <code class="docutils literal notranslate"><span class="pre">Med3paExperiment</span></code> and  the combination of MED3pa and Detectron using <code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment</span></code>.</p>
 <section id="running-the-med3pa-experiment">
-<h2>Running the MED3pa Experiment<a class="headerlink" href="#running-the-med3pa-experiment" title="Permalink to this heading"></a></h2>
+<h2>Running the MED3pa Experiment<a class="headerlink" href="#running-the-med3pa-experiment" title="Link to this heading"></a></h2>
 <section id="step-1-setting-up-the-datasets">
-<h3>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Permalink to this heading"></a></h3>
+<h3>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Link to this heading"></a></h3>
 <p>First, configure the <cite>DatasetsManager</cite>. In the case of MED3pa only experiment you only need to set the DatasetManager with either <cite>testing</cite> and <cite>reference</cite> dataset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
 
@@ -125,7 +127,7 @@
 </div>
 </section>
 <section id="step-2-configuring-the-model">
-<h3>Step 2: Configuring the Model<a class="headerlink" href="#step-2-configuring-the-model" title="Permalink to this heading"></a></h3>
+<h3>Step 2: Configuring the Model<a class="headerlink" href="#step-2-configuring-the-model" title="Link to this heading"></a></h3>
 <p>Next, utilize the <code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code> to load a pre-trained model, and set it as the base model for the experiment. Alternatively, you can train your own model and use it.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">ModelFactory</span>
 
@@ -140,7 +142,7 @@
 </div>
 </section>
 <section id="step-3-running-the-med3pa-experiment">
-<h3>Step 3: Running the med3pa Experiment<a class="headerlink" href="#step-3-running-the-med3pa-experiment" title="Permalink to this heading"></a></h3>
+<h3>Step 3: Running the med3pa Experiment<a class="headerlink" href="#step-3-running-the-med3pa-experiment" title="Link to this heading"></a></h3>
 <p>Execute the MED3PA experiment with the specified datasets and base model. You can also specify other parameters as needed. See the documentation of the subpackage for more information about the parameters.</p>
 <p>The experiment outputs two structure one for the reference set and the other for the testing set, both containing files indicating the extracted profiles at different declaration rates, the performance of the model on these profiles..etc.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.med3pa</span> <span class="kn">import</span> <span class="n">Med3paExperiment</span>
@@ -191,7 +193,7 @@
 </div>
 </section>
 <section id="step-4-analyzing-and-saving-the-results">
-<h3>Step 4: Analyzing and Saving the Results<a class="headerlink" href="#step-4-analyzing-and-saving-the-results" title="Permalink to this heading"></a></h3>
+<h3>Step 4: Analyzing and Saving the Results<a class="headerlink" href="#step-4-analyzing-and-saving-the-results" title="Link to this heading"></a></h3>
 <p>After running the experiment, you can analyze and save the results using the returned <code class="docutils literal notranslate"><span class="pre">Med3paResults</span></code> instance.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results to a specified directory</span>
 <span class="n">results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./med3pa_experiment_results/&#39;</span><span class="p">)</span>
@@ -204,7 +206,7 @@
 </div>
 </section>
 <section id="step-5-running-experiments-from-pretrained-models">
-<h3>Step 5: Running experiments from pretrained models<a class="headerlink" href="#step-5-running-experiments-from-pretrained-models" title="Permalink to this heading"></a></h3>
+<h3>Step 5: Running experiments from pretrained models<a class="headerlink" href="#step-5-running-experiments-from-pretrained-models" title="Link to this heading"></a></h3>
 <p>If you don’t want to re-train new APC and IPC models in your experiment, you can directly use a previously saved instances. as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.med3pa</span> <span class="kn">import</span> <span class="n">Med3paExperiment</span>
 <span class="kn">from</span> <span class="nn">MED3pa.med3pa.uncertainty</span> <span class="kn">import</span> <span class="n">AbsoluteError</span>
@@ -252,7 +254,7 @@
 </div>
 </section>
 <section id="step-6-comparing-two-experiments">
-<h3>Step 6: Comparing two experiments<a class="headerlink" href="#step-6-comparing-two-experiments" title="Permalink to this heading"></a></h3>
+<h3>Step 6: Comparing two experiments<a class="headerlink" href="#step-6-comparing-two-experiments" title="Link to this heading"></a></h3>
 <p>You can compare between two experiments bu using the <code class="docutils literal notranslate"><span class="pre">Med3paComparaison</span></code> class, this class works as follows:
 - the two experiments need to be of the same type, either <code class="docutils literal notranslate"><span class="pre">Med3paExperiment</span></code> or <code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment</span></code>.
 - if the two experiments were executed using the same tree structure, or the same apc/ipc models, the profiles will also be compared.
@@ -267,7 +269,7 @@
 </section>
 </section>
 <section id="running-the-med3pa-and-detectron-experiment">
-<h2>Running the MED3pa and Detectron Experiment<a class="headerlink" href="#running-the-med3pa-and-detectron-experiment" title="Permalink to this heading"></a></h2>
+<h2>Running the MED3pa and Detectron Experiment<a class="headerlink" href="#running-the-med3pa-and-detectron-experiment" title="Link to this heading"></a></h2>
 <p>You can also run an experiment that combines the forces of Detectron in covariate shift detection with MED3pa problematic profiles extraction using the <cite>Med3paDetectronExperiment</cite> class. To be able to run this experiment, all datasets of the <cite>DatasetsManager</cite> should be set, alongside the <code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code>. This experiment will run MED3pa experiment on the <cite>testing</cite> and <cite>reference</cite> sets and then run the <cite>detectron</cite> experiment on the <cite>testing</cite> set as a whole, and then on the <strong>extracted profiles</strong> from MED3pa:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.med3pa</span> <span class="kn">import</span> <span class="n">Med3paDetectronExperiment</span>
 <span class="kn">from</span> <span class="nn">MED3pa.detectron.strategies</span> <span class="kn">import</span> <span class="n">EnhancedDisagreementStrategy</span>

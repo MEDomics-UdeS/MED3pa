@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.med3pa.comparaison &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -99,7 +101,9 @@
 <span class="kn">from</span> <span class="nn">MED3pa.models.base</span> <span class="kn">import</span> <span class="n">BaseModelManager</span>
 <span class="kn">from</span> <span class="nn">MED3pa.med3pa.experiment</span> <span class="kn">import</span> <span class="n">Med3paResults</span>
 
-<div class="viewcode-block" id="Med3paComparison"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison">[docs]</a><span class="k">class</span> <span class="nc">Med3paComparison</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paComparison">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison">[docs]</a>
+<span class="k">class</span> <span class="nc">Med3paComparison</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to compare the results of two Med3paExperiment instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -117,7 +121,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_experiment_name</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Med3paComparison.identify_shared_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.identify_shared_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">identify_shared_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Med3paComparison.identify_shared_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.identify_shared_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">identify_shared_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Identifies the shared profiles between the two experiments and stores them in shared_profiles.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -146,6 +152,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shared_profiles</span> <span class="o">=</span> <span class="n">shared</span>  <span class="c1"># Store shared profiles</span></div>
 
+
     <span class="k">def</span> <span class="nf">_check_experiment_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if the experiment_name in the config_file of both results paths is the same.</span>
@@ -167,7 +174,9 @@
         <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Med3paDetectronExperiment&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">compare_detectron</span> <span class="o">=</span> <span class="kc">True</span>
     
-<div class="viewcode-block" id="Med3paComparison.is_comparable"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.is_comparable">[docs]</a>    <span class="k">def</span> <span class="nf">is_comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Med3paComparison.is_comparable">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.is_comparable">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines whether the two experiments can be compared based on the given criteria.</span>
 <span class="sd">        Two experiments can be compared if either:</span>
@@ -221,6 +230,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span><span class="p">[</span><span class="s1">&#39;med3pa_params&#39;</span><span class="p">][</span><span class="s1">&#39;med3pa_params1&#39;</span><span class="p">][</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">can_compare</span></div>
+
     
     <span class="k">def</span> <span class="nf">_check_experiment_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -237,7 +247,9 @@
         <span class="k">if</span> <span class="n">tree1</span> <span class="o">==</span> <span class="n">tree2</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">compare_profiles</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="Med3paComparison.compare_profiles_metrics"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">compare_profiles_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Med3paComparison.compare_profiles_metrics">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_metrics">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_profiles_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares profile metrics between two sets of results and stores them in a dictionary,</span>
 <span class="sd">        using only the shared profiles.</span>
@@ -273,7 +285,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">profiles_metrics_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
 
 
-<div class="viewcode-block" id="Med3paComparison.compare_profiles_detectron_results"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">compare_profiles_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Med3paComparison.compare_profiles_detectron_results">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_detectron_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_profiles_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares Detectron results between two sets of profiles and stores them in a dictionary,</span>
 <span class="sd">        using only the shared profiles.</span>
@@ -304,7 +319,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">profiles_detectron_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
 
 
-<div class="viewcode-block" id="Med3paComparison.compare_global_metrics"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_global_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">compare_global_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Med3paComparison.compare_global_metrics">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_global_metrics">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_global_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares global metrics between two sets of results and stores them in a dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -326,8 +344,11 @@
                 <span class="n">combined</span><span class="p">[</span><span class="n">dr_str</span><span class="p">][</span><span class="s1">&#39;metrics_dr_2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dr2</span><span class="p">[</span><span class="n">dr_str</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">global_metrics_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
+
     
-<div class="viewcode-block" id="Med3paComparison.compare_models_evaluation"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_models_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">compare_models_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Med3paComparison.compare_models_evaluation">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_models_evaluation">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_models_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares IPC and APC evaluation between two experiments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -350,7 +371,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">models_evaluation_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
 
-<div class="viewcode-block" id="Med3paComparison.compare_config"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_config">[docs]</a>    <span class="k">def</span> <span class="nf">compare_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Med3paComparison.compare_config">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_config">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares the config files of the two experiments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -417,7 +441,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">combined</span></div>
 
-<div class="viewcode-block" id="Med3paComparison.compare_experiments"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_experiments">[docs]</a>    <span class="k">def</span> <span class="nf">compare_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Med3paComparison.compare_experiments">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_experiments">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares the experiments by global metrics, profiles, and Detectron results if applicable.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -435,7 +462,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_config</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_models_evaluation</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Med3paComparison.save"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Med3paComparison.save">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the comparison results to a specified directory.</span>
 
@@ -469,7 +499,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_metrics_comparaison</span> <span class="o">!=</span> <span class="p">{}</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare_profiles</span><span class="p">:</span>
             <span class="n">profiles_metrics_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;profiles_metrics_comparaison.json&#39;</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">profiles_metrics_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles_metrics_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles_metrics_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

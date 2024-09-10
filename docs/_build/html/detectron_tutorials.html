@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Working with the Detectron Subpackage &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -96,10 +98,10 @@
            <div itemprop="articleBody">
              
   <section id="working-with-the-detectron-subpackage">
-<h1>Working with the Detectron Subpackage<a class="headerlink" href="#working-with-the-detectron-subpackage" title="Permalink to this heading"></a></h1>
+<h1>Working with the Detectron Subpackage<a class="headerlink" href="#working-with-the-detectron-subpackage" title="Link to this heading"></a></h1>
 <p>This tutorial guides you through the process of setting up and running the Detectron experiment using the <code class="docutils literal notranslate"><span class="pre">detectron</span></code> subpackage, which is designed to assess the robustness of predictive models against covariate shifts in datasets.</p>
 <section id="step-1-setting-up-the-datasets">
-<h2>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Permalink to this heading"></a></h2>
+<h2>Step 1: Setting up the Datasets<a class="headerlink" href="#step-1-setting-up-the-datasets" title="Link to this heading"></a></h2>
 <p>First, configure the <code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code> to manage the necessary datasets for the experiment. For this, we need the <code class="docutils literal notranslate"><span class="pre">training_dataset</span></code> used to train the model, alongside the <code class="docutils literal notranslate"><span class="pre">validation_dataset</span></code>. We also need an unseen <code class="docutils literal notranslate"><span class="pre">reference_dataset</span></code> from the model’s domain, and finally the dataset we want to inspect if it is possibly shifted, the <code class="docutils literal notranslate"><span class="pre">test_dataset</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.datasets</span> <span class="kn">import</span> <span class="n">DatasetsManager</span>
 
@@ -123,7 +125,7 @@
 </div>
 </section>
 <section id="step-2-configuring-the-model">
-<h2>Step 2: Configuring the Model<a class="headerlink" href="#step-2-configuring-the-model" title="Permalink to this heading"></a></h2>
+<h2>Step 2: Configuring the Model<a class="headerlink" href="#step-2-configuring-the-model" title="Link to this heading"></a></h2>
 <p>Next, utilize the <code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code> to load a pre-trained model, setting it as the base model for the experiment. Alternatively, you can train your own model and use it.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.models</span> <span class="kn">import</span> <span class="n">BaseModelManager</span><span class="p">,</span> <span class="n">ModelFactory</span>
 
@@ -138,7 +140,7 @@
 </div>
 </section>
 <section id="step-3-running-the-detectron-experiment">
-<h2>Step 3: Running the Detectron Experiment<a class="headerlink" href="#step-3-running-the-detectron-experiment" title="Permalink to this heading"></a></h2>
+<h2>Step 3: Running the Detectron Experiment<a class="headerlink" href="#step-3-running-the-detectron-experiment" title="Link to this heading"></a></h2>
 <p>Execute the Detectron experiment with the specified datasets and base model. You can also specify other parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MED3pa.detectron</span> <span class="kn">import</span> <span class="n">DetectronExperiment</span>
 
@@ -149,7 +151,7 @@
 </div>
 </section>
 <section id="step-4-analyzing-the-results">
-<h2>Step 4: Analyzing the Results<a class="headerlink" href="#step-4-analyzing-the-results" title="Permalink to this heading"></a></h2>
+<h2>Step 4: Analyzing the Results<a class="headerlink" href="#step-4-analyzing-the-results" title="Link to this heading"></a></h2>
 <p>Finally, evaluate the outcomes of the experiment using different strategies to determine the probability of a shift in dataset distributions:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze the results using the disagreement strategies</span>
 <span class="n">test_strategies</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;enhanced_disagreement_strategy&quot;</span><span class="p">,</span> <span class="s2">&quot;mannwhitney_strategy&quot;</span><span class="p">]</span>
@@ -185,7 +187,7 @@
 </div>
 </section>
 <section id="step-5-saving-the-results">
-<h2>Step 5: Saving the Results<a class="headerlink" href="#step-5-saving-the-results" title="Permalink to this heading"></a></h2>
+<h2>Step 5: Saving the Results<a class="headerlink" href="#step-5-saving-the-results" title="Link to this heading"></a></h2>
 <p>You can save the experiment results using the <code class="docutils literal notranslate"><span class="pre">save</span></code> method, while specifying the path.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment_results</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./detectron_experiment_results&quot;</span><span class="p">)</span>
 <span class="n">experiment_results2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./detectron_experiment_results2&quot;</span><span class="p">)</span>
@@ -193,7 +195,7 @@
 </div>
 </section>
 <section id="step-6-comparing-the-results">
-<h2>Step 6: Comparing the Results<a class="headerlink" href="#step-6-comparing-the-results" title="Permalink to this heading"></a></h2>
+<h2>Step 6: Comparing the Results<a class="headerlink" href="#step-6-comparing-the-results" title="Link to this heading"></a></h2>
 <p>You can compare between two detectron experiments using the <code class="docutils literal notranslate"><span class="pre">DetectronComparaison</span></code> class, as follows:
 .. code-block:: python</p>
 <blockquote>

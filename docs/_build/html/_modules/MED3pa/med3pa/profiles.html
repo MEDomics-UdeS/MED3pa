@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.med3pa.profiles &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -88,7 +90,9 @@
 <span class="sd">Handles the management and storage of profiles derived from the tree representation. </span>
 <span class="sd">It defines a ``Profile`` class to encapsulate metrics and values associated with a specific node in the tree and a ``ProfilesManager`` class to manage collections of profiles and track lost profiles during analysis.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Profile"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile">[docs]</a><span class="k">class</span> <span class="nc">Profile</span><span class="p">:</span>
+<div class="viewcode-block" id="Profile">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile">[docs]</a>
+<span class="k">class</span> <span class="nc">Profile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a profile containing metrics and values associated with a specific node.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -110,7 +114,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">node_information</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Profile.to_dict"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_all</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Profile.to_dict">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.to_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_all</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the Profile instance into a dictionary format suitable for serialization.</span>
 
@@ -131,8 +137,11 @@
                 <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">,</span>
                 <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
             <span class="p">}</span></div>
+
     
-<div class="viewcode-block" id="Profile.update_detectron_results"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">update_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detectron_results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="Profile.update_detectron_results">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_detectron_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detectron_results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the detectron results associated with this profile.</span>
 
@@ -141,7 +150,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results</span> <span class="o">=</span> <span class="n">detectron_results</span></div>
 
-<div class="viewcode-block" id="Profile.update_metrics_results"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_metrics_results">[docs]</a>    <span class="k">def</span> <span class="nf">update_metrics_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Profile.update_metrics_results">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_metrics_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_metrics_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the metrics associated with this profile.</span>
 
@@ -149,19 +161,26 @@
 <span class="sd">            detectron_results (dict): The results from the Detectron experiment to be added to the profile.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span></div>
+
     
-<div class="viewcode-block" id="Profile.update_node_information"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_node_information">[docs]</a>    <span class="k">def</span> <span class="nf">update_node_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="Profile.update_node_information">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_node_information">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_node_information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the information associated with this profile.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            info (dict): The updated node information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">node_information</span> <span class="o">=</span> <span class="n">info</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_information</span> <span class="o">=</span> <span class="n">info</span></div>
+</div>
 
 
 
-<div class="viewcode-block" id="ProfilesManager"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager">[docs]</a><span class="k">class</span> <span class="nc">ProfilesManager</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ProfilesManager">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager">[docs]</a>
+<span class="k">class</span> <span class="nc">ProfilesManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the records of profiles and lost profiles based on declaration rates and minimal samples ratio.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -177,7 +196,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lost_profiles_records</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
 
-<div class="viewcode-block" id="ProfilesManager.insert_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">insert_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">profiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Profile</span><span class="p">]):</span>
+<div class="viewcode-block" id="ProfilesManager.insert_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">profiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Profile</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inserts profiles into the records under a specific dr value and minimum sample ratio.</span>
 
@@ -190,7 +211,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">][</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ProfilesManager.insert_lost_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_lost_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">insert_lost_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">profiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Profile</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="ProfilesManager.insert_lost_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_lost_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert_lost_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">profiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Profile</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inserts lost profiles into the records under a specific dr value and minimum sample ratio.</span>
 
@@ -203,7 +227,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">lost_profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lost_profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">][</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>    </div>
 
-<div class="viewcode-block" id="ProfilesManager.get_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ProfilesManager.get_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dr</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves profiles based on the specified minimum sample ratio and dr value.</span>
 <span class="sd">        </span>
@@ -220,7 +247,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles_records</span></div>
 
-<div class="viewcode-block" id="ProfilesManager.get_lost_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_lost_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">get_lost_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ProfilesManager.get_lost_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_lost_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_lost_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves lost profiles based on the specified minimum sample ratio and dr value.</span>
 <span class="sd">        </span>
@@ -236,7 +266,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lost_profiles_records</span><span class="p">[</span><span class="n">min_samples_ratio</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lost_profiles_records</span></div>
 
-<div class="viewcode-block" id="ProfilesManager.transform_to_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.transform_to_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="ProfilesManager.transform_to_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.transform_to_profiles">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">transform_to_profiles</span><span class="p">(</span><span class="n">profiles_list</span> <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">to_dict</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms a list of profile data into instances of the Profile class or dictionaries.</span>
@@ -255,7 +288,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">profile_ins</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">profile</span><span class="p">[</span><span class="s1">&#39;node_id&#39;</span><span class="p">],</span> <span class="n">profile</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">])</span>
             <span class="n">profiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">profile_ins</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">profiles</span></div></div>
+        <span class="k">return</span> <span class="n">profiles</span></div>
+</div>
+
     
     
 </pre></div>

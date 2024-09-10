@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.detectron.comparaison &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -94,7 +96,9 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-<div class="viewcode-block" id="DetectronComparison"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison">[docs]</a><span class="k">class</span> <span class="nc">DetectronComparison</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronComparison">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison">[docs]</a>
+<span class="k">class</span> <span class="nc">DetectronComparison</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to compare the results of two Med3paExperiment instances.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -107,7 +111,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_experiment_name</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DetectronComparison.is_comparable"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.is_comparable">[docs]</a>    <span class="k">def</span> <span class="nf">is_comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronComparison.is_comparable">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.is_comparable">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_comparable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines whether the two experiments can be compared based on the given criteria.</span>
 <span class="sd">        Two experiments can be compared if either:</span>
@@ -136,6 +142,7 @@
             <span class="n">can_compare</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="n">can_compare</span></div>
+
     
     <span class="k">def</span> <span class="nf">_check_experiment_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -155,7 +162,9 @@
         <span class="k">if</span> <span class="n">config1</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">config2</span><span class="p">[</span><span class="s1">&#39;experiment_name&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The two results are not from the same experiment.&quot;</span><span class="p">)</span>
         
-<div class="viewcode-block" id="DetectronComparison.compare_detectron_results"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_detectron_results">[docs]</a>    <span class="k">def</span> <span class="nf">compare_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronComparison.compare_detectron_results">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_detectron_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_detectron_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares detectron results two sets of results and stores them in a dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -200,7 +209,10 @@
                         
         <span class="bp">self</span><span class="o">.</span><span class="n">detectron_results_comparaison</span> <span class="o">=</span> <span class="n">comparison_results</span></div>
 
-<div class="viewcode-block" id="DetectronComparison.compare_evaluation"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_evaluation">[docs]</a>    <span class="k">def</span> <span class="nf">compare_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DetectronComparison.compare_evaluation">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_evaluation">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares model evaluations two sets of results and stores them in a dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -230,7 +242,10 @@
             
         <span class="bp">self</span><span class="o">.</span><span class="n">model_evaluation_comparaison</span> <span class="o">=</span> <span class="n">comparison</span></div>
 
-<div class="viewcode-block" id="DetectronComparison.compare_counts"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_counts">[docs]</a>    <span class="k">def</span> <span class="nf">compare_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DetectronComparison.compare_counts">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_counts">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares rejection two sets of results and stores them in a dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -247,7 +262,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span> <span class="o">=</span> <span class="n">combined</span></div>
 
-<div class="viewcode-block" id="DetectronComparison.compare_config"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_config">[docs]</a>    <span class="k">def</span> <span class="nf">compare_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DetectronComparison.compare_config">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_config">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares the config files of the two experiments.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -298,8 +316,11 @@
         <span class="n">combined</span><span class="p">[</span><span class="s1">&#39;detectron_params&#39;</span><span class="p">][</span><span class="s1">&#39;detectron_params2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config2</span><span class="p">[</span><span class="s2">&quot;detectron_params&quot;</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">config_file</span> <span class="o">=</span> <span class="n">combined</span></div>
+
         
-<div class="viewcode-block" id="DetectronComparison.compare_experiments"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_experiments">[docs]</a>    <span class="k">def</span> <span class="nf">compare_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DetectronComparison.compare_experiments">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.compare_experiments">[docs]</a>
+    <span class="k">def</span> <span class="nf">compare_experiments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares the experiments by detectron_results.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -311,7 +332,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_evaluation</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_config</span><span class="p">()</span>   </div>
 
-<div class="viewcode-block" id="DetectronComparison.save"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="DetectronComparison.save">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.comparaison.DetectronComparison.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the comparison results to a specified directory.</span>
 
@@ -338,7 +362,9 @@
 
         <span class="n">counts_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="s1">&#39;rejection_counts_comparaison.json&#39;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">counts_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rejection_counts_comparaison</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+</div>
+
     
 </pre></div>
 

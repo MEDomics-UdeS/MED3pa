@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.detectron.stopper &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -87,7 +89,9 @@
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module introduces the ``EarlyStopper`` class, a utility designed to prevent overfitting and reduce computational overhead by halting the training process when improvement in a monitored metric ceases. </span>
 <span class="sd">&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="EarlyStopper"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper">[docs]</a><span class="k">class</span> <span class="nc">EarlyStopper</span><span class="p">:</span>
+<div class="viewcode-block" id="EarlyStopper">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper">[docs]</a>
+<span class="k">class</span> <span class="nc">EarlyStopper</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A utility class for early stopping, which is used to terminate training processes if certain conditions are met.</span>
 <span class="sd">    This helps in preventing overfitting and reduces unnecessary training time by stopping the training when </span>
@@ -116,7 +120,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
 
-<div class="viewcode-block" id="EarlyStopper.update"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="EarlyStopper.update">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the early stopper with the latest metric and checks whether the stopping condition has been met.</span>
 
@@ -147,7 +153,9 @@
                 <span class="k">return</span> <span class="kc">False</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patience</span></div></div>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patience</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.detectron.ensemble &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -100,7 +102,9 @@
 <span class="kn">from</span> <span class="nn">.stopper</span> <span class="kn">import</span> <span class="n">EarlyStopper</span>
 
 
-<div class="viewcode-block" id="DetectronEnsemble"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble">[docs]</a><span class="k">class</span> <span class="nc">DetectronEnsemble</span><span class="p">:</span>
+<div class="viewcode-block" id="DetectronEnsemble">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble">[docs]</a>
+<span class="k">class</span> <span class="nc">DetectronEnsemble</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the constrained disagreement classifiers (CDCs) ensemble, designed to disagree with the base model</span>
 <span class="sd">    under specific conditions. This class facilitates the training and evaluation of multiple CDCs, with a focus</span>
@@ -126,7 +130,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ens_size</span> <span class="o">=</span> <span class="n">ens_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cdcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_model_manager</span><span class="o">.</span><span class="n">clone_base_model</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ens_size</span><span class="p">)]</span>
 
-<div class="viewcode-block" id="DetectronEnsemble.evaluate_ensemble"><a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble.evaluate_ensemble">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_ensemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+<div class="viewcode-block" id="DetectronEnsemble.evaluate_ensemble">
+<a class="viewcode-back" href="../../../MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble.evaluate_ensemble">[docs]</a>
+    <span class="k">def</span> <span class="nf">evaluate_ensemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                           <span class="n">datasets</span> <span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span> 
                           <span class="n">n_runs</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
                           <span class="n">samples_size</span> <span class="p">:</span> <span class="nb">int</span> <span class="p">,</span> 
@@ -277,7 +283,9 @@
         
         <span class="n">record</span><span class="o">.</span><span class="n">sampling_counts</span> <span class="o">=</span> <span class="n">testing_data</span><span class="o">.</span><span class="n">get_sample_counts</span><span class="p">()</span>
         <span class="n">record</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">record</span></div></div>
+        <span class="k">return</span> <span class="n">record</span></div>
+</div>
+
     
 </pre></div>
 

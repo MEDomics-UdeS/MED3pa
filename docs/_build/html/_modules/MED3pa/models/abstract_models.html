@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.models.abstract_models &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -101,7 +103,9 @@
 
 <span class="kn">from</span> <span class="nn">.data_strategies</span> <span class="kn">import</span> <span class="n">DataPreparingStrategy</span>
 
-<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Model">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model">[docs]</a>
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An abstract base class for all models, defining a common API for model operations such as evaluation and parameter validation.</span>
 
@@ -121,7 +125,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Model.get_model"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="Model.get_model">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the underlying model instance, which is typically a machine learning model object.</span>
 
@@ -129,8 +135,11 @@
 <span class="sd">            Any: The underlying model instance if set, None otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+
     
-<div class="viewcode-block" id="Model.get_path"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="Model.get_path">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the file path of the model if it has been loaded from a pickled file.</span>
 
@@ -138,8 +147,11 @@
 <span class="sd">            str: The file path of the model if it has been loaded from a pickled file, None otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span></div>
+
     
-<div class="viewcode-block" id="Model.get_model_type"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="Model.get_model_type">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_model_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the class type of the underlying model instance, which indicates the specific </span>
 <span class="sd">        implementation of the model used.</span>
@@ -148,8 +160,11 @@
 <span class="sd">            Optional[str]: The class of the model if set, None otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span> <span class="k">else</span> <span class="kc">None</span></div>
+
     
-<div class="viewcode-block" id="Model.get_data_strategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_data_strategy">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="Model.get_data_strategy">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_data_strategy">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the data preparation strategy associated with the model. This strategy handles </span>
 <span class="sd">        how data should be formatted before being passed to the model for training or evaluation.</span>
@@ -159,7 +174,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="k">else</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Model.get_params"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Model.get_params">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_params">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the underlying model&#39;s parameters.</span>
 
@@ -167,8 +185,11 @@
 <span class="sd">            Dict[str, Any]: the model&#39;s parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span></div>
+
     
-<div class="viewcode-block" id="Model.is_pickled"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.is_pickled">[docs]</a>    <span class="k">def</span> <span class="nf">is_pickled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Model.is_pickled">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.is_pickled">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_pickled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns whether or not the model has been loaded from a pickled file.</span>
 <span class="sd">        </span>
@@ -176,8 +197,11 @@
 <span class="sd">            Boolean: has the model been loaded from a pickled file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickled_model</span></div>
+
     
-<div class="viewcode-block" id="Model.set_model"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_model">[docs]</a>    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Model.set_model">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the underlying model instance and updates the model class to match the type of the given model.</span>
 
@@ -186,8 +210,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></div>
+
     
-<div class="viewcode-block" id="Model.set_params"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="Model.set_params">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_params">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the parameters for the model. These parameters are typically used for model initialization or configuration.</span>
 
@@ -195,8 +222,11 @@
 <span class="sd">            params (Dict[str, Any]): A dictionary of parameters for the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span></div>
+
     
-<div class="viewcode-block" id="Model.set_file_path"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_file_path">[docs]</a>    <span class="k">def</span> <span class="nf">set_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span> <span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="Model.set_file_path">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_file_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span> <span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the file path of the model. </span>
 
@@ -205,7 +235,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">file_path</span></div>
 
-<div class="viewcode-block" id="Model.update_params"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.update_params">[docs]</a>    <span class="k">def</span> <span class="nf">update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Model.update_params">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.update_params">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates the current model parameters by merging new parameter values from the given dictionary.</span>
 <span class="sd">        This method allows for dynamic adjustment of model configuration during runtime.</span>
@@ -215,7 +248,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Model.set_data_strategy"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_data_strategy">[docs]</a>    <span class="k">def</span> <span class="nf">set_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">DataPreparingStrategy</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Model.set_data_strategy">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.set_data_strategy">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_data_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">:</span> <span class="n">DataPreparingStrategy</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the underlying model&#39;s data preparation strategy.</span>
 
@@ -223,8 +259,11 @@
 <span class="sd">            strategy (DataPreparingStrategy): strategy to be used to prepare the data for training, validation...etc.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_preparation_strategy</span> <span class="o">=</span> <span class="n">strategy</span></div>
+
     
-<div class="viewcode-block" id="Model.get_info"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="Model.get_info">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.get_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves detailed information about the model.</span>
 
@@ -240,8 +279,11 @@
             <span class="s2">&quot;pickled_model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_pickled</span><span class="p">(),</span>
             <span class="s2">&quot;file_path&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
         <span class="p">}</span></div>
+
     
-<div class="viewcode-block" id="Model.save"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Model.save">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the model instance as a pickled file and the parameters as a JSON file within the specified directory.</span>
 <span class="sd">        </span>
@@ -264,7 +306,10 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">params_file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">(),</span> <span class="n">params_file</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Model.evaluate"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="Model.evaluate">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.evaluate">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">print_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluates the model using specified metrics.</span>
@@ -280,7 +325,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Model.print_evaluation_results"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.print_evaluation_results">[docs]</a>    <span class="k">def</span> <span class="nf">print_evaluation_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Model.print_evaluation_results">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.print_evaluation_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">print_evaluation_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints the evaluation results in a formatted manner.</span>
 
@@ -291,7 +339,10 @@
         <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Model.validate_params"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.validate_params">[docs]</a>    <span class="k">def</span> <span class="nf">validate_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">valid_param_sets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">set</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="Model.validate_params">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.Model.validate_params">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">valid_param_sets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">set</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates the model parameters against a list of valid parameter sets.</span>
 
@@ -309,15 +360,21 @@
         <span class="n">invalid_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">invalid_params</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid parameters found: </span><span class="si">{</span><span class="n">invalid_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">}</span></div></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">combined_valid_params</span><span class="p">}</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ClassificationModel"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel">[docs]</a><span class="k">class</span> <span class="nc">ClassificationModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ClassificationModel">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel">[docs]</a>
+<span class="k">class</span> <span class="nc">ClassificationModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for classification models, extending the generic Model class with additional classification-specific methods.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ClassificationModel.balance_train_weights"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.balance_train_weights">[docs]</a>    <span class="k">def</span> <span class="nf">balance_train_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="ClassificationModel.balance_train_weights">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.balance_train_weights">[docs]</a>
+    <span class="k">def</span> <span class="nf">balance_train_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Balances the training weights based on the class distribution in the training data.</span>
 
@@ -337,7 +394,10 @@
         <span class="n">train_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pos_weight</span> <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">neg_weight</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">y_train</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">train_weights</span></div>
 
-<div class="viewcode-block" id="ClassificationModel.train"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.train">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="ClassificationModel.train">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.train">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">training_parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">balance_train_classes</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the classification model using provided training and validation data.</span>
@@ -355,7 +415,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="ClassificationModel.predict"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.predict">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="ClassificationModel.predict">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.predict">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">return_proba</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Makes predictions for the given input observations.</span>
@@ -371,15 +434,21 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotImplementedError: Must be implemented by subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
+        <span class="k">pass</span></div>
+</div>
 
 
-<div class="viewcode-block" id="RegressionModel"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel">[docs]</a><span class="k">class</span> <span class="nc">RegressionModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RegressionModel">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel">[docs]</a>
+<span class="k">class</span> <span class="nc">RegressionModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for regression models, providing a framework for training and prediction in regression tasks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RegressionModel.train"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.train">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="RegressionModel.train">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.train">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_validation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">training_parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains the regression model using provided training and validation data.</span>
@@ -396,7 +465,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="RegressionModel.predict"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.predict">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="RegressionModel.predict">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.predict">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Makes predictions for the given input observations.</span>
@@ -410,7 +482,9 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotImplementedError: Must be implemented by subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
+        <span class="k">pass</span></div>
+</div>
+
 
 </pre></div>
 

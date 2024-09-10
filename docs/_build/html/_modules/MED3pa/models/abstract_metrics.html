@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.models.abstract_metrics &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -92,13 +94,17 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 
 
-<div class="viewcode-block" id="EvaluationMetric"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric">[docs]</a><span class="k">class</span> <span class="nc">EvaluationMetric</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="EvaluationMetric">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric">[docs]</a>
+<span class="k">class</span> <span class="nc">EvaluationMetric</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for all evaluation metrics. This class provides a standardized interface for calculating</span>
 <span class="sd">    metric values across different types of tasks, ensuring consistency and reusability.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="EvaluationMetric.get_metric"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.get_metric">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="EvaluationMetric.get_metric">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.get_metric">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_metric</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the metric function based on the metric name.</span>
@@ -111,7 +117,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="EvaluationMetric.supported_metrics"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="EvaluationMetric.supported_metrics">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.supported_metrics">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">supported_metrics</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of supported regression metrics.</span>
@@ -119,7 +128,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list: A list of supported regression metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
+        <span class="k">pass</span></div>
+</div>
+
 </pre></div>
 
            </div>

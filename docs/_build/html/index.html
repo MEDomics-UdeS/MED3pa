@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to MED3pa documentation! &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -86,18 +88,18 @@
            <div itemprop="articleBody">
              
   <section id="welcome-to-med3pa-documentation">
-<h1>Welcome to MED3pa documentation!<a class="headerlink" href="#welcome-to-med3pa-documentation" title="Permalink to this heading"></a></h1>
+<h1>Welcome to MED3pa documentation!<a class="headerlink" href="#welcome-to-med3pa-documentation" title="Link to this heading"></a></h1>
 </section>
 <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h1>
-<a class="reference internal image-reference" href="_images/package.svg"><img alt="UML package diagram" class="align-center" src="_images/package.svg" width="100%" /></a>
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/package.svg"><img alt="UML package diagram" class="align-center" src="_images/package.svg" style="width: 100%;" /></a>
 <div style="margin-bottom: 30px;"></div><section id="use-and-application-of-the-package">
-<h2>Use and Application of the package<a class="headerlink" href="#use-and-application-of-the-package" title="Permalink to this heading"></a></h2>
+<h2>Use and Application of the package<a class="headerlink" href="#use-and-application-of-the-package" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">MED3pa</span></code> package is specifically designed to address critical challenges in deploying machine learning models, particularly focusing on the robustness and reliability of models under real-world conditions.
 It provides comprehensive tools for evaluating model stability and performance in the face of <strong>covariate shifts, and problematic data profiles.</strong></p>
 </section>
 <section id="key-functionalities">
-<h2>Key functionalities<a class="headerlink" href="#key-functionalities" title="Permalink to this heading"></a></h2>
+<h2>Key functionalities<a class="headerlink" href="#key-functionalities" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><strong>Covariate Shift Detection:</strong> Utilizing the detectron subpackage, MED3pa can identify significant shifts in data distributions that might affect the model’s predictions. This feature is crucial for applications such as healthcare, where early detection of shifts can prevent erroneous decisions.</p></li>
 <li><p><strong>Uncertainty and Confidence Estimation:</strong> Through the med3pa subpackage, the package measures the uncertainty and predictive confidence at both individual and group levels. This helps in understanding the reliability of model predictions and in making informed decisions based on model outputs.</p></li>
@@ -105,7 +107,7 @@ It provides comprehensive tools for evaluating model stability and performance i
 </ul>
 </section>
 <section id="software-engineering-principles">
-<h2>Software Engineering Principles<a class="headerlink" href="#software-engineering-principles" title="Permalink to this heading"></a></h2>
+<h2>Software Engineering Principles<a class="headerlink" href="#software-engineering-principles" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">MED3pa</span></code> package is constructed with a strong emphasis on <strong>software engineering principles</strong>, making it a robust and scalable solution for machine learning model evaluation:</p>
 <ul class="simple">
 <li><p><strong>Modular Design</strong>: The package is structured into four distinct <strong>subpackages</strong> (detectron, med3pa, models, and datasets), each focusing on different aspects of model training and evaluation. This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.</p></li>
@@ -133,38 +135,281 @@ It provides comprehensive tools for evaluating model stability and performance i
 </section>
 </section>
 <section id="subpackages">
-<h1>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h1>
+<h1>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h1>
 <p>The package is structured into four distinct subpackages : <code class="docutils literal notranslate"><span class="pre">datasets</span></code>, <code class="docutils literal notranslate"><span class="pre">models</span></code>, <code class="docutils literal notranslate"><span class="pre">detectron</span></code> and <code class="docutils literal notranslate"><span class="pre">med3pa</span></code>, each focusing on different aspects of the package goals.
 This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.</p>
-<img alt="UML package diagram" class="align-center" src="_images/subpackages.svg" /><div style="margin-bottom: 30px;"></div><div class="toctree-wrapper compound">
+<img alt="UML package diagram" class="align-center" src="_images/subpackages.svg" />
+<div style="margin-bottom: 30px;"></div><div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Subpackages</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="MED3pa.datasets.html">datasets subpackage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_context"><strong>loading_context module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_strategies"><strong>loading_strategies module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.manager"><strong>manager module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.masked"><strong>masked module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_context"><strong>loading_context module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.DataLoadingContext"><code class="docutils literal notranslate"><span class="pre">DataLoadingContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.DataLoadingContext.get_strategy"><code class="docutils literal notranslate"><span class="pre">DataLoadingContext.get_strategy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.DataLoadingContext.load_as_np"><code class="docutils literal notranslate"><span class="pre">DataLoadingContext.load_as_np()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.DataLoadingContext.set_strategy"><code class="docutils literal notranslate"><span class="pre">DataLoadingContext.set_strategy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.DataLoadingContext.strategies"><code class="docutils literal notranslate"><span class="pre">DataLoadingContext.strategies</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_context.supported_file_formats"><code class="docutils literal notranslate"><span class="pre">supported_file_formats()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.loading_strategies"><strong>loading_strategies module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_strategies.CSVDataLoadingStrategy"><code class="docutils literal notranslate"><span class="pre">CSVDataLoadingStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_strategies.CSVDataLoadingStrategy.execute"><code class="docutils literal notranslate"><span class="pre">CSVDataLoadingStrategy.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_strategies.DataLoadingStrategy"><code class="docutils literal notranslate"><span class="pre">DataLoadingStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.loading_strategies.DataLoadingStrategy.execute"><code class="docutils literal notranslate"><span class="pre">DataLoadingStrategy.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.manager"><strong>manager module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager"><code class="docutils literal notranslate"><span class="pre">DatasetsManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.combine"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_column_labels"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.get_column_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_dataset_by_type"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.get_dataset_by_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.get_info"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.reset"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.reset_datasets"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.reset_datasets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.save_dataset_to_csv"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.save_dataset_to_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_column_labels"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.set_column_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_data"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.set_from_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.set_from_file"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.set_from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.manager.DatasetsManager.summarize"><code class="docutils literal notranslate"><span class="pre">DatasetsManager.summarize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.datasets.html#module-MED3pa.datasets.masked"><strong>masked module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset"><code class="docutils literal notranslate"><span class="pre">MaskedDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.clone"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.combine"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.combine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_confidence_scores"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_confidence_scores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_file_path"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_file_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_info"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_observations"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_observations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_pseudo_labels"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_pseudo_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_pseudo_probabilities"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_pseudo_probabilities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_sample_counts"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_sample_counts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.get_true_labels"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.get_true_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.refine"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.refine()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.reset_indices"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.reset_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.sample_random"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.sample_random()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.sample_uniform"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.sample_uniform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.save_to_csv"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.save_to_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_confidence_scores"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.set_confidence_scores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_file_path"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.set_file_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_pseudo_labels"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.set_pseudo_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.set_pseudo_probs_labels"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.set_pseudo_probs_labels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.summarize"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.summarize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.datasets.html#MED3pa.datasets.masked.MaskedDataset.to_dataframe"><code class="docutils literal notranslate"><span class="pre">MaskedDataset.to_dataframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="MED3pa.models.html">models subpackage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.factories"><strong>factories module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_models"><strong>abstract_models module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_classifiers"><strong>concrete_classifiers module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_regressors"><strong>concrete_regressors module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_metrics"><strong>abstract_metrics module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.classification_metrics"><strong>classification_metrics module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.regression_metrics"><strong>regression_metrics module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.data_strategies"><strong>data_strategies module</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.base"><strong>base module</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.factories"><strong>factories module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory"><code class="docutils literal notranslate"><span class="pre">ModelFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.create_model_from_pickled"><code class="docutils literal notranslate"><span class="pre">ModelFactory.create_model_from_pickled()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.create_model_with_hyperparams"><code class="docutils literal notranslate"><span class="pre">ModelFactory.create_model_with_hyperparams()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.factories"><code class="docutils literal notranslate"><span class="pre">ModelFactory.factories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.get_factory"><code class="docutils literal notranslate"><span class="pre">ModelFactory.get_factory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.get_supported_models"><code class="docutils literal notranslate"><span class="pre">ModelFactory.get_supported_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.ModelFactory.model_mapping"><code class="docutils literal notranslate"><span class="pre">ModelFactory.model_mapping</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.XGBoostFactory"><code class="docutils literal notranslate"><span class="pre">XGBoostFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.XGBoostFactory.check_version"><code class="docutils literal notranslate"><span class="pre">XGBoostFactory.check_version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.XGBoostFactory.create_model_from_pickled"><code class="docutils literal notranslate"><span class="pre">XGBoostFactory.create_model_from_pickled()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.XGBoostFactory.create_model_with_hyperparams"><code class="docutils literal notranslate"><span class="pre">XGBoostFactory.create_model_with_hyperparams()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.factories.XGBoostFactory.extract_params"><code class="docutils literal notranslate"><span class="pre">XGBoostFactory.extract_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_models"><strong>abstract_models module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel"><code class="docutils literal notranslate"><span class="pre">ClassificationModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.balance_train_weights"><code class="docutils literal notranslate"><span class="pre">ClassificationModel.balance_train_weights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.predict"><code class="docutils literal notranslate"><span class="pre">ClassificationModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.ClassificationModel.train"><code class="docutils literal notranslate"><span class="pre">ClassificationModel.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.model"><code class="docutils literal notranslate"><span class="pre">Model.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.model_class"><code class="docutils literal notranslate"><span class="pre">Model.model_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.params"><code class="docutils literal notranslate"><span class="pre">Model.params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.data_preparation_strategy"><code class="docutils literal notranslate"><span class="pre">Model.data_preparation_strategy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.pickled_model"><code class="docutils literal notranslate"><span class="pre">Model.pickled_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.evaluate"><code class="docutils literal notranslate"><span class="pre">Model.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_data_strategy"><code class="docutils literal notranslate"><span class="pre">Model.get_data_strategy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_info"><code class="docutils literal notranslate"><span class="pre">Model.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model"><code class="docutils literal notranslate"><span class="pre">Model.get_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_model_type"><code class="docutils literal notranslate"><span class="pre">Model.get_model_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_params"><code class="docutils literal notranslate"><span class="pre">Model.get_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.get_path"><code class="docutils literal notranslate"><span class="pre">Model.get_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.is_pickled"><code class="docutils literal notranslate"><span class="pre">Model.is_pickled()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.print_evaluation_results"><code class="docutils literal notranslate"><span class="pre">Model.print_evaluation_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.save"><code class="docutils literal notranslate"><span class="pre">Model.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.set_data_strategy"><code class="docutils literal notranslate"><span class="pre">Model.set_data_strategy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.set_file_path"><code class="docutils literal notranslate"><span class="pre">Model.set_file_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.set_model"><code class="docutils literal notranslate"><span class="pre">Model.set_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.set_params"><code class="docutils literal notranslate"><span class="pre">Model.set_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.update_params"><code class="docutils literal notranslate"><span class="pre">Model.update_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.Model.validate_params"><code class="docutils literal notranslate"><span class="pre">Model.validate_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel"><code class="docutils literal notranslate"><span class="pre">RegressionModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.predict"><code class="docutils literal notranslate"><span class="pre">RegressionModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_models.RegressionModel.train"><code class="docutils literal notranslate"><span class="pre">RegressionModel.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_classifiers"><strong>concrete_classifiers module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_classifiers.XGBoostModel"><code class="docutils literal notranslate"><span class="pre">XGBoostModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_classifiers.XGBoostModel.evaluate"><code class="docutils literal notranslate"><span class="pre">XGBoostModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_classifiers.XGBoostModel.predict"><code class="docutils literal notranslate"><span class="pre">XGBoostModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_classifiers.XGBoostModel.train"><code class="docutils literal notranslate"><span class="pre">XGBoostModel.train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_classifiers.XGBoostModel.train_to_disagree"><code class="docutils literal notranslate"><span class="pre">XGBoostModel.train_to_disagree()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.concrete_regressors"><strong>concrete_regressors module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel"><code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressorModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.evaluate"><code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressorModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.predict"><code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressorModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.DecisionTreeRegressorModel.train"><code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressorModel.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.RandomForestRegressorModel"><code class="docutils literal notranslate"><span class="pre">RandomForestRegressorModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.RandomForestRegressorModel.evaluate"><code class="docutils literal notranslate"><span class="pre">RandomForestRegressorModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.RandomForestRegressorModel.predict"><code class="docutils literal notranslate"><span class="pre">RandomForestRegressorModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.concrete_regressors.RandomForestRegressorModel.train"><code class="docutils literal notranslate"><span class="pre">RandomForestRegressorModel.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.abstract_metrics"><strong>abstract_metrics module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric"><code class="docutils literal notranslate"><span class="pre">EvaluationMetric</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.get_metric"><code class="docutils literal notranslate"><span class="pre">EvaluationMetric.get_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.abstract_metrics.EvaluationMetric.supported_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationMetric.supported_metrics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.classification_metrics"><strong>classification_metrics module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.accuracy"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.accuracy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.average_precision"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.average_precision()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.balanced_accuracy"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.balanced_accuracy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.f1_score"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.f1_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.get_metric"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.get_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.log_loss"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.log_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.matthews_corrcoef"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.matthews_corrcoef()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.npv"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.npv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.ppv"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.ppv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.precision"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.precision()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.recall"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.recall()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.roc_auc"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.roc_auc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.sensitivity"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.sensitivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.specificity"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.specificity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.classification_metrics.ClassificationEvaluationMetrics.supported_metrics"><code class="docutils literal notranslate"><span class="pre">ClassificationEvaluationMetrics.supported_metrics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.regression_metrics"><strong>regression_metrics module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.get_metric"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.get_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_absolute_error"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.mean_absolute_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.mean_squared_error"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.mean_squared_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.r2_score"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.r2_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.root_mean_squared_error"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.root_mean_squared_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.regression_metrics.RegressionEvaluationMetrics.supported_metrics"><code class="docutils literal notranslate"><span class="pre">RegressionEvaluationMetrics.supported_metrics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.data_strategies"><strong>data_strategies module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.DataPreparingStrategy"><code class="docutils literal notranslate"><span class="pre">DataPreparingStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.DataPreparingStrategy.execute"><code class="docutils literal notranslate"><span class="pre">DataPreparingStrategy.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToDataframesStrategy"><code class="docutils literal notranslate"><span class="pre">ToDataframesStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToDataframesStrategy.execute"><code class="docutils literal notranslate"><span class="pre">ToDataframesStrategy.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy"><code class="docutils literal notranslate"><span class="pre">ToDmatrixStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy.execute"><code class="docutils literal notranslate"><span class="pre">ToDmatrixStrategy.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToDmatrixStrategy.is_supported_data"><code class="docutils literal notranslate"><span class="pre">ToDmatrixStrategy.is_supported_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToNumpyStrategy"><code class="docutils literal notranslate"><span class="pre">ToNumpyStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.data_strategies.ToNumpyStrategy.execute"><code class="docutils literal notranslate"><span class="pre">ToNumpyStrategy.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.models.html#module-MED3pa.models.base"><strong>base module</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager"><code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager.clone_base_model"><code class="docutils literal notranslate"><span class="pre">BaseModelManager.clone_base_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager.get_instance"><code class="docutils literal notranslate"><span class="pre">BaseModelManager.get_instance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager.reset"><code class="docutils literal notranslate"><span class="pre">BaseModelManager.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.models.html#MED3pa.models.base.BaseModelManager.set_base_model"><code class="docutils literal notranslate"><span class="pre">BaseModelManager.set_base_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="MED3pa.detectron.html">detectron subpackage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.ensemble">ensemble module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.record">record module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.stopper">stopper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.ensemble">ensemble module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble"><code class="docutils literal notranslate"><span class="pre">DetectronEnsemble</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.ensemble.DetectronEnsemble.evaluate_ensemble"><code class="docutils literal notranslate"><span class="pre">DetectronEnsemble.evaluate_ensemble()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.record">record module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord"><code class="docutils literal notranslate"><span class="pre">DetectronRecord</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord.to_dict"><code class="docutils literal notranslate"><span class="pre">DetectronRecord.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecord.update"><code class="docutils literal notranslate"><span class="pre">DetectronRecord.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.count_quantile"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.count_quantile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.counts"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.counts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.freeze"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.freeze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.get_evaluation"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.get_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.get_record"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.get_record()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.load"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.predicted_probabilities"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.predicted_probabilities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejected_count_quantile"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.rejected_count_quantile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejected_counts"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.rejected_counts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.rejection_rates"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.rejection_rates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.save"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.seed"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.seed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.set_evaluation"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.set_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.record.DetectronRecordsManager.update"><code class="docutils literal notranslate"><span class="pre">DetectronRecordsManager.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#module-MED3pa.detectron.stopper">stopper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper"><code class="docutils literal notranslate"><span class="pre">EarlyStopper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.detectron.html#MED3pa.detectron.stopper.EarlyStopper.update"><code class="docutils literal notranslate"><span class="pre">EarlyStopper.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#strategies-module">strategies module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#experiment-module">experiment module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MED3pa.detectron.html#comparaison-module">comparaison module</a></li>
@@ -177,20 +422,158 @@ This modularity allows users to easily integrate and utilize specific functional
 <li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#extensibility-for-integration">Extensibility for Integration:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.uncertainty">uncertainty module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.models">models module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.tree">tree module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.profiles">Profiles module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.mdr">MDR module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.experiment">experiment module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.comparaison">compraison module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.uncertainty">uncertainty module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError"><code class="docutils literal notranslate"><span class="pre">AbsoluteError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError.calculate"><code class="docutils literal notranslate"><span class="pre">AbsoluteError.calculate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator"><code class="docutils literal notranslate"><span class="pre">UncertaintyCalculator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty"><code class="docutils literal notranslate"><span class="pre">UncertaintyCalculator.calculate_uncertainty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.metric_mapping"><code class="docutils literal notranslate"><span class="pre">UncertaintyCalculator.metric_mapping</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.supported_metrics"><code class="docutils literal notranslate"><span class="pre">UncertaintyCalculator.supported_metrics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric"><code class="docutils literal notranslate"><span class="pre">UncertaintyMetric</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric.calculate"><code class="docutils literal notranslate"><span class="pre">UncertaintyMetric.calculate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.models">models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel"><code class="docutils literal notranslate"><span class="pre">APCModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.default_params"><code class="docutils literal notranslate"><span class="pre">APCModel.default_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.evaluate"><code class="docutils literal notranslate"><span class="pre">APCModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.get_info"><code class="docutils literal notranslate"><span class="pre">APCModel.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.load_model"><code class="docutils literal notranslate"><span class="pre">APCModel.load_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.load_tree"><code class="docutils literal notranslate"><span class="pre">APCModel.load_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.optimize"><code class="docutils literal notranslate"><span class="pre">APCModel.optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.predict"><code class="docutils literal notranslate"><span class="pre">APCModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.print_decision_tree_structure"><code class="docutils literal notranslate"><span class="pre">APCModel.print_decision_tree_structure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.save_model"><code class="docutils literal notranslate"><span class="pre">APCModel.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.supported_models_params"><code class="docutils literal notranslate"><span class="pre">APCModel.supported_models_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.supported_params"><code class="docutils literal notranslate"><span class="pre">APCModel.supported_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.APCModel.train"><code class="docutils literal notranslate"><span class="pre">APCModel.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel"><code class="docutils literal notranslate"><span class="pre">IPCModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.default_params"><code class="docutils literal notranslate"><span class="pre">IPCModel.default_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.evaluate"><code class="docutils literal notranslate"><span class="pre">IPCModel.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.get_info"><code class="docutils literal notranslate"><span class="pre">IPCModel.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.load_model"><code class="docutils literal notranslate"><span class="pre">IPCModel.load_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.optimize"><code class="docutils literal notranslate"><span class="pre">IPCModel.optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.predict"><code class="docutils literal notranslate"><span class="pre">IPCModel.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.save_model"><code class="docutils literal notranslate"><span class="pre">IPCModel.save_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_ipc_models"><code class="docutils literal notranslate"><span class="pre">IPCModel.supported_ipc_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_models_params"><code class="docutils literal notranslate"><span class="pre">IPCModel.supported_models_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_regressors_mapping"><code class="docutils literal notranslate"><span class="pre">IPCModel.supported_regressors_mapping</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.supported_regressos_params"><code class="docutils literal notranslate"><span class="pre">IPCModel.supported_regressos_params</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.train"><code class="docutils literal notranslate"><span class="pre">IPCModel.train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.IPCModel.underlying_models_mapping"><code class="docutils literal notranslate"><span class="pre">IPCModel.underlying_models_mapping</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.MPCModel"><code class="docutils literal notranslate"><span class="pre">MPCModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.models.MPCModel.predict"><code class="docutils literal notranslate"><span class="pre">MPCModel.predict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.tree">tree module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.TreeRepresentation"><code class="docutils literal notranslate"><span class="pre">TreeRepresentation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.TreeRepresentation.build_tree"><code class="docutils literal notranslate"><span class="pre">TreeRepresentation.build_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.TreeRepresentation.get_all_nodes"><code class="docutils literal notranslate"><span class="pre">TreeRepresentation.get_all_nodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.TreeRepresentation.get_all_profiles"><code class="docutils literal notranslate"><span class="pre">TreeRepresentation.get_all_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.TreeRepresentation.save_tree"><code class="docutils literal notranslate"><span class="pre">TreeRepresentation.save_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.tree.to_serializable"><code class="docutils literal notranslate"><span class="pre">to_serializable()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.profiles">Profiles module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.to_dict"><code class="docutils literal notranslate"><span class="pre">Profile.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_detectron_results"><code class="docutils literal notranslate"><span class="pre">Profile.update_detectron_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_metrics_results"><code class="docutils literal notranslate"><span class="pre">Profile.update_metrics_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.Profile.update_node_information"><code class="docutils literal notranslate"><span class="pre">Profile.update_node_information()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager"><code class="docutils literal notranslate"><span class="pre">ProfilesManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_lost_profiles"><code class="docutils literal notranslate"><span class="pre">ProfilesManager.get_lost_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.get_profiles"><code class="docutils literal notranslate"><span class="pre">ProfilesManager.get_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_lost_profiles"><code class="docutils literal notranslate"><span class="pre">ProfilesManager.insert_lost_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.insert_profiles"><code class="docutils literal notranslate"><span class="pre">ProfilesManager.insert_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.profiles.ProfilesManager.transform_to_profiles"><code class="docutils literal notranslate"><span class="pre">ProfilesManager.transform_to_profiles()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.mdr">MDR module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator"><code class="docutils literal notranslate"><span class="pre">MDRCalculator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.calc_metrics_by_dr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.calc_metrics_by_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.calc_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles_deprecated"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.calc_profiles_deprecated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.detectron_by_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles_deprecated"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.detectron_by_profiles_deprecated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.update_min_confidence"><code class="docutils literal notranslate"><span class="pre">MDRCalculator.update_min_confidence()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.experiment">experiment module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment"><code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paDetectronExperiment.run"><code class="docutils literal notranslate"><span class="pre">Med3paDetectronExperiment.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment"><code class="docutils literal notranslate"><span class="pre">Med3paExperiment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paExperiment.run"><code class="docutils literal notranslate"><span class="pre">Med3paExperiment.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord"><code class="docutils literal notranslate"><span class="pre">Med3paRecord</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.get_confidence_scores"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.get_confidence_scores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.get_profiles_manager"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.get_profiles_manager()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.save"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_confidence_scores"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_confidence_scores()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_dataset"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_dataset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_metrics_by_dr"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_metrics_by_dr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_models_evaluation"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_models_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_profiles_manager"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_profiles_manager()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paRecord.set_tree"><code class="docutils literal notranslate"><span class="pre">Med3paRecord.set_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults"><code class="docutils literal notranslate"><span class="pre">Med3paResults</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.os"><code class="docutils literal notranslate"><span class="pre">Med3paResults.os</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.save"><code class="docutils literal notranslate"><span class="pre">Med3paResults.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.save_models"><code class="docutils literal notranslate"><span class="pre">Med3paResults.save_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_detectron_results"><code class="docutils literal notranslate"><span class="pre">Med3paResults.set_detectron_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_experiment_config"><code class="docutils literal notranslate"><span class="pre">Med3paResults.set_experiment_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.Med3paResults.set_models"><code class="docutils literal notranslate"><span class="pre">Med3paResults.set_models()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.experiment.to_serializable"><code class="docutils literal notranslate"><span class="pre">to_serializable()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MED3pa.med3pa.html#module-MED3pa.med3pa.comparaison">compraison module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison"><code class="docutils literal notranslate"><span class="pre">Med3paComparison</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_config"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_experiments"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_experiments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_global_metrics"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_global_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_models_evaluation"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_models_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_detectron_results"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_profiles_detectron_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.compare_profiles_metrics"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.compare_profiles_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.identify_shared_profiles"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.identify_shared_profiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.is_comparable"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.is_comparable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="MED3pa.med3pa.html#MED3pa.med3pa.comparaison.Med3paComparison.save"><code class="docutils literal notranslate"><span class="pre">Med3paComparison.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
 <section id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h1>
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading"></a></h1>
 <p>Welcome to the tutorials section of the med3pa documentation. Here, we offer comprehensive, step-by-step guides to help you effectively utilize the various subpackages within <code class="docutils literal notranslate"><span class="pre">med3pa</span></code>.
 Each tutorial is designed to enhance your understanding of the package’s capabilities and to provide practical examples of how to integrate these tools into your data science and machine learning workflows.</p>
 <p>Explore each tutorial to learn how to make the most of MED3pa’s robust functionalities for your projects.</p>
@@ -262,7 +645,7 @@ Each tutorial is designed to enhance your understanding of the package’s capab
 </div>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>

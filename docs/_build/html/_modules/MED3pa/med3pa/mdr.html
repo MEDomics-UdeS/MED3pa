@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.med3pa.mdr &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -100,7 +102,9 @@
 
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
-<div class="viewcode-block" id="MDRCalculator"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator">[docs]</a><span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
+<div class="viewcode-block" id="MDRCalculator">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator">[docs]</a>
+<span class="k">class</span> <span class="nc">MDRCalculator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to calculate various metrics and profiles for the MED3PA method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -246,7 +250,9 @@
 
         <span class="k">return</span> <span class="n">filtered_x</span><span class="p">,</span> <span class="n">filtered_y_true</span><span class="p">,</span> <span class="n">filtered_prob</span><span class="p">,</span> <span class="n">filtered_y_pred</span><span class="p">,</span> <span class="n">filtered_confidence_scores</span>
             
-<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_dr">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_dr">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_metrics_by_dr</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</span>
@@ -311,8 +317,11 @@
         
         <span class="c1"># return the global dictionnary</span>
         <span class="k">return</span> <span class="n">metrics_by_dr</span></div>
+
     
-<div class="viewcode-block" id="MDRCalculator.update_min_confidence"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.update_min_confidence">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.update_min_confidence">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.update_min_confidence">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update_min_confidence</span><span class="p">(</span><span class="n">metrics_by_dr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate metrics by declaration rates (DR), evaluating model performance at various thresholds of predicted accuracies.</span>
@@ -336,8 +345,11 @@
             <span class="n">metrics_by_dr</span><span class="p">[</span><span class="n">dr</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated_metrics</span>
         <span class="c1"># return the global dictionnary</span>
         <span class="k">return</span> <span class="n">metrics_by_dr</span></div>
+
     
-<div class="viewcode-block" id="MDRCalculator.calc_profiles_deprecated"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles_deprecated">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_profiles_deprecated">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles_deprecated">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_profiles_deprecated</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change</span>
@@ -392,7 +404,10 @@
         
         <span class="k">return</span> <span class="n">min_confidence_levels_dict</span></div>
 
-<div class="viewcode-block" id="MDRCalculator.calc_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span><span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="MDRCalculator.calc_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">calc_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">TreeRepresentation</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span><span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change</span>
 <span class="sd">        across different confidence levels derived from predicted accuracies.</span>
@@ -461,8 +476,11 @@
             <span class="n">profiles_manager</span><span class="o">.</span><span class="n">insert_lost_profiles</span><span class="p">(</span><span class="n">dr</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">,</span> <span class="n">lost_profiles_current_ins</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">min_confidence_levels_dict</span></div>
+
     
-<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="MDRCalculator.calc_metrics_by_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.calc_metrics_by_profiles">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">calc_metrics_by_profiles</span><span class="p">(</span><span class="n">profiles_manager</span><span class="p">,</span> <span class="n">dataset</span> <span class="p">:</span> <span class="n">MaskedDataset</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_samples_ratio</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates various metrics for different profiles and declaration rates based on provided datasets.</span>
@@ -511,7 +529,10 @@
                     <span class="n">profile</span><span class="o">.</span><span class="n">update_metrics_results</span><span class="p">(</span><span class="n">metrics_dict</span><span class="p">)</span>
                     <span class="n">profile</span><span class="o">.</span><span class="n">update_node_information</span><span class="p">(</span><span class="n">info_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles_deprecated"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles_deprecated">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles_deprecated">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles_deprecated">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">detectron_by_profiles_deprecated</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
                               <span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span>
                               <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -623,6 +644,7 @@
 
         <span class="k">return</span> <span class="n">profiles_by_dr</span></div>
 
+
     <span class="k">def</span> <span class="nf">_filter_with_fallback</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">min_confidence_level</span><span class="p">):</span>
         <span class="c1"># Initial attempt to filter with the full profile path</span>
         <span class="n">q_x</span><span class="p">,</span> <span class="n">q_y_true</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">MDRCalculator</span><span class="o">.</span><span class="n">_filter_by_profile</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">profile</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">min_confidence_level</span><span class="o">=</span><span class="n">min_confidence_level</span><span class="p">)</span>
@@ -638,7 +660,9 @@
         
         <span class="k">return</span> <span class="n">q_x</span><span class="p">,</span> <span class="n">q_y_true</span>
 
-<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">detectron_by_profiles</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
+<div class="viewcode-block" id="MDRCalculator.detectron_by_profiles">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.mdr.MDRCalculator.detectron_by_profiles">[docs]</a>
+    <span class="k">def</span> <span class="nf">detectron_by_profiles</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="n">DatasetsManager</span><span class="p">,</span>
                               <span class="n">profiles_manager</span><span class="p">:</span> <span class="n">ProfilesManager</span><span class="p">,</span>
                               <span class="n">confidence_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                               <span class="n">training_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -737,7 +761,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">profiles</span> <span class="o">=</span> <span class="n">last_profiles</span>
 
-        <span class="k">return</span> <span class="n">profiles_by_dr</span></div></div>
+        <span class="k">return</span> <span class="n">profiles_by_dr</span></div>
+</div>
+
 
     
 </pre></div>

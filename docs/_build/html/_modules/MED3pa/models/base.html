@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.models.base &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -96,13 +98,17 @@
 <span class="kn">from</span> <span class="nn">.abstract_models</span> <span class="kn">import</span> <span class="n">Model</span>
 
 
-<div class="viewcode-block" id="BaseModelManager"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager">[docs]</a><span class="k">class</span> <span class="nc">BaseModelManager</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseModelManager">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseModelManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Singleton manager class for the base model. ensures the base model is set only once.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__baseModel</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="BaseModelManager.set_base_model"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.set_base_model">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="BaseModelManager.set_base_model">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.set_base_model">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">set_base_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Model</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the base model for the manager, ensuring Singleton behavior.</span>
@@ -118,7 +124,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The Base Model has already been initialized&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseModelManager.get_instance"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.get_instance">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BaseModelManager.get_instance">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.get_instance">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_instance</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the instance of the base model, ensuring Singleton access.</span>
@@ -133,7 +142,10 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The Base Model has not been initialized yet&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__baseModel</span></div>
 
-<div class="viewcode-block" id="BaseModelManager.clone_base_model"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.clone_base_model">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BaseModelManager.clone_base_model">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.clone_base_model">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">clone_base_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Model</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates and returns a deep clone of the base model, following the Prototype pattern.</span>
@@ -166,7 +178,10 @@
             
             <span class="k">return</span> <span class="n">cloned_model</span></div>
 
-<div class="viewcode-block" id="BaseModelManager.reset"><a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.reset">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BaseModelManager.reset">
+<a class="viewcode-back" href="../../../MED3pa.models.html#MED3pa.models.base.BaseModelManager.reset">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resets the singleton instance, allowing for reinitialization.</span>
@@ -174,7 +189,9 @@
 <span class="sd">        This method clears the current base model, enabling the set_base_model method</span>
 <span class="sd">        to set a new base model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">__baseModel</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__baseModel</span> <span class="o">=</span> <span class="kc">None</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MED3pa.med3pa.uncertainty &mdash; Med3pa documentation 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=91a569d5" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -95,11 +97,15 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="UncertaintyMetric"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric">[docs]</a><span class="k">class</span> <span class="nc">UncertaintyMetric</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="UncertaintyMetric">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric">[docs]</a>
+<span class="k">class</span> <span class="nc">UncertaintyMetric</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for uncertainty metrics. Defines the structure that all uncertainty metrics should follow.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="UncertaintyMetric.calculate"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric.calculate">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="UncertaintyMetric.calculate">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyMetric.calculate">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the uncertainty metric based on input observations, predicted probabilities, and true labels.</span>
@@ -112,14 +118,20 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: An array of uncertainty values for each prediction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div></div>
+        <span class="k">pass</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AbsoluteError"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError">[docs]</a><span class="k">class</span> <span class="nc">AbsoluteError</span><span class="p">(</span><span class="n">UncertaintyMetric</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AbsoluteError">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError">[docs]</a>
+<span class="k">class</span> <span class="nc">AbsoluteError</span><span class="p">(</span><span class="n">UncertaintyMetric</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concrete implementation of the UncertaintyMetric class using absolute error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="AbsoluteError.calculate"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="AbsoluteError.calculate">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.AbsoluteError.calculate">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates the absolute error between predicted probabilities and true labels, providing a measure of</span>
 <span class="sd">        prediction accuracy.</span>
@@ -132,10 +144,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: Absolute errors between predicted probabilities and true labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">predicted_prob</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">predicted_prob</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="UncertaintyCalculator"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator">[docs]</a><span class="k">class</span> <span class="nc">UncertaintyCalculator</span><span class="p">:</span>
+
+<div class="viewcode-block" id="UncertaintyCalculator">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator">[docs]</a>
+<span class="k">class</span> <span class="nc">UncertaintyCalculator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for calculating uncertainty using a specified uncertainty metric.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -155,7 +171,9 @@
         
         <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_mapping</span><span class="p">[</span><span class="n">metric_name</span><span class="p">]</span>
     
-<div class="viewcode-block" id="UncertaintyCalculator.calculate_uncertainty"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_uncertainty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="UncertaintyCalculator.calculate_uncertainty">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.calculate_uncertainty">[docs]</a>
+    <span class="k">def</span> <span class="nf">calculate_uncertainty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_true</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates uncertainty for a set of predictions using the configured uncertainty metric.</span>
 
@@ -169,7 +187,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">predicted_prob</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UncertaintyCalculator.supported_metrics"><a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.supported_metrics">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="UncertaintyCalculator.supported_metrics">
+<a class="viewcode-back" href="../../../MED3pa.med3pa.html#MED3pa.med3pa.uncertainty.UncertaintyCalculator.supported_metrics">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">supported_metrics</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of supported uncertainty metrics.</span>
@@ -177,7 +198,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            list: A list of strings representing the names of the supported uncertainty metrics.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">metric_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">metric_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+</div>
+
 </pre></div>
 
            </div>
