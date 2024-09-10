@@ -18,7 +18,7 @@ setup(
     url="https://github.com/lyna1404/MED3pa",
     project_urls={
         'Documentation': 'https://med3pa.readthedocs.io/en/latest/',
-        'Github': 'https://github.com/lyna1404/MED3pa'
+        'Github': 'https://github.com/MEDomics-UdeS/MED3pa'
     },
     packages=find_packages(exclude=['docs', 'tests', 'experiments']),
     python_requires='>=3.9',
