@@ -16,9 +16,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
     """
     A class to compute various classification evaluation metrics.
     """
-    
+
     @staticmethod
-    def accuracy(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def accuracy(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the accuracy score.
 
@@ -33,9 +33,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         if y_true.size == 0 or y_pred.size == 0:
             return None
         return accuracy_score(y_true, y_pred, sample_weight=sample_weight)
-    
+
     @staticmethod
-    def recall(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def recall(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the recall score.
 
@@ -52,47 +52,49 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return recall_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def roc_auc(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def roc_auc(y_true: np.ndarray, y_prob: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the ROC AUC score.
 
         Args:
             y_true (np.ndarray): True labels.
-            y_pred (np.ndarray): Predicted probabilities.
+            y_prob (np.ndarray): Predicted probabilities.
             sample_weight (np.ndarray, optional): Sample weights.
 
         Returns:
             float: ROC AUC score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
+        if y_true.size == 0 or y_prob.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return roc_auc_score(y_true, y_pred, sample_weight=sample_weight)
-    
+            return roc_auc_score(y_true, y_prob, sample_weight=sample_weight)
+
     @staticmethod
-    def average_precision(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def average_precision(y_true: np.ndarray, y_prob: np.ndarray, sample_weight: np.ndarray = None, **kwargs
+                          ) -> Optional[float]:
         """
         Calculate the average precision score.
 
         Args:
             y_true (np.ndarray): True labels.
-            y_pred (np.ndarray): Predicted probabilities.
+            y_prob (np.ndarray): Predicted probabilities.
             sample_weight (np.ndarray, optional): Sample weights.
 
         Returns:
             float: Average precision score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
+        if y_true.size == 0 or y_prob.size == 0 or len(np.unique(y_true)) == 1:
             return None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return average_precision_score(y_true, y_pred, sample_weight=sample_weight)
-    
+            return average_precision_score(y_true, y_prob, sample_weight=sample_weight)
+
     @staticmethod
-    def matthews_corrcoef(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def matthews_corrcoef(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs
+                          ) -> Optional[float]:
         """
         Calculate the Matthews correlation coefficient.
 
@@ -109,9 +111,10 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return matthews_corrcoef(y_true, y_pred)
-    
+
     @staticmethod
-    def precision(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def precision(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs
+                  ) -> Optional[float]:
         """
         Calculate the precision score.
 
@@ -128,9 +131,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return precision_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def f1_score(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def f1_score(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the F1 score.
 
@@ -147,9 +150,10 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return f1_score(y_true, y_pred, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def sensitivity(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def sensitivity(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs
+                    ) -> Optional[float]:
         """
         Calculate the sensitivity (recall for the positive class).
 
@@ -166,9 +170,10 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return recall_score(y_true, y_pred, pos_label=1, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def specificity(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def specificity(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs
+                    ) -> Optional[float]:
         """
         Calculate the specificity (recall for the negative class).
 
@@ -185,9 +190,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return recall_score(y_true, y_pred, pos_label=0, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def ppv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def ppv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the positive predictive value (PPV).
 
@@ -204,9 +209,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return precision_score(y_true, y_pred, pos_label=1, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def npv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def npv(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the negative predictive value (NPV).
 
@@ -223,9 +228,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return precision_score(y_true, y_pred, pos_label=0, sample_weight=sample_weight, zero_division=0)
-    
+
     @staticmethod
-    def balanced_accuracy(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def balanced_accuracy(y_true: np.ndarray, y_pred: np.ndarray, **kwargs) -> Optional[float]:
         """
         Calculate the balanced accuracy score.
 
@@ -245,9 +250,9 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
             return (sens + spec) / 2
         else:
             return None
-    
+
     @staticmethod
-    def log_loss(y_true: np.ndarray, y_pred: np.ndarray, sample_weight: np.ndarray = None) -> Optional[float]:
+    def log_loss(y_true: np.ndarray, y_prob: np.ndarray, sample_weight: np.ndarray = None, **kwargs) -> Optional[float]:
         """
         Calculate the log loss score.
 
@@ -259,13 +264,13 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         Returns:
             float: Log loss score.
         """
-        if y_true.size == 0 or y_pred.size == 0 or len(np.unique(y_true)) == 1:
+        if y_true.size == 0 or y_prob.size == 0 or len(np.unique(y_true)) == 1:
             return None
-        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+        y_pred = np.clip(y_prob, 1e-15, 1 - 1e-15)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             return log_loss(y_true, y_pred, sample_weight=sample_weight)
-    
+
     @classmethod
     def get_metric(cls, metric_name: str = ''):
         """
@@ -297,9 +302,10 @@ class ClassificationEvaluationMetrics(EvaluationMetric):
         else:
             metric_function = metrics_mappings.get(metric_name)
             if metric_function is None:
-                raise ValueError(f"Metric '{metric_name}' is not recognized. Please choose from: {list(metrics_mappings.keys())}")
+                raise ValueError(
+                    f"Metric '{metric_name}' is not recognized. Please choose from: {list(metrics_mappings.keys())}")
             return metric_function
-    
+
     @classmethod
     def supported_metrics(cls) -> List[str]:
         """
