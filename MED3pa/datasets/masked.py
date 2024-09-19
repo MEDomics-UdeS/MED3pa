@@ -234,14 +234,14 @@ class MaskedDataset(Dataset):
         """
         return self.__file_path
     
-    def set_pseudo_probs_labels(self, pseudo_probabilities: np.ndarray, threshold=0.5) -> None:
+    def set_pseudo_probs_labels(self, pseudo_probabilities: np.ndarray, threshold: float) -> None:
         """
         Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by
         applying a threshold to the probabilities.
 
         Args:
             pseudo_probabilities (np.ndarray): The pseudo probabilities array to be set.
-            threshold (float, optional): The threshold to convert probabilities to binary labels. Defaults to 0.5.
+            threshold (float): The threshold to convert probabilities to binary labels.
 
         Raises:
             ValueError: If the shape of pseudo_probabilities does not match the number of samples in the observations array.
