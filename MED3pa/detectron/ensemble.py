@@ -75,7 +75,7 @@ class DetectronEnsemble:
         """
         # set up the training, validation and testing sets
         training_data = datasets.get_dataset_by_type(dataset_type="training", return_instance=True)
-        validation_data = datasets.get_dataset_by_type(dataset_type="validation", return_instance=True)
+        validation_data = None  # datasets.get_dataset_by_type(dataset_type="validation", return_instance=True)
         if set=='reference':
             testing_data = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
         elif set == 'testing':
@@ -94,10 +94,10 @@ class DetectronEnsemble:
             testing_set = testing_data.sample_uniform(samples_size, seed)
 
             # predict probabilities using the base model on the testing set
-            base_model_pred_probs = self.base_model.predict(testing_set.get_observations(), True)
+            base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
 
             # set pseudo probabilities and pseudo labels predicted by the base model
-            testing_set.set_pseudo_probs_labels(base_model_pred_probs, 0.5)
+            testing_set.set_pseudo_probs_labels(base_model_pred_probs, self.base_model.threshold)
             cloned_testing_set = testing_set.clone()
 
             # the base model is always the model with id = 0
@@ -107,7 +107,7 @@ class DetectronEnsemble:
             record.seed(seed)
 
             # update the record with the results of the base model
-            record.update(val_data_x=validation_data.get_observations(), val_data_y=validation_data.get_true_labels(), 
+            record.update(val_data_x=None, val_data_y=None, # validation_data.get_observations() validation_data.get_true_labels()
                           sample_size=samples_size, model=self.base_model, model_id=model_id, 
                           predicted_probabilities=testing_set.get_pseudo_probabilities(), 
                           test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
@@ -135,15 +135,14 @@ class DetectronEnsemble:
 
                 # train this cdc to disagree
                 cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(), 
-                                      x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(), 
+                                      # x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(),
                                       x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
                                       training_parameters=training_params,
-                                      balance_train_classes=True, 
-                                      N=updated_count)
+                                      balance_train_classes=True)
                 
                 # predict probabilities using this cdc
-                cdc_probabilities = cdc.predict(testing_set.get_observations(), True)
-                cdc_probabilities_original_set = cdc.predict(cloned_testing_set.get_observations(), True)
+                cdc_probabilities = cdc.predict_proba(testing_set.get_observations())[:, 1]  # , True
+                cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:, 1]  # , True
 
                 # deduct the predictions of this cdc
                 cdc_predicitons = cdc_probabilities >= 0.5
@@ -170,7 +169,7 @@ class DetectronEnsemble:
                 updated_count = testing_set.refine(mask)
 
                 # log the results for this model
-                record.update(val_data_x=validation_data.get_observations(), val_data_y=validation_data.get_true_labels(),
+                record.update(val_data_x=None, val_data_y=None,  # validation_data.get_observations() validation_data.get_true_labels()
                               sample_size=updated_count, predicted_probabilities=cdc_probabilities_original_set, 
                               model=cdc, model_id=model_id)
                 

@@ -234,7 +234,7 @@ class MaskedDataset(Dataset):
         """
         return self.__file_path
     
-    def set_pseudo_probs_labels(self, pseudo_probabilities: np.ndarray, threshold: float) -> None:
+    def set_pseudo_probs_labels(self, pseudo_probabilities: np.ndarray, threshold: float = None) -> None:
         """
         Sets the pseudo probabilities and corresponding pseudo labels for the dataset. The labels are derived by
         applying a threshold to the probabilities.
@@ -250,7 +250,8 @@ class MaskedDataset(Dataset):
             raise ValueError("The shape of pseudo_probabilities must match the number of samples in the observations array.")
         
         self.__pseudo_probabilities = pseudo_probabilities
-        self.__pseudo_labels = pseudo_probabilities >= threshold
+        if threshold:
+            self.__pseudo_labels = pseudo_probabilities >= threshold
         
     def set_confidence_scores(self, confidence_scores: np.ndarray) -> None:
         """

@@ -5,6 +5,7 @@ It includes the ``DatasetsManager`` class that contains the training, validation
 
 import numpy as np
 import pandas as pd
+from typing import Union, List
 
 from .loading_context import DataLoadingContext
 from .masked import MaskedDataset
@@ -17,7 +18,7 @@ class DatasetsManager:
     This manager is responsible for loading and holding different sets of data, including training, validation,
     reference (or domain dataset), and testing datasets (or new encountered data).
     """
-    
+
     def __init__(self):
         """Initializes the DatasetsManager with empty datasets."""
         self.base_model_training_set = None
@@ -25,7 +26,7 @@ class DatasetsManager:
         self.reference_set = None
         self.testing_set = None
         self.column_labels = None
-    
+
     def set_from_file(self, dataset_type: str, file: str, target_column_name: str) -> None:
         """
         Loads and sets the specified dataset from a file.
@@ -40,16 +41,17 @@ class DatasetsManager:
         """
         ctx = DataLoadingContext(file)
         column_labels, obs_np, true_labels_np = ctx.load_as_np(file, target_column_name)
-        
+
         self.set_column_labels(column_labels)
 
         # Check if the number of columns in observations matches the length of column_labels
         if obs_np.shape[1] != len(self.column_labels):
-            raise ValueError(f"The shape of observations {obs_np.shape} does not match the length of column labels {len(column_labels)}")
-        
+            raise ValueError(
+                f"The shape of observations {obs_np.shape} does not match the length of column labels {len(column_labels)}")
+
         dataset = MaskedDataset(obs_np, true_labels_np, column_labels=self.column_labels)
         dataset.set_file_path(file=file)
-        
+
         if dataset_type == 'training':
             self.base_model_training_set = dataset
         elif dataset_type == 'validation':
@@ -61,8 +63,8 @@ class DatasetsManager:
         else:
             raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
 
-        
-    def set_from_data(self, dataset_type: str, observations: np.ndarray, true_labels: np.ndarray, column_labels: list = None) -> None:
+    def set_from_data(self, dataset_type: str, observations: np.ndarray, true_labels: np.ndarray,
+                      column_labels: Union[List, pd.Index] = None) -> None:
         """
         Sets the specified dataset using numpy arrays for observations and true labels.
 
@@ -77,12 +79,14 @@ class DatasetsManager:
             ValueError: If column_labels and target_column_name are not provided when column_labels are not set.
         """
         if column_labels is not None:
+            if type(column_labels) is pd.Index:
+                column_labels = column_labels.tolist()
             self.set_column_labels(column_labels)
         elif self.column_labels is None:
             raise ValueError("Column labels must be provided when setting a dataset for the first time.")
 
         dataset = MaskedDataset(observations, true_labels, column_labels=self.column_labels)
-        
+
         if dataset_type == 'training':
             self.base_model_training_set = dataset
         elif dataset_type == 'validation':
@@ -93,7 +97,6 @@ class DatasetsManager:
             self.testing_set = dataset
         else:
             raise ValueError(f"Invalid dataset_type provided: {dataset_type}")
-
 
     def set_column_labels(self, columns: list) -> None:
         """
@@ -109,9 +112,9 @@ class DatasetsManager:
         if self.column_labels is None:
             self.column_labels = columns
         else:
-            if self.column_labels != columns:
+            if not np.array_equal(self.column_labels, columns):
                 raise ValueError("Provided column labels do not match the existing column labels.")
-        
+
         if self.base_model_training_set is not None:
             self.base_model_training_set.column_labels = columns
         if self.base_model_validation_set is not None:
@@ -130,7 +133,7 @@ class DatasetsManager:
 
         """
         return self.column_labels
-    
+
     def get_info(self, show_details: bool = True) -> dict:
         """
         Returns information about all the datasets managed by the DatasetsManager.
@@ -158,7 +161,7 @@ class DatasetsManager:
                 'column_labels': 'Set' if self.column_labels else 'Not set'
             }
         return datasets_info
-    
+
     def summarize(self) -> None:
         """
         Prints a summary of the manager.
@@ -218,7 +221,7 @@ class DatasetsManager:
         dataset = self.get_dataset_by_type(dataset_type, True)
         if dataset is None:
             raise ValueError(f"Dataset '{dataset_type}' is not set.")
-        
+
         dataset.save_to_csv(file_path)
 
     def __get_base_model_training_data(self, return_instance: bool = False):
@@ -300,4 +303,3 @@ class DatasetsManager:
             return self.testing_set.get_observations(), self.testing_set.get_true_labels()
         else:
             raise ValueError("Testing set not initialized.")
-

@@ -109,7 +109,10 @@ class DetectronRecordsManager:
         assert self.__seed is not None, 'Seed must be set before updating the record'
         
         record = DetectronRecord(self.__seed, model_id, self.sample_size)
-        validation_auc = model.evaluate(val_data_x, val_data_y, ['Auc']).get('Auc')
+        if val_data_x is not None:
+            validation_auc = model.evaluate(val_data_x, val_data_y, ['Auc']).get('Auc')
+        else:
+            validation_auc = None
         testing_auc = model.evaluate(test_data_x, test_data_y, ['Auc']).get('Auc') if test_data_x is not None else float('nan')
         record.update(validation_auc, testing_auc, predicted_probabilities, sample_size)
         self.records.append(record.to_dict())
