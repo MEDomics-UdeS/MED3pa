@@ -15,7 +15,7 @@ from sklearn.tree import DecisionTreeRegressor, export_text
 
 from MED3pa.med3pa.tree import TreeRepresentation, _TreeNode
 from MED3pa.models.abstract_models import RegressionModel
-from MED3pa.models.concrete_regressors import DecisionTreeRegressorModel, RandomForestRegressorModel
+from MED3pa.models.concrete_regressors import DecisionTreeRegressorModel, RandomForestRegressorModel, EnsembleRandomForestRegressorModel
 from MED3pa.models.data_strategies import ToDataframesStrategy
 from MED3pa.models import rfr_params, dtr_params
 
@@ -27,15 +27,21 @@ class IPCModel:
     default_params = {'random_state': 54288}
 
     supported_regressors_mapping = {
-        'RandomForestRegressor': RandomForestRegressorModel
+        'RandomForestRegressor': RandomForestRegressorModel,
+        'EnsembleRandomForestRegressor': EnsembleRandomForestRegressorModel
     }
 
     underlying_models_mapping = {
-        'RandomForestRegressor': RandomForestRegressor
+        'RandomForestRegressor': RandomForestRegressor,
+        'EnsembleRandomForestRegressor': RandomForestRegressor
     }
 
     supported_regressors_params = {
         'RandomForestRegressor': {
+            'params': rfr_params.rfr_params,
+            'grid_params': rfr_params.rfr_gridsearch_params
+        },
+        'EnsembleRandomForestRegressor': {
             'params': rfr_params.rfr_params,
             'grid_params': rfr_params.rfr_gridsearch_params
         }
@@ -116,7 +122,7 @@ class IPCModel:
         self.grid_search_params = param_grid
         self.optimized = True
 
-    def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
+    def train(self, x: np.ndarray, error_prob: np.ndarray, **params) -> None:
         """
         Trains the model on the provided training data and error probabilities.
 
@@ -124,7 +130,7 @@ class IPCModel:
             x (np.ndarray): Feature matrix for training.
             error_prob (np.ndarray): Error probabilities corresponding to each training instance.
         """
-        self.model.train(x, error_prob)
+        self.model.train(x, error_prob, **params)
 
     def predict(self, x: np.ndarray) -> np.ndarray:
         """
@@ -266,7 +272,7 @@ class APCModel:
         """
         return cls.supported_params
 
-    def train(self, x: np.ndarray, error_prob: np.ndarray, ) -> None:
+    def train(self, x: np.ndarray, error_prob: np.ndarray) -> None:
         """
         Trains the model using the provided data and error probabilities and builds the tree representation.
 

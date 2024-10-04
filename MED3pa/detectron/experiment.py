@@ -196,10 +196,14 @@ class DetectronExperiment:
         
         # ensure the reference set is larger compared to testing set
         reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
-        if reference_set is not None:
+        testing_set = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True)
+        if reference_set is None:
+            raise ValueError("Reference dataset must be defined")
+        else:
             test_size = len(reference_set)
             assert test_size > samples_size, \
                 "The reference set must be larger than the testing set to perform statistical bootstrapping"
+            assert samples_size <= len(testing_set), "The testing set must be larger than the samples_size"
             if test_size < 2 * samples_size:
                 warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
             if calib_result is not None:

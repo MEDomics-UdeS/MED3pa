@@ -10,7 +10,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
-from MED3pa.detectron.experiment import DetectronExperiment, DetectronResult, DetectronStrategy, EnhancedDisagreementStrategy
+from MED3pa.detectron.experiment import DetectronExperiment, DetectronResult, DetectronStrategy, \
+    EnhancedDisagreementStrategy
 from MED3pa.med3pa.convert_results import generate_Med3paResults
 from MED3pa.med3pa.mdr import MDRCalculator
 from MED3pa.med3pa.models import *
@@ -20,6 +21,7 @@ from MED3pa.models.base import BaseModelManager
 from MED3pa.models.classification_metrics import *
 from MED3pa.models.concrete_regressors import *
 from MED3pa.med3pa.tree import TreeRepresentation
+
 
 def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
     """Convert an object to a JSON-serializable format.
@@ -43,10 +45,12 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         return [to_serializable(v) for v in obj]
     return obj
 
+
 class Med3paRecord:
     """
     Class to store and manage results from the MED3PA method on one set.
     """
+
     def __init__(self) -> None:
         self.metrics_by_dr: Dict[int, Dict] = {}
         self.models_evaluation: Dict[str, Dict] = {}
@@ -66,7 +70,7 @@ class Med3paRecord:
         """
         self.metrics_by_dr = metrics_by_dr
 
-    def set_profiles_manager(self, profile_manager : ProfilesManager) -> None:
+    def set_profiles_manager(self, profile_manager: ProfilesManager) -> None:
         """
         Set the profile manager for this Med3paResults instance.
  
@@ -75,7 +79,7 @@ class Med3paRecord:
         """
         self.profiles_manager = profile_manager
 
-    def set_models_evaluation(self, ipc_evaluation: Dict, apc_evaluation: Dict=None) -> None:
+    def set_models_evaluation(self, ipc_evaluation: Dict, apc_evaluation: Dict = None) -> None:
         """
         Set models evaluation metrics.
         Args:
@@ -87,7 +91,7 @@ class Med3paRecord:
         if apc_evaluation is not None:
             self.models_evaluation['APC_evaluation'] = apc_evaluation
 
-    def set_tree(self, tree:TreeRepresentation):
+    def set_tree(self, tree: TreeRepresentation):
         """
         Sets the constructed tree
         """
@@ -123,7 +127,8 @@ class Med3paRecord:
 
             lost_profiles_file_path = os.path.join(file_path, 'lost_profiles.json')
             with open(lost_profiles_file_path, 'w') as file:
-                json.dump(self.profiles_manager.get_lost_profiles(), file, default=lambda x: to_serializable(x, additional_arg=False), indent=4)
+                json.dump(self.profiles_manager.get_lost_profiles(), file,
+                          default=lambda x: to_serializable(x, additional_arg=False), indent=4)
 
         if self.models_evaluation is not None:
             models_evaluation_file_path = os.path.join(file_path, 'models_evaluation.json')
@@ -134,7 +139,7 @@ class Med3paRecord:
             dataset_path = os.path.join(file_path, f'dataset_{mode}.csv')
             dataset.save_to_csv(dataset_path)
 
-        if self.tree is not None: 
+        if self.tree is not None:
             tree_path = os.path.join(file_path, 'tree.json')
             self.tree.save_tree(tree_path)
 
@@ -144,33 +149,35 @@ class Med3paRecord:
         """
         return self.profiles_manager
 
-    def set_confidence_scores(self, scores:np.ndarray, mode = 'str') -> None:
+    def set_confidence_scores(self, scores: np.ndarray, mode='str') -> None:
         if mode == 'ipc':
             self.ipc_scores = scores
         elif mode == "apc":
             self.apc_scores = scores
-        elif mode=="mpc":
+        elif mode == "mpc":
             self.mpc_scores = scores
 
-    def get_confidence_scores(self, mode = 'str') -> np.ndarray:
+    def get_confidence_scores(self, mode='str') -> np.ndarray:
         if mode == 'ipc':
             return self.ipc_scores
         elif mode == "apc":
             return self.apc_scores
-        elif mode=="mpc":
+        elif mode == "mpc":
             return self.mpc_scores
+
 
 class Med3paResults:
     """
     Class to store and manage results from the MED3PA complete experiment.
     """
-    def __init__(self, reference_record:Med3paRecord, test_record:Med3paRecord) -> None:
+
+    def __init__(self, reference_record: Med3paRecord, test_record: Med3paRecord) -> None:
         self.reference_record = reference_record
         self.test_record = test_record
         self.experiment_config = {}
         self.detectron_results = None
 
-    def set_detectron_results(self, detectron_results: DetectronResult=None) -> None:
+    def set_detectron_results(self, detectron_results: DetectronResult = None) -> None:
         """
         Sets the detectron results for the Med3paDetectron experiment.
         Args:
@@ -186,9 +193,9 @@ class Med3paResults:
         """
         self.experiment_config.update(config)
 
-    def set_models(self, ipc_model: IPCModel, apc_model:APCModel = None):
+    def set_models(self, ipc_model: IPCModel, apc_model: APCModel = None):
         self.ipc_model = ipc_model
-        self.apc_model = apc_model 
+        self.apc_model = apc_model
 
     def save(self, file_path: str, save_med3paResults: bool = True) -> None:
         """
@@ -204,7 +211,8 @@ class Med3paResults:
         test_path = os.path.join(file_path, 'test')
         detectron_path = os.path.join(file_path, 'detectron')
 
-        self.reference_record.save(file_path=reference_path)
+        if self.reference_record:
+            self.reference_record.save(file_path=reference_path)
         self.test_record.save(file_path=test_path)
         if self.detectron_results is not None:
             self.detectron_results.save(file_path=detectron_path, save_config=False)
@@ -216,8 +224,6 @@ class Med3paResults:
         if save_med3paResults:
             generate_Med3paResults(file_path)
 
-    import os
-
     def save_models(self, file_path: str, mode: str = 'all', id: str = None) -> None:
         """
         Saves the experiment ipc and apc models as .pkl files, alongside the tree structure for the test set.
@@ -228,11 +234,11 @@ class Med3paResults:
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
-        
+
         # Function to generate the file name with optional id
         def generate_file_name(base_name, id):
             return f"{id}_{base_name}" if id else base_name
-        
+
         if mode == 'all':
             if self.ipc_model:
                 ipc_model_name = generate_file_name('ipc_model.pkl', id)
@@ -261,17 +267,19 @@ class Med3paResults:
                 tree_structure_path = os.path.join(file_path, tree_structure_name)
                 self.test_record.tree.save_tree(tree_structure_path)
 
+
 class Med3paExperiment:
     """
     Class to run the MED3PA method experiment.
     """
+
     @staticmethod
     def run(datasets_manager: DatasetsManager,
             base_model_manager: BaseModelManager = None,
             uncertainty_metric: str = 'absolute_error',
             ipc_type: str = 'RandomForestRegressor',
             ipc_params: Dict = None,
-            ipc_grid_params: Dict = None, 
+            ipc_grid_params: Dict = None,
             ipc_cv: int = 4,
             pretrained_ipc: str = None,
             apc_params: Dict = None,
@@ -279,11 +287,12 @@ class Med3paExperiment:
             apc_cv: int = 4,
             pretrained_apc: str = None,
             samples_ratio_min: int = 0,
-            samples_ratio_max: int = 50, 
+            samples_ratio_max: int = 50,
             samples_ratio_step: int = 5,
-            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
+            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score',
+                                         'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
             evaluate_models: bool = False,
-            use_ref_models: bool = False, 
+            use_ref_models: bool = False,
             mode: str = 'mpc',
             models_metrics: List[str] = ['MSE', 'RMSE', 'MAE']) -> Med3paResults:
 
@@ -311,45 +320,95 @@ class Med3paExperiment:
         Returns:
             Med3paResults: the results of the MED3PA experiment on the reference set and testing set.
         """
-        print("Running MED3pa Experiment on the reference set:")
-        results_reference, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'reference',base_model_manager= base_model_manager, 
-                                                         uncertainty_metric=uncertainty_metric,
-                                                         ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc,
-                                                         apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc,
-                                                         samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
-                                                         med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
+        results_ref = None
+        if datasets_manager.reference_set is not None:
+            print("Running MED3pa Experiment on the reference set:")
+            results_ref, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
+                                                                                     set='reference',
+                                                                                     base_model_manager=base_model_manager,
+                                                                                     uncertainty_metric=uncertainty_metric,
+                                                                                     ipc_type=ipc_type,
+                                                                                     ipc_params=ipc_params,
+                                                                                     ipc_grid_params=ipc_grid_params,
+                                                                                     ipc_cv=ipc_cv,
+                                                                                     pretrained_ipc=pretrained_ipc,
+                                                                                     apc_params=apc_params,
+                                                                                     apc_grid_params=apc_grid_params,
+                                                                                     apc_cv=apc_cv,
+                                                                                     pretrained_apc=pretrained_apc,
+                                                                                     samples_ratio_min=samples_ratio_min,
+                                                                                     samples_ratio_max=samples_ratio_max,
+                                                                                     samples_ratio_step=samples_ratio_step,
+                                                                                     med3pa_metrics=med3pa_metrics,
+                                                                                     evaluate_models=evaluate_models,
+                                                                                     models_metrics=models_metrics,
+                                                                                     mode=mode)
         print("Running MED3pa Experiment on the test set:")
         if use_ref_models:
-            results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
-                                                            uncertainty_metric=uncertainty_metric,
-                                                            ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc, ipc_instance=ipc_config,
-                                                            apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc, apc_instance=apc_config,
-                                                            samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
-                                                            med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
+            if results_ref is None:
+                raise ValueError("use_ref_models cannot be true if reference set is None. ")
+            results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
+                                                                                   set='testing',
+                                                                                   base_model_manager=base_model_manager,
+                                                                                   uncertainty_metric=uncertainty_metric,
+                                                                                   ipc_type=ipc_type,
+                                                                                   ipc_params=ipc_params,
+                                                                                   ipc_grid_params=ipc_grid_params,
+                                                                                   ipc_cv=ipc_cv,
+                                                                                   pretrained_ipc=pretrained_ipc,
+                                                                                   ipc_instance=ipc_config,
+                                                                                   apc_params=apc_params,
+                                                                                   apc_grid_params=apc_grid_params,
+                                                                                   apc_cv=apc_cv,
+                                                                                   pretrained_apc=pretrained_apc,
+                                                                                   apc_instance=apc_config,
+                                                                                   samples_ratio_min=samples_ratio_min,
+                                                                                   samples_ratio_max=samples_ratio_max,
+                                                                                   samples_ratio_step=samples_ratio_step,
+                                                                                   med3pa_metrics=med3pa_metrics,
+                                                                                   evaluate_models=evaluate_models,
+                                                                                   models_metrics=models_metrics,
+                                                                                   mode=mode)
         else:
-            results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,set= 'testing',base_model_manager= base_model_manager, 
-                                                            uncertainty_metric=uncertainty_metric,
-                                                            ipc_type=ipc_type, ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, pretrained_ipc=pretrained_ipc, ipc_instance=None,
-                                                            apc_params=apc_params,apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc, apc_instance=None,
-                                                            samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step, 
-                                                            med3pa_metrics=med3pa_metrics, evaluate_models=evaluate_models, models_metrics=models_metrics, mode=mode)
+            results_testing, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
+                                                                                   set='testing',
+                                                                                   base_model_manager=base_model_manager,
+                                                                                   uncertainty_metric=uncertainty_metric,
+                                                                                   ipc_type=ipc_type,
+                                                                                   ipc_params=ipc_params,
+                                                                                   ipc_grid_params=ipc_grid_params,
+                                                                                   ipc_cv=ipc_cv,
+                                                                                   pretrained_ipc=pretrained_ipc,
+                                                                                   ipc_instance=None,
+                                                                                   apc_params=apc_params,
+                                                                                   apc_grid_params=apc_grid_params,
+                                                                                   apc_cv=apc_cv,
+                                                                                   pretrained_apc=pretrained_apc,
+                                                                                   apc_instance=None,
+                                                                                   samples_ratio_min=samples_ratio_min,
+                                                                                   samples_ratio_max=samples_ratio_max,
+                                                                                   samples_ratio_step=samples_ratio_step,
+                                                                                   med3pa_metrics=med3pa_metrics,
+                                                                                   evaluate_models=evaluate_models,
+                                                                                   models_metrics=models_metrics,
+                                                                                   mode=mode)
 
-        results = Med3paResults(results_reference, results_testing)
+        results = Med3paResults(results_ref, results_testing)
         med3pa_params = {
             'uncertainty_metric': uncertainty_metric,
             'samples_ratio_min': samples_ratio_min,
             'samples_ratio_max': samples_ratio_max,
             'samples_ratio_step': samples_ratio_step,
             'med3pa_metrics': med3pa_metrics,
-            'evaluate_models':evaluate_models,
+            'evaluate_models': evaluate_models,
             'models_evaluation_metrics': models_metrics,
-            'mode':mode, 
+            'mode': mode,
             'ipc_model': ipc_config.get_info(),
             'apc_model': apc_config.get_info() if apc_config is not None else None,
         }
         experiment_config = {
             'experiment_name': "Med3paExperiment",
-            'datasets':datasets_manager.get_info(),
+            'datasets': datasets_manager.get_info(),
             'base_model': base_model_manager.get_instance().get_info(),
             'med3pa_params': med3pa_params
         }
@@ -359,27 +418,29 @@ class Med3paExperiment:
 
     @staticmethod
     def _run_by_set(datasets_manager: DatasetsManager,
-            set: str = 'reference',
-            base_model_manager: BaseModelManager = None,
-            uncertainty_metric: str = 'absolute_error',
-            ipc_type: str = 'RandomForestRegressor',
-            ipc_params: Dict = None,
-            ipc_grid_params: Dict = None, 
-            ipc_cv: int = 4,
-            pretrained_ipc:str = None,
-            ipc_instance: IPCModel = None,
-            apc_params: Dict = None,
-            apc_grid_params: Dict = None,
-            apc_cv: int = 4,
-            apc_instance: APCModel = None,
-            pretrained_apc:str = None,
-            samples_ratio_min: int = 0,
-            samples_ratio_max: int = 50, 
-            samples_ratio_step: int = 5,
-            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
-            evaluate_models: bool = False,
-            mode: str = 'mpc',
-            models_metrics: List[str] = ['MSE', 'RMSE', 'MAE']) -> Tuple[Med3paRecord, dict, dict]:
+                    set: str = 'reference',
+                    base_model_manager: BaseModelManager = None,
+                    uncertainty_metric: str = 'absolute_error',
+                    ipc_type: str = 'RandomForestRegressor',
+                    ipc_params: Dict = None,
+                    ipc_grid_params: Dict = None,
+                    ipc_cv: int = 4,
+                    pretrained_ipc: str = None,
+                    ipc_instance: IPCModel = None,
+                    apc_params: Dict = None,
+                    apc_grid_params: Dict = None,
+                    apc_cv: int = 4,
+                    apc_instance: APCModel = None,
+                    pretrained_apc: str = None,
+                    samples_ratio_min: int = 0,
+                    samples_ratio_max: int = 50,
+                    samples_ratio_step: int = 5,
+                    med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score',
+                                                 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV',
+                                                 'MCC'],
+                    evaluate_models: bool = False,
+                    mode: str = 'mpc',
+                    models_metrics: List[str] = ['MSE', 'RMSE', 'MAE']) -> Tuple[Med3paRecord, dict, dict]:
 
         """
         Orchestrates the MED3PA experiment on one specific set of the dataset.
@@ -424,11 +485,11 @@ class Med3paExperiment:
         if base_model_manager is None and predicted_probabilities is None:
             raise ValueError("Either the base model or the predicted probabilities should be provided!")
 
+        base_model = base_model_manager.get_instance()
         if predicted_probabilities is None:
-            base_model = base_model_manager.get_instance()
-            predicted_probabilities = base_model.predict(x, True)
+            predicted_probabilities = base_model.predict_proba(x)[:, 1]  # base_model.predict(x, True)
 
-        dataset.set_pseudo_probs_labels(predicted_probabilities, 0.5)
+        dataset.set_pseudo_probs_labels(predicted_probabilities, base_model.threshold)
 
         # Step 2 : Mode and metrics setup
         valid_modes = ['mpc', 'apc', 'ipc']
@@ -444,29 +505,47 @@ class Med3paExperiment:
 
         # Step 4: Set up splits to evaluate the models
         if evaluate_models:
-            _, x_test, _, uncertainty_test = train_test_split(x, uncertainty_values, test_size=0.1, random_state=42)
+            x_train, x_test, uncertainty_train, uncertainty_test, y_train, y_test = train_test_split(x, uncertainty_values, y_true, test_size=0.1, random_state=42)
+        else:
+            x_train = x
+            uncertainty_train = uncertainty_values
 
-        x_train = x
-        uncertainty_train = uncertainty_values
+            # Split the data if pretrained models are not available
+        if pretrained_ipc is None and pretrained_apc is None:
+            # Split the data in half: one half for IPC, the other half for APC
+            x_ipc, x_apc, uncertainty_ipc, uncertainty_apc, y_ipc, _ = train_test_split(
+                x_train, uncertainty_train, y_train, test_size=0.5, random_state=42)
+        else:
+            x_ipc, uncertainty_ipc = x_train, uncertainty_train
+            x_apc, uncertainty_apc = x_train, uncertainty_train
 
         results = Med3paRecord()
 
         # Step 5: Create and train IPCModel
         if pretrained_ipc is None and ipc_instance is None:
             IPC_model = IPCModel(model_name=ipc_type, params=ipc_params, pretrained_model=None)
-            IPC_model.train(x_train, uncertainty_train)
+            if ipc_type == 'EnsembleRandomForestRegressor':
+                class_1_prop = np.sum(y_ipc)/len(y_ipc)
+                sample_weight = np.where(y_ipc == 0, 1 / (1 - class_1_prop), 1 / class_1_prop)
+                IPC_model.train(x_ipc, uncertainty_ipc, sample_weight=sample_weight)
+            else:
+                IPC_model.train(x_ipc, uncertainty_ipc)
             print("IPC Model training complete.")
             # optimize IPC model if grid params were provided
             if ipc_grid_params is not None:
-                IPC_model.optimize(ipc_grid_params, ipc_cv, x_train, uncertainty_train)
-                print("IPC Model optimization complete.")
+                if len(uncertainty_values) > 4:
+                    # No optimization if 4 or less samples
+                    if ipc_type == 'EnsembleRandomForestRegressor':
+                        IPC_model.optimize(ipc_grid_params, ipc_cv, x_train, uncertainty_train, sample_weight)
+                    else:
+                        IPC_model.optimize(ipc_grid_params, ipc_cv, x_train, uncertainty_train)
+                    print("IPC Model optimization complete.")
         elif pretrained_ipc is not None:
             IPC_model = IPCModel(model_name=ipc_type, params=ipc_params, pretrained_model=pretrained_ipc)
             print("Loaded a pretrained IPC model.")
         else:
             IPC_model = ipc_instance
             print("Used a trained IPC instance.")
-
 
         # Predict IPC values
         IPC_values = IPC_model.predict(x)
@@ -476,43 +555,45 @@ class Med3paExperiment:
         ipc_dataset.set_confidence_scores(IPC_values)
         results.set_dataset(mode="ipc", dataset=ipc_dataset)
         results.set_confidence_scores(IPC_values, "ipc")
-        metrics_by_dr = MDRCalculator.calc_metrics_by_dr(dataset=ipc_dataset, confidence_scores=IPC_values, metrics_list=med3pa_metrics)
+        metrics_by_dr = MDRCalculator.calc_metrics_by_dr(dataset=ipc_dataset, confidence_scores=IPC_values,
+                                                         metrics_list=med3pa_metrics)
         results.set_metrics_by_dr(metrics_by_dr)
         if mode in ['mpc', 'apc']:
 
             # Step 6: Create and train APCModel
+            IPC_values = IPC_model.predict(x_apc)
             if pretrained_apc is None and apc_instance is None:
                 APC_model = APCModel(features=features, params=apc_params)
-                APC_model.train(x, IPC_values)
+                APC_model.train(x_apc, IPC_values)
                 print("APC Model training complete.")
                 # optimize APC model if grid params were provided
                 if apc_grid_params is not None:
-                    APC_model.optimize(apc_grid_params, apc_cv, x_train, uncertainty_train)
+                    APC_model.optimize(apc_grid_params, apc_cv, x_apc, uncertainty_apc)
                     print("APC Model optimization complete.")
             elif pretrained_apc is not None:
                 APC_model = APCModel(features=features, params=apc_params, pretrained_model=pretrained_apc)
-                APC_model.train(x, IPC_values)
+                APC_model.train(x_apc, IPC_values)
                 print("Loaded a pretrained APC model.")
             else:
                 APC_model = apc_instance
                 print("Used a trainde IPC instance.")
 
             # Predict APC values
-            APC_values = APC_model.predict(x)
+            APC_values = APC_model.predict(x_apc)
             print("Aggregated confidence scores calculated.")
             # Save the tree structure created by the APCModel
             tree = APC_model.treeRepresentation
             results.set_tree(tree=tree)
             # Save the calculated confidence scores by the APCmodel
             apc_dataset = dataset.clone()
-            apc_dataset.set_confidence_scores(APC_values)
+            apc_dataset.set_confidence_scores(APC_model.predict(x))
             results.set_dataset(mode="apc", dataset=apc_dataset)
-            results.set_confidence_scores(APC_values, "apc")
+            results.set_confidence_scores(APC_model.predict(x), "apc")
 
             # Step 7: Create and train MPCModel
             if mode == 'mpc':
                 # Create and predict MPC values
-                MPC_model = MPCModel(IPC_values=IPC_values, APC_values=APC_values)
+                MPC_model = MPCModel(IPC_values=IPC_model.predict(x), APC_values=APC_model.predict(x))
                 MPC_values = MPC_model.predict()
                 # Save the calculated confidence scores by the MPCmodel
                 mpc_dataset = dataset.clone()
@@ -526,20 +607,20 @@ class Med3paExperiment:
                 mpc_dataset.set_confidence_scores(MPC_values)
 
             print("Mixed confidence scores calculated.")
-            
+
             # Step 8: Calculate the profiles for the different samples_ratio and drs
             profiles_manager = ProfilesManager(features)
             for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
-
-                # Calculate profiles and their metrics by declaration rate                
-                MDRCalculator.calc_profiles(profiles_manager, tree, mpc_dataset, features, MPC_values, samples_ratio)                
-                MDRCalculator.calc_metrics_by_profiles(profiles_manager, mpc_dataset, features, MPC_values, samples_ratio, med3pa_metrics)
-                results.set_profiles_manager(profiles_manager)                
+                # Calculate profiles and their metrics by declaration rate
+                MDRCalculator.calc_profiles(profiles_manager, tree, mpc_dataset, features, MPC_values, samples_ratio)
+                MDRCalculator.calc_metrics_by_profiles(profiles_manager, mpc_dataset, features, MPC_values,
+                                                       samples_ratio, med3pa_metrics)
+                results.set_profiles_manager(profiles_manager)
                 print("Results extracted for minimum_samples_ratio = ", samples_ratio)
 
         if mode in ['mpc', 'apc']:
             ipc_config = IPC_model
-            apc_config = APC_model 
+            apc_config = APC_model
             if evaluate_models:
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 APC_evaluation = APC_model.evaluate(x_test, uncertainty_test, models_metrics)
@@ -551,7 +632,7 @@ class Med3paExperiment:
                 IPC_evaluation = IPC_model.evaluate(x_test, uncertainty_test, models_metrics)
                 results.set_models_evaluation(IPC_evaluation, None)
 
-        return results, ipc_config, apc_config  
+        return results, ipc_config, apc_config
 
 
 class Med3paDetectronExperiment:
@@ -559,18 +640,18 @@ class Med3paDetectronExperiment:
     def run(datasets: DatasetsManager,
             base_model_manager: BaseModelManager,
             uncertainty_metric: str = 'absolute_error',
-            training_params: Dict =None,
+            training_params: Dict = None,
             samples_size: int = 20,
             samples_size_profiles: int = 10,
             ensemble_size: int = 10,
             num_calibration_runs: int = 100,
             patience: int = 3,
             test_strategies: Union[str, List[str]] = "enhanced_disagreement_strategy",
-            allow_margin: bool = False, 
+            allow_margin: bool = False,
             margin: float = 0.05,
             ipc_type: str = 'RandomForestRegressor',
             ipc_params: Dict = None,
-            ipc_grid_params: Dict = None, 
+            ipc_grid_params: Dict = None,
             ipc_cv: int = None,
             pretrained_ipc: str = None,
             apc_params: Dict = None,
@@ -578,14 +659,15 @@ class Med3paDetectronExperiment:
             apc_cv: int = None,
             pretrained_apc: str = None,
             samples_ratio_min: int = 0,
-            samples_ratio_max: int = 50, 
+            samples_ratio_max: int = 50,
             samples_ratio_step: int = 5,
-            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score', 'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
+            med3pa_metrics: List[str] = ['Accuracy', 'BalancedAccuracy', 'Precision', 'Recall', 'F1Score',
+                                         'Specificity', 'Sensitivity', 'Auc', 'LogLoss', 'Auprc', 'NPV', 'PPV', 'MCC'],
             evaluate_models: bool = False,
-            use_ref_models: bool = False, 
+            use_ref_models: bool = False,
             models_metrics: List[str] = ['MSE', 'RMSE', 'MAE'],
             mode: str = 'mpc',
-            all_dr: bool = False) ->  Med3paResults:
+            all_dr: bool = False) -> Med3paResults:
         """Runs the MED3PA and Detectron experiment.
         Args:
             datasets (DatasetsManager): The datasets manager instance.
@@ -625,17 +707,24 @@ class Med3paDetectronExperiment:
         if mode not in valid_modes:
             raise ValueError(f"Invalid mode '{mode}'. The mode must be one of {valid_modes}.")
 
-        med3pa_results = Med3paExperiment.run(datasets_manager=datasets, 
-                                                                base_model_manager=base_model_manager, uncertainty_metric=uncertainty_metric,
-                                                                ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv, ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,
-                                                                apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv, pretrained_apc=pretrained_apc,
-                                                                evaluate_models=evaluate_models, models_metrics=models_metrics,
-                                                                samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max, samples_ratio_step=samples_ratio_step,
-                                                                med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)
+        med3pa_results = Med3paExperiment.run(datasets_manager=datasets,
+                                              base_model_manager=base_model_manager,
+                                              uncertainty_metric=uncertainty_metric,
+                                              ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv,
+                                              ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,
+                                              apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv,
+                                              pretrained_apc=pretrained_apc,
+                                              evaluate_models=evaluate_models, models_metrics=models_metrics,
+                                              samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max,
+                                              samples_ratio_step=samples_ratio_step,
+                                              med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)
 
         print("Running Global Detectron Experiment:")
-        detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params, base_model_manager=base_model_manager,
-                                                    samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+        detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params,
+                                                    base_model_manager=base_model_manager,
+                                                    samples_size=samples_size,
+                                                    num_calibration_runs=num_calibration_runs,
+                                                    ensemble_size=ensemble_size,
                                                     patience=patience, allow_margin=allow_margin, margin=margin)
         detectron_results.analyze_results(test_strategies)
 
@@ -647,11 +736,17 @@ class Med3paDetectronExperiment:
             raise ValueError("the confidence scores were not calculated!")
 
         print("Running Profiled Detectron Experiment:")
-        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets, profiles_manager=med3pa_results.test_record.get_profiles_manager(),training_params=training_params, 
-                                                                     base_model_manager=base_model_manager, confidence_scores = confidence_scores,
-                                                                     samples_size=samples_size_profiles, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
+        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets,
+                                                                     profiles_manager=med3pa_results.test_record.get_profiles_manager(),
+                                                                     training_params=training_params,
+                                                                     base_model_manager=base_model_manager,
+                                                                     confidence_scores=confidence_scores,
+                                                                     samples_size=samples_size_profiles,
+                                                                     num_calibration_runs=num_calibration_runs,
+                                                                     ensemble_size=ensemble_size,
                                                                      patience=patience, strategies=test_strategies,
-                                                                     allow_margin=allow_margin, margin=margin, all_dr=all_dr)
+                                                                     allow_margin=allow_margin, margin=margin,
+                                                                     all_dr=all_dr)
 
         med3pa_params = {
             'uncertainty_metric': uncertainty_metric,
@@ -659,9 +754,9 @@ class Med3paDetectronExperiment:
             'samples_ratio_max': samples_ratio_max,
             'samples_ratio_step': samples_ratio_step,
             'med3pa_metrics': med3pa_metrics,
-            'evaluate_models':evaluate_models,
+            'evaluate_models': evaluate_models,
             'models_evaluation_metrics': models_metrics,
-            'mode':mode,
+            'mode': mode,
 
         }
 
@@ -677,7 +772,7 @@ class Med3paDetectronExperiment:
         }
         experiment_config = {
             'experiment_name': "Med3paDetectronExperiment",
-            'med3pa_detectron_params': {},            
+            'med3pa_detectron_params': {},
         }
 
         experiment_config['med3pa_detectron_params']['detectron_params'] = detectron_params

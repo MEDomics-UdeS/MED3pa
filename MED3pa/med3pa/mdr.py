@@ -475,9 +475,9 @@ class MDRCalculator:
                             profile_set.set_from_data(dataset_type="training", 
                                                       observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
                                                       true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
-                            profile_set.set_from_data(dataset_type="validation", 
-                                                      observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
+                            # profile_set.set_from_data(dataset_type="validation",
+                            #                           observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
+                            #                           true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
                             
                             path_description = "*, " + " & ".join(profile.path[1:])
                             print("Running Detectron on Profile:", path_description)

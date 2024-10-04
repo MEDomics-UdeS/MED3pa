@@ -141,8 +141,35 @@ class XGBoostModel(ClassificationModel):
 
         return preds if return_proba else (preds > threshold).astype(int)
 
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """
+                Makes predictions using the model for the given input.
+
+                Args:
+                    X (np.ndarray): Features for prediction.
+
+                Returns:
+                    np.ndarray: Predictions made by the model.
+
+                Raises:
+                    ValueError: If the model has not been initialized.
+                    NotImplementedError: If prediction is not implemented for the model class.
+                """
+        if self.model is None:
+            raise ValueError(f"The {self.model_class.__name__} model has not been initialized.")
+
+        if self.model_class is xgb.Booster:
+            dtest = self._ensure_dmatrix(X)
+            preds = self.model.predict(dtest)
+        elif self.model_class is xgb.XGBClassifier:
+            preds = self.model.predict_proba(X)
+        else:
+            raise NotImplementedError(f"Prediction not implemented for model class {self.model_class}")
+
+        return preds
+
     def train_to_disagree(self, x_train: np.ndarray, y_train: np.ndarray, 
-                          x_validation: np.ndarray, y_validation: np.ndarray, 
+                          # x_validation: np.ndarray, y_validation: np.ndarray,
                           x_test: np.ndarray, y_test: np.ndarray, 
                           training_parameters: Optional[Dict[str, Any]], 
                           balance_train_classes: bool, N: int) -> None:
@@ -170,7 +197,7 @@ class XGBoostModel(ClassificationModel):
         if training_parameters:
             valid_param_sets = [valid_xgboost_params, valid_xgboost_custom_params]
             valid_training_params = self.validate_params(training_parameters, valid_param_sets)
-            if self.params is not None :
+            if self.params is not None:
                 self.params.update(valid_training_params)
             else:
                 self.params = valid_training_params
@@ -201,52 +228,4 @@ class XGBoostModel(ClassificationModel):
             self.evaluate(x_validation, y_validation, eval_metrics=evaluation_metrics)
         else:
             raise NotImplementedError(f"Training not implemented for model class {self.model_class}")
-   
-    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: Union[str, List[str]], print_results: bool = False) -> Dict[str, float]:
-        """
-        Evaluates the model using specified metrics.
-
-        Args:
-            X (np.ndarray): Features for evaluation.
-            y (np.ndarray): True labels for evaluation.
-            eval_metrics (List[str]): Metrics to use for evaluation.
-            print_results (bool, optional): Whether to print the evaluation results.
-
-        Returns:
-            Dict[str, float]: A dictionary with metric names and their evaluated scores.
-
-        Raises:
-            ValueError: If the model has not been trained before evaluation.
-        """
-        if self.model is None:
-            raise ValueError("Model must be trained before evaluation.")
-
-        # Ensure eval_metrics is a list
-        if isinstance(eval_metrics, str):
-            eval_metrics = [eval_metrics]
-
-        probs = self.predict(X, return_proba=True)
-        if probs.ndim == 1:
-            preds = (probs > 0.5).astype(int)
-        else:
-            preds = None
-
-        if preds is None:
-            raise ValueError("Only binary classification is supported for this version.")
-
-        evaluation_results = {}
-        for metric_name in eval_metrics:
-            translated_metric_name = xgboost_metrics.get(metric_name, metric_name)
-            metric_function = ClassificationEvaluationMetrics.get_metric(translated_metric_name)
-            if metric_function:
-                if metric_name in {'Auc', 'Auprc', 'Logloss'}:
-                    evaluation_results[metric_name] = metric_function(y, probs)
-                else:
-                    evaluation_results[metric_name] = metric_function(y, preds)
-            else:
-                print(f"Error: The metric '{metric_name}' is not supported.")
-
-        if print_results:
-            self.print_evaluation_results(results=evaluation_results)
-        return evaluation_results
     
