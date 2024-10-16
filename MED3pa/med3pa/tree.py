@@ -4,7 +4,7 @@ and ``TreeNode`` class that represents a node in the tree.
 This module is crucial for profiling aggregated data and extracting valuable insights
 """
 import json
-from typing import Union, Any
+from typing import Union, Any, Dict
 
 from pandas import DataFrame, Series
 import numpy as np
@@ -137,12 +137,24 @@ class TreeRepresentation:
         """
         if self.head is None:
             raise ValueError("Tree has not been built yet.")
-        
+
+        tree_dict = self.to_dict()
+        with open(file_path, 'w') as file:
+            json.dump(tree_dict, file, default=to_serializable, indent=4)
+
+    def to_dict(self) -> Dict:
+        """
+        Converts the tree structure to a dictionary.
+
+        Args:
+        """
+        if self.head is None:
+            raise ValueError("Tree has not been built yet.")
+
         tree_dict = {}
         tree_dict = self.head.to_dict()
         tree_dict['features'] = self.features
-        with open(file_path, 'w') as file:
-            json.dump(tree_dict, file, default=to_serializable, indent=4)
+        return tree_dict
     
 
 class _TreeNode:
@@ -298,7 +310,7 @@ class _TreeNode:
         
         return nodes
     
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """
         Converts the node and its children to a dictionary.
 

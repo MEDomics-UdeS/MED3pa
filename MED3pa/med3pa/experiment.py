@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.detectron.experiment import DetectronExperiment, DetectronResult, DetectronStrategy, \
     EnhancedDisagreementStrategy
-from MED3pa.med3pa.convert_results import generate_Med3paResults
+from MED3pa.med3pa.convert_results import generate_Med3paResults_from_dict
 from MED3pa.med3pa.mdr import MDRCalculator
 from MED3pa.med3pa.models import *
 from MED3pa.med3pa.profiles import Profile, ProfilesManager
@@ -40,9 +40,9 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         else:
             return obj.to_dict()
     if isinstance(obj, dict):
-        return {k: to_serializable(v) for k, v in obj.items()}
+        return {k: to_serializable(v, additional_arg) for k, v in obj.items()}
     if isinstance(obj, list):
-        return [to_serializable(v) for v in obj]
+        return [to_serializable(v, additional_arg) for v in obj]
     return obj
 
 
@@ -143,6 +143,38 @@ class Med3paRecord:
             tree_path = os.path.join(file_path, 'tree.json')
             self.tree.save_tree(tree_path)
 
+    def save_to_dict(self) -> dict:
+        """
+        Collects the experiment results in a dictionary.
+        Returns:
+            dict: A dictionary containing all the saved elements.
+        """
+        result = {}
+
+        # Store profiles if available
+        if self.profiles_manager is not None:
+            # serializable_fct = lambda x: to_serializable(x, additional_arg=False)
+            result['lost_profiles'] = to_serializable(self.profiles_manager.get_lost_profiles(), False)
+            # result['profiles'] = to_serializable(self.profiles_manager.get_profiles())
+
+        # Store metrics by declaration rate (DR)
+        result['metrics_dr'] = self.metrics_by_dr
+
+        # Store models evaluation if available
+        if self.models_evaluation is not None:
+            result['models_evaluation'] = self.models_evaluation
+
+        # Store profiles if available
+        if self.profiles_manager is not None:
+            # result['lost_profiles'] = to_serializable(self.profiles_manager.get_lost_profiles())
+            result['profiles'] = to_serializable(self.profiles_manager.get_profiles())
+
+        # Store tree structure if available
+        if self.tree is not None:
+            result['tree'] = self.tree.to_dict()
+
+        return result
+
     def get_profiles_manager(self) -> ProfilesManager:
         """
         Retrieves the profiles manager for this Med3paResults instance
@@ -204,6 +236,7 @@ class Med3paResults:
             file_path (str): The file path to save the JSON files.
             save_med3paResults (bool, optional): Whether to save the results in a Med3paResults file. Defaults to True
         """
+        results = {}
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
 
@@ -213,16 +246,21 @@ class Med3paResults:
 
         if self.reference_record:
             self.reference_record.save(file_path=reference_path)
+            results['reference'] = self.reference_record.save_to_dict()
         self.test_record.save(file_path=test_path)
+        results['test'] = self.test_record.save_to_dict()
         if self.detectron_results is not None:
             self.detectron_results.save(file_path=detectron_path, save_config=False)
+            results['detectron'] = self.detectron_results.save_to_dict()
 
         experiment_config_path = os.path.join(file_path, 'experiment_config.json')
         with open(experiment_config_path, 'w') as file:
             json.dump(self.experiment_config, file, default=to_serializable, indent=4)
 
+        results['infoConfig'] = {'experiment_config': self.experiment_config}
+
         if save_med3paResults:
-            generate_Med3paResults(file_path)
+            generate_Med3paResults_from_dict(results, file_path=file_path)
 
     def save_models(self, file_path: str, mode: str = 'all', id: str = None) -> None:
         """

@@ -10,6 +10,38 @@ import json
 from pathlib import Path
 
 
+def generate_Med3paResults_from_dict(data: dict, file_path: str) -> dict:
+    """
+    Generates a Med3paResult from the provided data dictionary.
+    Args:
+        data (dict): A dictionary containing all the relevant data.
+        file_path (str): Path where to save the Med3paResult file
+
+    Returns:
+        dict: The generated Med3paResult content.
+    """
+    file_name = f"/MED3paResults_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}".replace(
+        r'[^a-zA-Z0-9-_]', "")
+    file_content = {"loadedFiles": {}, "isDetectron": False}
+
+    # Determine if Detectron data is present
+    if "detectron" in data:
+        file_content["isDetectron"] = True
+        file_content["loadedFiles"]["detectron_results"] = data["detectron"]
+
+    # Process data based on tabs
+    tabs = ["infoConfig", "reference", "test"]
+    for tab in tabs:
+        if tab in data:
+            file_content["loadedFiles"][tab] = data[tab]
+        else:
+            print(f"Tab {tab} not found in")
+
+    save_dict_to_file(file_content, file_path + file_name + '011.MED3paResults')
+
+    # return file_content
+
+
 def generate_Med3paResults(path_to_results):
 
     file_name = f"/MED3paResults_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}".replace(
