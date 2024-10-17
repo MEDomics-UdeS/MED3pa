@@ -70,7 +70,7 @@ class RandomForestRegressorModel(RegressionModel):
         if self.model is None:
             raise ValueError("The RandomForestRegressor has not been initialized.")
 
-        np_X_train, np_y_train = self._ensure_numpy_arrays(x_train, y_train)
+        np_X_train, np_y_train, _ = self._ensure_numpy_arrays(x_train, y_train)
 
         if training_parameters:
             valid_param_sets = [set(self.model.get_params().keys())]
