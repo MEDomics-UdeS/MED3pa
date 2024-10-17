@@ -608,6 +608,6 @@ class RegressionModel(Model):
             tuple: The observations and labels (if provided) as NumPy arrays. If labels are not provided, labels in the tuple will be None.
         """
         if not isinstance(observations, np.ndarray) or (labels is not None and not isinstance(labels, np.ndarray)):
-            return self.data_preparation_strategy.execute(observations, labels)
+            return self.data_preparation_strategy.execute(observations, labels)[:2]
         else:
             return observations, labels
