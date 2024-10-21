@@ -4,6 +4,9 @@ It coordinates the training and evaluation of multiple CDCs, aiming to disagree 
 The ensemble leverages a base model, provided by ``BaseModelManager``, to generate models that are designed to systematically disagree with it in a controlled fashion.
 """
 import numpy as np
+import ray
+
+from ray.experimental import tqdm_ray
 
 from tqdm import tqdm
 
@@ -19,6 +22,7 @@ class DetectronEnsemble:
     under specific conditions. This class facilitates the training and evaluation of multiple CDCs, with a focus
     on generating models that systematically challenge the predictions of a primary base model.
     """
+
     def __init__(self, base_model_manager: BaseModelManager, ens_size):
         """
         Initializes the Detectron Ensemble with a specified base model manager and ensemble size.
@@ -39,16 +43,17 @@ class DetectronEnsemble:
         self.ens_size = ens_size
         self.cdcs = [base_model_manager.clone_base_model() for _ in range(ens_size)]
 
-    def evaluate_ensemble(self, 
-                          datasets : DatasetsManager, 
-                          n_runs : int, 
-                          samples_size : int , 
-                          training_params : dict, 
-                          set : str = 'reference', 
-                          patience : int = 3, 
-                          allow_margin : bool = False,
-                          margin : int = None):
-        
+    def evaluate_ensemble(self,
+                          datasets: DatasetsManager,
+                          n_runs: int,
+                          samples_size: int,
+                          training_params: dict,
+                          set: str = 'reference',
+                          patience: int = 3,
+                          allow_margin: bool = False,
+                          margin: int = None,
+                          use_ray: bool = True):
+
         """
         Trains the CDCs ensemble to disagree with the base model on a subset of data present in datasets. This process 
         is repeated for a specified number of runs, each using a different sample of the data.
@@ -76,112 +81,243 @@ class DetectronEnsemble:
         # set up the training, validation and testing sets
         training_data = datasets.get_dataset_by_type(dataset_type="training", return_instance=True)
         validation_data = None  # datasets.get_dataset_by_type(dataset_type="validation", return_instance=True)
-        if set=='reference':
+        if set == 'reference':
             testing_data = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
         elif set == 'testing':
             testing_data = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True)
         else:
-            raise ValueError("The set used to evaluate the ensemble must be either the reference set or the testing set")
+            raise ValueError(
+                "The set used to evaluate the ensemble must be either the reference set or the testing set")
 
         # set up the records manager
         record = DetectronRecordsManager(sample_size=samples_size)
-        model_evaluation = self.base_model.evaluate(testing_data.get_observations(), testing_data.get_true_labels(), ['Auc', 'Accuracy'])
+        model_evaluation = self.base_model.evaluate(testing_data.get_observations(), testing_data.get_true_labels(),
+                                                    ['Auc', 'Accuracy'])
         record.set_evaluation(model_evaluation)
-        
-        # evaluate the ensemble for n_runs of runs
-        for seed in tqdm(range(n_runs), desc='running seeds'):
-            # sample the testing set according to the provided sample_size and current seed
-            testing_set = testing_data.sample_uniform(samples_size, seed)
 
-            # predict probabilities using the base model on the testing set
-            base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
+        #############################################################################################################
+        # ray section ###############################################################################################
+        # init ray
+        if use_ray:
+            ray.init()
+            remote_tqdm = ray.remote(tqdm_ray.tqdm)
+            bar = remote_tqdm.remote(total=n_runs)
 
-            # set pseudo probabilities and pseudo labels predicted by the base model
-            testing_set.set_pseudo_probs_labels(base_model_pred_probs, self.base_model.threshold)
-            cloned_testing_set = testing_set.clone()
+            # evaluate the ensemble for n_runs of runs
+            # Launch tasks in parallel using Ray
+            futures = [
+                DetectronEnsemble.run_single_seed.remote(self=self, seed=seed, samples_size=samples_size,
+                                                         testing_data=testing_data, training_data=training_data,
+                                                         patience=patience, record=record, training_params=training_params,
+                                                         allow_margin=allow_margin, margin=margin, bar=bar)
+                for seed in range(n_runs)
+            ]
 
-            # the base model is always the model with id = 0
-            model_id = 0
+            # Use tqdm to display progress
+            # results = list(tqdm(futures, desc="Running seeds", total=n_runs))
+            results = ray.get(futures)
 
-            # seed the record
-            record.seed(seed)
+            # bar.close()
 
-            # update the record with the results of the base model
-            record.update(val_data_x=None, val_data_y=None, # validation_data.get_observations() validation_data.get_true_labels()
-                          sample_size=samples_size, model=self.base_model, model_id=model_id, 
-                          predicted_probabilities=testing_set.get_pseudo_probabilities(), 
-                          test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
-            
-            # set up the Early stopper
-            stopper = EarlyStopper(patience=patience, mode='min')
-            stopper.update(samples_size)
+            # Shut down Ray
+            ray.shutdown()
 
-            # Initialize the updated count
-            updated_count = samples_size
+            for res in results:
+                record.records += res.records
 
-            # Train the cdcs
-            for i in range(1, self.ens_size + 1):
-                # get the current cdc
-                cdc = self.cdcs[i-1]
-                
-                # save the model id
-                model_id = i
-                
-                # update the training params with the current seed which is the model id
-                if training_params is not None :
-                    training_params.update({'seed':i})
-                else:
-                    training_params = {'seed':i}
+        else:
+            # evaluate the ensemble for n_runs of runs
+            for seed in tqdm(range(n_runs), desc='running seeds'):
+                # sample the testing set according to the provided sample_size and current seed
+                testing_set = testing_data.sample_uniform(samples_size, seed)
 
-                # train this cdc to disagree
-                cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(), 
-                                      # x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(),
-                                      x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
-                                      training_parameters=training_params,
-                                      balance_train_classes=True)
-                
-                # predict probabilities using this cdc
-                cdc_probabilities = cdc.predict_proba(testing_set.get_observations())[:, 1]  # , True
-                cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:, 1]  # , True
+                # predict probabilities using the base model on the testing set
+                base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
 
-                # deduct the predictions of this cdc
-                cdc_predicitons = cdc_probabilities >= 0.5
+                # set pseudo probabilities and pseudo labels predicted by the base model
+                testing_set.set_pseudo_probs_labels(base_model_pred_probs, self.base_model.threshold)
+                cloned_testing_set = testing_set.clone()
 
-                # calculate the mask to refine the testing set
-                mask = (cdc_predicitons == testing_set.get_pseudo_labels())
+                # the base model is always the model with id = 0
+                model_id = 0
 
-                # If margin is specified and there are disagreements, check if the probabilities are significatly different
-                if allow_margin and not np.all(mask):
+                # seed the record
+                # record.seed(seed)
 
-                    # convert to disagreement mask
-                    disagree_mask = ~mask
-                    
-                    # calculate the difference between cdc probs and bm probs
-                    prob_diff = np.abs(testing_set.get_pseudo_probabilities() - cdc_probabilities)
-                    
-                    # in the disagreement mask, keep only the data point where the probability difference is greater than the margin, only for disagreed on points
-                    refine_mask = (prob_diff < margin) & disagree_mask
+                # update the record with the results of the base model
+                record.update(seed=seed, val_data_x=None, val_data_y=None, # validation_data.get_observations() validation_data.get_true_labels()
+                              sample_size=samples_size, model=self.base_model, model_id=model_id,
+                              predicted_probabilities=testing_set.get_pseudo_probabilities(),
+                              test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
 
-                    # update the mask according to the refine_mask array
-                    mask[refine_mask] = True
-                
-                # refine the testing set using the mask                
-                updated_count = testing_set.refine(mask)
+                # set up the Early stopper
+                stopper = EarlyStopper(patience=patience, mode='min')
+                stopper.update(samples_size)
 
-                # log the results for this model
-                record.update(val_data_x=None, val_data_y=None,  # validation_data.get_observations() validation_data.get_true_labels()
-                              sample_size=updated_count, predicted_probabilities=cdc_probabilities_original_set, 
-                              model=cdc, model_id=model_id)
-                
-                # break if no more data
-                if updated_count == 0:
-                    break
+                # Initialize the updated count
+                updated_count = samples_size
 
-                if stopper.update(updated_count):
-                    # print(f'Early stopping: Converged after {i} models')
-                    break
-        
+                # Train the cdcs
+                for i in range(1, self.ens_size + 1):
+                    # get the current cdc
+                    cdc = self.cdcs[i-1]
+
+                    # save the model id
+                    model_id = i
+
+                    # update the training params with the current seed which is the model id
+                    if training_params is not None :
+                        training_params.update({'seed':i})
+                    else:
+                        training_params = {'seed':i}
+
+                    # train this cdc to disagree
+                    cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(),
+                                          # x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(),
+                                          x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
+                                          training_parameters=training_params,
+                                          balance_train_classes=True)
+
+                    # predict probabilities using this cdc
+                    cdc_probabilities = cdc.predict_proba(testing_set.get_observations())[:, 1]  # , True
+                    cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:, 1]  # , True
+
+                    # deduct the predictions of this cdc
+                    cdc_predicitons = cdc_probabilities >= 0.5
+
+                    # calculate the mask to refine the testing set
+                    mask = (cdc_predicitons == testing_set.get_pseudo_labels())
+
+                    # If margin is specified and there are disagreements, check if the probabilities are significatly different
+                    if allow_margin and not np.all(mask):
+
+                        # convert to disagreement mask
+                        disagree_mask = ~mask
+
+                        # calculate the difference between cdc probs and bm probs
+                        prob_diff = np.abs(testing_set.get_pseudo_probabilities() - cdc_probabilities)
+
+                        # in the disagreement mask, keep only the data point where the probability difference is greater than the margin, only for disagreed on points
+                        refine_mask = (prob_diff < margin) & disagree_mask
+
+                        # update the mask according to the refine_mask array
+                        mask[refine_mask] = True
+
+                    # refine the testing set using the mask
+                    updated_count = testing_set.refine(mask)
+
+                    # log the results for this model
+                    record.update(seed=seed, val_data_x=None, val_data_y=None,  # validation_data.get_observations() validation_data.get_true_labels()
+                                  sample_size=updated_count, predicted_probabilities=cdc_probabilities_original_set,
+                                  model=cdc, model_id=model_id)
+
+                    # break if no more data
+                    if updated_count == 0:
+                        break
+
+                    if stopper.update(updated_count):
+                        # print(f'Early stopping: Converged after {i} models')
+                        break
+        ############################################################################################################
+
         record.sampling_counts = testing_data.get_sample_counts()
         record.freeze()
         return record
-    
+
+    @staticmethod
+    @ray.remote
+    def run_single_seed(self, seed, samples_size, testing_data, training_data,
+                        patience, record, training_params, allow_margin, margin, bar):
+        # sample the testing set according to the provided sample_size and current seed
+        testing_set = testing_data.sample_random(samples_size, seed)  # sample_uniform(samples_size, seed)
+
+        # predict probabilities using the base model on the testing set
+        base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
+
+        # set pseudo probabilities and pseudo labels predicted by the base model
+        testing_set.set_pseudo_probs_labels(base_model_pred_probs, self.base_model.threshold)
+        cloned_testing_set = testing_set.clone()
+
+        # the base model is always the model with id = 0
+        model_id = 0
+
+        # # seed the record
+        # record.seed(seed)
+
+        # update the record with the results of the base model
+        record.update(seed=seed, val_data_x=None, val_data_y=None,
+                      # validation_data.get_observations() validation_data.get_true_labels()
+                      sample_size=samples_size, model=self.base_model, model_id=model_id,
+                      predicted_probabilities=testing_set.get_pseudo_probabilities(),
+                      test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
+
+        # set up the Early stopper
+        stopper = EarlyStopper(patience=patience, mode='min')
+        stopper.update(samples_size)
+
+        # Initialize the updated count
+        updated_count = samples_size
+
+        # Train the cdcs
+        for i in range(1, self.ens_size + 1):
+            # get the current cdc
+            cdc = self.cdcs[i - 1]
+
+            # save the model id
+            model_id = i
+
+            # update the training params with the current seed which is the model id
+            if training_params is not None:
+                training_params.update({'seed': i})
+            else:
+                training_params = {'seed': i}
+
+            # train this cdc to disagree
+            cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(),
+                                  # x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(),
+                                  x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
+                                  training_parameters=training_params,
+                                  balance_train_classes=True)
+
+            # predict probabilities using this cdc
+            cdc_probabilities = cdc.predict_proba(testing_set.get_observations())[:, 1]  # , True
+            cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:, 1]  # , True
+
+            # deduct the predictions of this cdc
+            cdc_predicitons = cdc_probabilities >= 0.5
+
+            # calculate the mask to refine the testing set
+            mask = (cdc_predicitons == testing_set.get_pseudo_labels())
+
+            # If margin is specified and there are disagreements, check if the probabilities are significatly different
+            if allow_margin and not np.all(mask):
+                # convert to disagreement mask
+                disagree_mask = ~mask
+
+                # calculate the difference between cdc probs and bm probs
+                prob_diff = np.abs(testing_set.get_pseudo_probabilities() - cdc_probabilities)
+
+                # in the disagreement mask, keep only the data point where the probability difference is greater than the margin, only for disagreed on points
+                refine_mask = (prob_diff < margin) & disagree_mask
+
+                # update the mask according to the refine_mask array
+                mask[refine_mask] = True
+
+            # refine the testing set using the mask
+            updated_count = testing_set.refine(mask)
+
+            # log the results for this model
+            record.update(seed=seed, val_data_x=None, val_data_y=None,
+                          # validation_data.get_observations() validation_data.get_true_labels()
+                          sample_size=updated_count, predicted_probabilities=cdc_probabilities_original_set,
+                          model=cdc, model_id=model_id)
+
+            # break if no more data
+            if updated_count == 0:
+                break
+
+            if stopper.update(updated_count):
+                # print(f'Early stopping: Converged after {i} models')
+                break
+        bar.update.remote(1)
+        return record
