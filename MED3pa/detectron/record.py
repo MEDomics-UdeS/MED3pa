@@ -75,22 +75,22 @@ class DetectronRecordsManager:
         """
         self.records = []
         self.sample_size = sample_size
-        self.idx = 0
-        self.__seed = None
+        # self.idx = 0
+        # self.__seed = None
         self.sampling_counts = None
         self.model_evaluation = {}
 
-    def seed(self, seed: int):
-        """
-        Sets the seed used for updating records, ensuring consistency and reproducibility in experiments.
+    # def seed(self, seed: int):
+    #     """
+    #     Sets the seed used for updating records, ensuring consistency and reproducibility in experiments.
+    #
+    #     Args:
+    #         seed (int): The seed value to set for this set of updates.
+    #     """
+    #     self.__seed = seed
 
-        Args:
-            seed (int): The seed value to set for this set of updates.
-        """
-        self.__seed = seed
 
-
-    def update(self, val_data_x: np.ndarray, val_data_y: np.ndarray, 
+    def update(self, seed, val_data_x: np.ndarray, val_data_y: np.ndarray,
                sample_size: int, model: Model, model_id: int,
                predicted_probabilities: np.ndarray=None, test_data_x: np.ndarray=None, test_data_y: np.ndarray=None):
         """
@@ -106,9 +106,9 @@ class DetectronRecordsManager:
             test_data_x (np.ndarray, optional): observations from the test dataset used for evaluation.
             test_data_y (np.ndarray, optional): True labels from the test dataset.
         """
-        assert self.__seed is not None, 'Seed must be set before updating the record'
+        # assert self.__seed is not None, 'Seed must be set before updating the record'
         
-        record = DetectronRecord(self.__seed, model_id, self.sample_size)
+        record = DetectronRecord(seed, model_id, self.sample_size)
         if val_data_x is not None:
             validation_auc = model.evaluate(val_data_x, val_data_y, ['Auc']).get('Auc')
         else:
@@ -116,7 +116,7 @@ class DetectronRecordsManager:
         testing_auc = model.evaluate(test_data_x, test_data_y, ['Auc']).get('Auc') if test_data_x is not None else float('nan')
         record.update(validation_auc, testing_auc, predicted_probabilities, sample_size)
         self.records.append(record.to_dict())
-        self.idx += 1
+        # self.idx += 1
 
     def set_evaluation(self, evaluation:dict):
         """
