@@ -414,7 +414,7 @@ class MDRCalculator:
                               patience: int = 3,
                               allow_margin: bool = False, 
                               margin: float = 0.05, 
-                              all_dr: bool = True) -> Dict:
+                              all_dr: bool = False) -> Dict:
         
         """Runs the Detectron method on the different testing set profiles.
 
@@ -452,47 +452,58 @@ class MDRCalculator:
             if last_min_confidence_level != min_confidence_level:
                 for profile in profiles:
                     detectron_results_dict = {}
-                    
-                    q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path, features=features, min_confidence_level=min_confidence_level)
+
+                    q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path,
+                                                                              features=features,
+                                                                              min_confidence_level=min_confidence_level)
                     p_x, p_y_true = datasets.get_dataset_by_type("reference")
                     if len(q_y_true) != 0:
-                        if len(q_y_true) < samples_size: 
+                        if len(q_y_true) < samples_size:
                             detectron_results_dict['Executed'] = "Not enough samples in tested profile"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
-                            detectron_results_dict['Tests Results'] = None         
+                            detectron_results_dict['Tests Results'] = None
 
                         elif 2 * samples_size > len(p_y_true):
                             detectron_results_dict['Executed'] = "Not enough samples in reference set"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
-                            detectron_results_dict['Tests Results'] = None    
+                            detectron_results_dict['Tests Results'] = None
                         else:
                             profile_set = DatasetsManager()
                             profile_set.set_column_labels(datasets.get_column_labels())
                             profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
-                            profile_set.set_from_data(dataset_type="reference", 
-                                                      observations=datasets.get_dataset_by_type(dataset_type="reference", return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="reference", return_instance=True).get_true_labels())
-                            profile_set.set_from_data(dataset_type="training", 
-                                                      observations=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="training", return_instance=True).get_true_labels())
+                            profile_set.set_from_data(dataset_type="reference",
+                                                      observations=datasets.get_dataset_by_type(
+                                                          dataset_type="reference",
+                                                          return_instance=True).get_observations(),
+                                                      true_labels=datasets.get_dataset_by_type(dataset_type="reference",
+                                                                                               return_instance=True).get_true_labels())
+                            profile_set.set_from_data(dataset_type="training",
+                                                      observations=datasets.get_dataset_by_type(dataset_type="training",
+                                                                                                return_instance=True).get_observations(),
+                                                      true_labels=datasets.get_dataset_by_type(dataset_type="training",
+                                                                                               return_instance=True).get_true_labels())
                             # profile_set.set_from_data(dataset_type="validation",
                             #                           observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
                             #                           true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
-                            
+
                             path_description = "*, " + " & ".join(profile.path[1:])
                             print("Running Detectron on Profile:", path_description)
                             if experiment_det is None:
-                                experiment_det= DetectronExperiment.run(
-                                datasets=profile_set, training_params=training_params, base_model_manager=base_model_manager,
-                                samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                                patience=patience, allow_margin=allow_margin, margin=margin)
+                                experiment_det = DetectronExperiment.run(
+                                    datasets=profile_set, training_params=training_params,
+                                    base_model_manager=base_model_manager,
+                                    samples_size=samples_size, num_calibration_runs=num_calibration_runs,
+                                    ensemble_size=ensemble_size,
+                                    patience=patience, allow_margin=allow_margin, margin=margin)
                             else:
-                                experiment_det=DetectronExperiment.run(
-                                datasets=profile_set, calib_result=experiment_det.cal_record, training_params=training_params, 
-                                base_model_manager=base_model_manager,
-                                samples_size=samples_size, num_calibration_runs=num_calibration_runs, ensemble_size=ensemble_size,
-                                patience=patience, allow_margin=allow_margin, margin=margin)
-                    
+                                experiment_det = DetectronExperiment.run(
+                                    datasets=profile_set, calib_result=experiment_det.cal_record,
+                                    training_params=training_params,
+                                    base_model_manager=base_model_manager,
+                                    samples_size=samples_size, num_calibration_runs=num_calibration_runs,
+                                    ensemble_size=ensemble_size,
+                                    patience=patience, allow_margin=allow_margin, margin=margin)
+
                             detectron_results = experiment_det.analyze_results(strategies=strategies)
                             detectron_results_dict['Executed'] = "Yes"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
@@ -503,13 +514,10 @@ class MDRCalculator:
                         detectron_results_dict['Tested Profile size'] = len(q_y_true)
                         detectron_results_dict['Tests Results'] = None
 
-
                     profile.update_detectron_results(detectron_results_dict)
-                
                 last_profiles = profiles
                 last_min_confidence_level = min_confidence_level
             else:
                 profiles = last_profiles
 
         return profiles_by_dr
-
