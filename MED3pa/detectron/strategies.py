@@ -105,7 +105,7 @@ class MannWhitneyStrategy(DetectronStrategy):
         u_statistic, p_value = stats.mannwhitneyu(cal_counts, test_counts, alternative='less')
         
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts)
+        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else np.nan
 
         # Define thresholds for categorizing
         def categorize_z_score(z):
@@ -246,7 +246,7 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         test_statistic = np.mean(test_counts)
 
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts)
+        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else np.nan
 
         # Define thresholds for categorizing
         def categorize_z_score(z):

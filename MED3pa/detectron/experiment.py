@@ -142,6 +142,28 @@ class DetectronResult:
             with open(config_file_path, 'w') as file:
                 json.dump(self.experiment_config, file, indent=4)
 
+    def save_to_dict(self):
+        """
+        Saves the Detectron results to JSON format.
+
+        Args:
+            file_path (str): The file path where the results should be saved.
+            file_name (str): The file name.
+        """
+        results = {}
+
+        results['detectron_results'] = self.test_results
+
+        results['rejection_counts'] = {}
+        results['rejection_counts']['reference'] = self.cal_record.rejected_counts().tolist()
+        results['rejection_counts']['test'] = self.test_record.rejected_counts().tolist()
+
+        results['model_evaluation'] = {}
+        results['model_evaluation']['reference'] = self.cal_record.get_evaluation()
+        results['model_evaluation']['test'] = self.test_record.get_evaluation()
+
+        return results
+
     @classmethod
     def get_supported_strategies(cls) -> list:
         """
