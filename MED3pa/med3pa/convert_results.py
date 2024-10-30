@@ -24,11 +24,6 @@ def generate_Med3paResults_from_dict(data: dict, file_path: str) -> dict:
         r'[^a-zA-Z0-9-_]', "")
     file_content = {"loadedFiles": {}, "isDetectron": False}
 
-    # Determine if Detectron data is present
-    if "detectron" in data:
-        file_content["isDetectron"] = True
-        file_content["loadedFiles"]["detectron_results"] = data["detectron"]
-
     # Process data based on tabs
     tabs = ["infoConfig", "reference", "test"]
     for tab in tabs:
@@ -37,7 +32,11 @@ def generate_Med3paResults_from_dict(data: dict, file_path: str) -> dict:
         else:
             print(f"Tab {tab} not found in")
 
-    save_dict_to_file(file_content, file_path + file_name + '011.MED3paResults')
+    # Determine if Detectron data is present
+    if "detectron" in data:
+        file_content["loadedFiles"]["detectron_results"] = data["detectron"]
+
+    save_dict_to_file(file_content, file_path + file_name + '.MED3paResults')
 
     # return file_content
 
