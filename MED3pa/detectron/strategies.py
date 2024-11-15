@@ -17,8 +17,9 @@ class DetectronStrategy:
     Methods:
         execute: Must be implemented by subclasses to execute the strategy.
     """
+
     @staticmethod
-    def execute(calibration_records : DetectronRecordsManager, test_records:DetectronRecordsManager):
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager):
         pass
 
 
@@ -28,7 +29,8 @@ class OriginalDisagreementStrategy(DetectronStrategy):
     This strategy assesses the first test run only and returns a dictionary containing the calculated p-value, test run results,
     and statistical measures such as the mean and standard deviation of the calibration tests.
     """
-    def execute(calibration_records : DetectronRecordsManager, test_records:DetectronRecordsManager):
+
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager):
         """
         Executes the disagreement detection strategy using the ECDF approach.
 
@@ -40,6 +42,7 @@ class OriginalDisagreementStrategy(DetectronStrategy):
             dict: A dictionary containing the p-value, test statistic, baseline mean, baseline standard deviation,
                   and a shift indicator which is True if a shift is detected at the given significance level.
         """
+
         def ecdf(x):
             """
             Compute the empirical cumulative distribution function.
@@ -63,14 +66,14 @@ class OriginalDisagreementStrategy(DetectronStrategy):
         cdf = ecdf(cal_counts)
         p_value = cdf(test_count).item()
 
-        test_statistic=test_count.item()
+        test_statistic = test_count.item()
         baseline_mean = cal_counts.mean().item()
         baseline_std = cal_counts.std().item()
 
         results = {
-            'p_value':p_value, 
-            'test_statistic': test_statistic, 
-            'baseline_mean': baseline_mean, 
+            'p_value': p_value,
+            'test_statistic': test_statistic,
+            'baseline_mean': baseline_mean,
             'baseline_std': baseline_std
         }
         return results
@@ -81,7 +84,8 @@ class MannWhitneyStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the Mann-Whitney U test, assessing the dissimilarity of results
     from calibration runs and test runs.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager):
+
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager):
         """
         Executes the disagreement detection strategy using the Mann-Whitney U test.
 
@@ -96,16 +100,17 @@ class MannWhitneyStrategy(DetectronStrategy):
         # Retrieve count data from both calibration and test records
         cal_counts = calibration_records.rejected_counts()
         test_counts = test_records.rejected_counts()
-        
+
         cal_mean = np.mean(cal_counts)
         cal_std = np.std(cal_counts)
         test_mean = np.mean(test_counts)
-                
+
         # Perform the Mann-Whitney U test
         u_statistic, p_value = stats.mannwhitneyu(cal_counts, test_counts, alternative='less')
-        
+
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else np.nan
+        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else (
+            np.array(np.nan))
 
         # Define thresholds for categorizing
         def categorize_z_score(z):
@@ -115,6 +120,8 @@ class MannWhitneyStrategy(DetectronStrategy):
                 return 'small'
             elif abs(z) < 2:
                 return 'moderate'
+            elif z is np.nan:
+                return np.nan
             else:
                 return 'large'
 
@@ -134,7 +141,7 @@ class MannWhitneyStrategy(DetectronStrategy):
         results = {
             'p_value': p_value,
             'u_statistic': u_statistic,
-            'significance_description' : significance_description
+            'significance_description': significance_description
         }
 
         return results
@@ -145,7 +152,8 @@ class KolmogorovSmirnovStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the Kolmogorov-Smirnov test, assessing the dissimilarity of results
     from calibration runs and test runs.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records:DetectronRecordsManager):
+
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager):
         """
         Executes the disagreement detection strategy using the Kolmogorov-Smirnov test.
 
@@ -160,7 +168,7 @@ class KolmogorovSmirnovStrategy(DetectronStrategy):
         # Retrieve count data from both calibration and test records
         cal_counts = calibration_records.rejected_counts()
         test_counts = test_records.rejected_counts()
-        
+
         # Perform the Kolmogorov-Smirnov test
         ks_statistic, p_value = stats.ks_2samp(cal_counts, test_counts)
 
@@ -169,7 +177,7 @@ class KolmogorovSmirnovStrategy(DetectronStrategy):
         cal_std = cal_counts.std()
         test_mean = test_counts.mean()
         test_std = test_counts.std()
-        
+
         z_score = (test_mean - cal_mean) / cal_std
         # Describe the significance of the shift based on the z-score
         significance_description = ""
@@ -188,8 +196,8 @@ class KolmogorovSmirnovStrategy(DetectronStrategy):
         results = {
             'p_value': p_value,
             'ks_statistic': ks_statistic,
-            'z-score':z_score,
-            'shift significance' : significance_description
+            'z-score': z_score,
+            'shift significance': significance_description
         }
 
         return results
@@ -200,7 +208,9 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
     Implements a strategy to detect disagreement based on the z-score mean difference between calibration and test datasets.
     This strategy calculates the probability of a shift based on the counts where test rejected counts are compared to calibration rejected counts.
     """
-    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=True, proportion_to_cut=0.05):
+
+    def execute(calibration_records: DetectronRecordsManager, test_records: DetectronRecordsManager, trim_data=True,
+                proportion_to_cut=0.05):
         """
         Executes the disagreement detection strategy using z-score analysis.
 
@@ -224,11 +234,11 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         def trim_dataset(data, proportion_to_cut):
             if not 0 <= proportion_to_cut < 0.5:
                 raise ValueError("proportion_to_cut must be between 0 and 0.5")
-            
+
             data_sorted = np.sort(data)
             n = len(data)
             trim_count = int(n * proportion_to_cut)
-            
+
             return data_sorted[trim_count:n - trim_count]
 
         if trim_data:
@@ -243,10 +253,11 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
         test_std = np.std(test_counts)
 
         # Calculate the test statistic (mean of test data)
-        test_statistic = np.mean(test_counts)
+        test_statistic = test_mean
 
         # Calculate the z-scores for the test data
-        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else np.nan
+        z_scores = (test_counts[:, None] - cal_counts) / np.std(cal_counts) if np.std(cal_counts) != 0 else (
+            np.array(np.nan))
 
         # Define thresholds for categorizing
         def categorize_z_score(z):
@@ -256,6 +267,8 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
                 return 'small'
             elif abs(z) < 2:
                 return 'moderate'
+            elif z is np.nan:
+                return np.nan
             else:
                 return 'large'
 
@@ -283,4 +296,3 @@ class EnhancedDisagreementStrategy(DetectronStrategy):
             'significance_description': significance_description,
         }
         return results
-
