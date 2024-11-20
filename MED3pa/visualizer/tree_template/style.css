@@ -1,0 +1,366 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Body and Container Styles */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.main-container {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.canvas-container {
+  width: 60%;
+  height: 80vh;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tree-container {
+  cursor: grab;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+}
+
+/* Tree Structure Styles */
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.5s;
+}
+
+.tree li {
+  list-style-type: none;
+  text-align: center;
+  position: relative;
+  padding: 20px 5px 0 5px;
+  display: inline-block;
+  vertical-align: top;
+  transition: all 0.5s;
+}
+
+/* Node container styles */
+.node-container {
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: inline-block;
+  font-family: Arial, sans-serif;
+}
+
+.node-title {
+  background-color: #313131;
+  color: white;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.node-content {
+  padding: 10px;
+  font-size: 11px;
+  color: #333;
+  text-align: left;
+}
+
+.condition-label {
+  font-size: 10px;
+  color: #555;
+  background: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-bottom: 5px;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* Connector Lines */
+.tree li::before,
+.tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.tree li::before {
+  right: 50%;
+}
+
+.tree li::after {
+  left: 50%;
+  border-left: 1px solid #ccc;
+}
+
+/* Adjust connectors for specific cases */
+.tree li:only-child::before,
+.tree li:only-child::after {
+  display: none;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+
+.tree li:last-child::before {
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+}
+
+.tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0;
+  height: 20px;
+}
+
+/* Special styling for Lost Profile nodes */
+.lost-profile-title {
+  background-color: #ddddde;
+  color: white;
+}
+
+/* Node Parameters Container */
+.node-parameters-container {
+  width: 30%;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.node-parameters-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 12px;
+}
+
+.node-parameters-header .icon {
+  margin-right: 8px;
+}
+
+.focus-section,
+.color-section {
+  margin-bottom: 16px;
+}
+
+.focus-section label,
+.color-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.focus-options label,
+.color-options label {
+  font-weight: normal;
+  display: block;
+  margin: 4px 0;
+}
+
+.focus-options label input[type="radio"] {
+  margin-right: 8px;
+}
+
+.color-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.color-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.color-toggle label {
+  width: 40px;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.color-toggle label:before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: #007bff;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.color-toggle input:checked + label:before {
+  transform: translateX(20px);
+}
+
+/* Color Options */
+.color-options {
+  display: none;
+  margin-top: 8px;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.color-options select,
+.color-options input {
+  padding: 4px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+
+#color-parameter {
+  width: 100%;
+  margin: 0px;
+}
+
+.min-max-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.min-max-section div {
+  flex: 1;
+}
+
+.min-max-section input {
+  width: 95%;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 8px;
+}
+
+button#color-nodes-button {
+  background-color: #007bff;
+  color: white;
+}
+
+button#color-nodes-button:hover {
+  background-color: #0056b3;
+}
+
+button#reset-color-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+button#reset-color-button:hover {
+  background-color: #5a6268;
+}
+
+button#download-png-button {
+  background-color: #28a745;
+  color: white;
+  margin-top: 8px;
+}
+
+button#download-png-button:hover {
+  background-color: #218838;
+}
+
+.color-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+button {
+  flex: 1;
+  padding: 8px;
+}
+
+/* Legend Styling */
+.legend-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-bar {
+  width: 20px;
+  height: 200px;
+  background: linear-gradient(to bottom, #068a0c, #e07502, #c90404);
+  border: 1px solid #000;
+}
+
+.legend-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+}
+
+.legend-labels div {
+  font-size: 14px;
+  text-align: right;
+}
+
+/* Style for the toggle when disabled */
+.disabled-toggle {
+  opacity: 0.2;
+  pointer-events: none; /* Prevent interaction */
+}
+
+.disabled-toggle label {
+  cursor: not-allowed;
+}

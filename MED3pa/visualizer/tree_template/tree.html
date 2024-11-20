@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Visualization</title>
+    <link rel="stylesheet" href="{{ base_path }}/style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="canvas-container" id="tree-container">
+            <ul id="tree-root" class="tree"></ul>
+            <div class="legend-container">
+              <div class="legend-bar"></div>
+              <div class="legend-labels">
+                  <div id="max-legend">100</div>
+                  <div id="three-quarters-legend">75</div>
+                  <div id="half-legend">50</div>
+                  <div id="quarter-legend">25</div>
+                  <div id="min-legend">0</div>
+              </div>
+          </div>
+        </div>
+
+        <div class="node-parameters-container">
+          <div class="node-parameters-header">
+              <span class="icon">&#9881;</span> Node Parameters
+          </div>
+          <div class="focus-section">
+              <label>Focus on</label>
+              <div class="focus-options">
+                  <label><input type="radio" name="info-type" id="general-info-checkbox" value="node information" checked> General Information</label>
+                  <label><input type="radio" name="info-type" id="performance-info-checkbox" value="metrics"> Node Performance</label>
+                  <label><input type="radio" name="info-type" id="shift-detection-checkbox" value="detectron_results"> Shift Detection</label>
+              </div>
+          </div>
+          <div class="color-section">
+              <label>Color Nodes By values</label>
+              <div class="color-toggle">
+                  <input type="checkbox" id="color-toggle" onclick="toggleColorSection()">
+                  <label for="color-toggle"></label>
+              </div>
+              <div class="color-options" id="color-options">
+                  <label for="color-parameter">Parameter:</label>
+                  <select id="color-parameter" style="width: 100%;">
+                      <option disabled selected>Select Parameter</option>
+                      <!-- Options added dynamically in JavaScript -->
+                  </select>
+                  <div class="min-max-section">
+                      <div>
+                          <label for="min-value">Min Value:</label>
+                          <input type="number" id="color-min" placeholder="0">
+                      </div>
+                      <div>
+                          <label for="max-value">Max Value:</label>
+                          <input type="number" id="color-max" placeholder="100">
+                      </div>
+                  </div>
+                  <div class="color-buttons">
+                      <button id="color-nodes-button">Color Nodes</button>
+                      <button id="reset-color-button">Reset Colors</button>
+                  </div>
+              </div>
+          </div>
+          <button id="download-png-button">Download PNG</button>
+      </div>
+      
+      
+      
+    </div>
+    <script>
+        const treeData = {{ nodes | tojson }};
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/2.9.1/dom-to-image-more.min.js"></script>
+    <script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
+    <script src="{{ base_path }}/script.js"></script>
+
+</body>
+</html>
