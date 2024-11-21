@@ -84,4 +84,3 @@ class Visualizer:
         """Main method to run the visualization pipeline."""
         self.check_experiments()
         self.generate_tree_html(samp_ratio, dr, set=set)
-
