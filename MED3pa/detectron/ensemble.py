@@ -103,12 +103,18 @@ class DetectronEnsemble:
             remote_tqdm = ray.remote(tqdm_ray.tqdm)
             bar = remote_tqdm.remote(total=n_runs)
 
+            # Store large objects in the object store
+            testing_data_ref = ray.put(testing_data)
+            training_data_ref = ray.put(training_data)
+
             # evaluate the ensemble for n_runs of runs
             # Launch tasks in parallel using Ray
             futures = [
-                DetectronEnsemble.run_single_seed.remote(self=self, seed=seed, samples_size=samples_size,
-                                                         testing_data=testing_data, training_data=training_data,
-                                                         patience=patience, record=record, training_params=training_params,
+                DetectronEnsemble.run_single_seed.remote(base_model=self.base_model, ens_size=self.ens_size,
+                                                         cdcs=self.cdcs, seed=seed, samples_size=samples_size,
+                                                         testing_data=testing_data_ref, training_data=training_data_ref,
+                                                         patience=patience, record=record,
+                                                         training_params=training_params,
                                                          allow_margin=allow_margin, margin=margin, bar=bar)
                 for seed in range(n_runs)
             ]
@@ -226,16 +232,16 @@ class DetectronEnsemble:
 
     @staticmethod
     @ray.remote
-    def run_single_seed(self, seed, samples_size, testing_data, training_data,
+    def run_single_seed(base_model, ens_size, cdcs, seed, samples_size, testing_data, training_data,
                         patience, record, training_params, allow_margin, margin, bar):
         # sample the testing set according to the provided sample_size and current seed
         testing_set = testing_data.sample_random(samples_size, seed)  # sample_uniform(samples_size, seed)
 
         # predict probabilities using the base model on the testing set
-        base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
+        base_model_pred_probs = base_model.predict_proba(testing_set.get_observations())[:, 1]
 
         # set pseudo probabilities and pseudo labels predicted by the base model
-        testing_set.set_pseudo_probs_labels(base_model_pred_probs, self.base_model.threshold)
+        testing_set.set_pseudo_probs_labels(base_model_pred_probs, base_model.threshold)
         cloned_testing_set = testing_set.clone()
 
         # the base model is always the model with id = 0
@@ -247,7 +253,7 @@ class DetectronEnsemble:
         # update the record with the results of the base model
         record.update(seed=seed, val_data_x=None, val_data_y=None,
                       # validation_data.get_observations() validation_data.get_true_labels()
-                      sample_size=samples_size, model=self.base_model, model_id=model_id,
+                      sample_size=samples_size, model=base_model, model_id=model_id,
                       predicted_probabilities=testing_set.get_pseudo_probabilities(),
                       test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
 
@@ -259,9 +265,9 @@ class DetectronEnsemble:
         updated_count = samples_size
 
         # Train the cdcs
-        for i in range(1, self.ens_size + 1):
+        for i in range(1, ens_size + 1):
             # get the current cdc
-            cdc = self.cdcs[i - 1]
+            cdc = cdcs[i - 1]
 
             # save the model id
             model_id = i
