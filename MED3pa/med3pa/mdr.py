@@ -14,12 +14,14 @@ from MED3pa.models.classification_metrics import *
 
 from pprint import pprint
 
+
 class MDRCalculator:
     """
     Class to calculate various metrics and profiles for the MED3PA method.
     """
+
     @staticmethod
-    def _get_min_confidence_score(dr : int, confidence_scores : np.ndarray):
+    def _get_min_confidence_score(dr: int, confidence_scores: np.ndarray):
         """
         Calculate the minimum confidence score based on the desired declaration rate.
 
@@ -34,17 +36,19 @@ class MDRCalculator:
             ValueError: If dr is not in the range 0-100.
         """
         if not (0 <= dr <= 100):
-                raise ValueError("Declaration rate (dr) must be between 0 and 100 inclusive.")
-        
+            raise ValueError("Declaration rate (dr) must be between 0 and 100 inclusive.")
+
         sorted_confidence_scores = np.sort(confidence_scores)
         if dr == 0:
-            min_confidence_level = 1.01
+            min_confidence_level = np.inf
+        elif dr == 100:
+            min_confidence_level = None
         else:
             min_confidence_level = sorted_confidence_scores[int(len(sorted_confidence_scores) * (1 - dr / 100))]
         return min_confidence_level
-    
+
     @staticmethod
-    def _calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, predicted_prob: np.ndarray, metrics_list : list):
+    def _calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, predicted_prob: np.ndarray, metrics_list: list):
         """
         Calculate a variety of metrics based on the true labels, predicted labels, and predicted probabilities.
 
@@ -69,7 +73,7 @@ class MDRCalculator:
             else:
                 raise ValueError(f"Error: The metric '{metric_name}' is not supported.")
         return metrics_dict
-    
+
     @staticmethod
     def _list_difference_by_key(list1: List[Profile], list2: List[Profile], key='node_id'):
         """
@@ -89,7 +93,7 @@ class MDRCalculator:
         return [d for d in list1 if d[key] in unique_to_list1]
 
     @staticmethod
-    def _filter_by_profile(dataset : MaskedDataset, path : List, features: list, min_confidence_level:float = None):
+    def _filter_by_profile(dataset: MaskedDataset, path: List, features: list, min_confidence_level: float = None):
         """
         Filters datasets based on specific profile conditions described by a path.
 
@@ -102,18 +106,17 @@ class MDRCalculator:
         Returns:
             tuple: Filtered datasets including observations, true labels, predicted probabilities, predicted labels, and mpc values.
         """
-        
+
         # retrieve different dataset components to calculate the metrics
         x = dataset.get_observations()
         y_true = dataset.get_true_labels()
         y_pred = dataset.get_pseudo_labels()
         predicted_prob = dataset.get_pseudo_probabilities()
         confidence_scores = dataset.get_confidence_scores()
-        
 
         # Start with a mask that selects all rows
         mask = np.ones(len(x), dtype=bool)
-        
+
         for condition in path:
             if condition == '*':
                 continue  # Skip the root node indicator
@@ -126,7 +129,7 @@ class MDRCalculator:
             except ValueError:
                 # If conversion fails, the string is not a number. Handle it appropriately.
                 value = value_str  # If it's supposed to be a string, leave it as string
-                        
+
             # Apply the condition to update the mask
             if operator == '>':
                 mask &= x[:, column_index] > value
@@ -152,14 +155,17 @@ class MDRCalculator:
 
         # filter once again according to the min_confidence_level if specified
         if min_confidence_level is not None:
-            filtered_x = filtered_x[filtered_confidence_scores>=min_confidence_level]
-            filtered_y_true = filtered_y_true[filtered_confidence_scores>=min_confidence_level]
-            filtered_prob = filtered_prob[filtered_confidence_scores>=min_confidence_level] if predicted_prob is not None else None
-            filtered_y_pred = filtered_y_pred[filtered_confidence_scores>=min_confidence_level] if y_pred is not None else None
-            filtered_confidence_scores = filtered_confidence_scores[filtered_confidence_scores>=min_confidence_level] if confidence_scores is not None else None
+            filtered_x = filtered_x[filtered_confidence_scores >= min_confidence_level]
+            filtered_y_true = filtered_y_true[filtered_confidence_scores >= min_confidence_level]
+            filtered_prob = filtered_prob[
+                filtered_confidence_scores >= min_confidence_level] if predicted_prob is not None else None
+            filtered_y_pred = filtered_y_pred[
+                filtered_confidence_scores >= min_confidence_level] if y_pred is not None else None
+            filtered_confidence_scores = filtered_confidence_scores[
+                filtered_confidence_scores >= min_confidence_level] if confidence_scores is not None else None
 
         return filtered_x, filtered_y_true, filtered_prob, filtered_y_pred, filtered_confidence_scores
-            
+
     @staticmethod
     def calc_metrics_by_dr(dataset: MaskedDataset, confidence_scores: np.ndarray, metrics_list: list):
         """
@@ -181,53 +187,56 @@ class MDRCalculator:
         predicted_prob = dataset.get_pseudo_probabilities()
 
         # initialize the dictionaries used for results storage
-        metrics_by_dr = {} # global dictionary containing all the declaration rates and their corresponding metrics
-        last_dr_values = {} # used to save last dr calculated metrics
+        metrics_by_dr = {}  # global dictionary containing all the declaration rates and their corresponding metrics
+        last_dr_values = {}  # used to save last dr calculated metrics
         last_min_confidence_level = -1
 
         # for each declaration rate
         for dr in range(100, -1, -1):
             # calculate the minimum confidence level
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
-            
+
             # if the current confidence level is different from the last one
             if last_min_confidence_level != min_confidence_level:
-                
+
                 # update the last confidence level
                 last_min_confidence_level = min_confidence_level
-                
+
                 # save the confidence level in the dict of the current dr
                 dr_values = {'min_confidence_level': min_confidence_level}
-                
+
                 # defines the mask to keep only data with higher min_confidence levels
                 confidence_mask = confidence_scores >= min_confidence_level
-                
+
                 # save the left population percentage
                 dr_values['population_percentage'] = sum(confidence_mask) / len(confidence_scores)
-                dr_values['mean_confidence_level'] = np.mean(confidence_scores[confidence_mask]) if confidence_scores[confidence_mask].size>0 else None
+                dr_values['mean_confidence_level'] = np.mean(confidence_scores[confidence_mask]) if confidence_scores[
+                                                                                                        confidence_mask].size > 0 else None
                 dr_values['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
-                        len(y_true[confidence_mask]) > 0 else None
+                    len(y_true[confidence_mask]) > 0 else None
                 # Calculate the metrics for the current DR
-                metrics_dict = MDRCalculator._calculate_metrics(y_true[confidence_mask], y_pred[confidence_mask], predicted_prob[confidence_mask], metrics_list)
-                
+                metrics_dict = MDRCalculator._calculate_metrics(y_true[confidence_mask], y_pred[confidence_mask],
+                                                                predicted_prob[confidence_mask], metrics_list)
+
                 # save the calculated metrics
                 dr_values['metrics'] = metrics_dict
-                
+
                 # update the last dr dictionnary metrics
                 last_dr_values = dr_values
-                
+
                 # save it in the global dictionnary
                 metrics_by_dr[dr] = dr_values
-            
+
             # if the min_confidence level is the same, use the last dr results 
             else:
                 metrics_by_dr[dr] = last_dr_values
-        
+
         # return the global dictionnary
         return metrics_by_dr
-    
+
     @staticmethod
-    def calc_profiles_deprecated(profiles_manager: ProfilesManager, tree: TreeRepresentation, confidence_scores: np.ndarray, min_samples_ratio: int):
+    def calc_profiles_deprecated(profiles_manager: ProfilesManager, tree: TreeRepresentation,
+                                 confidence_scores: np.ndarray, min_samples_ratio: int):
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change
         across different confidence levels derived from predicted accuracies.
@@ -240,11 +249,11 @@ class MDRCalculator:
 
         """
         # initialization of different variables
-        last_profiles = tree.get_all_profiles(0, min_samples_ratio) # saves last profiles
-        lost_profiles_all = [] # saves last lost profiles
-        last_min_confidence_level = -1 # last min_confidence
-        last_dr = 100 # last dr
-        min_confidence_levels_dict = {} # saves the min_confidence_level thresholds
+        last_profiles = tree.get_all_profiles(0, min_samples_ratio)  # saves last profiles
+        lost_profiles_all = []  # saves last lost profiles
+        last_min_confidence_level = -1  # last min_confidence
+        last_dr = 100  # last dr
+        min_confidence_levels_dict = {}  # saves the min_confidence_level thresholds
 
         # go throught all declaration rates
         for dr in range(100, -1, -1):
@@ -257,31 +266,32 @@ class MDRCalculator:
                 last_min_confidence_level = min_confidence_level
                 # get all the profiles for this min_confidence level, and min_ratio
                 profiles_current = tree.get_all_profiles(min_confidence_level, min_samples_ratio)
-                
+
                 # if the last profiles are different from current profiles
                 if len(last_profiles) != len(profiles_current):
                     # extract lost profiles
                     lost_profiles = MDRCalculator._list_difference_by_key(last_profiles, profiles_current)
                     lost_profiles_all.extend(lost_profiles)
-                
-                for insertion_dr in range (last_dr-1, dr, -1):
+
+                for insertion_dr in range(last_dr - 1, dr, -1):
                     # insert these profiles in the profiles manager
                     profiles_manager.insert_profiles(insertion_dr, min_samples_ratio, profiles_current)
                     # save the lost profiles        
                     profiles_manager.insert_lost_profiles(insertion_dr, min_samples_ratio, lost_profiles_all)
-                
+
                 # update the last dr, and last profiles
                 last_dr = dr
                 last_profiles = profiles_current
-            
+
             # if the current min_confidence is same as the last one
             # use the last dr results
             profiles_manager.insert_profiles(dr, min_samples_ratio, profiles_current)
             profiles_manager.insert_lost_profiles(dr, min_samples_ratio, lost_profiles_all)
-        
+
         return min_confidence_levels_dict
 
-    def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, dataset:MaskedDataset, features:list, confidence_scores: np.ndarray, min_samples_ratio: int) -> Dict[int, float]:
+    def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, dataset: MaskedDataset,
+                      features: list, confidence_scores: np.ndarray, min_samples_ratio: int) -> Dict[int, float]:
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles change
         across different confidence levels derived from predicted accuracies.
@@ -297,7 +307,7 @@ class MDRCalculator:
         Returns:
             Dict[int, float]: A dictionary with declaration rates as keys and their corresponding minimum confidence levels as values.
         """
-        
+
         # Initialization of different variables
         all_nodes = tree.get_all_nodes()  # Retrieve all nodes from the tree
         last_profiles = all_nodes  # Initialize last profiles as all nodes
@@ -307,14 +317,14 @@ class MDRCalculator:
 
         # Go through all declaration rates
         for dr in range(100, -1, -1):
-            
+
             # Calculate the min confidence level for this dr
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
             min_confidence_levels_dict[dr] = min_confidence_level
 
             # If the current confidence level is different from the last one
-            if min_confidence_level!=last_min_confidence_level:
-                
+            if min_confidence_level != last_min_confidence_level:
+
                 # Update the last min confidence level
                 last_min_confidence_level = min_confidence_level
                 # Saves the profiles of this dr
@@ -324,23 +334,23 @@ class MDRCalculator:
                 for node in all_nodes:
                     # filter the data that belongs to this node, and filter according to min_confidence_level threshold
                     _, _, _, _, filtered_confidence_scores = MDRCalculator._filter_by_profile(
-                    dataset, node['path'], features=features, min_confidence_level=min_confidence_level)
-                    
+                        dataset, node['path'], features=features, min_confidence_level=min_confidence_level)
+
                     # calculate the samples_ratio (pop%) and mean_confidence_level of this node, if the filtered data isnt empty
                     if len(filtered_confidence_scores) > 0:
                         samples_ratio = len(filtered_confidence_scores) / len(confidence_scores) * 100
-                        mean_cconfidence = np.mean(filtered_confidence_scores) if filtered_confidence_scores.size > 0 else 0
+                        mean_cconfidence = np.mean(
+                            filtered_confidence_scores) if filtered_confidence_scores.size > 0 else 0
                         # if the calculated samples_ratio and mean_confidence meet the conditions, keep this node
                         if samples_ratio >= min_samples_ratio and mean_cconfidence >= min_confidence_level:
                             profiles_current.append(node)
-                    
 
                 # If the last profiles are different from current profiles
                 if len(last_profiles) != len(profiles_current):
                     # Extract lost profiles
                     lost_profiles = MDRCalculator._list_difference_by_key(last_profiles, profiles_current)
                     lost_profiles_all.extend(lost_profiles)
-                    
+
             # Update the last profiles
             last_profiles = profiles_current
 
@@ -351,9 +361,10 @@ class MDRCalculator:
             profiles_manager.insert_lost_profiles(dr, min_samples_ratio, lost_profiles_current_ins)
 
         return min_confidence_levels_dict
-    
+
     @staticmethod
-    def calc_metrics_by_profiles(profiles_manager, dataset : MaskedDataset, features:list, confidence_scores: np.ndarray, min_samples_ratio: int, metrics_list):
+    def calc_metrics_by_profiles(profiles_manager, dataset: MaskedDataset, features: list,
+                                 confidence_scores: np.ndarray, min_samples_ratio: int, metrics_list):
         """
         Calculates various metrics for different profiles and declaration rates based on provided datasets.
 
@@ -376,14 +387,16 @@ class MDRCalculator:
             for dr, profiles in dr_dict.items():
                 # calculate the min_confidence level
                 min_confidence_level = MDRCalculator._get_min_confidence_score(dr, all_confidence_scores)
-                
+
                 # go through each profile in the profile list
                 for profile in profiles:
-                    x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(dataset, profile.path, features)
+                    x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(dataset,
+                                                                                                       profile.path,
+                                                                                                       features)
                     # calculate the metrics for this profile
                     confidence_mask = confidence_scores >= min_confidence_level
                     metrics_dict = MDRCalculator._calculate_metrics(y_true=y_true[confidence_mask],
-                                                                    y_pred=y_pred[confidence_mask], 
+                                                                    y_pred=y_pred[confidence_mask],
                                                                     predicted_prob=pred_prob[confidence_mask],
                                                                     metrics_list=metrics_list)
                     info_dict = {}
@@ -412,10 +425,10 @@ class MDRCalculator:
                               ensemble_size: int = 10,
                               num_calibration_runs: int = 100,
                               patience: int = 3,
-                              allow_margin: bool = False, 
-                              margin: float = 0.05, 
+                              allow_margin: bool = False,
+                              margin: float = 0.05,
                               all_dr: bool = False) -> Dict:
-        
+
         """Runs the Detectron method on the different testing set profiles.
 
         Args:
@@ -441,12 +454,12 @@ class MDRCalculator:
         test_dataset = datasets.get_dataset_by_type('testing', True)
         test_dataset.set_confidence_scores(confidence_scores=confidence_scores)
         profiles_by_dr = profiles_manager.get_profiles(min_samples_ratio=min_positive_ratio)
-        last_min_confidence_level = -1   
+        last_min_confidence_level = -1
         features = datasets.get_column_labels()
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False
-            
+
             experiment_det = None
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
             if last_min_confidence_level != min_confidence_level:
@@ -456,14 +469,24 @@ class MDRCalculator:
                     q_x, q_y_true, _, _, _ = MDRCalculator._filter_by_profile(test_dataset, path=profile.path,
                                                                               features=features,
                                                                               min_confidence_level=min_confidence_level)
-                    p_x, p_y_true = datasets.get_dataset_by_type("reference")
+                    # p_x, p_y_true = datasets.get_dataset_by_type("reference")
+                    reference_dataset = datasets.get_dataset_by_type('reference', True)
+                    ref_x, ref_y_true, _, _, _ = MDRCalculator._filter_by_profile(reference_dataset, path=profile.path,
+                                                                                  features=features,
+                                                                                  min_confidence_level=min_confidence_level)
+                    training_dataset = datasets.get_dataset_by_type('training', True)
+                    train_x, train_y_true, _, _, _ = MDRCalculator._filter_by_profile(training_dataset,
+                                                                                      path=profile.path,
+                                                                                      features=features,
+                                                                                      min_confidence_level=min_confidence_level)
+
                     if len(q_y_true) != 0:
                         if len(q_y_true) < samples_size:
                             detectron_results_dict['Executed'] = "Not enough samples in tested profile"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
                             detectron_results_dict['Tests Results'] = None
 
-                        elif 2 * samples_size > len(p_y_true):
+                        elif 2 * samples_size > len(ref_y_true):
                             detectron_results_dict['Executed'] = "Not enough samples in reference set"
                             detectron_results_dict['Tested Profile size'] = len(q_y_true)
                             detectron_results_dict['Tests Results'] = None
@@ -471,17 +494,21 @@ class MDRCalculator:
                             profile_set = DatasetsManager()
                             profile_set.set_column_labels(datasets.get_column_labels())
                             profile_set.set_from_data(dataset_type="testing", observations=q_x, true_labels=q_y_true)
-                            profile_set.set_from_data(dataset_type="reference",
-                                                      observations=datasets.get_dataset_by_type(
-                                                          dataset_type="reference",
-                                                          return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="reference",
-                                                                                               return_instance=True).get_true_labels())
-                            profile_set.set_from_data(dataset_type="training",
-                                                      observations=datasets.get_dataset_by_type(dataset_type="training",
-                                                                                                return_instance=True).get_observations(),
-                                                      true_labels=datasets.get_dataset_by_type(dataset_type="training",
-                                                                                               return_instance=True).get_true_labels())
+                            profile_set.set_from_data(dataset_type="reference", observations=ref_x,
+                                                      true_labels=ref_y_true)
+                            profile_set.set_from_data(dataset_type="training", observations=train_x,
+                                                      true_labels=train_y_true)
+                            # profile_set.set_from_data(dataset_type="reference",
+                            #                           observations=datasets.get_dataset_by_type(
+                            #                               dataset_type="reference",
+                            #                               return_instance=True).get_observations(),
+                            #                           true_labels=datasets.get_dataset_by_type(dataset_type="reference",
+                            #                                                                    return_instance=True).get_true_labels())
+                            # profile_set.set_from_data(dataset_type="training",
+                            #                           observations=datasets.get_dataset_by_type(dataset_type="training",
+                            #                                                                     return_instance=True).get_observations(),
+                            #                           true_labels=datasets.get_dataset_by_type(dataset_type="training",
+                            #                                                                    return_instance=True).get_true_labels())
                             # profile_set.set_from_data(dataset_type="validation",
                             #                           observations=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_observations(),
                             #                           true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())

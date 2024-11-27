@@ -9,6 +9,7 @@ from typing import Union, List, Type
 
 import json
 import os
+import ray
 from warnings import warn
 
 from .ensemble import BaseModelManager, DatasetsManager, DetectronEnsemble
@@ -69,7 +70,9 @@ class DetectronResult:
         """
         return self.test_results
 
-    def analyze_results(self, strategies: Union[str, List[str]]= ["enhanced_disagreement_strategy", "mannwhitney_strategy", "original_disagreement_strategy"]) -> list:
+    def analyze_results(self,
+                        strategies: Union[str, List[str]] = ["enhanced_disagreement_strategy", "mannwhitney_strategy",
+                                                             "original_disagreement_strategy"]) -> list:
         """
         Appends the results of the Detectron tests for each strategy to self.test_results.
 
@@ -88,7 +91,8 @@ class DetectronResult:
 
         for strategy_name in strategies:
             if strategy_name not in self.strategy_mapping:
-                raise ValueError(f"Unrecognized strategy name: {strategy_name}. Available strategies: {list(self.strategy_mapping.keys())}")
+                raise ValueError(
+                    f"Unrecognized strategy name: {strategy_name}. Available strategies: {list(self.strategy_mapping.keys())}")
 
             strategy_class = self.strategy_mapping[strategy_name]
             strategy_results = strategy_class.execute(self.cal_record, self.test_record)
@@ -96,7 +100,7 @@ class DetectronResult:
             self.test_results.append(strategy_results)
 
         return self.test_results
-    
+
     def set_experiment_config(self, config: dict):
         """
         Sets or updates the configuration for the Detectron experiment.
@@ -116,15 +120,15 @@ class DetectronResult:
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
-        
+
         file_name_path = os.path.join(file_path, f'{file_name}.json')
         with open(file_name_path, 'w') as file:
             json.dump(self.test_results, file, indent=4)
-        
+
         counts_dict = {}
         counts_dict['reference'] = self.cal_record.rejected_counts().tolist()
         counts_dict['test'] = self.test_record.rejected_counts().tolist()
-        
+
         file_name_path_counts = os.path.join(file_path, 'rejection_counts.json')
         with open(file_name_path_counts, 'w') as file:
             json.dump(counts_dict, file, indent=4)
@@ -136,7 +140,7 @@ class DetectronResult:
         file_name_path_evaluation = os.path.join(file_path, 'model_evaluation.json')
         with open(file_name_path_evaluation, 'w') as file:
             json.dump(eval_dict, file, indent=4)
-        
+
         if save_config:
             config_file_path = os.path.join(file_path, 'experiment_config.json')
             with open(config_file_path, 'w') as file:
@@ -173,7 +177,8 @@ class DetectronResult:
             list: A list of strings representing the names of the supported strategies.
         """
         return list(cls.strategy_mapping.keys())
-    
+
+
 class DetectronExperiment:
     """
     Abstract base class that defines the protocol for running Detectron experiments.
@@ -181,17 +186,18 @@ class DetectronExperiment:
     Methods:
         run: Orchestrates the entire process of a Detectron experiment using specified parameters and strategies.
     """
+
     @staticmethod
     def run(datasets: DatasetsManager,
             base_model_manager: BaseModelManager,
-            training_params: dict=None,
-            samples_size : int = 20,
-            calib_result:DetectronRecordsManager=None,
+            training_params: dict = None,
+            samples_size: int = 20,
+            calib_result: DetectronRecordsManager = None,
             ensemble_size=10,
             num_calibration_runs=100,
             patience=3,
-            allow_margin : bool = False, 
-            margin = 0.05):
+            allow_margin: bool = False,
+            margin=0.05):
         """
         Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.
 
@@ -210,12 +216,18 @@ class DetectronExperiment:
         Returns:
             tuple: A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.
         """
+        # init ray
+        ray.init(ignore_reinit_error=True)
+
+        # Create ray Futures list
+        futures = []
+
         # create a calibration ensemble
-        calibration_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
-        
+        calibration_ensemble = DetectronEnsemble.remote(base_model_manager, ensemble_size)
+
         # create a testing ensemble
-        testing_ensemble = DetectronEnsemble(base_model_manager, ensemble_size)
-        
+        testing_ensemble = DetectronEnsemble.remote(base_model_manager, ensemble_size)
+
         # ensure the reference set is larger compared to testing set
         reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
         testing_set = datasets.get_dataset_by_type(dataset_type="testing", return_instance=True)
@@ -228,37 +240,37 @@ class DetectronExperiment:
             assert samples_size <= len(testing_set), "The testing set must be larger than the samples_size"
             if test_size < 2 * samples_size:
                 warn("The reference set is smaller than twice the testing set, this may lead to poor calibration")
+
+            # Detectron on the Testing set
+            futures.append(testing_ensemble.evaluate_ensemble.remote(datasets=datasets,
+                                                                     n_runs=num_calibration_runs,
+                                                                     samples_size=samples_size,
+                                                                     training_params=training_params,
+                                                                     set='testing',
+                                                                     patience=patience,
+                                                                     allow_margin=allow_margin,
+                                                                     margin=margin))
+
             if calib_result is not None:
                 print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
                 cal_record = calib_result
+                test_record = ray.get(futures)
             else:
-            
-            # evaluate the calibration ensemble
-                cal_record = calibration_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                                    n_runs=num_calibration_runs,
-                                                                    samples_size=samples_size, 
-                                                                    training_params=training_params, 
-                                                                    set='reference', 
-                                                                    patience=patience, 
-                                                                    allow_margin=allow_margin,
-                                                                    margin=margin)
-                print("Detectron execution on reference set completed.")
-            
-            test_record = testing_ensemble.evaluate_ensemble(datasets=datasets, 
-                                                            n_runs=num_calibration_runs, 
-                                                            samples_size=samples_size, 
-                                                            training_params=training_params,
-                                                            set='testing', 
-                                                            patience=patience,
-                                                            allow_margin=allow_margin,
-                                                            margin=margin)
-            print("Detectron execution on testing set completed.")
-
+                # evaluate the calibration ensemble
+                futures.append(calibration_ensemble.evaluate_ensemble.remote(datasets=datasets,
+                                                                             n_runs=num_calibration_runs,
+                                                                             samples_size=samples_size,
+                                                                             training_params=training_params,
+                                                                             set='reference',
+                                                                             patience=patience,
+                                                                             allow_margin=allow_margin,
+                                                                             margin=margin))
+                cal_record, test_record = ray.get(futures)
+            print("Detectron execution completed.")
 
             assert cal_record.sample_size == test_record.sample_size, \
                 "The calibration record must have been generated with the same sample size as the observation set"
-            
-    
+
         # save the detectron runs results
         detectron_results = DetectronResult(cal_record, test_record)
         detectron_params = {
@@ -272,14 +284,11 @@ class DetectronExperiment:
         }
         experiment_config = {
             'experiment_name': "DetectronExperiment",
-            'datasets':datasets.get_info(),
+            'datasets': datasets.get_info(),
             'base_model': base_model_manager.get_instance().get_info(),
             'detectron_params': detectron_params
-            
+
         }
         detectron_results.set_experiment_config(experiment_config)
         # return the Detectron results
         return detectron_results
-
-
-

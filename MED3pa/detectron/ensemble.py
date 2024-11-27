@@ -16,6 +16,7 @@ from .record import DetectronRecordsManager
 from .stopper import EarlyStopper
 
 
+@ray.remote
 class DetectronEnsemble:
     """
     Manages the constrained disagreement classifiers (CDCs) ensemble, designed to disagree with the base model
@@ -104,12 +105,12 @@ class DetectronEnsemble:
             bar = remote_tqdm.remote(total=n_runs)
 
             # Store large objects in the object store
-            params_ref = {'base_model':ray.put(self.base_model), 'ens_size':ray.put(self.ens_size),
-                                                         'cdcs':ray.put(self.cdcs), 'samples_size':ray.put(samples_size),
-                                                         'testing_data':ray.put(testing_data), 'training_data':ray.put(training_data),
-                                                         'patience':ray.put(patience), # "record":ray.put(record),
-                                                         'training_params':ray.put(training_params),
-                                                         'allow_margin':ray.put(allow_margin), 'margin':ray.put(margin), 'bar':ray.put(bar)}
+            params_ref = {'base_model': ray.put(self.base_model), 'ens_size': ray.put(self.ens_size),
+                          'cdcs': ray.put(self.cdcs), 'samples_size': ray.put(samples_size),
+                          'testing_data': ray.put(testing_data), 'training_data': ray.put(training_data),
+                          'patience': ray.put(patience),
+                          'training_params': ray.put(training_params),
+                          'allow_margin': ray.put(allow_margin), 'margin': ray.put(margin), 'bar': ray.put(bar)}
 
             print('Datasets stored on the cluster')
 
@@ -136,7 +137,7 @@ class DetectronEnsemble:
             # evaluate the ensemble for n_runs of runs
             for seed in tqdm(range(n_runs), desc='running seeds'):
                 # sample the testing set according to the provided sample_size and current seed
-                testing_set = testing_data.sample_uniform(samples_size, seed)
+                testing_set = testing_data.sample_random(samples_size, seed)
 
                 # predict probabilities using the base model on the testing set
                 base_model_pred_probs = self.base_model.predict_proba(testing_set.get_observations())[:, 1]
@@ -152,7 +153,8 @@ class DetectronEnsemble:
                 # record.seed(seed)
 
                 # update the record with the results of the base model
-                record.update(seed=seed, val_data_x=None, val_data_y=None, # validation_data.get_observations() validation_data.get_true_labels()
+                record.update(seed=seed, val_data_x=None, val_data_y=None,
+                              # validation_data.get_observations() validation_data.get_true_labels()
                               sample_size=samples_size, model=self.base_model, model_id=model_id,
                               predicted_probabilities=testing_set.get_pseudo_probabilities(),
                               test_data_x=testing_set.get_observations(), test_data_y=testing_set.get_true_labels())
@@ -167,19 +169,20 @@ class DetectronEnsemble:
                 # Train the cdcs
                 for i in range(1, self.ens_size + 1):
                     # get the current cdc
-                    cdc = self.cdcs[i-1]
+                    cdc = self.cdcs[i - 1]
 
                     # save the model id
                     model_id = i
 
                     # update the training params with the current seed which is the model id
-                    if training_params is not None :
-                        training_params.update({'seed':i})
+                    if training_params is not None:
+                        training_params.update({'seed': i})
                     else:
-                        training_params = {'seed':i}
+                        training_params = {'seed': i}
 
                     # train this cdc to disagree
-                    cdc.train_to_disagree(x_train=training_data.get_observations(), y_train=training_data.get_true_labels(),
+                    cdc.train_to_disagree(x_train=training_data.get_observations(),
+                                          y_train=training_data.get_true_labels(),
                                           # x_validation=validation_data.get_observations(), y_validation=validation_data.get_true_labels(),
                                           x_test=testing_set.get_observations(), y_test=testing_set.get_pseudo_labels(),
                                           training_parameters=training_params,
@@ -187,7 +190,8 @@ class DetectronEnsemble:
 
                     # predict probabilities using this cdc
                     cdc_probabilities = cdc.predict_proba(testing_set.get_observations())[:, 1]  # , True
-                    cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:, 1]  # , True
+                    cdc_probabilities_original_set = cdc.predict_proba(cloned_testing_set.get_observations())[:,
+                                                     1]  # , True
 
                     # deduct the predictions of this cdc
                     cdc_predicitons = cdc_probabilities >= 0.5
@@ -197,7 +201,6 @@ class DetectronEnsemble:
 
                     # If margin is specified and there are disagreements, check if the probabilities are significatly different
                     if allow_margin and not np.all(mask):
-
                         # convert to disagreement mask
                         disagree_mask = ~mask
 
@@ -214,7 +217,8 @@ class DetectronEnsemble:
                     updated_count = testing_set.refine(mask)
 
                     # log the results for this model
-                    record.update(seed=seed, val_data_x=None, val_data_y=None,  # validation_data.get_observations() validation_data.get_true_labels()
+                    record.update(seed=seed, val_data_x=None, val_data_y=None,
+                                  # validation_data.get_observations() validation_data.get_true_labels()
                                   sample_size=updated_count, predicted_probabilities=cdc_probabilities_original_set,
                                   model=cdc, model_id=model_id)
 
@@ -325,6 +329,6 @@ class DetectronEnsemble:
 
             if stopper.update(updated_count):
                 # print(f'Early stopping: Converged after {i} models')
-                break 
+                break
         bar.update.remote(1)
         return record
