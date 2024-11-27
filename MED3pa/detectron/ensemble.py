@@ -104,18 +104,19 @@ class DetectronEnsemble:
             bar = remote_tqdm.remote(total=n_runs)
 
             # Store large objects in the object store
-            testing_data_ref = ray.put(testing_data)
-            training_data_ref = ray.put(training_data)
+            params_ref = {'base_model':ray.put(self.base_model), 'ens_size':ray.put(self.ens_size),
+                                                         'cdcs':ray.put(self.cdcs), 'samples_size':ray.put(samples_size),
+                                                         'testing_data':ray.put(testing_data), 'training_data':ray.put(training_data),
+                                                         'patience':ray.put(patience), # "record":ray.put(record),
+                                                         'training_params':ray.put(training_params),
+                                                         'allow_margin':ray.put(allow_margin), 'margin':ray.put(margin), 'bar':ray.put(bar)}
+
+            print('Datasets stored on the cluster')
 
             # evaluate the ensemble for n_runs of runs
             # Launch tasks in parallel using Ray
             futures = [
-                DetectronEnsemble.run_single_seed.remote(base_model=self.base_model, ens_size=self.ens_size,
-                                                         cdcs=self.cdcs, seed=seed, samples_size=samples_size,
-                                                         testing_data=testing_data_ref, training_data=training_data_ref,
-                                                         patience=patience, record=record,
-                                                         training_params=training_params,
-                                                         allow_margin=allow_margin, margin=margin, bar=bar)
+                DetectronEnsemble.run_single_seed.remote(seed=seed, record=record, **params_ref)
                 for seed in range(n_runs)
             ]
 
@@ -324,6 +325,6 @@ class DetectronEnsemble:
 
             if stopper.update(updated_count):
                 # print(f'Early stopping: Converged after {i} models')
-                break
+                break 
         bar.update.remote(1)
         return record
