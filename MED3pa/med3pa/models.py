@@ -9,10 +9,10 @@ from typing import Any, Dict, List, Optional, Type
 import pickle
 
 import numpy as np
-import ray
-import joblib
+# import ray
+# import joblib
 
-from ray.util.joblib import register_ray
+# from ray.util.joblib import register_ray
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor, export_text
@@ -117,21 +117,21 @@ class IPCModel:
             sample_weight (Optional[np.ndarray]): Weights for the training samples.
         """
         # ray.init()
-        register_ray()
+        # register_ray()
         if sample_weight is None:
             sample_weight = np.full(x.shape[0], 1)
-        # grid_search = GridSearchCV(estimator=self.model.model, param_grid=param_grid, cv=cv, n_jobs=-1, verbose=0)
-        # grid_search.fit(x, error_prob, sample_weight=sample_weight)
+        grid_search = GridSearchCV(estimator=self.model.model, param_grid=param_grid, cv=cv, n_jobs=-1, verbose=0)
+        grid_search.fit(x, error_prob, sample_weight=sample_weight)
 
-        with joblib.parallel_backend('ray'):
-            grid_search = GridSearchCV(
-                estimator=self.model.model,
-                param_grid=param_grid,  # Hyperparameter grid
-                cv=cv,  # Cross-validation strategy
-                n_jobs=-1,  # Use all available resources
-                verbose=0  # Control verbosity
-            )
-            grid_search.fit(x, error_prob, sample_weight=sample_weight)
+        # with joblib.parallel_backend('ray'):
+        #     grid_search = GridSearchCV(
+        #         estimator=self.model.model,
+        #         param_grid=param_grid,  # Hyperparameter grid
+        #         cv=cv,  # Cross-validation strategy
+        #         n_jobs=-1,  # Use all available resources
+        #         verbose=0  # Control verbosity
+        #     )
+        #     grid_search.fit(x, error_prob, sample_weight=sample_weight)
 
         # # Shutdown Ray after completion
         # ray.shutdown()
