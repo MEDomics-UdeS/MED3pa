@@ -15,7 +15,6 @@ class BaseModelManager:
     """
     __baseModel = None
 
-    @classmethod
     def set_base_model(cls, model: Model):
         """
         Sets the base model for the manager, ensuring Singleton behavior.
@@ -31,7 +30,6 @@ class BaseModelManager:
         else:
             raise TypeError("The Base Model has already been initialized")
 
-    @classmethod
     def get_instance(cls) -> Model:
         """
         Returns the instance of the base model, ensuring Singleton access.
@@ -46,7 +44,6 @@ class BaseModelManager:
             raise TypeError("The Base Model has not been initialized yet")
         return cls.__baseModel
 
-    @classmethod
     def clone_base_model(cls) -> Model:
         """
         Creates and returns a deep clone of the base model, following the Prototype pattern.
@@ -79,7 +76,6 @@ class BaseModelManager:
             
             return cloned_model
 
-    @classmethod
     def reset(cls):
         """
         Resets the singleton instance, allowing for reinitialization.
