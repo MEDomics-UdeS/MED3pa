@@ -218,15 +218,16 @@ class DetectronExperiment:
         """
         # init ray
         ray.init(ignore_reinit_error=True)
+        bmm_ref = ray.put(base_model_manager)
 
         # Create ray Futures list
         futures = []
 
         # create a calibration ensemble
-        calibration_ensemble = DetectronEnsemble.remote(base_model_manager, ensemble_size)
+        calibration_ensemble = DetectronEnsemble.remote(bmm_ref, ensemble_size)
 
         # create a testing ensemble
-        testing_ensemble = DetectronEnsemble.remote(base_model_manager, ensemble_size)
+        testing_ensemble = DetectronEnsemble.remote(bmm_ref, ensemble_size)
 
         # ensure the reference set is larger compared to testing set
         reference_set = datasets.get_dataset_by_type(dataset_type="reference", return_instance=True)
