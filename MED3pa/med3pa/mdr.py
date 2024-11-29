@@ -42,7 +42,7 @@ class MDRCalculator:
         if dr == 0:
             min_confidence_level = np.inf
         elif dr == 100:
-            min_confidence_level = None
+            min_confidence_level = -np.inf
         else:
             min_confidence_level = sorted_confidence_scores[int(len(sorted_confidence_scores) * (1 - dr / 100))]
         return min_confidence_level
