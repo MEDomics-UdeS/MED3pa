@@ -151,7 +151,10 @@ class MDRCalculator:
         filtered_y_true = y_true[mask]
         filtered_prob = predicted_prob[mask]
         filtered_y_pred = y_pred[mask]
-        filtered_confidence_scores = confidence_scores[mask]
+        if confidence_scores is not None:  # None for testing and reference sets
+            filtered_confidence_scores = confidence_scores[mask]
+        else:
+            filtered_confidence_scores = None
 
         # filter once again according to the min_confidence_level if specified
         if min_confidence_level is not None:
@@ -470,15 +473,16 @@ class MDRCalculator:
                                                                               features=features,
                                                                               min_confidence_level=min_confidence_level)
                     # p_x, p_y_true = datasets.get_dataset_by_type("reference")
+                    # No min_confidence_level for the reference and training sets, we want to keep their whole profiles
                     reference_dataset = datasets.get_dataset_by_type('reference', True)
                     ref_x, ref_y_true, _, _, _ = MDRCalculator._filter_by_profile(reference_dataset, path=profile.path,
                                                                                   features=features,
-                                                                                  min_confidence_level=min_confidence_level)
+                                                                                  min_confidence_level=None)
                     training_dataset = datasets.get_dataset_by_type('training', True)
                     train_x, train_y_true, _, _, _ = MDRCalculator._filter_by_profile(training_dataset,
                                                                                       path=profile.path,
                                                                                       features=features,
-                                                                                      min_confidence_level=min_confidence_level)
+                                                                                      min_confidence_level=None)
 
                     if len(q_y_true) != 0:
                         if len(q_y_true) < samples_size:

@@ -181,7 +181,7 @@ class Med3paRecord:
         """
         return self.profiles_manager
 
-    def set_confidence_scores(self, scores: np.ndarray, mode='str') -> None:
+    def set_confidence_scores(self, scores: np.ndarray, mode: str) -> None:
         if mode == 'ipc':
             self.ipc_scores = scores
         elif mode == "apc":
@@ -189,7 +189,7 @@ class Med3paRecord:
         elif mode == "mpc":
             self.mpc_scores = scores
 
-    def get_confidence_scores(self, mode='str') -> np.ndarray:
+    def get_confidence_scores(self, mode: str) -> np.ndarray:
         if mode == 'ipc':
             return self.ipc_scores
         elif mode == "apc":
@@ -766,9 +766,15 @@ class Med3paDetectronExperiment:
                                                     patience=patience, allow_margin=allow_margin, margin=margin)
         detectron_results.analyze_results(test_strategies)
 
-        if med3pa_results.test_record.get_confidence_scores("mpc") is not None:
+        # if med3pa_results.test_record.get_confidence_scores("mpc") is not None:
+        #     confidence_scores = med3pa_results.test_record.get_confidence_scores("mpc")
+        # elif med3pa_results.test_record.get_confidence_scores("apc") is not None:
+        #     confidence_scores = med3pa_results.test_record.get_confidence_scores("apc")
+        # else:
+        #     raise ValueError("the confidence scores were not calculated!")
+        if mode == "mpc":
             confidence_scores = med3pa_results.test_record.get_confidence_scores("mpc")
-        elif med3pa_results.test_record.get_confidence_scores("apc") is not None:
+        elif mode == "apc":
             confidence_scores = med3pa_results.test_record.get_confidence_scores("apc")
         else:
             raise ValueError("the confidence scores were not calculated!")
