@@ -13,6 +13,7 @@ import pickle
 import json
 
 import matplotlib.pyplot as plt
+import matplotlib
 matplotlib.use('Agg')  # Use a non-interactive backend
 import numpy as np
 import pandas as pd
