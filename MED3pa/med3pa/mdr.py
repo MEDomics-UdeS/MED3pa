@@ -581,10 +581,10 @@ class MDRCalculator:
 
     @staticmethod
     @ray.remote
-    def DetectronExperiment_remote(profile_set, experiment_det, training_params, base_model_manager, samples_size,
+    def DetectronExperiment_remote(datasets, calib_result, training_params, base_model_manager, samples_size,
                                    num_calibration_runs, ensemble_size, patience, allow_margin, margin):
         experiment_det = DetectronExperiment.run(
-            datasets=profile_set, calib_result=experiment_det.cal_record,
+            datasets=datasets, calib_result=calib_result,
             training_params=training_params,
             base_model_manager=base_model_manager,
             samples_size=samples_size, num_calibration_runs=num_calibration_runs,
