@@ -120,21 +120,7 @@ class DetectronEnsemble:
                 DetectronEnsemble.run_single_seed.remote(seed=seed, record=record, **params_ref)
                 for seed in range(n_runs)
             ]
-
-            # Use tqdm to display progress
-            # results = list(tqdm(futures, desc="Running seeds", total=n_runs))
-
-            # Monitor tasks asynchronously
-            remaining_tasks = futures
-            results = []
-
-            while remaining_tasks:
-                # Wait for the next batch of tasks to complete
-                done, remaining_tasks = ray.wait(remaining_tasks, timeout=30)
-                results.extend(ray.get(done))
-
-                print(f"Completed {len(done)} tasks. Remaining: {len(remaining_tasks)}")
-            # results = ray.get(futures)
+            results = ray.get(futures)
 
             # bar.close()
 
