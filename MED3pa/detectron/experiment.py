@@ -255,7 +255,7 @@ class DetectronExperiment:
             if calib_result is not None:
                 print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
                 cal_record = calib_result
-                test_record = ray.get(futures)
+                test_record = ray.get(futures)[0]
             else:
                 # evaluate the calibration ensemble
                 futures.append(calibration_ensemble.evaluate_ensemble.remote(datasets=datasets,
