@@ -469,6 +469,7 @@ class MDRCalculator:
         last_min_confidence_level = -1
         features = datasets.get_column_labels()
         futures_profiles = []
+        ray.init(ignore_reinit_error=True)
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False
