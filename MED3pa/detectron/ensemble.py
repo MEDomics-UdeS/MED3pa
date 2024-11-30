@@ -101,8 +101,8 @@ class DetectronEnsemble:
         # init ray
         if use_ray:
             # ray.init(ignore_reinit_error=True)
-            #remote_tqdm = ray.remote(tqdm_ray.tqdm)
-            bar = '' # remote_tqdm.remote(total=n_runs)
+            remote_tqdm = ray.remote(tqdm_ray.tqdm)
+            bar = remote_tqdm.remote(total=n_runs)
 
             # Store large objects in the object store
             params_ref = {'base_model': ray.put(self.base_model), 'ens_size': ray.put(self.ens_size),
@@ -330,5 +330,5 @@ class DetectronEnsemble:
             if stopper.update(updated_count):
                 # print(f'Early stopping: Converged after {i} models')
                 break
-        # bar.update.remote(1)
+        bar.update.remote(1)
         return record

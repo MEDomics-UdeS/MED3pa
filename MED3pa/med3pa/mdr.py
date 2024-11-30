@@ -149,8 +149,16 @@ class MDRCalculator:
         # Filter the data according to the path mask
         filtered_x = x[mask]
         filtered_y_true = y_true[mask]
-        filtered_prob = predicted_prob[mask]
-        filtered_y_pred = y_pred[mask]
+        if predicted_prob is not None:
+            filtered_prob = predicted_prob[mask]
+        else:
+            filtered_prob = None
+
+        if y_pred is not None:
+            filtered_y_pred = y_pred[mask]
+        else:
+            filtered_y_pred = None
+
         if confidence_scores is not None:  # None for testing and reference sets
             filtered_confidence_scores = confidence_scores[mask]
         else:
