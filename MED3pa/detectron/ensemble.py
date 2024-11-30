@@ -100,7 +100,7 @@ class DetectronEnsemble:
         # ray section ###############################################################################################
         # init ray
         if use_ray:
-            ray.init(ignore_reinit_error=True)
+            # ray.init(ignore_reinit_error=True)
             remote_tqdm = ray.remote(tqdm_ray.tqdm)
             bar = remote_tqdm.remote(total=n_runs)
 
