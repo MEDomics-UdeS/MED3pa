@@ -705,7 +705,8 @@ class Med3paDetectronExperiment:
             use_ref_models: bool = False,
             models_metrics: List[str] = ['MSE', 'RMSE', 'MAE'],
             mode: str = 'mpc',
-            all_dr: bool = False) -> Med3paResults:
+            all_dr: bool = False,
+            prev_med3pa_results=None) -> Med3paResults:
         """Runs the MED3PA and Detectron experiment.
         Args:
             datasets (DatasetsManager): The datasets manager instance.
@@ -745,17 +746,22 @@ class Med3paDetectronExperiment:
         if mode not in valid_modes:
             raise ValueError(f"Invalid mode '{mode}'. The mode must be one of {valid_modes}.")
 
-        med3pa_results = Med3paExperiment.run(datasets_manager=datasets,
-                                              base_model_manager=base_model_manager,
-                                              uncertainty_metric=uncertainty_metric,
-                                              ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv,
-                                              ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,
-                                              apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv,
-                                              pretrained_apc=pretrained_apc,
-                                              evaluate_models=evaluate_models, models_metrics=models_metrics,
-                                              samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max,
-                                              samples_ratio_step=samples_ratio_step,
-                                              med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)
+        if prev_med3pa_results is not None:
+            print("Using previous med3pa_results to execute Med3paDetectron experiment")
+            med3pa_results = prev_med3pa_results
+
+        else:
+            med3pa_results = Med3paExperiment.run(datasets_manager=datasets,
+                                                  base_model_manager=base_model_manager,
+                                                  uncertainty_metric=uncertainty_metric,
+                                                  ipc_params=ipc_params, ipc_grid_params=ipc_grid_params, ipc_cv=ipc_cv,
+                                                  ipc_type=ipc_type, pretrained_ipc=pretrained_ipc,
+                                                  apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv,
+                                                  pretrained_apc=pretrained_apc,
+                                                  evaluate_models=evaluate_models, models_metrics=models_metrics,
+                                                  samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max,
+                                                  samples_ratio_step=samples_ratio_step,
+                                                  med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)
 
         print("Running Global Detectron Experiment:")
         detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params,
