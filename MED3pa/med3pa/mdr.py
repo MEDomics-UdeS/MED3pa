@@ -565,6 +565,7 @@ class MDRCalculator:
                                 futures_profiles.append({'future': future,
                                                          'profile': profile,
                                                          'Tested Profile size': len(q_y_true)})
+                                detectron_results_dict['Executed'] = "Yes"
 
                     else:
                         detectron_results_dict['Executed'] = "Empty profile in test data"
