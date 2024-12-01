@@ -2,7 +2,7 @@
 Contains functionality for calculating metrics based on the predicted confidence and declaration rates (MDR). 
 The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.
 """
-from typing import Dict, Type, Union
+from typing import Dict, Type, Union, Any
 import numpy as np
 import ray
 from ray.experimental import tqdm_ray
@@ -440,7 +440,7 @@ class MDRCalculator:
                               patience: int = 3,
                               allow_margin: bool = False,
                               margin: float = 0.05,
-                              all_dr: bool = False) -> Dict:
+                              all_dr: bool = False) -> Union[Any, Dict]:
 
         """Runs the Detectron method on the different testing set profiles.
 
@@ -463,6 +463,7 @@ class MDRCalculator:
         Returns:
             Dict: Dictionary of med3pa profiles with detectron results.
         """
+        global_detectron_results = None
         min_positive_ratio = min([k for k in profiles_manager.profiles_records.keys() if k >= 0])
         test_dataset = datasets.get_dataset_by_type('testing', True)
         test_dataset.set_confidence_scores(confidence_scores=confidence_scores)
@@ -550,6 +551,8 @@ class MDRCalculator:
                                 detectron_results_dict['Executed'] = "Yes"
                                 detectron_results_dict['Tested Profile size'] = len(q_y_true)
                                 detectron_results_dict['Tests Results'] = detectron_results
+                                if dr == 100:  # Global detectron with 100% DR and whole profiles
+                                    global_detectron_results = copy.deepcopy(experiment_det)
                             else:
                                 # Detectron not executed on reference set
                                 ray_tqdm_bar.update.remote(num_calibration_runs)
@@ -594,7 +597,7 @@ class MDRCalculator:
             detectron_results_dict['Tests Results'] = detectron_results
             profile.update_detectron_results(detectron_results_dict)
 
-        return profiles_by_dr
+        return global_detectron_results, profiles_by_dr
 
     @staticmethod
     @ray.remote

@@ -362,25 +362,25 @@ class Med3paExperiment:
         if datasets_manager.reference_set is not None:
             print("Running MED3pa Experiment on the reference set:")
             results_ref, ipc_config, apc_config = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
-                                                                                     set='reference',
-                                                                                     base_model_manager=base_model_manager,
-                                                                                     uncertainty_metric=uncertainty_metric,
-                                                                                     ipc_type=ipc_type,
-                                                                                     ipc_params=ipc_params,
-                                                                                     ipc_grid_params=ipc_grid_params,
-                                                                                     ipc_cv=ipc_cv,
-                                                                                     pretrained_ipc=pretrained_ipc,
-                                                                                     apc_params=apc_params,
-                                                                                     apc_grid_params=apc_grid_params,
-                                                                                     apc_cv=apc_cv,
-                                                                                     pretrained_apc=pretrained_apc,
-                                                                                     samples_ratio_min=samples_ratio_min,
-                                                                                     samples_ratio_max=samples_ratio_max,
-                                                                                     samples_ratio_step=samples_ratio_step,
-                                                                                     med3pa_metrics=med3pa_metrics,
-                                                                                     evaluate_models=evaluate_models,
-                                                                                     models_metrics=models_metrics,
-                                                                                     mode=mode)
+                                                                               set='reference',
+                                                                               base_model_manager=base_model_manager,
+                                                                               uncertainty_metric=uncertainty_metric,
+                                                                               ipc_type=ipc_type,
+                                                                               ipc_params=ipc_params,
+                                                                               ipc_grid_params=ipc_grid_params,
+                                                                               ipc_cv=ipc_cv,
+                                                                               pretrained_ipc=pretrained_ipc,
+                                                                               apc_params=apc_params,
+                                                                               apc_grid_params=apc_grid_params,
+                                                                               apc_cv=apc_cv,
+                                                                               pretrained_apc=pretrained_apc,
+                                                                               samples_ratio_min=samples_ratio_min,
+                                                                               samples_ratio_max=samples_ratio_max,
+                                                                               samples_ratio_step=samples_ratio_step,
+                                                                               med3pa_metrics=med3pa_metrics,
+                                                                               evaluate_models=evaluate_models,
+                                                                               models_metrics=models_metrics,
+                                                                               mode=mode)
         print("Running MED3pa Experiment on the test set:")
         if use_ref_models:
             if results_ref is None:
@@ -543,7 +543,11 @@ class Med3paExperiment:
 
         # Step 4: Set up splits to evaluate the models
         if evaluate_models:
-            x_train, x_test, uncertainty_train, uncertainty_test, y_train, y_test = train_test_split(x, uncertainty_values, y_true, test_size=0.1, random_state=42)
+            x_train, x_test, uncertainty_train, uncertainty_test, y_train, y_test = train_test_split(x,
+                                                                                                     uncertainty_values,
+                                                                                                     y_true,
+                                                                                                     test_size=0.1,
+                                                                                                     random_state=42)
         else:
             x_train = x
             uncertainty_train = uncertainty_values
@@ -563,7 +567,7 @@ class Med3paExperiment:
         if pretrained_ipc is None and ipc_instance is None:
             IPC_model = IPCModel(model_name=ipc_type, params=ipc_params, pretrained_model=None)
             if ipc_type == 'EnsembleRandomForestRegressor':
-                class_1_prop = np.sum(y_ipc)/len(y_ipc)
+                class_1_prop = np.sum(y_ipc) / len(y_ipc)
                 sample_weight = np.where(y_ipc == 0, 1 / (1 - class_1_prop), 1 / class_1_prop)
                 IPC_model.train(x_ipc, uncertainty_ipc, sample_weight=sample_weight)
             else:
@@ -759,18 +763,20 @@ class Med3paDetectronExperiment:
                                                   apc_params=apc_params, apc_grid_params=apc_grid_params, apc_cv=apc_cv,
                                                   pretrained_apc=pretrained_apc,
                                                   evaluate_models=evaluate_models, models_metrics=models_metrics,
-                                                  samples_ratio_min=samples_ratio_min, samples_ratio_max=samples_ratio_max,
+                                                  samples_ratio_min=samples_ratio_min,
+                                                  samples_ratio_max=samples_ratio_max,
                                                   samples_ratio_step=samples_ratio_step,
-                                                  med3pa_metrics=med3pa_metrics, mode=mode, use_ref_models=use_ref_models)
+                                                  med3pa_metrics=med3pa_metrics, mode=mode,
+                                                  use_ref_models=use_ref_models)
 
-        print("Running Global Detectron Experiment:")
-        detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params,
-                                                    base_model_manager=base_model_manager,
-                                                    samples_size=samples_size,
-                                                    num_calibration_runs=num_calibration_runs,
-                                                    ensemble_size=ensemble_size,
-                                                    patience=patience, allow_margin=allow_margin, margin=margin)
-        detectron_results.analyze_results(test_strategies)
+        # print("Running Global Detectron Experiment:")
+        # detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params,
+        #                                             base_model_manager=base_model_manager,
+        #                                             samples_size=samples_size,
+        #                                             num_calibration_runs=num_calibration_runs,
+        #                                             ensemble_size=ensemble_size,
+        #                                             patience=patience, allow_margin=allow_margin, margin=margin)
+        # detectron_results.analyze_results(test_strategies)
 
         # if med3pa_results.test_record.get_confidence_scores("mpc") is not None:
         #     confidence_scores = med3pa_results.test_record.get_confidence_scores("mpc")
@@ -786,17 +792,27 @@ class Med3paDetectronExperiment:
             raise ValueError("the confidence scores were not calculated!")
 
         print("Running Profiled Detectron Experiment:")
-        detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets,
-                                                                     profiles_manager=med3pa_results.test_record.get_profiles_manager(),
-                                                                     training_params=training_params,
-                                                                     base_model_manager=base_model_manager,
-                                                                     confidence_scores=confidence_scores,
-                                                                     samples_size=samples_size_profiles,
-                                                                     num_calibration_runs=num_calibration_runs,
-                                                                     ensemble_size=ensemble_size,
-                                                                     patience=patience, strategies=test_strategies,
-                                                                     allow_margin=allow_margin, margin=margin,
-                                                                     all_dr=all_dr)
+        detectron_results, detectron_profiles_res = MDRCalculator.detectron_by_profiles(datasets=datasets,
+                                                                                        profiles_manager=med3pa_results.test_record.get_profiles_manager(),
+                                                                                        training_params=training_params,
+                                                                                        base_model_manager=base_model_manager,
+                                                                                        confidence_scores=confidence_scores,
+                                                                                        samples_size=samples_size_profiles,
+                                                                                        num_calibration_runs=num_calibration_runs,
+                                                                                        ensemble_size=ensemble_size,
+                                                                                        patience=patience,
+                                                                                        strategies=test_strategies,
+                                                                                        allow_margin=allow_margin,
+                                                                                        margin=margin,
+                                                                                        all_dr=all_dr)
+        if detectron_results is None:
+            detectron_results = DetectronExperiment.run(datasets=datasets, training_params=training_params,
+                                                        base_model_manager=base_model_manager,
+                                                        samples_size=samples_size,
+                                                        num_calibration_runs=num_calibration_runs,
+                                                        ensemble_size=ensemble_size,
+                                                        patience=patience, allow_margin=allow_margin, margin=margin)
+        detectron_results.analyze_results(test_strategies)
 
         med3pa_params = {
             'uncertainty_metric': uncertainty_metric,
