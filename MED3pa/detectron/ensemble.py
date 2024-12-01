@@ -53,7 +53,8 @@ class DetectronEnsemble:
                           patience: int = 3,
                           allow_margin: bool = False,
                           margin: int = None,
-                          use_ray: bool = True):
+                          use_ray: bool = True,
+                          ray_tqdm_bar = None):
 
         """
         Trains the CDCs ensemble to disagree with the base model on a subset of data present in datasets. This process 
@@ -101,8 +102,11 @@ class DetectronEnsemble:
         # init ray
         if use_ray:
             # ray.init(ignore_reinit_error=True)
-            remote_tqdm = ray.remote(tqdm_ray.tqdm)
-            bar = remote_tqdm.remote(total=n_runs)
+            if ray_tqdm_bar is None:
+                remote_tqdm = ray.remote(tqdm_ray.tqdm)
+                bar = remote_tqdm.remote(total=n_runs)
+            else:
+                bar = ray_tqdm_bar
 
             # Store large objects in the object store
             params_ref = {'base_model': ray.put(self.base_model), 'ens_size': ray.put(self.ens_size),
@@ -112,7 +116,7 @@ class DetectronEnsemble:
                           'training_params': ray.put(training_params),
                           'allow_margin': ray.put(allow_margin), 'margin': ray.put(margin), 'bar': ray.put(bar)}
 
-            print('Datasets stored on the cluster')
+            # print('Datasets stored on the cluster')
 
             # evaluate the ensemble for n_runs of runs
             # Launch tasks in parallel using Ray

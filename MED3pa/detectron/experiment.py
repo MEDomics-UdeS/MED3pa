@@ -10,6 +10,7 @@ from typing import Union, List, Type
 import json
 import os
 import ray
+from ray.experimental import tqdm_ray
 from warnings import warn
 
 from .ensemble import BaseModelManager, DatasetsManager, DetectronEnsemble
@@ -197,7 +198,8 @@ class DetectronExperiment:
             num_calibration_runs=100,
             patience=3,
             allow_margin: bool = False,
-            margin=0.05):
+            margin=0.05,
+            ray_tqdm_bar=None):
         """
         Orchestrates the process of a Detectron experiment, including ensemble training and testing, and strategy evaluation.
 
@@ -219,6 +221,10 @@ class DetectronExperiment:
         # init ray
         ray.init(ignore_reinit_error=True)
         bmm_ref = ray.put(base_model_manager)
+        if ray_tqdm_bar is None:
+            remote_tqdm = ray.remote(tqdm_ray.tqdm)
+            total = num_calibration_runs if calib_result is not None else 2 * num_calibration_runs
+            ray_tqdm_bar = remote_tqdm.remote(total=total)
 
         # Create ray Futures list
         futures = []
@@ -250,10 +256,12 @@ class DetectronExperiment:
                                                                      set='testing',
                                                                      patience=patience,
                                                                      allow_margin=allow_margin,
-                                                                     margin=margin))
+                                                                     margin=margin,
+                                                                     use_ray=True,
+                                                                     ray_tqdm_bar=ray_tqdm_bar))
 
             if calib_result is not None:
-                print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
+                # print("Calibration record on reference set provided, skipping Detectron execution on reference set.")
                 cal_record = calib_result
                 test_record = ray.get(futures)[0]
             else:
@@ -265,9 +273,11 @@ class DetectronExperiment:
                                                                              set='reference',
                                                                              patience=patience,
                                                                              allow_margin=allow_margin,
-                                                                             margin=margin))
+                                                                             margin=margin,
+                                                                             use_ray=True,
+                                                                             ray_tqdm_bar=ray_tqdm_bar))
                 cal_record, test_record = ray.get(futures)
-            print("Detectron execution completed.")
+            # print("Detectron execution completed.")
 
             assert cal_record.sample_size == test_record.sample_size, \
                 "The calibration record must have been generated with the same sample size as the observation set"

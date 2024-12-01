@@ -5,6 +5,7 @@ The ``MDRCalculator`` class offers methods to assess model performance across di
 from typing import Dict, Type, Union
 import numpy as np
 import ray
+from ray.experimental import tqdm_ray
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.detectron import DetectronExperiment, DetectronStrategy
@@ -469,10 +470,17 @@ class MDRCalculator:
         last_min_confidence_level = -1
         features = datasets.get_column_labels()
         futures_profiles = []
+
+        # Ray initialization
         ray.init(ignore_reinit_error=True)
+
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
                 continue  # Skip all dr values except the first one if all_dr is False
+
+            remote_tqdm = ray.remote(tqdm_ray.tqdm)
+            total = 2 * num_calibration_runs * len(profiles)
+            ray_tqdm_bar = remote_tqdm.remote(total=total)
 
             experiment_det = None
             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, confidence_scores)
@@ -529,19 +537,22 @@ class MDRCalculator:
                             #                           true_labels=datasets.get_dataset_by_type(dataset_type="validation", return_instance=True).get_true_labels())
 
                             path_description = "*, " + " & ".join(profile.path[1:])
-                            print("Running Detectron on Profile:", path_description)
+                            # print("Running Detectron on Profile:", path_description)
                             if experiment_det is None:  # If the first profile (whole dataset)
                                 experiment_det = DetectronExperiment.run(
                                     datasets=profile_set, training_params=training_params,
                                     base_model_manager=base_model_manager,
                                     samples_size=samples_size, num_calibration_runs=num_calibration_runs,
                                     ensemble_size=ensemble_size,
-                                    patience=patience, allow_margin=allow_margin, margin=margin)
+                                    patience=patience, allow_margin=allow_margin, margin=margin,
+                                    ray_tqdm_bar=ray_tqdm_bar)
                                 detectron_results = experiment_det.analyze_results(strategies=strategies)
                                 detectron_results_dict['Executed'] = "Yes"
                                 detectron_results_dict['Tested Profile size'] = len(q_y_true)
                                 detectron_results_dict['Tests Results'] = detectron_results
                             else:
+                                # Detectron not executed on reference set
+                                ray_tqdm_bar.update.remote(num_calibration_runs)
                                 # Execute on ray for subsequent profiles
                                 future = MDRCalculator.DetectronExperiment_remote.remote(
                                     datasets=profile_set, calib_result=experiment_det.cal_record,
@@ -549,7 +560,8 @@ class MDRCalculator:
                                     base_model_manager=base_model_manager,
                                     samples_size=samples_size, num_calibration_runs=num_calibration_runs,
                                     ensemble_size=ensemble_size,
-                                    patience=patience, allow_margin=allow_margin, margin=margin)
+                                    patience=patience, allow_margin=allow_margin, margin=margin,
+                                    ray_tqdm_bar=ray_tqdm_bar)
                                 futures_profiles.append({'future': future,
                                                          'profile': profile,
                                                          'Tested Profile size': len(q_y_true)})
@@ -558,6 +570,10 @@ class MDRCalculator:
                         detectron_results_dict['Executed'] = "Empty profile in test data"
                         detectron_results_dict['Tested Profile size'] = len(q_y_true)
                         detectron_results_dict['Tests Results'] = None
+
+                    # if Detectron was not applied, update progress bar
+                    if detectron_results_dict['Executed'] != "Yes":
+                        ray_tqdm_bar.update.remote(2 * num_calibration_runs)
 
                     profile.update_detectron_results(detectron_results_dict)
                 last_profiles = profiles
@@ -582,12 +598,13 @@ class MDRCalculator:
     @staticmethod
     @ray.remote
     def DetectronExperiment_remote(datasets, calib_result, training_params, base_model_manager, samples_size,
-                                   num_calibration_runs, ensemble_size, patience, allow_margin, margin):
+                                   num_calibration_runs, ensemble_size, patience, allow_margin, margin,
+                                   ray_tqdm_bar=None):
         experiment_det = DetectronExperiment.run(
             datasets=datasets, calib_result=calib_result,
             training_params=training_params,
             base_model_manager=base_model_manager,
             samples_size=samples_size, num_calibration_runs=num_calibration_runs,
             ensemble_size=ensemble_size,
-            patience=patience, allow_margin=allow_margin, margin=margin)
+            patience=patience, allow_margin=allow_margin, margin=margin, ray_tqdm_bar=ray_tqdm_bar)
         return experiment_det
