@@ -3,6 +3,7 @@ Contains functionality for calculating metrics based on the predicted confidence
 The ``MDRCalculator`` class offers methods to assess model performance across different declaration rates,  and to extract problematic profiles under specific declaration rates.
 """
 from typing import Dict, Type, Union, Any
+import copy
 import numpy as np
 import ray
 from ray.experimental import tqdm_ray
