@@ -43,9 +43,9 @@ class MDRCalculator:
 
         sorted_confidence_scores = np.sort(confidence_scores)
         if dr == 0:
-            min_confidence_level = np.inf
+            min_confidence_level = max(confidence_scores) + 1  # Higher than all confidence scores
         elif dr == 100:
-            min_confidence_level = -np.inf
+            min_confidence_level = min(confidence_scores) - 1  # Lower than all confidence scores
         else:
             min_confidence_level = sorted_confidence_scores[int(len(sorted_confidence_scores) * (1 - dr / 100))]
         return min_confidence_level
