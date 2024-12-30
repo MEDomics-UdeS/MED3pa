@@ -7,6 +7,7 @@ import copy
 import numpy as np
 import ray
 from ray.experimental import tqdm_ray
+from checkpointer import Checkpointer
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.detectron import DetectronExperiment, DetectronStrategy
@@ -14,6 +15,8 @@ from MED3pa.med3pa.profiles import Profile, ProfilesManager
 from MED3pa.med3pa.tree import TreeRepresentation
 from MED3pa.models import BaseModelManager
 from MED3pa.models.classification_metrics import *
+from MED3pa.ray_checkpointing.server import Server
+from MED3pa.ray_checkpointing.storage import get_storage
 
 from pprint import pprint
 
@@ -472,9 +475,11 @@ class MDRCalculator:
         last_min_confidence_level = -1
         features = datasets.get_column_labels()
         futures_profiles = []
+        futures_list = []
 
         # Ray initialization
         ray.init(ignore_reinit_error=True)
+        server = Server.remote()
 
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
@@ -541,13 +546,26 @@ class MDRCalculator:
                             path_description = "*, " + " & ".join(profile.path[1:])
                             # print("Running Detectron on Profile:", path_description)
                             if experiment_det is None:  # If the first profile (whole dataset)
-                                experiment_det = DetectronExperiment.run(
-                                    datasets=profile_set, training_params=training_params,
+                                # experiment_det = DetectronExperiment.run(
+                                #     datasets=profile_set, training_params=training_params,
+                                #     base_model_manager=base_model_manager,
+                                #     samples_size=samples_size, num_calibration_runs=num_calibration_runs,
+                                #     ensemble_size=ensemble_size,
+                                #     patience=patience, allow_margin=allow_margin, margin=margin,
+                                #     ray_tqdm_bar=ray_tqdm_bar)
+
+                                future = MDRCalculator.DetectronExperiment_remote.remote(
+                                    server=server,
+                                    datasets=profile_set, calib_result=None,
+                                    training_params=training_params,
                                     base_model_manager=base_model_manager,
                                     samples_size=samples_size, num_calibration_runs=num_calibration_runs,
                                     ensemble_size=ensemble_size,
                                     patience=patience, allow_margin=allow_margin, margin=margin,
                                     ray_tqdm_bar=ray_tqdm_bar)
+
+                                experiment_det = ray.get(future)
+
                                 detectron_results = experiment_det.analyze_results(strategies=strategies)
                                 detectron_results_dict['Executed'] = "Yes"
                                 detectron_results_dict['Tested Profile size'] = len(q_y_true)
@@ -555,10 +573,15 @@ class MDRCalculator:
                                 if dr == 100:  # Global detectron with 100% DR and whole profiles
                                     global_detectron_results = copy.deepcopy(experiment_det)
                             else:
+                                # Verify not too many tasks already working
+                                while len(futures_list) >= 5:
+                                    _, futures_list = ray.wait(futures_list, num_returns=1)
+
                                 # Detectron not executed on reference set
                                 ray_tqdm_bar.update.remote(num_calibration_runs)
                                 # Execute on ray for subsequent profiles
                                 future = MDRCalculator.DetectronExperiment_remote.remote(
+                                    server=server,
                                     datasets=profile_set, calib_result=experiment_det.cal_record,
                                     training_params=training_params,
                                     base_model_manager=base_model_manager,
@@ -566,6 +589,7 @@ class MDRCalculator:
                                     ensemble_size=ensemble_size,
                                     patience=patience, allow_margin=allow_margin, margin=margin,
                                     ray_tqdm_bar=ray_tqdm_bar)
+                                futures_list.append(future)
                                 futures_profiles.append({'future': future,
                                                          'profile': profile,
                                                          'Tested Profile size': len(q_y_true)})
@@ -602,14 +626,21 @@ class MDRCalculator:
 
     @staticmethod
     @ray.remote
-    def DetectronExperiment_remote(datasets, calib_result, training_params, base_model_manager, samples_size,
-                                   num_calibration_runs, ensemble_size, patience, allow_margin, margin,
-                                   ray_tqdm_bar=None):
-        experiment_det = DetectronExperiment.run(
-            datasets=datasets, calib_result=calib_result,
-            training_params=training_params,
-            base_model_manager=base_model_manager,
-            samples_size=samples_size, num_calibration_runs=num_calibration_runs,
-            ensemble_size=ensemble_size,
-            patience=patience, allow_margin=allow_margin, margin=margin, ray_tqdm_bar=ray_tqdm_bar)
-        return experiment_det
+    def DetectronExperiment_remote(server=None, *args, **kwargs):
+        if server is not None:  # Checkpointing
+            server_settings = ray.get(server.get_settings.remote())
+            storage = get_storage(server)
+            ray_checkpoint = Checkpointer(format=storage, root_path=server_settings['root_path'],
+                                         verbosity=server_settings['verbosity'])
+
+            # Create temporary function to set checkpointing
+            @ray_checkpoint
+            def checkpoint_fct(*args, **kwargs):
+                return DetectronExperiment.run(*args, **kwargs)
+            return checkpoint_fct(*args, **kwargs)
+
+        return DetectronExperiment.run(*args, **kwargs)
+
+    # datasets, calib_result, training_params, base_model_manager, samples_size,
+    # num_calibration_runs, ensemble_size, patience, allow_margin, margin,
+    # ray_tqdm_bar = None

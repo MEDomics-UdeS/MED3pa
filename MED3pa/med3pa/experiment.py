@@ -7,6 +7,7 @@ import os
 from typing import Any, Dict, List, Tuple, Type, Union
 
 import numpy as np
+from checkpointer import checkpoint
 from sklearn.model_selection import train_test_split
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
@@ -312,6 +313,7 @@ class Med3paExperiment:
     """
 
     @staticmethod
+    @checkpoint(root_path="checkpoints", verbosity=False)
     def run(datasets_manager: DatasetsManager,
             base_model_manager: BaseModelManager = None,
             uncertainty_metric: str = 'absolute_error',
@@ -679,6 +681,7 @@ class Med3paExperiment:
 
 class Med3paDetectronExperiment:
     @staticmethod
+    @checkpoint(root_path="checkpoints", verbosity=False)
     def run(datasets: DatasetsManager,
             base_model_manager: BaseModelManager,
             uncertainty_metric: str = 'absolute_error',
