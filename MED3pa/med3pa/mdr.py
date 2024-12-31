@@ -17,6 +17,7 @@ from MED3pa.models import BaseModelManager
 from MED3pa.models.classification_metrics import *
 from MED3pa.ray_checkpointing.server import Server
 from MED3pa.ray_checkpointing.storage import get_storage
+from MED3pa.ray_checkpointing.utils import wait_for_pending_tasks
 
 from pprint import pprint
 
@@ -475,7 +476,7 @@ class MDRCalculator:
         last_min_confidence_level = -1
         features = datasets.get_column_labels()
         futures_profiles = []
-        futures_list = []
+        # futures_list = []
 
         # Ray initialization
         ray.init(ignore_reinit_error=True)
@@ -574,8 +575,9 @@ class MDRCalculator:
                                     global_detectron_results = copy.deepcopy(experiment_det)
                             else:
                                 # Verify not too many tasks already working
-                                while len(futures_list) >= 5:
-                                    _, futures_list = ray.wait(futures_list, num_returns=1)
+                                wait_for_pending_tasks(threshold=600, check_interval=10)
+                                # while len(futures_list) >= 5:
+                                #     _, futures_list = ray.wait(futures_list, num_returns=1)
 
                                 # Detectron not executed on reference set
                                 ray_tqdm_bar.update.remote(num_calibration_runs)
@@ -589,7 +591,7 @@ class MDRCalculator:
                                     ensemble_size=ensemble_size,
                                     patience=patience, allow_margin=allow_margin, margin=margin,
                                     ray_tqdm_bar=ray_tqdm_bar)
-                                futures_list.append(future)
+                                # futures_list.append(future)
                                 futures_profiles.append({'future': future,
                                                          'profile': profile,
                                                          'Tested Profile size': len(q_y_true)})
