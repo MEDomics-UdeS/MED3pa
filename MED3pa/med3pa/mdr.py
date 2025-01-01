@@ -15,6 +15,7 @@ from MED3pa.med3pa.profiles import Profile, ProfilesManager
 from MED3pa.med3pa.tree import TreeRepresentation
 from MED3pa.models import BaseModelManager
 from MED3pa.models.classification_metrics import *
+from MED3pa.ray_checkpointing.path_provider import PathProvider
 from MED3pa.ray_checkpointing.server import Server
 from MED3pa.ray_checkpointing.storage import get_storage
 from MED3pa.ray_checkpointing.utils import wait_for_pending_tasks
@@ -480,7 +481,8 @@ class MDRCalculator:
 
         # Ray initialization
         ray.init(ignore_reinit_error=True)
-        server = Server.remote()
+        path_provider = PathProvider(fn=DetectronExperiment.run, fn_id='mdr/DetectronExperiment_remote')
+        server = Server.remote(path_provider=path_provider)
 
         for dr, profiles in profiles_by_dr.items():
             if not all_dr and dr != 100:
@@ -628,17 +630,19 @@ class MDRCalculator:
 
     @staticmethod
     @ray.remote
-    def DetectronExperiment_remote(server=None, *args, **kwargs):
+    def DetectronExperiment_remote(server=None, path=None, *args, **kwargs):
         if server is not None:  # Checkpointing
             server_settings = ray.get(server.get_settings.remote())
             storage = get_storage(server)
             ray_checkpoint = Checkpointer(format=storage, root_path=server_settings['root_path'],
-                                         verbosity=server_settings['verbosity'])
+                                          verbosity=server_settings['verbosity'],
+                                          path=server_settings['path'])
 
             # Create temporary function to set checkpointing
             @ray_checkpoint
             def checkpoint_fct(*args, **kwargs):
                 return DetectronExperiment.run(*args, **kwargs)
+
             return checkpoint_fct(*args, **kwargs)
 
         return DetectronExperiment.run(*args, **kwargs)
