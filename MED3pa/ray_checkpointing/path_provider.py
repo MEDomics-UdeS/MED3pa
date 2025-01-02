@@ -8,5 +8,6 @@ class PathProvider:
         self.fn_id = fn_id
 
     def __call__(self, *args, **kwargs):
+        print(f'fn_hash: {self.fn_hash} & {args=} & {kwargs=}')
         call_hash = hashing.hash((self.fn_hash, args, kwargs), "blake2b")[: 32]
         return f"{self.fn_id}/{call_hash}"
