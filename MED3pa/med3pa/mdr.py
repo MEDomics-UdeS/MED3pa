@@ -481,7 +481,8 @@ class MDRCalculator:
 
         # Ray initialization
         ray.init(ignore_reinit_error=True)
-        path_provider = PathProvider(fn=DetectronExperiment.run, fn_id='mdr/DetectronExperiment_remote')
+        path_provider = PathProvider(fn=DetectronExperiment.run, fn_id='mdr/DetectronExperiment_remote',
+                                     ignored_types=[ray.actor.ActorHandle])  # To ignore tqdm
         server = Server.remote(path_provider=path_provider)
 
         for dr, profiles in profiles_by_dr.items():
