@@ -353,8 +353,8 @@ class ClassificationModel(Model, ClassifierMixin):
         """
         N = len(y_test)
 
-        # if additional training parameters are provided
-        if training_parameters:
+        # if additional training parameters are provided and both classes are present
+        if training_parameters and len(np.unique(y_train)) == 2:
             training_weights = self.balance_train_weights(y_train) if balance_train_classes else (
                 training_parameters.get('training_weights', np.ones_like(y_train)))
         else:
