@@ -6,10 +6,10 @@ from checkpointer import Checkpointer
 @ray.remote(resources={'head': 1})
 class Server:
 
-    def __init__(self, path_provider=None, root_path='checkpoints', verbosity=False):
+    def __init__(self, path_provider=None, root_path='checkpoints', verbosity=False, format_chkpt="pickle"):
         self.path_provider = path_provider
         self.verbosity = verbosity
-        self.chkpt = Checkpointer(root_path=root_path, verbosity=verbosity)(self.execute)
+        self.chkpt = Checkpointer(root_path=root_path, verbosity=verbosity, format=format_chkpt)(self.execute)
         self.root_path = self.chkpt.checkpointer.root_path
 
     def get_settings(self):
