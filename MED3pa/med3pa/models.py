@@ -122,12 +122,13 @@ class IPCModel:
             sample_weight = np.full(x.shape[0], 1)
 
         grid_search = GridSearchCV(estimator=self.model.model, param_grid=param_grid, cv=cv, n_jobs=-1, verbose=0)
+        grid_search.fit(x, error_prob, sample_weight=sample_weight)
 
-        import joblib
-        from ray.util.joblib import register_ray
-        register_ray()
-        with joblib.parallel_backend('ray'):
-            grid_search.fit(x, error_prob, sample_weight=sample_weight)
+        # import joblib
+        # from ray.util.joblib import register_ray
+        # register_ray()
+        # with joblib.parallel_backend('ray'):
+        #     grid_search.fit(x, error_prob, sample_weight=sample_weight)
 
         # with joblib.parallel_backend('ray'):
         #     grid_search = GridSearchCV(
