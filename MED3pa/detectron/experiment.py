@@ -219,7 +219,8 @@ class DetectronExperiment:
             tuple: A tuple containing the Detectron results, experimental strategy results, and Detectron evaluation results, if conducted.
         """
         # init ray
-        ray.init(ignore_reinit_error=True)
+        if not ray.is_initialized():
+            ray.init()
         bmm_ref = ray.put(base_model_manager)
         if ray_tqdm_bar is None:
             remote_tqdm = ray.remote(tqdm_ray.tqdm)

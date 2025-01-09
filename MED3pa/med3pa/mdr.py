@@ -627,6 +627,8 @@ class MDRCalculator:
             detectron_results_dict['Tests Results'] = detectron_results
             profile.update_detectron_results(detectron_results_dict)
 
+        ray.shutdown()
+
         return global_detectron_results, profiles_by_dr
 
     @staticmethod
