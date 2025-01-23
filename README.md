@@ -1,4 +1,4 @@
-# MED3pa Package
+# MED3pa: Predictive Performance Precision Analysis in Medicine
 
 ## Table of Contents
 - [Overview](#overview)
