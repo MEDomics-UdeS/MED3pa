@@ -65,21 +65,33 @@ class DatasetsManager:
             raise ValueError(f"Invalid dataset_type provided: {dataset_type} \n"
                              f"Available datasets are: {list(mapping)}")
 
-    def set_from_data(self, dataset_type: str, observations: np.ndarray, true_labels: np.ndarray,
+    def set_from_data(self, dataset_type: str, observations: Union[List, np.ndarray], true_labels: Union[List, np.ndarray],
                       column_labels: Union[List, pd.Index] = None) -> None:
         """
         Sets the specified dataset using numpy arrays for observations and true labels.
 
         Args:
             dataset_type (str): The type of dataset to set ('training', 'validation', 'reference', 'testing').
-            observations (np.ndarray): The feature vectors of the dataset.
-            true_labels (np.ndarray): The true labels of the dataset.
+            observations: The feature vectors of the dataset.
+            true_labels: The true labels of the dataset.
             column_labels (list, optional): The list of column labels for the dataset. Defaults to None.
-        
+
         Raises:
             ValueError: If an invalid dataset_type is provided or if column labels do not match existing column labels.
             ValueError: If column_labels and target_column_name are not provided when column_labels are not set.
         """
+        if isinstance(observations, List) or isinstance(observations, pd.Series):
+            observations = np.array(observations)
+
+        if isinstance(true_labels, List) or isinstance(true_labels, pd.Series):
+            true_labels = np.array(true_labels)
+
+        if not isinstance(observations, np.ndarray):
+            raise ValueError("Observations must be a list or numpy array.")
+        
+        if not isinstance(true_labels, np.ndarray):
+            raise ValueError("True labels must be a list or numpy array.")
+
         if column_labels is not None:
             if type(column_labels) is pd.Index:
                 column_labels = column_labels.tolist()

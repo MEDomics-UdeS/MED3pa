@@ -64,10 +64,7 @@ class MDRCalculator:
         for metric_name in metrics_list:
             metric_function = ClassificationEvaluationMetrics.get_metric(metric_name)
             if metric_function:
-                if metric_name in {'Auc', 'Auprc', 'Logloss'}:
-                    metrics_dict[metric_name] = metric_function(y_true, predicted_prob)
-                else:
-                    metrics_dict[metric_name] = metric_function(y_true, y_pred)
+                metrics_dict[metric_name] = metric_function(y_true=y_true, y_prob=predicted_prob, y_pred=y_pred)
             else:
                 raise ValueError(f"Error: The metric '{metric_name}' is not supported.")
         return metrics_dict

@@ -62,3 +62,5 @@ def visualize_mdr(result: Med3paResults, filename: str = 'mdr', linewidth: int =
         plt.savefig(f"{filename}.{save_format}", format=save_format)
     if show:
         plt.show()
+
+    plt.close()
