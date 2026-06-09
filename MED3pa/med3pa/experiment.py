@@ -41,7 +41,7 @@ class Med3paExperiment:
             samples_ratio_max: int = 50,
             samples_ratio_step: int = 5,
             med3pa_metrics: List[str] = None,
-            evaluate_models: bool = False,
+            evaluate_models: bool = True,
             use_ref_models: bool = False,
             mode: str = 'mpc',
             models_metrics: List[str] = None) -> Med3paResults:
@@ -70,7 +70,7 @@ class Med3paExperiment:
             samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
             samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
             med3pa_metrics (list of str, optional): List of metrics to calculate, by default, multiple metrics included.
-            evaluate_models (bool, optional): Whether to evaluate the models, by default False.
+            evaluate_models (bool, optional): Whether to evaluate the models, by default True.
             mode (str): The modality of dataset, either 'ipc', 'apc', or 'mpc'.
             models_metrics (list of str, optional): List of metrics for model evaluation,
                 by default ['MSE', 'RMSE', 'MAE'].
@@ -200,7 +200,7 @@ class Med3paExperiment:
                     samples_ratio_max: int = 50,
                     samples_ratio_step: int = 5,
                     med3pa_metrics: List[str] = None,
-                    evaluate_models: bool = False,
+                    evaluate_models: bool = True,
                     mode: str = 'mpc',
                     models_metrics: List[str] = None) -> Tuple[Med3paRecord, IPCModel, APCModel]:
 
@@ -224,7 +224,7 @@ class Med3paExperiment:
             samples_ratio_max (int, optional): Maximum sample ratio, by default 50.
             samples_ratio_step (int, optional): Step size for sample ratio, by default 5.
             med3pa_metrics (list of str, optional): List of metrics to calculate.
-            evaluate_models (bool, optional): Whether to evaluate the models, by default False.
+            evaluate_models (bool, optional): Whether to evaluate the models, by default True.
             mode (str): The modality of dataset, either 'ipc', 'apc', or 'mpc'.
             models_metrics (list of str, optional): List of metrics for model evaluation.
 
@@ -277,7 +277,7 @@ class Med3paExperiment:
             x_train, x_test, uncertainty_train, uncertainty_test, y_train, y_test = train_test_split(x,
                                                                                                      uncertainty_values,
                                                                                                      y_true,
-                                                                                                     test_size=0.1,
+                                                                                                     test_size=0.5,
                                                                                                      random_state=42)
         else:
             x_train = x
