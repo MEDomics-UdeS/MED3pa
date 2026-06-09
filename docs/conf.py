@@ -23,7 +23,7 @@ copyright = '2025, MEDomics Consortium'
 author = 'Olivier Lefebvre, Lyna Chikouche, Ludmila Amriou, Martin Vallières'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.3'
+release = '1.0.4'
 
 
 # -- General configuration ---------------------------------------------------
