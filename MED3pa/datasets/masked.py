@@ -6,12 +6,14 @@ such as cloning, sampling, refining, etc.
 import numpy as np
 import pandas as pd
 
+from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
+from typing import Self
 
 
 class MaskedDataset(Dataset):
     """
-    A dataset wrapper for PyTorch that supports masking and sampling of data points.
+    A dataset wrapper for PyTorch dataset that supports masking and sampling of data points.
     """
     
     def __init__(self, observations: np.ndarray, true_labels: np.ndarray, column_labels: list = None):
@@ -59,7 +61,7 @@ class MaskedDataset(Dataset):
         """
         return len(self.__indices)
     
-    def refine(self, mask: np.ndarray) -> int:
+    def refine(self, mask: np.ndarray) -> Self:
         """
         Refines the dataset by applying a mask to select specific data points.
 
@@ -67,7 +69,7 @@ class MaskedDataset(Dataset):
             mask (np.ndarray): A boolean array indicating which data points to keep.
         
         Returns:
-            int: The number of data points remaining after applying the mask.
+            Self: The current MaskedDataset instance after applying the mask.
         
         Raises:
             ValueError: If the length of the mask doesn't match the number of data points.
@@ -87,7 +89,7 @@ class MaskedDataset(Dataset):
         if self.__sample_counts is not None:
             self.__sample_counts = self.__sample_counts[mask]
 
-        return len(self.__observations)
+        return self
 
     def reset_indices(self) -> None:
         """Resets the indices of the dataset to the original indices."""
@@ -217,24 +219,6 @@ class MaskedDataset(Dataset):
             np.ndarray: The pseudo probabilities of the dataset.
         """
         return self.__pseudo_probabilities
-    
-    def get_confidence_scores(self) -> np.ndarray:
-        """
-        Gets the confidence scores of the dataset.
-
-        Returns:
-            np.ndarray: The confidence scores of the dataset.
-        """
-        return self.__confidence_scores
-    
-    def get_sample_counts(self) -> np.ndarray:
-        """
-        Gets the how many times each element of the dataset was sampled.
-
-        Returns:
-            np.ndarray: The sample counts of the dataset.
-        """
-        return self.__sample_counts
     
     def get_file_path(self) -> str :
         """
@@ -382,3 +366,40 @@ class MaskedDataset(Dataset):
         """
         df = self.to_dataframe()
         df.to_csv(file_path, index=False)
+
+    def train_test_split(self, test_size: float|int, random_state:int = None) -> tuple[Self, Self]:
+        """
+        Splits the dataset into training and testing sets.
+
+        Args:
+            test_size (float or int): If float, should be between 0.0 and 1.0 and represent the proportion of the
+                                        dataset to include in the test split.
+                                    If int, represents the absolute number of test samples.
+            random_state (int): The random state to split data.
+
+        Returns:
+            tuple: A tuple containing the training and testing datasets as MaskedDataset instances.
+        """
+
+        if isinstance(test_size, float):
+            if not (0.0 <= test_size <= 1.0):
+                raise ValueError("If test_size is a float, it should be between 0.0 and 1.0.")
+        elif isinstance(test_size, int):
+            if test_size < 0 or test_size > len(self.__observations):
+                raise ValueError(
+                    "If test_size is an int, it should be between 0 and the number of samples in the dataset.")
+        else:
+            raise TypeError("test_size must be either a float or an int.")
+
+        # Shuffle the data
+        indices = np.arange(len(self.__observations))
+        rng = np.random.default_rng()
+        rng.shuffle(indices)
+
+        # Split the data
+        train_indices, test_indices = train_test_split(indices, test_size=test_size, random_state=random_state)
+
+        train_set = self.clone().refine(np.isin(indices, train_indices))
+        test_set = self.clone().refine(np.isin(indices, test_indices))
+
+        return train_set, test_set
