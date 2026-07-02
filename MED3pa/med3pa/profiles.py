@@ -24,7 +24,7 @@ class Profile:
         self.metrics = None
         self.node_information = None
 
-    def to_dict(self, save_all: bool = True) -> Dict:
+    def to_dict(self) -> Dict:
         """
         Converts the Profile instance into a dictionary format suitable for serialization.
 
@@ -32,18 +32,12 @@ class Profile:
             dict: A dictionary representation of the Profile instance including the node ID, path, mean value, 
                   metrics.
         """
-        if save_all:
-            return {
-                'id': self.node_id,
-                'path': self.path,
-                'metrics': self.metrics,
-                'node information': self.node_information
-            }
-        else:
-            return {
-                'id': self.node_id,
-                'path': self.path,
-            }
+        return {
+            'id': self.node_id,
+            'path': self.path,
+            'metrics': self.metrics,
+            'node information': self.node_information
+        }
 
     def update_metrics_results(self, metrics: dict) -> None:
         """
@@ -52,7 +46,7 @@ class Profile:
         Args:
             metrics (dict): The results to be added to the profile.
         """
-        self.metrics = metrics
+        self.metrics = metrics.copy()
 
     def update_node_information(self, info: dict) -> None:
         """
@@ -61,7 +55,28 @@ class Profile:
         Args:
             info (dict): The updated node information.
         """
-        self.node_information = info
+        self.node_information = info.copy()
+
+    def __getitem__(self, key: str):
+        """
+        Gets the instance attribute.
+
+        Args:
+            key (str): The key corresponding to the instance attribute.
+        """
+        try:
+            return getattr(self, key)
+        except AttributeError:
+            raise KeyError(key)  # Missing key
+
+    def __contains__(self, key) -> bool:
+        """
+        To verify if the instance has the attribute 'key'.
+
+        Args:
+            key (str): The key corresponding to the instance attribute.
+        """
+        return hasattr(self, key)
 
 
 class ProfilesManager:

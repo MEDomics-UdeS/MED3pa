@@ -17,11 +17,12 @@ from MED3pa.med3pa.tree import TreeRepresentation
 from MED3pa.models.concrete_regressors import (DecisionTreeRegressorModel, RandomForestRegressorModel,
                                                EnsembleRandomForestRegressorModel)
 from MED3pa.models.data_strategies import ToDataframesStrategy
+from MED3pa.models.regression_metrics import RegressionEvaluationMetrics
 from MED3pa.models import rfr_params, dtr_params
 
 
 class AbstractUncertaintyEstimator:
-    default_params = {'random_state': 54288}
+    default_params = {}  # {'random_state': 54288}
 
     supported_regressors_mapping = {
         'RandomForestRegressor': RandomForestRegressorModel,
@@ -42,7 +43,8 @@ class AbstractUncertaintyEstimator:
 
     def __init__(self, model_name: str,
                  params: Optional[Dict[str, Any]] = None,
-                 pretrained_model: Optional[str] = None):
+                 pretrained_model: Optional[str] = None,
+                 random_state: Optional[int] = None):
         """
         Initializes the AbstractUncertaintyEstimator class instance.
 
@@ -60,8 +62,8 @@ class AbstractUncertaintyEstimator:
 
         if params is None:
             params = self.default_params.copy()
-        elif 'random_state' not in params:
-            params['random_state'] = self.default_params['random_state']
+        if 'random_state' not in params:
+            params['random_state'] = random_state
 
         self.model = model_class(params)
         self.params = params
@@ -112,7 +114,9 @@ class AbstractUncertaintyEstimator:
         Args:
             file_path (str): The path to the file where the model will be saved.
         """
-        with open(file_path, 'wb') as file:
+        model_type = "IPCModel" if isinstance(self, IPCModel) else "APCModel"
+
+        with open(f"{file_path}_{model_type}.pkl", 'wb') as file:
             pickle.dump(self.model, file)
 
     def load_model(self, file_path: str) -> None:
@@ -137,10 +141,10 @@ class IPCModel(AbstractUncertaintyEstimator):
     IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data
     point.
     """
-    default_params = {'random_state': 54288}
+    default_params = {}  # {'random_state': 54288}
 
     def __init__(self, model_name: str = 'RandomForestRegressor', params: Optional[Dict[str, Any]] = None,
-                 pretrained_model: Optional[str] = None) -> None:
+                 pretrained_model: Optional[str] = None, random_state: Optional[int] = None) -> None:
         """
         Initializes the IPCModel with a regression model class name and optional parameters.
 
@@ -150,8 +154,10 @@ class IPCModel(AbstractUncertaintyEstimator):
             params (Optional[Dict[str, Any]]): Parameters to initialize the regression model, default is None.
             pretrained_model (Optional[str]): Path to a pretrained regression model, serving as ipc model,
                 default is None.
+            random_state (Optional[int]): Random state to apply to the model initialization.
         """
-        super().__init__(model_name=model_name, params=params, pretrained_model=pretrained_model)
+        super().__init__(model_name=model_name, params=params, pretrained_model=pretrained_model,
+                         random_state=random_state)
 
     @classmethod
     def supported_ipc_models(cls) -> List:
@@ -237,7 +243,7 @@ class APCModel(AbstractUncertaintyEstimator):
 
     def __init__(self, features: List[str], params: Optional[Dict[str, Any]] = None,
                  tree_file_path: Optional[str] = None, pretrained_model: Optional[str] = None,
-                 model_name: str = "DecisionTreeRegressor") -> None:
+                 model_name: str = "DecisionTreeRegressor", random_state: Optional[int] = None) -> None:
         """
         Initializes the APCModel with the necessary components to perform tree-based regression and to build a tree
         representation.
@@ -251,7 +257,8 @@ class APCModel(AbstractUncertaintyEstimator):
                 default is None.
             model_name (str): Name of the model, default is "DecisionTreeRegressor".
         """
-        super().__init__(model_name=model_name, params=params, pretrained_model=pretrained_model)
+        super().__init__(model_name=model_name, params=params, pretrained_model=pretrained_model,
+                         random_state=random_state)
 
         self.treeRepresentation = TreeRepresentation(features=features)
         self.dataPreparationStrategy = ToDataframesStrategy()
@@ -296,7 +303,7 @@ class APCModel(AbstractUncertaintyEstimator):
             self.model.train(x, error_prob)
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x,
                                                                 labels=error_prob)
-        self.treeRepresentation.head = self.treeRepresentation.build_tree(self.model, df_X, error_prob, 0)
+        self.treeRepresentation.build_tree(self.model, df_X, error_prob)
 
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, confidence_score: np.ndarray,
                  sample_weight: np.ndarray = None) -> None:
@@ -320,7 +327,7 @@ class APCModel(AbstractUncertaintyEstimator):
         self.grid_search_params = param_grid
         df_X, df_y, df_w = self.dataPreparationStrategy.execute(column_labels=self.features, observations=x,
                                                                 labels=confidence_score)
-        self.treeRepresentation.build_tree(self.model, df_X, confidence_score, node_id=0)
+        self.treeRepresentation.build_tree(self.model, df_X, confidence_score)
         self.optimized = True
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -333,50 +340,102 @@ class APCModel(AbstractUncertaintyEstimator):
         Returns:
             np.ndarray: Predicted error probabilities based on the aggregated confidence levels.
         """
+        if self.treeRepresentation.head is None:
+            raise ValueError("The Tree Representation has not been initialized, try fitting the APCModel first.")
+
         df_X, _, _ = self.dataPreparationStrategy.execute(column_labels=self.features, observations=X, labels=None)
         predictions = []
 
         for index, row in df_X.iterrows():
-            if self.treeRepresentation.head is not None:
-                prediction = self.treeRepresentation.head.assign_node(row)
-                predictions.append(prediction)
-            else:
-                raise ValueError("The Tree Representation has not been initialized, try fitting the APCModel first.")
+            prediction = self.treeRepresentation.head.assign_node(row)
+            predictions.append(prediction)
 
         return np.array(predictions)
 
 
 class MPCModel:
     """
-    MPCModel class used to predict the Mixed predicted confidence. ie, the minimum between the APC and IPC values.
+    MPCModel class used to predict the Mixed predicted confidence. ie, the compromise between the APC and IPC values.
     """
+    supported_strategy = ["minimum"]
 
-    def __init__(self, IPC_values: np.ndarray = None, APC_values: np.ndarray = None) -> None:
+    def __init__(self, IPC_model: IPCModel, APC_model: APCModel, strategy:str = "minimum") -> None:
         """
-        Initializes the MPCModel with IPC and APC values.
+        Initializes the MPCModel with IPC and APC models.
 
         Args:
-            IPC_values (np.ndarray): IPC values.
-            APC_values (np.ndarray): APC values.
+            IPC_model (IPCModel): IPC model.
+            APC_model (APCModel): APC model.
         """
-        self.IPC_values = IPC_values
-        self.APC_values = APC_values
+        self.IPC_model = IPC_model
+        self.APC_model = APC_model
+        assert strategy in MPCModel.supported_strategy, f"MPC strategy must be in {MPCModel.supported_strategy}"
+        self.strategy = strategy
 
-    def predict(self) -> np.ndarray:
+    def predict(self, X: np.ndarray) -> np.ndarray:
         """
-        Combines IPC and APC values to predict MPC values.
+        Combines IPC and APC predictions to predict MPC values.
 
         Returns:
             np.ndarray: Combined MPC values.
         """
-        if self.APC_values is None and self.IPC_values is None:
-            raise ValueError("Both APC values and IPC values are not set!")
+        if self.strategy == "minimum":
+            return np.minimum(self.IPC_model.predict(X),
+                              self.APC_model.predict(X))
 
-        if self.APC_values is None:
-            MPC_values = self.IPC_values
-        elif self.IPC_values is None:
-            MPC_values = self.APC_values
-        else:
-            MPC_values = np.minimum(self.IPC_values, self.APC_values)
+    def get_info(self) -> Dict[str, Any]:
+        """
+        Returns information about the MPC model.
 
-        return MPC_values
+        Returns:
+            Dict[str, Any]: A dictionary containing the model name, parameters, whether the model was optimized,
+            and other relevant details for both IPC and APC models.
+        """
+        ipc_infos = self.IPC_model.get_info()
+        apc_infos = self.APC_model.get_info()
+        return {
+            'ipc_infos': ipc_infos,
+            'apc_infos': apc_infos,
+            'mpc_strategy': self.strategy
+        }
+
+    def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False
+                 ) -> Dict[str, float]:
+        """
+        Evaluates the model using specified metrics.
+
+        Args:
+            X (np.ndarray): observations for evaluation.
+            y (np.ndarray): True labels for evaluation.
+            eval_metrics (List[str]): Metrics to use for evaluation.
+            print_results (bool): Whether to print the evaluation results.
+
+        Returns:
+            Dict[str, float]: A dictionary with metric names and their evaluated scores.
+        """
+        predictions = self.predict(X)
+        evaluation_results = {}
+
+        for metric_name in eval_metrics:
+            metric_function = RegressionEvaluationMetrics.get_metric(metric_name)
+            if metric_function:
+                evaluation_results[metric_name] = metric_function(y, predictions)
+            else:
+                print(f"Error: The metric '{metric_name}' is not supported.")
+
+        if print_results:
+            print("Evaluation Results:")
+            for metric, value in evaluation_results.items():
+                print(f"{metric}: {value:.2f}")
+
+        return evaluation_results
+
+    def save_model(self, file_path: str) -> None:
+        """
+        Saves the trained model to a pickle file.
+
+        Args:
+            file_path (str): The path to the file where the model will be saved.
+        """
+        self.IPC_model.save_model(file_path=file_path)
+        self.APC_model.save_model(file_path=file_path)

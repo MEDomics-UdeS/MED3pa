@@ -56,7 +56,22 @@ class TreeRepresentation:
         self.head = None
         self.nb_nodes = 0
 
-    def build_tree(self, dtr: DecisionTreeRegressorModel, X: DataFrame, y: np.ndarray | Series, node_id: int = 0,
+    def build_tree(self, dtr: DecisionTreeRegressorModel, X: DataFrame, y: np.ndarray | Series,
+                   path: List = None) -> None:
+        """
+       Builds the tree representation starting from the specified node.
+
+        Args:
+            dtr (DecisionTreeRegressorModel): Trained decision tree regressor model.
+            X (DataFrame): Training data observations.
+            y (Series): Training data labels.
+            path (Optional[List[str]]): Path to the current node. Defaults to ['*'].
+
+        Returns:
+        """
+        self.head = self.__build_tree(dtr=dtr, X=X, y=y, node_id=0, path=path)
+
+    def __build_tree(self, dtr: DecisionTreeRegressorModel, X: DataFrame, y: np.ndarray | Series, node_id: int = 0,
                    path: List = None) -> '_TreeNode':
         """
         Recursively builds the tree representation starting from the specified node.
@@ -109,10 +124,10 @@ class TreeRepresentation:
         left_path = curr_path + [f"{node_feature} <= {node_thresh}"]
         right_path = curr_path + [f"{node_feature} > {node_thresh}"]
 
-        curr_node.c_left = self.build_tree(dtr, X=X.loc[X[node_feature] <= node_thresh],
+        curr_node.c_left = self.__build_tree(dtr, X=X.loc[X[node_feature] <= node_thresh],
                                            y=y[X[node_feature] <= node_thresh],
                                            node_id=left_child, path=left_path)
-        curr_node.c_right = self.build_tree(dtr, X=X.loc[X[node_feature] > node_thresh],
+        curr_node.c_right = self.__build_tree(dtr, X=X.loc[X[node_feature] > node_thresh],
                                             y=y[X[node_feature] > node_thresh],
                                             node_id=right_child, path=right_path)
 
@@ -134,12 +149,12 @@ class TreeRepresentation:
         profiles = self.head.get_profile(min_samples_ratio=min_samples_ratio, min_ca=min_ca)
         return profiles
 
-    def get_all_nodes(self) -> List[Dict]:
+    def get_all_nodes(self) -> List[Profile]:
         """
         Retrieves all nodes from the tree with their paths.
 
         Returns:
-            List[dict]: A list of dictionaries representing nodes with their paths.
+            List[dict]: A list of Profiles representing nodes with their paths.
 
         Raises:
             ValueError: If the tree has not been built yet.
@@ -206,8 +221,10 @@ class _TreeNode:
         self.threshold = threshold
         self.feature = feature
         self.feature_id = feature_id
-        self.node_id = node_id
-        self.path = path if path is not None else []
+        # self.node_id = node_id
+        # self.path = path if path is not None else []
+        path = path if path is not None else []
+        self.profile = Profile(node_id=node_id, path=path)
 
     def assign_node(self, X: Union[DataFrame, Series]) -> float:
         """
@@ -264,22 +281,19 @@ class _TreeNode:
 
         # Check if the current node meets the criteria
         if self.samples_ratio >= min_samples_ratio and self.value >= min_ca:
-            profile = Profile(node_id=self.node_id, path=self.path)
+            profile = self.profile
             profiles.append(profile)
 
         return profiles
 
-    def get_all_nodes(self) -> List:
+    def get_all_nodes(self) -> List[Profile]:
         """
         Retrieves all nodes in the subtree rooted at this node with their paths.
 
         Returns:
             List[dict]: A list of dictionaries representing nodes with their paths.
         """
-        nodes = [{
-            'node_id': self.node_id,
-            'path': self.path
-        }]
+        nodes = [self.profile]
 
         if self.c_left is not None:
             nodes.extend(self.c_left.get_all_nodes())
@@ -300,8 +314,8 @@ class _TreeNode:
             'threshold': self.threshold,
             'feature': self.feature,
             'feature_id': self.feature_id,
-            'node_id': self.node_id,
-            'path': self.path
+            'node_id': self.profile.node_id,
+            'path': self.profile.path
         }
         if self.c_left is not None:
             node_dict['c_left'] = self.c_left.to_dict()

@@ -38,7 +38,7 @@ def visualize_tree(result: Med3paResults, filename: str = 'profiles', dr: int = 
     global _save_template_folder, _template_folder
     _save_template_folder = os.path.dirname(filename) + "/" + _template_folder
 
-    assert data_set in ['reference', 'test'], "Invalid data_set, must be in ['reference', 'test']"
+    assert data_set in ['test'], "Invalid data_set, must be in ['test']"
 
     if metrics_list is None:
         metrics_list = ['Specificity', 'Sensitivity', 'NPV', 'PPV', 'AUC']
@@ -129,7 +129,7 @@ def _generate_tree_html(result: Med3paResults, samp_ratio: int, dr: int, data_se
     return rendered_html
 
 
-def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set: str) -> List:
+def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set:str = "test") -> List:
     """
     Generates the tree visualization HTML.
 
@@ -142,12 +142,7 @@ def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set
     Returns:
         List: The profiles to visualize in the HTML file.
     """
-    if data_set == 'reference':
-        assert result.reference_record is not None, ("MED3pa experiment not applied to reference data, no profiles "
-                                                     "available.")
-        profiles_to_visualize = result.reference_record.profiles_manager.profiles_records[samp_ratio][dr]
-    else:
-        profiles_to_visualize = result.test_record.profiles_manager.profiles_records[samp_ratio][dr]
+    profiles_to_visualize = result.test_record.profiles_manager.profiles_records[samp_ratio][dr]
 
     # Round condition values
     for profile in profiles_to_visualize:

@@ -84,7 +84,7 @@ function createNodeContent(node, infoType, isPhantom = false) {
 
     const title = document.createElement("div");
     title.className = isPhantom ? "node-title lost-profile-title" : "node-title";
-    title.innerText = isPhantom ? "Lost Profile" : `Profile ${node.id}`;
+    title.innerText = isPhantom ? "Lost Profile" : `Profile ${node.node_id}`;
     container.appendChild(title);
 
     const content = document.createElement("div");
@@ -150,7 +150,7 @@ function createNodeContent(node, infoType, isPhantom = false) {
 
 // Build the tree
 // Build the tree and re-render nodes based on selected info type
-function buildTree(data, rootElement, parentPath = ["*"], infoType = "node information") {
+function buildTree(data, rootElement, parentPath = ["*"], infoType = "node_information") {
     const rootNode = data.find(node => JSON.stringify(node.path) === JSON.stringify(parentPath));
     if (rootNode) {
         const li = document.createElement("li");
@@ -248,7 +248,7 @@ function updateColorParameterOptions(infoType) {
 // Disable checkboxes based on available data
 function updateCheckboxAvailability() {
     // console.log(document.getElementById("general-info-checkbox"));
-    document.getElementById("general-info-checkbox").disabled = !treeData.some(node => node["node information"]);
+    document.getElementById("general-info-checkbox").disabled = !treeData.some(node => node["node_information"]);
     document.getElementById("performance-info-checkbox").disabled = !treeData.some(node => node.metrics);
     document.getElementById("shift-detection-checkbox").disabled = !treeData.some(node => node.detectron_results);
 }
@@ -259,7 +259,7 @@ function initializeTree() {
     buildTree(treeData, treeRoot);
     // console.log(treeData)
     updateCheckboxAvailability();
-    updateColorParameterOptions("node information");
+    updateColorParameterOptions("node_information");
 }
 
 const treeContainer = document.getElementById("tree-root");
