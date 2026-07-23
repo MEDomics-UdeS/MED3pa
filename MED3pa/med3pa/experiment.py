@@ -3,7 +3,14 @@ Orchestrates the execution of the med3pa method and integrates the functionality
 It includes ``Med3paExperiment`` to manage experiments.
 """
 
-from checkpointer import checkpoint
+try:
+    from checkpointer import checkpoint
+except Exception:
+    # fallback decorator that does nothing
+    def checkpoint(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
 from sklearn.model_selection import train_test_split
 from typing import Tuple
 

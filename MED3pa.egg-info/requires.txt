@@ -1,0 +1,13 @@
+checkpointer==2.1.0
+numpy<2.1.0,>=1.21.0
+pandas<3.0.0,>=1.4.0
+PyYAML<7.0,>=5.4
+matplotlib==3.9.2
+ray>=2.37.0
+relib==1.2.0
+scikit_learn<2.0,>=1.0
+scipy<2.0,>=1.7
+setuptools<70.0,>=49.6.0
+torch<3.0,>=1.9.0
+tqdm<5.0,>=4.50.0
+xgboost==2.1.1
