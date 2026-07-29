@@ -198,7 +198,11 @@ class Med3paExperiment:
                                                             base_model_manager=base_model_manager)
 
         # Step 2 : Calculate uncertainty values
-        uncertainty_calc = UncertaintyCalculator(uncertainty_metric)
+        if base_model_manager is not None:
+            threshold = base_model_manager.threshold
+        else:
+            threshold = 0.5
+        uncertainty_calc = UncertaintyCalculator(uncertainty_metric, threshold=threshold)
 
         # Step 3: Set up splits to evaluate the confidence models
         dataset_pc, dataset_mdr, dataset_evaluate = Med3paExperiment._setup_splits(
@@ -404,9 +408,9 @@ class Med3paExperiment:
         if not pretrained_ipc:
             IPC_model = IPCModel(model_name=ipc_type, params=ipc_params, pretrained_model=None,
                                  random_state=random_state)
-            uncertainty_ipc = uncertainty_calc.calculate_uncertainty(dataset_pc.get_observations(),
-                                                                             dataset_pc.get_pseudo_probabilities(),
-                                                                             dataset_pc.get_true_labels())
+            uncertainty_ipc = uncertainty_calc.calculate_uncertainty(x=dataset_pc.get_observations(),
+                                                                             predicted_prob=dataset_pc.get_pseudo_probabilities(),
+                                                                             y_true=dataset_pc.get_true_labels())
             if ipc_type == 'EnsembleRandomForestRegressor':
                 # Add class weight correction to train the EnsembleRandomForestRegressor
                 class_1_prop = int(np.sum(dataset_pc.get_true_labels())) / len(dataset_pc.get_true_labels())
@@ -531,9 +535,9 @@ class Med3paExperiment:
         if evaluate_models:
             if not isinstance(dataset_evaluate, MaskedDataset):
                 raise ValueError(f"Wrong data input to evaluate confidence models: {type(dataset_evaluate)}")
-            uncertainty_evaluate = uncertainty_calc.calculate_uncertainty(dataset_evaluate.get_observations(),
-                                                                          dataset_evaluate.get_pseudo_probabilities(),
-                                                                          dataset_evaluate.get_true_labels())
+            uncertainty_evaluate = uncertainty_calc.calculate_uncertainty(x=dataset_evaluate.get_observations(),
+                                                                          predicted_prob=dataset_evaluate.get_pseudo_probabilities(),
+                                                                          y_true=dataset_evaluate.get_true_labels())
             IPC_evaluation = IPC_model.evaluate(X=dataset_evaluate.get_observations(), y=uncertainty_evaluate,
                                                 eval_metrics=models_metrics)
             APC_evaluation = APC_model.evaluate(X=dataset_evaluate.get_observations(), y=uncertainty_evaluate,
