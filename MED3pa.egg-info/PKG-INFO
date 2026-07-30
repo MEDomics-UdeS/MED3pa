@@ -10,17 +10,15 @@ Project-URL: Github, https://github.com/MEDomicsLab/MED3pa
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: checkpointer==2.1.0
+Requires-Dist: checkpointer==1.2.0; python_version >= "3.12"
 Requires-Dist: numpy<2.1.0,>=1.21.0
 Requires-Dist: pandas<3.0.0,>=1.4.0
 Requires-Dist: PyYAML<7.0,>=5.4
-Requires-Dist: matplotlib==3.9.2
-Requires-Dist: ray>=2.37.0
-Requires-Dist: relib==1.2.0
+Requires-Dist: matplotlib
 Requires-Dist: scikit_learn<2.0,>=1.0
 Requires-Dist: scipy<2.0,>=1.7
 Requires-Dist: setuptools<70.0,>=49.6.0
-Requires-Dist: torch<3.0,>=1.9.0
+Requires-Dist: torch==2.12.1+cpu
 Requires-Dist: tqdm<5.0,>=4.50.0
 Requires-Dist: xgboost==2.1.1
 Dynamic: author
