@@ -358,7 +358,8 @@ class MpcStrategy(ABC):
     @abstractmethod
     def combine(self, ipc_values: np.ndarray, apc_values: np.ndarray) -> np.ndarray:
         """Return one mixed confidence per observation."""
-
+        raise NotImplementedError
+    @property
     def name(self) -> str:
         """Short label for get_info() and saved configs."""
         return type(self).__name__
@@ -366,6 +367,7 @@ class MpcStrategy(ABC):
 class MinimumStrategy(MpcStrategy):
     def combine(self, ipc_values, apc_values):
         return np.minimum(ipc_values, apc_values)
+    @property
     def name(self):
         return "minimum"
 
@@ -373,6 +375,7 @@ class MinimumStrategy(MpcStrategy):
 class AverageStrategy(MpcStrategy):
     def combine(self, ipc_values, apc_values):
         return (ipc_values + apc_values) / 2
+    @property
     def name(self):
         return "average"
     
@@ -419,7 +422,7 @@ class MPCModel:
         return {
             'ipc_infos': ipc_infos,
             'apc_infos': apc_infos,
-            'mpc_strategy': self.strategy.name()
+            'mpc_strategy': self.strategy.name
         }
 
     def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False
