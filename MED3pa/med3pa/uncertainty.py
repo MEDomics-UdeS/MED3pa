@@ -12,9 +12,8 @@ class UncertaintyMetric(ABC):
     """
     Abstract base class for uncertainty metrics. Defines the structure that all uncertainty metrics should follow.
     """
-    @staticmethod
     @abstractmethod
-    def calculate(x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray) -> np.ndarray:
+    def calculate(self, x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray, threshold=0.5) -> np.ndarray:
         """
         Calculates the uncertainty metric based on input observations, predicted probabilities, and true labels.
 
@@ -22,6 +21,7 @@ class UncertaintyMetric(ABC):
             x (np.ndarray): Input observations.
             predicted_prob (np.ndarray): Predicted probabilities by the model.
             y_true (np.ndarray): True labels.
+            threshold (float): Classification threshold.
 
         Returns:
             np.ndarray: An array of uncertainty values for each prediction.
@@ -33,8 +33,7 @@ class AbsoluteError(UncertaintyMetric):
     """
     Concrete implementation of the UncertaintyMetric class using absolute error.
     """
-    @staticmethod
-    def calculate(x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray) -> np.ndarray:
+    def calculate(self, x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray, threshold=0.5) -> np.ndarray:
         """
         Calculates the absolute error between predicted probabilities and true labels, providing a measure of
         prediction accuracy.
@@ -43,6 +42,7 @@ class AbsoluteError(UncertaintyMetric):
             x (np.ndarray): Input features (not used in this metric but included for interface consistency).
             predicted_prob (np.ndarray): Predicted probabilities.
             y_true (np.ndarray): True labels.
+            threshold (float): Classification threshold.
 
         Returns:
             np.ndarray: Absolute errors between predicted probabilities and true labels.
@@ -54,8 +54,7 @@ class SigmoidalError(UncertaintyMetric):
     """
     Concrete implementation of the UncertaintyMetric class using Sigmoidal error.
     """
-    @staticmethod
-    def calculate(x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray, threshold=0.5) -> np.ndarray:
+    def calculate(self, x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray, threshold=0.5) -> np.ndarray:
         """
         Calculates the Sigmoidal error between predicted probabilities and true labels, providing a measure of
         prediction accuracy.
@@ -64,7 +63,7 @@ class SigmoidalError(UncertaintyMetric):
             x (np.ndarray): Input features (not used in this metric but included for interface consistency).
             predicted_prob (np.ndarray): Predicted probabilities.
             y_true (np.ndarray): True labels.
-            threshold (float): Classification threshold
+            threshold (float): Classification threshold.
 
         Returns:
             np.ndarray: Sigmoidal errors between predicted probabilities and true labels.
@@ -82,17 +81,20 @@ class UncertaintyCalculator:
         'sigmoidal_error': SigmoidalError,
     }
 
-    def __init__(self, metric_name: str) -> None:
+    def __init__(self, metric_name: str|UncertaintyMetric, threshold: float) -> None:
         """
         Initializes the UncertaintyCalculator with a specific uncertainty metric.
 
         Args:
             metric_name (str): The name of the uncertainty metric to use for calculations.
         """
-        if metric_name not in self.metric_mapping:
-            raise ValueError(f"Unrecognized metric name: {metric_name}. Available metrics: {list(self.metric_mapping)}")
-        
-        self.metric = self.metric_mapping[metric_name]
+        if isinstance(metric_name, UncertaintyMetric):
+            self.metric = metric_name
+        elif isinstance(metric_name, str) and metric_name in self.metric_mapping:
+            self.metric = self.metric_mapping[metric_name]
+        else:
+            raise ValueError(f"Unrecognized metric name. Available metrics: {list(self.metric_mapping)}")
+        self.threshold = threshold
     
     def calculate_uncertainty(self, x: np.ndarray, predicted_prob: np.ndarray, y_true: np.ndarray) -> np.ndarray:
         """
@@ -102,11 +104,12 @@ class UncertaintyCalculator:
             x (np.ndarray): Input features.
             predicted_prob (np.ndarray): Predicted probabilities.
             y_true (np.ndarray): True labels.
+            threshold (float): Classification threshold.
 
         Returns:
             np.ndarray: Uncertainty values for each prediction, computed using the specified metric.
         """
-        return self.metric.calculate(x, predicted_prob, y_true)
+        return self.metric.calculate(x=x, predicted_prob=predicted_prob, y_true=y_true, threshold=self.threshold)
 
     @classmethod
     def supported_metrics(cls) -> list:

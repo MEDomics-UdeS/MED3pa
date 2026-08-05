@@ -115,7 +115,7 @@ class Model(ABC, BaseEstimator):
         Args:
             model (Any): The model instance to be set.
         """
-        self.model = model
+        self.model = deepcopy(model)
         self.model_class = type(model)
 
     def set_params(self, params: dict = None, **kwargs) -> Self:

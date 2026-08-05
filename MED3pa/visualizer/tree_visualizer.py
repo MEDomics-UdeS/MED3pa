@@ -8,7 +8,6 @@ class Visualizer:
         self.experiment_folder = experiment_folder
         self.template_folder = os.path.join(os.path.dirname(__file__), "tree_template")
         self.config_path = os.path.join(experiment_folder, "experiment_config.json")
-        self.ref_profile_path = os.path.join(experiment_folder, "reference", "profiles.json")
         self.test_profile_path = os.path.join(experiment_folder, "test", "profiles.json")
 
     def check_experiments(self):
@@ -24,14 +23,12 @@ class Visualizer:
             raise ValueError(f"Unsupported experiment type: {experiment_name}")
         print(f"Experiment type validated: {experiment_name}")
 
-    def read_tree_section(self, samp_ratio, dr, set):
+    def read_tree_section(self, samp_ratio, dr, set:str = "test"):
         """Retrieve nodes based on user-defined sample ratio and data ratio."""
-        if set == "reference":
-            tree_path = self.ref_profile_path
-        elif set == "test":
+        if set == "test":
             tree_path = self.test_profile_path
         else:
-            raise ValueError("The 'set' parameter must be either 'reference' or 'test'.")
+            raise ValueError("The 'set' parameter must be 'test'.")
 
         if not os.path.exists(tree_path):
             raise FileNotFoundError(f"Profile tree file not found: {tree_path}")
@@ -47,7 +44,7 @@ class Visualizer:
         print(f"Nodes successfully loaded for samp_ratio={samp_ratio}, dr={dr}")
         return profiles_to_visualize
 
-    def generate_tree_html(self, samp_ratio, dr, set):
+    def generate_tree_html(self, samp_ratio, dr, set:str = "test"):
         """Generate the tree visualization HTML."""
         env = Environment(loader=FileSystemLoader(self.template_folder))
         template = env.get_template('tree.html')
@@ -65,12 +62,10 @@ class Visualizer:
         )
 
         # Determine output path
-        if set == "reference":
-            output_path = os.path.join(self.experiment_folder, f"tree_visualization_reference_{samp_ratio}_{dr}.html")
-        elif set == "test":
+        if  set == "test":
             output_path = os.path.join(self.experiment_folder, f"tree_visualization_test_{samp_ratio}_{dr}.html")
         else:
-            raise ValueError("The 'set' parameter must be either 'reference' or 'test'.")
+            raise ValueError("The 'set' parameter must be 'test'.")
 
         # Save the HTML
         with open(output_path, 'w') as f:

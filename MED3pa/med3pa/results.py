@@ -8,10 +8,10 @@ import datetime
 import json
 import numpy as np
 import os
-from typing import Any, Dict, TextIO
+from typing import Any, Dict, Optional, TextIO
 
 from MED3pa.datasets import MaskedDataset
-from MED3pa.med3pa.models import APCModel, IPCModel
+from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel, MpcStrategy
 from MED3pa.med3pa.profiles import Profile, ProfilesManager
 from MED3pa.med3pa.tree import TreeRepresentation
 
@@ -38,6 +38,8 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         return {k: to_serializable(v, additional_arg) for k, v in obj.items()}
     if isinstance(obj, list):
         return [to_serializable(v, additional_arg) for v in obj]
+    if isinstance(obj, MpcStrategy):
+        return obj.name
     return obj
 
 
@@ -74,17 +76,22 @@ class Med3paRecord:
         """
         self.profiles_manager = profile_manager
 
-    def set_models_evaluation(self, ipc_evaluation: Dict, apc_evaluation: Dict = None) -> None:
+    def set_models_evaluation(self, ipc_evaluation: Dict, apc_evaluation: Dict = None,
+                              mpc_evaluation: Dict = None) -> None:
         """
         Sets models evaluation metrics.
         Args:
             ipc_evaluation (Dict): Evaluation metrics for IPC model.
             apc_evaluation (Dict): Evaluation metrics for APC model.
+            mpc_evaluation (Dict): Evaluation metrics for MPC model.
         """
         self.models_evaluation['IPC_evaluation'] = ipc_evaluation
 
         if apc_evaluation is not None:
             self.models_evaluation['APC_evaluation'] = apc_evaluation
+
+        if mpc_evaluation is not None:
+            self.models_evaluation['MPC_evaluation'] = mpc_evaluation
 
     def set_tree(self, tree: TreeRepresentation) -> None:
         """
@@ -123,7 +130,7 @@ class Med3paRecord:
             lost_profiles_file_path = os.path.join(file_path, 'lost_profiles.json')
             with open(lost_profiles_file_path, 'w') as file:
                 json.dump(self.profiles_manager.get_lost_profiles(), file,
-                          default=lambda x: to_serializable(x, additional_arg=False), indent=4)
+                          default=lambda x: to_serializable(x), indent=4)
 
         if self.models_evaluation is not None:
             models_evaluation_file_path = os.path.join(file_path, 'models_evaluation.json')
@@ -148,7 +155,7 @@ class Med3paRecord:
 
         # Store profiles if available
         if self.profiles_manager is not None:
-            result['lost_profiles'] = to_serializable(self.profiles_manager.get_lost_profiles(), False)
+            result['lost_profiles'] = to_serializable(self.profiles_manager.get_lost_profiles())
             result['profiles'] = to_serializable(self.profiles_manager.get_profiles())
 
         # Store metrics by declaration rate (DR)
@@ -170,57 +177,22 @@ class Med3paRecord:
         """
         return self.profiles_manager
 
-    def set_confidence_scores(self, scores: np.ndarray, mode: str) -> None:
-        """
-        Sets the confidence scores for this Med3paResults.
-
-        Args:
-            scores: The confidence scores for this Med3paResults.
-            mode: The modality of model for these confidence scores. Either 'ipc', 'apc' or 'mpc'.
-        """
-        if mode == 'ipc':
-            self.ipc_scores = scores
-        elif mode == "apc":
-            self.apc_scores = scores
-        elif mode == "mpc":
-            self.mpc_scores = scores
-
-    def get_confidence_scores(self, mode: str) -> np.ndarray:
-        """
-        Retrieves the confidence scores.
-
-        Args:
-            mode: The modality of model for these confidence scores. Either 'ipc' or 'apc' or 'mpc'.
-
-        Returns:
-            The confidence scores for this Med3paResults and given model modality.
-        """
-        if mode == 'ipc':
-            return self.ipc_scores
-        elif mode == "apc":
-            return self.apc_scores
-        elif mode == "mpc":
-            return self.mpc_scores
-
 
 class Med3paResults:
     """
     Class to store and manage results from the MED3PA complete experiment.
     """
 
-    def __init__(self, reference_record: Med3paRecord, test_record: Med3paRecord) -> None:
+    def __init__(self, test_record: Med3paRecord) -> None:
         """
         Initializes the Med3paResults class.
 
         Args:
-            reference_record: The reference record for the MED3pa experiment.
             test_record: The test record for the MED3pa experiment.
         """
-        self.reference_record = reference_record
         self.test_record = test_record
         self.experiment_config = {}
-        self.ipc_model = None
-        self.apc_model = None
+        self.confidence_model = None
 
     def set_experiment_config(self, config: Dict[str, Any]) -> None:
         """
@@ -230,16 +202,14 @@ class Med3paResults:
         """
         self.experiment_config.update(config)
 
-    def set_models(self, ipc_model: IPCModel, apc_model: APCModel = None) -> None:
+    def set_model(self, pc_model: IPCModel | APCModel | MPCModel) -> None:
         """
-        Sets the confidence models for the Med3pa experiment.
+        Sets the confidence model for the Med3pa experiment.
 
         Args:
-            ipc_model (IPCModel): The IPC model to predict individualized confidence predictions.
-            apc_model (APCModel): The APC model to predict aggregated confidence predictions by profiles.
+            pc_model (IPCModel): The confidence model for confidence predictions.
         """
-        self.ipc_model = ipc_model
-        self.apc_model = apc_model
+        self.confidence_model = pc_model
 
     def save(self, file_path: str, save_med3paResults: bool = True) -> None:
         """
@@ -252,12 +222,8 @@ class Med3paResults:
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
 
-        reference_path = os.path.join(file_path, 'reference')
         test_path = os.path.join(file_path, 'test')
 
-        if self.reference_record:
-            self.reference_record.save(file_path=reference_path)
-            results['reference'] = self.reference_record.save_to_dict()
         self.test_record.save(file_path=test_path)
         results['test'] = self.test_record.save_to_dict()
 
@@ -270,48 +236,21 @@ class Med3paResults:
         if save_med3paResults:
             self.__generate_Med3paResults_from_dict(results, file_path=file_path)
 
-    def save_models(self, file_path: str, mode: str = 'all', id: str = None) -> None:
+    def save_models(self, file_path: str, file_id: str = "") -> None:
         """
-        Saves the experiment ipc and apc models as .pkl files, alongside the tree structure for the test set.
+        Saves the experiment confidence models as .pkl files, alongside the tree structure for the test set.
         Args:
             file_path (str): The file path to save the pickled files.
-            mode (str): Defines the type of models to save, either 'ipc', 'apc', or 'all'. Default is 'all'.
-            id (str): Optional identifier to append to the filenames.
+            file_id (str): Optional identifier to append to the filenames.
         """
         # Ensure the main directory exists
         os.makedirs(file_path, exist_ok=True)
 
-        # Function to generate the file name with optional id
-        def generate_file_name(base_name, id):
-            return f"{id}_{base_name}" if id else base_name
+        self.confidence_model.save_model(file_path=f"{file_path}/{file_id}_")
 
-        if mode == 'all':
-            if self.ipc_model:
-                ipc_model_name = generate_file_name('ipc_model.pkl', id)
-                ipc_path = os.path.join(file_path, ipc_model_name)
-                self.ipc_model.save_model(ipc_path)
-            if self.apc_model:
-                apc_model_name = generate_file_name('apc_model.pkl', id)
-                apc_path = os.path.join(file_path, apc_model_name)
-                self.apc_model.save_model(apc_path)
-            if self.test_record.tree:
-                tree_structure_name = generate_file_name('tree.json', id)
-                tree_structure_path = os.path.join(file_path, tree_structure_name)
-                self.test_record.tree.save_tree(tree_structure_path)
-        elif mode == 'ipc':
-            if self.ipc_model:
-                ipc_model_name = generate_file_name('ipc_model.pkl', id)
-                ipc_path = os.path.join(file_path, ipc_model_name)
-                self.ipc_model.save_model(ipc_path)
-        elif mode == 'apc':
-            if self.apc_model:
-                apc_model_name = generate_file_name('apc_model.pkl', id)
-                apc_path = os.path.join(file_path, apc_model_name)
-                self.apc_model.save_model(apc_path)
-            if self.test_record.tree:
-                tree_structure_name = generate_file_name('tree.json', id)
-                tree_structure_path = os.path.join(file_path, tree_structure_name)
-                self.test_record.tree.save_tree(tree_structure_path)
+        if self.test_record.tree:
+            tree_structure_path = os.path.join(file_path, f"{file_path}/{file_id}_tree.json")
+            self.test_record.tree.save_tree(tree_structure_path)
 
     def __generate_Med3paResults_from_dict(self, data: dict, file_path: str) -> None:
         """
@@ -326,7 +265,7 @@ class Med3paResults:
         file_content = {"loadedFiles": {}, "isDetectron": False}
 
         # Process data based on tabs
-        tabs = ["infoConfig", "reference", "test"]
+        tabs = ["infoConfig", "test"]
         for tab in tabs:
             if tab in data:
                 file_content["loadedFiles"][tab] = data[tab]
