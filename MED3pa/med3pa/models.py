@@ -4,6 +4,7 @@ Additionally, it includes Aggregated Predictive Confidence (APC) models that pre
 similar data points, and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC
 models.
 """
+from __future__ import annotations
 
 import json
 import numpy as np

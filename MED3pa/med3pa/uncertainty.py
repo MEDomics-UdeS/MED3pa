@@ -3,6 +3,7 @@
 difference between predicted probabilities and actual outcomes. An ``UncertaintyCalculator`` class is provided,
 which allows users to specify which uncertainty metric to use, thereby facilitating the use of customized uncertainty
 metrics for different analytical needs."""
+from __future__ import annotations
 
 import numpy as np
 from abc import ABC, abstractmethod

@@ -18,7 +18,7 @@ Requires-Dist: matplotlib
 Requires-Dist: scikit_learn<2.0,>=1.0
 Requires-Dist: scipy<2.0,>=1.7
 Requires-Dist: setuptools<70.0,>=49.6.0
-Requires-Dist: torch==2.12.1+cpu
+Requires-Dist: torch<3.0,>=1.9.0
 Requires-Dist: tqdm<5.0,>=4.50.0
 Requires-Dist: xgboost==2.1.1
 Dynamic: author

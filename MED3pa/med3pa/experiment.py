@@ -2,6 +2,8 @@
 Orchestrates the execution of the MED3pa method and integrates the functionality of other modules to run comprehensive experiments.
 It includes ``Med3paExperiment`` to manage experiments.
 """
+from __future__ import annotations
+
 try:
     from checkpointer import checkpoint
 except Exception:

@@ -3,6 +3,7 @@ Manages the tree representation for the APC model. It includes the ``TreeReprese
 and ``TreeNode`` class that represents a node in the tree. 
 This module is crucial for profiling aggregated data and extracting valuable insights
 """
+from __future__ import annotations
 
 import json
 import numpy as np

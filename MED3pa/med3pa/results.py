@@ -3,6 +3,7 @@ This module stores and manages the results of the MED3pa experiments.
 It includes the ``Med3paRecord`` class, responsible for storing and managing results for each set,
 and the ``Med3paResult`` class, responsible for storing and managing all results of the experiment.
 """
+from __future__ import annotations
 
 import datetime
 import json

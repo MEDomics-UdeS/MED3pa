@@ -1,6 +1,7 @@
 """Handles the management and storage of profiles derived from the tree representation. It defines a ``Profile``
 class to encapsulate metrics and values associated with a specific node in the tree and a ``ProfilesManager`` class
 to manage collections of profiles and track lost profiles during analysis."""
+from __future__ import annotations
 
 from typing import Dict, List
 

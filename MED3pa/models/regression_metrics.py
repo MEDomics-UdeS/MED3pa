@@ -2,6 +2,8 @@
 The ``regression_metrics.py`` module defines the ``RegressionEvaluationMetrics`` class, 
 that contains various regression metrics that can be used to assess the model's performance. 
 """
+from __future__ import annotations
+
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from typing import Callable, List

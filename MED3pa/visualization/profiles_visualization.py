@@ -1,6 +1,7 @@
 """
 The profiles_visualization.py module manages visualization methods for the resulting profiles of the MED3pa method.
 """
+from __future__ import annotations
 
 import os
 import re
