@@ -2,13 +2,21 @@
 Orchestrates the execution of the MED3pa method and integrates the functionality of other modules to run comprehensive experiments.
 It includes ``Med3paExperiment`` to manage experiments.
 """
+from __future__ import annotations
 
-from checkpointer import checkpoint
+try:
+    from checkpointer import checkpoint
+except Exception:
+    # fallback decorator that does nothing
+    def checkpoint(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
 from typing import Optional, Tuple, Union
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
 from MED3pa.med3pa.mdr import MDRCalculator
-from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel
+from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel, MpcStrategy
 from MED3pa.med3pa.profiles import ProfilesManager
 from MED3pa.med3pa.results import Med3paResults, Med3paRecord
 from MED3pa.med3pa.tree import TreeRepresentation
@@ -157,7 +165,7 @@ class Med3paExperiment:
                     models_metrics: List[str],
                     mdr_size: int | float,
                     random_state: Optional[int],
-                    mpc_strategy: str) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel]:
+                    mpc_strategy: str | MpcStrategy) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel]:
         """
         Orchestrates the MED3PA experiment on one specific set of the dataset.
 
@@ -382,7 +390,7 @@ class Med3paExperiment:
                        apc_grid_params: Optional[Dict],
                        apc_cv: int,
                        pretrained_apc: Optional[APCModel | str],
-                      mpc_strategy: str,
+                      mpc_strategy: str | MpcStrategy,
                       uncertainty_calc: UncertaintyCalculator,
                       random_state: Optional[int] = None) -> Tuple[IPCModel, APCModel, MPCModel]:
         """

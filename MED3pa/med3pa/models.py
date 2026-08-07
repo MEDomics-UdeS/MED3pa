@@ -4,6 +4,7 @@ Additionally, it includes Aggregated Predictive Confidence (APC) models that pre
 similar data points, and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC
 models.
 """
+from __future__ import annotations
 
 import json
 import numpy as np
@@ -19,7 +20,7 @@ from MED3pa.models.concrete_regressors import (DecisionTreeRegressorModel, Rando
 from MED3pa.models.data_strategies import ToDataframesStrategy
 from MED3pa.models.regression_metrics import RegressionEvaluationMetrics
 from MED3pa.models import rfr_params, dtr_params
-
+from abc import ABC, abstractmethod
 
 class AbstractUncertaintyEstimator:
     default_params = {}  # {'random_state': 54288}
@@ -352,36 +353,62 @@ class APCModel(AbstractUncertaintyEstimator):
 
         return np.array(predictions)
 
+class MpcStrategy(ABC):
+    """Combines IPC and APC confidences into the mixed predicted confidence."""
 
+    @abstractmethod
+    def combine(self, ipc_values: np.ndarray, apc_values: np.ndarray) -> np.ndarray:
+        """Return one mixed confidence per observation."""
+        raise NotImplementedError
+    @property
+    def name(self) -> str:
+        """Short label for get_info() and saved configs."""
+        return type(self).__name__
+    
+class MinimumStrategy(MpcStrategy):
+    def combine(self, ipc_values, apc_values):
+        return np.minimum(ipc_values, apc_values)
+    @property
+    def name(self):
+        return "minimum"
+
+
+class AverageStrategy(MpcStrategy):
+    def combine(self, ipc_values, apc_values):
+        return (ipc_values + apc_values) / 2
+    @property
+    def name(self):
+        return "average"
+    
 class MPCModel:
     """
     MPCModel class used to predict the Mixed predicted confidence. ie, the compromise between the APC and IPC values.
     """
-    supported_strategy = ["minimum"]
+    strategy_mapping = {
+            'minimum': MinimumStrategy,
+            'average': AverageStrategy,
+        }
 
-    def __init__(self, IPC_model: IPCModel, APC_model: APCModel, strategy:str = "minimum") -> None:
-        """
-        Initializes the MPCModel with IPC and APC models.
-
-        Args:
-            IPC_model (IPCModel): IPC model.
-            APC_model (APCModel): APC model.
-        """
+    def __init__(self, IPC_model, APC_model,
+                strategy: str | MpcStrategy = "minimum") -> None:
         self.IPC_model = IPC_model
         self.APC_model = APC_model
-        assert strategy in MPCModel.supported_strategy, f"MPC strategy must be in {MPCModel.supported_strategy}"
-        self.strategy = strategy
+        if isinstance(strategy, MpcStrategy):
+            self.strategy = strategy
+        elif isinstance(strategy, str) and strategy in self.strategy_mapping:
+            self.strategy = self.strategy_mapping[strategy]()      
+        else:
+            raise ValueError(
+                f"Unrecognized MPC strategy. Available: {list(self.strategy_mapping)}"
+            )
+
+    @classmethod
+    def supported_strategies(cls) -> list:
+        return list(cls.strategy_mapping)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """
-        Combines IPC and APC predictions to predict MPC values.
-
-        Returns:
-            np.ndarray: Combined MPC values.
-        """
-        if self.strategy == "minimum":
-            return np.minimum(self.IPC_model.predict(X),
-                              self.APC_model.predict(X))
+        return self.strategy.combine(self.IPC_model.predict(X),
+                                    self.APC_model.predict(X))
 
     def get_info(self) -> Dict[str, Any]:
         """
@@ -396,7 +423,7 @@ class MPCModel:
         return {
             'ipc_infos': ipc_infos,
             'apc_infos': apc_infos,
-            'mpc_strategy': self.strategy
+            'mpc_strategy': self.strategy.name
         }
 
     def evaluate(self, X: np.ndarray, y: np.ndarray, eval_metrics: List[str], print_results: bool = False

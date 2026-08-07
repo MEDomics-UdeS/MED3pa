@@ -2,6 +2,7 @@
 which is particularly useful for applications like ``med3pa`` where a consistent reference model is
 necessary. It employs the **Singleton and Prototype** design patterns to ensure that the base model is instantiated
 once and can be cloned without reinitialization."""
+from __future__ import annotations
 
 import pickle
 from io import BytesIO

@@ -2,6 +2,7 @@
 the system. It includes ``Model``, which standardizes basic operations like evaluation and parameter validation
 across all models. It also introduces specialized abstract classes such as ``ClassificationModel`` and
 ``RegressionModel``, each adapting these operations to specific needs of classification and regression tasks."""
+from __future__ import annotations
 
 import json
 import matplotlib.pyplot as plt
@@ -14,7 +15,8 @@ from copy import deepcopy
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.calibration import CalibratedClassifierCV, CalibrationDisplay
 from sklearn.metrics import roc_curve, precision_recall_curve, RocCurveDisplay
-from typing import Any, Dict, List, Optional, Self, Union
+from typing import Any, Dict, List, Optional, Union
+from typing_extensions import Self
 
 from MED3pa.models.data_strategies import DataPreparingStrategy
 from MED3pa.models.classification_metrics import ClassificationEvaluationMetrics

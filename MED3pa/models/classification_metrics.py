@@ -2,6 +2,7 @@
 The ``classification_metrics.py`` module defines the ``ClassificationEvaluationMetrics`` class, 
 that contains various classification metrics that can be used to assess the model's performance. 
 """
+from __future__ import annotations
 
 import numpy as np
 import warnings

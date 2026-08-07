@@ -1,0 +1,144 @@
+Metadata-Version: 2.4
+Name: MED3pa
+Version: 1.0.4
+Summary: Python Open-source package for ensuring robust and reliable ML models deployments
+Home-page: https://github.com/MEDomicsLab/MED3pa
+Author: MEDomics consortium
+Author-email: medomics.info@gmail.com
+Project-URL: Documentation, https://med3pa.readthedocs.io/en/latest/
+Project-URL: Github, https://github.com/MEDomicsLab/MED3pa
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: checkpointer==1.2.0; python_version >= "3.12"
+Requires-Dist: numpy<2.1.0,>=1.21.0
+Requires-Dist: pandas<3.0.0,>=1.4.0
+Requires-Dist: PyYAML<7.0,>=5.4
+Requires-Dist: matplotlib
+Requires-Dist: scikit_learn<2.0,>=1.0
+Requires-Dist: scipy<2.0,>=1.7
+Requires-Dist: setuptools<70.0,>=49.6.0
+Requires-Dist: torch<3.0,>=1.9.0
+Requires-Dist: tqdm<5.0,>=4.50.0
+Requires-Dist: xgboost==2.1.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# MED3pa: Predictive Performance Precision Analysis in Medicine
+
+## Table of Contents
+- [Overview](#overview)
+- [Key Functionalities](#key-functionalities)
+- [Subpackages](#subpackages)
+- [Getting Started with the Package](#getting-started)
+    - [Installation](#installation)
+    - [A Simple Example](#a-simple-example)
+- [Acknowledgement](#acknowledgement)
+- [References](#references)
+- [Authors](#authors)
+- [Statement](#statement)
+- [Supported Python Versions](#supported-python-versions)
+
+## Overview
+
+<img src="https://github.com/MEDomicsLab/MED3pa/blob/review/docs/diagrams/package_white_bg.svg" alt="Overview" style="width:100%;">
+
+The **MED3pa** package is specifically designed to address critical challenges in deploying machine learning models, with a particular focus on the robustness and reliability of models under real-world conditions. It provides comprehensive tools for evaluating model stability and performance in the face of prediction uncertainty and disadvantaged data profiles associated with degraded model performance.
+This work is developed alongside the associated methodological article, published in the Journal of the American Medical Informatics Association (JAMIA): https://doi.org/10.1093/jamia/ocag034.
+The full code used to generate the results presented in the article is available here: https://github.com/MEDomicsLab/study_3pa.
+
+## Key Functionalities
+
+- **Model Confidence Estimation**: Through the MED3pa subpackage, the package measures the predictive confidence at both individual and group (profile) levels. This helps in understanding the reliability of model predictions and in making informed decisions based on model outputs.
+
+- **Identification of disadvantaged Profiles**: MED3pa analyzes data profiles for whom the BaseModel consistently leads to poor model performance. This capability allows developers to refine training datasets or retrain models to handle these edge cases effectively.
+
+## Subpackages
+
+<p align="center">
+    <img src="https://github.com/MEDomicsLab/MED3pa/blob/review/docs/diagrams/subpackages.svg" alt="Overview">
+</p>
+
+The package is structured into four distinct subpackages:
+
+- **datasets**: Stores and manages the dataset.
+- **models**: Handles ML models operations.
+- **med3pa**: Evaluates the model’s performance & extracts disadvantaged profiles.
+
+This modularity allows users to easily integrate and utilize specific functionalities tailored to their needs without dealing with unnecessary complexities.
+
+## Getting Started with the Package
+
+To get started with MED3pa, follow the installation instructions and usage examples provided in the documentation.
+
+### Installation
+
+```bash
+pip install MED3pa
+```
+
+### A simple exemple
+We have created a [simple example](https://github.com/MEDomicsLab/MED3pa/tree/main/examples) of using the MED3pa package. 
+[See the full example here](https://github.com/MEDomicsLab/MED3pa/tree/main/examples/oym_example.ipynb)
+```python
+from MED3pa.datasets import DatasetsManager
+from MED3pa.med3pa import Med3paExperiment
+from MED3pa.models import BaseModelManager
+from MED3pa.visualization.mdr_visualization import visualize_mdr
+from MED3pa.visualization.profiles_visualization import visualize_tree
+
+...
+
+# Initialize the DatasetsManager
+datasets = DatasetsManager()
+datasets.set_from_data(dataset_type="testing",
+                       observations=x_evaluation.to_numpy(),
+                       true_labels=y_evaluation,
+                       column_labels=x_evaluation.columns)
+# Initialize the BaseModelManager
+base_model_manager = BaseModelManager(model=clf)
+
+# Execute the MED3PA experiment
+results = Med3paExperiment.run(
+    datasets_manager=datasets,
+    base_model_manager=base_model_manager,
+    **med3pa_params
+)
+
+# Save the results to a specified directory
+results.save(file_path='results/oym')
+
+# Visualize results
+visualize_mdr(result=results, filename='results/oym/mdr')
+visualize_tree(result=results, filename='results/oym/profiles')
+
+```
+
+## Acknowledgement
+MED3pa is an open-source package developed at the [MEDomicsLab](https://www.medomicslab.com/) laboratory. We welcome any contribution and feedback. 
+
+## Authors
+* [Olivier Lefebvre: ](https://www.linkedin.com/in/olivier-lefebvre-bb8837162/) Student (Ph. D. Computer science) at Université de Sherbrooke
+* [Lyna Chikouche: ](https://www.linkedin.com/in/lynahiba-chikouche-62a5181bb/) Research intern at MEDomicsLab laboratory.
+* [Ludmila Amriou: ](https://www.linkedin.com/in/ludmila-amriou-875b58238//) Research intern at MEDomicsLab laboratory.
+* [Martin Vallières: ](https://www.linkedin.com/in/martvallieres/) Associate professor, Department of Oncology at McGill University
+
+
+## Supported Python Versions
+
+The **MED3pa** package is developed and tested with Python 3.12.3.
+
+Additionally, it is compatible with the following Python versions:
+- Python 3.11.x
+- Python 3.10.x
+- Python 3.9.x
+
+While the package may work with other versions of Python, these are the versions we officially support and recommend.

@@ -3,6 +3,7 @@ This module stores and manages the results of the MED3pa experiments.
 It includes the ``Med3paRecord`` class, responsible for storing and managing results for each set,
 and the ``Med3paResult`` class, responsible for storing and managing all results of the experiment.
 """
+from __future__ import annotations
 
 import datetime
 import json
@@ -11,7 +12,7 @@ import os
 from typing import Any, Dict, Optional, TextIO
 
 from MED3pa.datasets import MaskedDataset
-from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel
+from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel, MpcStrategy
 from MED3pa.med3pa.profiles import Profile, ProfilesManager
 from MED3pa.med3pa.tree import TreeRepresentation
 
@@ -38,6 +39,8 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         return {k: to_serializable(v, additional_arg) for k, v in obj.items()}
     if isinstance(obj, list):
         return [to_serializable(v, additional_arg) for v in obj]
+    if isinstance(obj, MpcStrategy):
+        return obj.name
     return obj
 
 

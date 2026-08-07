@@ -35,3 +35,6 @@ experiments/
 
 # Ignore Docs build
 docs/_build/
+
+
+*.egg-info/

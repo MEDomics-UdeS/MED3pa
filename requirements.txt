@@ -1,13 +1,16 @@
-checkpointer==2.1.0
+checkpointer==1.2.0; python_version >= "3.12"
 numpy>=1.21.0, <2.1.0
 pandas>=1.4.0, <3.0.0
 PyYAML>=5.4, <7.0
-matplotlib==3.9.2
-ray>=2.37.0
-relib==1.2.0
+matplotlib
+# ray>=2.37.0
+# relib==1.2.0
 scikit_learn>=1.0, <2.0
 scipy>=1.7, <2.0
 setuptools>=49.6.0, <70.0
 torch>=1.9.0, <3.0
+#needs --extra-index-url https://download.pytorch.org/whl/cpu
+# torch==2.12.1+cpu if pc doesnt have compatible nvidia gpu
 tqdm>=4.50.0, <5.0
+typing_extensions>=4.0.0
 xgboost==2.1.1

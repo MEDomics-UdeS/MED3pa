@@ -2,13 +2,14 @@
 The masked.py module includes the ``MaskedDataset`` class that is capable of handling many dataset related operations,
 such as cloning, sampling, refining, etc.
 """
+from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
-from typing import Self
+from typing_extensions import Self
 
 
 class MaskedDataset(Dataset):
