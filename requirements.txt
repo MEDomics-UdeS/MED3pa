@@ -1,4 +1,4 @@
-checkpointer==1.2.0; python_version >= "3.12"
+checkpointer==2.1.0; python_version >= "3.12"
 numpy>=1.21.0, <2.1.0
 pandas>=1.4.0, <3.0.0
 PyYAML>=5.4, <7.0
