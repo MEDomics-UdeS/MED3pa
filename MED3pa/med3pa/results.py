@@ -41,7 +41,7 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
         return [to_serializable(v, additional_arg) for v in obj]
     if isinstance(obj, MpcStrategy):
         return obj.name
-    return obj
+    return str(obj)
 
 
 class Med3paRecord:
