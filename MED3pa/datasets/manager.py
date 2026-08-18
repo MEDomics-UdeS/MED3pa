@@ -119,7 +119,7 @@ class DatasetsManager:
             ValueError: If the target column is not found in the list of columns.
         """
         if columns is not None:  # Ensures clean feature names
-            columns = [re.sub(r'[^0-9a-zA-Z_]+', '_', col).strip('_') for col in b]
+            columns = [re.sub(r'[^0-9a-zA-Z_]+', '_', col).strip('_') for col in columns]
 
         if self.column_labels is None:
             self.column_labels = columns
