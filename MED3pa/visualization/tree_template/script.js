@@ -90,29 +90,58 @@ function createNodeContent(node, infoType, isPhantom = false) {
     const content = document.createElement("div");
     content.className = "node-content";
 
-    const info = node[infoType];
+    let info;
+    info = node[infoType];
 
     if (info && !isPhantom) {
-        if (infoType === "detectron_results") {
-            // Handle detectron_results specifically
-            if (info["Tests Results"]) {
-                content.innerHTML = info["Tests Results"]
-                    .map((result) => {
-                        // Extract relevant information
-                        const strategy = `Strategy: ${result.Strategy}`;
-                        const shiftProbOrPValue =
-                            result.shift_probability !== undefined
-                                ? `Shift Probability: ${result.shift_probability.toFixed(2)}`
-                                : result.p_value !== undefined
-                                ? `P-Value: ${result.p_value.toFixed(2)}`
-                                : "No data available";
-                        return `${strategy}<br>${shiftProbOrPValue}`;
-                    })
-                    .join("<br><br>"); // Add spacing between strategies
+        if (infoType === "explanations") {
 
-            } else {
-                content.innerText = "Detectron was not executed!";
-            }
+            content.innerHTML = info
+            .map((item) => {
+                const method = `Method: ${item.Method_name}`;
+
+                let firstResult;
+
+                // Handle array, object, or string
+                if (Array.isArray(item.result)) {
+                    firstResult = item.result[0];
+                } else if (typeof item.result === "object" && item.result !== null) {
+                    firstResult = item.result;
+                } else if (typeof item.result === "string") {
+                    // NEW: direct string result (FeatureResumer)
+                    return `${method}<br>Decision: ${item.result}<br>`;
+                } else {
+                    firstResult = null;
+                }
+
+                let decision;
+
+                if (firstResult && firstResult.decision !== undefined) {
+                    decision = firstResult.decision;
+
+                } else if (firstResult) {
+                    const explanationArray = firstResult.explanations;
+
+                    if (Array.isArray(explanationArray) && explanationArray.length > 0) {
+                        decision = explanationArray[0].result;
+                    } else {
+                        decision = "No decision available in profile";
+                    }
+
+                } else {
+                    decision = "No decision available in profile";
+                }
+
+                const pValue =
+                    firstResult && firstResult.p_value !== undefined
+                        ? `P-Value: ${firstResult.p_value.toFixed(2)}`
+                        : "";
+
+                return `${method}<br>Decision: ${decision}<br>${pValue}`;
+            })
+            .join("<br><br>");
+
+
         } else {
             // Default case for other info types
             content.innerHTML = Object.entries(info)
@@ -250,7 +279,7 @@ function updateCheckboxAvailability() {
     // console.log(document.getElementById("general-info-checkbox"));
     document.getElementById("general-info-checkbox").disabled = !treeData.some(node => node["node_information"]);
     document.getElementById("performance-info-checkbox").disabled = !treeData.some(node => node.metrics);
-    document.getElementById("shift-detection-checkbox").disabled = !treeData.some(node => node.detectron_results);
+    document.getElementById("shift-detection-checkbox").disabled = !treeData.some(node => node["explanations"]);
 }
 
 // Initialize the Tree
@@ -756,7 +785,7 @@ function updateColorToggleAvailability() {
     const colorToggle = document.getElementById("color-toggle");
     const colorToggleContainer = document.querySelector(".color-toggle");
 
-    if (infoType === "detectron_results") {
+    if (infoType === "explanations") {
         // Disable the toggle and hide the color options
         colorToggle.checked = false;
         colorToggle.disabled = true;

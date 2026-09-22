@@ -8,7 +8,7 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
-from typing import Self
+from typing import Self, List, Optional, Tuple, Union
 
 
 class MaskedDataset(Dataset):
@@ -29,12 +29,15 @@ class MaskedDataset(Dataset):
         self.__true_labels = true_labels
         self.__indices = np.arange(len(self.__observations))
         self.__original_indices = self.__indices.copy()
-        self.__sample_counts = np.zeros(len(observations), dtype=int)
         self.__pseudo_probabilities = None
         self.__pseudo_labels = None 
         self.__confidence_scores = None
         self.__column_labels = column_labels if column_labels is not None else [f'feature_{i}' for i in range(observations.shape[1])]
         self.__file_path = None
+
+    @property
+    def features(self):
+        return self.__column_labels
 
     def __getitem__(self, index: int) -> tuple:
         """
@@ -86,49 +89,85 @@ class MaskedDataset(Dataset):
             self.__pseudo_probabilities = self.__pseudo_probabilities[mask]
         if self.__confidence_scores is not None:
             self.__confidence_scores = self.__confidence_scores[mask]
-        if self.__sample_counts is not None:
-            self.__sample_counts = self.__sample_counts[mask]
 
         return self
+
+    def mask_by_profile(self, path: List[str]) -> np.ndarray:
+        """
+        Filters datasets based on specific profile conditions described by a path and returns corresponding mask.
+
+        Args:
+            path (list): Conditions describing the profile path.
+
+        Returns:
+            np.ndarray: Boolean mask indicating which rows satisfy the profile conditions.
+
+        """
+        x = self.get_observations()
+
+        # Start with a mask that selects all rows
+        mask = np.ones(len(x), dtype=bool)
+
+        for condition in path:
+            if condition == '*':
+                continue  # Skip the root node indicator
+
+            # Parse the condition string
+            column_name, operator, value_str = condition.split(' ')
+            column_index = self.__column_labels.index(column_name)  # Map feature name to index
+            try:
+                value = float(value_str)
+            except ValueError:
+                # If conversion fails, the string is not a number. Handle it appropriately.
+                value = value_str  # If it's supposed to be a string, leave it as string
+
+            # Apply the condition to update the mask
+            if operator == '>':
+                mask &= x[:, column_index] > value
+            elif operator == '<':
+                mask &= x[:, column_index] < value
+            elif operator == '>=':
+                mask &= x[:, column_index] >= value
+            elif operator == '<=':
+                mask &= x[:, column_index] <= value
+            elif operator == '==':
+                mask &= x[:, column_index] == value
+            elif operator == '!=':
+                mask &= x[:, column_index] != value
+            else:
+                raise ValueError(f"Unsupported operator '{operator}' in condition '{condition}'.")
+        return mask
+
+    def filter_by_profile(self, path: List, lists_to_filter: Optional[List] = None,
+                           ) -> Union[Tuple['MaskedDataset', List], 'MaskedDataset']:
+        """
+        Filters datasets based on specific profile conditions described by a path.
+
+        Args:
+            path (list): Conditions describing the profile path.
+            lists_to_filter (list): Lists that needs to be filtered with the dataset.
+
+        Returns:
+            tuple: Filtered dataset, filtered lists.
+        """
+        # Get Boolean mask indicating which rows satisfy the profile conditions.
+        mask = self.mask_by_profile(path=path)
+
+        # Create a copy of current dataset
+        filtered_dataset = self.clone().refine(mask=mask)
+
+        # Filter optional lists, if any
+        if lists_to_filter is not None:
+            filtered_lists = [lst[mask] for lst in lists_to_filter]
+            if len(filtered_lists) == 1:
+                return filtered_dataset, filtered_lists[0]
+            return filtered_dataset, filtered_lists
+
+        return filtered_dataset
 
     def reset_indices(self) -> None:
         """Resets the indices of the dataset to the original indices."""
         self.__indices = self.__original_indices.copy()
-
-    def sample_uniform(self, n_samples: int, seed: int) -> 'MaskedDataset':
-        """
-        Samples N data points from the dataset, prioritizing the least sampled points.
-
-        Args:
-            n_samples (int): The number of samples to return.
-            seed (int): The seed for random number generator.
-        
-        Returns:
-            MaskedDataset: A new instance of the dataset containing N random samples.
-
-        Raises:
-            ValueError: If N is greater than the current number of data points in the dataset.
-        """
-        if n_samples > len(self.__observations):
-            raise ValueError("N cannot be greater than the current number of data points in the dataset.")
-        
-        # Find the indices of the least sampled points
-        sorted_indices = np.argsort(self.__sample_counts)
-        least_sampled_indices = sorted_indices[:n_samples]
-        
-        # Set the seed for reproducibility and shuffle the least sampled indices
-        np.random.seed(seed)
-        np.random.shuffle(least_sampled_indices)
-        
-        # Select the first N after shuffling
-        sampled_indices = least_sampled_indices[:n_samples]
-        # Update the sample counts for the sampled indices
-        self.__sample_counts[sampled_indices] += 1
-
-        # Extract the sampled observations and labels
-        sampled_set = self.__sample_indices(sampled_indices)
-
-        return sampled_set
     
     def sample_random(self, n_samples: int, seed: int) -> 'MaskedDataset':
         """
@@ -246,7 +285,7 @@ class MaskedDataset(Dataset):
         
         self.__pseudo_probabilities = pseudo_probabilities
         if threshold:
-            self.__pseudo_labels = pseudo_probabilities >= threshold
+            self.set_pseudo_labels(pseudo_probabilities >= threshold)
         
     def set_confidence_scores(self, confidence_scores: np.ndarray) -> None:
         """

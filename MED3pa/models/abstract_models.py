@@ -330,8 +330,8 @@ class ClassificationModel(Model, ClassifierMixin):
 
     @abstractmethod
     def fit(self, x_train: Union[np.ndarray, pd.DataFrame], y_train: Union[np.ndarray, pd.Series],
-            training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool, weights: np.ndarray = None,
-            *params) -> None:
+            training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool,
+            sample_weight: np.ndarray = None, *params) -> None:
         """
         Fits the classification model using provided training and validation data.
         This method is functionally equivalent to train. Subclasses may override either fit or train,
@@ -342,7 +342,7 @@ class ClassificationModel(Model, ClassifierMixin):
             y_train (Union[np.ndarray, pd.Series]): Labels for training.
             training_parameters (Dict[str, Any], optional): Additional training parameters.
             balance_train_classes (bool): Whether to balance the training classes.
-            weights (Optional[np.ndarray], optional): Weights for the training data.
+            sample_weight (Optional[np.ndarray], optional): Weights for the training data.
             *params : Additional training parameters for specific models.
 
         Raises:
@@ -352,8 +352,8 @@ class ClassificationModel(Model, ClassifierMixin):
 
     @abstractmethod
     def train(self, x_train: Union[np.ndarray, pd.DataFrame], y_train: Union[np.ndarray, pd.Series],
-              training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool, weights: np.ndarray = None,
-              *params) -> None:
+              training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool,
+              sample_weight: np.ndarray = None, *params) -> None:
         """
         Trains the classification model using provided training and validation data.
         This method is functionally equivalent to fit. Subclasses may override either fit or train,
@@ -364,7 +364,7 @@ class ClassificationModel(Model, ClassifierMixin):
             y_train (Union[np.ndarray, pd.Series]): Labels for training.
             training_parameters (Dict[str, Any], optional): Additional training parameters.
             balance_train_classes (bool): Whether to balance the training classes.
-            weights (Optional[np.ndarray], optional): Weights for the training data.
+            sample_weight (Optional[np.ndarray], optional): Weights for the training data.
             *params : Additional training parameters for specific models.
 
         Raises:

@@ -18,25 +18,41 @@ class Profile:
             node_id (int): The identifier for the node associated with this profile.
             path (List[str]): A List OF String containing representation of the path to this node within the tree.
         """
-        self.node_id = node_id
-        self.path = path
-        self.mean_value = None
-        self.metrics = None
-        self.node_information = None
+        self._node_id = node_id
+        self._path = path
+        self._metrics = None
+        self._node_information = None
+
+    @property
+    def path(self):
+        return self._path
+
+    @property
+    def metrics(self):
+        return self._metrics
+
+    @property
+    def node_id(self):
+        return self._node_id
+
+    @property
+    def node_information(self):
+        return self._node_information
 
     def to_dict(self) -> Dict:
         """
         Converts the Profile instance into a dictionary format suitable for serialization.
 
         Returns:
-            dict: A dictionary representation of the Profile instance including the node ID, path, mean value, 
-                  metrics.
+            dict: A dictionary representation of the Profile instance including the node ID, path, metrics.
         """
         return {
-            'id': self.node_id,
-            'path': self.path,
-            'metrics': self.metrics,
-            'node information': self.node_information
+            'node_id': self.node_id,
+            'path': self._path,
+            'metrics': self._metrics,
+            'node_information': {k: v for k, v in self._node_information.items() if k != "explanations"} if
+            self._node_information else None,
+            'explanations': self._node_information["explanations"] if self._node_information else None
         }
 
     def update_metrics_results(self, metrics: dict) -> None:
@@ -46,7 +62,7 @@ class Profile:
         Args:
             metrics (dict): The results to be added to the profile.
         """
-        self.metrics = metrics.copy()
+        self._metrics = metrics.copy()
 
     def update_node_information(self, info: dict) -> None:
         """
@@ -55,7 +71,10 @@ class Profile:
         Args:
             info (dict): The updated node information.
         """
-        self.node_information = info.copy()
+        self._node_information = info.copy()
+
+    def update_path(self, path: List[str]):
+        self._path = path
 
     def __getitem__(self, key: str):
         """

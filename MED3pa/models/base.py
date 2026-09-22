@@ -116,7 +116,7 @@ class BaseModelManager:
         return {
             "model": self.__baseModel.__class__.__name__,
             "model_type": self.__baseModel.__class__.__name__,
-            "params": self.__baseModel.get_params(),
+            "params": getattr(self.__baseModel, "get_params", lambda: {})(),
             "data_preparation_strategy": None,
             "pickled_model": getattr(self.__baseModel, "pickled_model", False),
             "file_path": getattr(self.__baseModel, "file_path", "")

@@ -30,10 +30,7 @@ def to_serializable(obj: Any, additional_arg: Any = None) -> Any:
     if isinstance(obj, (np.integer, np.floating)):
         return obj.item()
     if isinstance(obj, Profile):
-        if additional_arg is not None:
-            return obj.to_dict(additional_arg)
-        else:
-            return obj.to_dict()
+        return obj.to_dict()
     if isinstance(obj, dict):
         return {k: to_serializable(v, additional_arg) for k, v in obj.items()}
     if isinstance(obj, list):

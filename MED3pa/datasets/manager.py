@@ -110,17 +110,16 @@ class DatasetsManager:
     def set_column_labels(self, columns: list) -> None:
         """
         Sets the column labels for the datasets, excluding the target column.
-
-        Args:
-            columns (list): The list of columns excluding the target column.
-
-        Raises:
-            ValueError: If the target column is not found in the list of columns.
+        Normalizes column names by replacing spaces with underscores.
         """
+        normalized = [
+            "_".join(col.strip().split())  # collapse multiple spaces, strip, replace with _
+            for col in columns
+        ]
 
         if self.column_labels is None:
-            self.column_labels = columns
-        elif not np.array_equal(self.column_labels, columns):
+            self.column_labels = normalized
+        elif not np.array_equal(self.column_labels, normalized):
             raise ValueError("Provided column labels do not match the existing column labels.")
 
         for dataset in (
@@ -128,7 +127,7 @@ class DatasetsManager:
                 self.testing_set,
         ):
             if dataset is not None:
-                dataset.column_labels = columns
+                dataset.column_labels = normalized
 
     def get_column_labels(self):
         """

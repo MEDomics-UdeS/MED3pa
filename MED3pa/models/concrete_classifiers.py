@@ -4,6 +4,7 @@ It adapts the abstract interfaces defined in ``abstract_models.py`` to provide f
 """
 
 import numpy as np
+import pandas as pd
 import xgboost as xgb
 from typing import Any, Dict, Optional, Union
 
@@ -54,18 +55,18 @@ class XGBoostModel(ClassificationModel):
         else:
             return features
 
-    def train(self, x_train: np.ndarray, y_train: np.ndarray, x_validation: np.ndarray, y_validation: np.ndarray,
-              training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool) -> None:
+    def train(self, x_train: Union[np.ndarray, pd.DataFrame], y_train: Union[np.ndarray, pd.Series],
+              training_parameters: Optional[Dict[str, Any]], balance_train_classes: bool,
+              sample_weight:np.ndarray = None, *params) -> None:
         """
         Trains the model on the provided dataset.
 
         Args:
             x_train (np.ndarray): Features for training.
             y_train (np.ndarray): Labels for training.
-            x_validation (np.ndarray): Features for validation.
-            y_validation (np.ndarray): Labels for validation.
             training_parameters (Optional[Dict[str, Any]]): Additional training parameters.
             balance_train_classes (bool): Whether to balance the training classes.
+            sample_weight (np.ndarray): Samples weights.
 
         Raises:
             ValueError: If parameters for xgb.Booster are not initialized before training.
@@ -96,6 +97,9 @@ class XGBoostModel(ClassificationModel):
         
         # take off the custom training parameters
         filtered_params = {k: v for k, v in self.params.items() if k not in valid_xgboost_custom_params}
+
+        if sample_weight is not None:
+            weights = sample_weight
 
         if self.model_class is xgb.Booster:
             # train the xgb.Booster

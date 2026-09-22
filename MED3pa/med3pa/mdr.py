@@ -5,12 +5,13 @@ and to extract problematic profiles under specific declaration rates."""
 
 import numpy as np
 from copy import deepcopy
-from typing import Dict
+from typing import Dict, Tuple
 
 from MED3pa.datasets import MaskedDataset
 from MED3pa.med3pa.profiles import ProfilesManager, Profile
 from MED3pa.med3pa.tree import TreeRepresentation
 from MED3pa.models.classification_metrics import *
+from MED3pa.uncertainty_explainer.explainer import Explainer
 
 
 class MDRCalculator:
@@ -89,89 +90,6 @@ class MDRCalculator:
         return [d for d in list1 if d[key] in unique_to_list1]
 
     @staticmethod
-    def _filter_by_profile(dataset: MaskedDataset, path: List, features: list,
-                           confidence_scores: np.array, min_confidence_level: Optional[float ]= None):
-        """
-        Filters datasets based on specific profile conditions described by a path.
-
-        Args:
-            dataset (MaskedDataset): The dataset to filter.
-            features (list): The list of features to filter on.
-            path (list): Conditions describing the profile path.
-            confidence_scores (np.array): Predicted confidence scores.
-            min_confidence_level(float): Possibility to filter according a minimum confidence score if specified.
-
-        Returns:
-            tuple: Filtered datasets including observations, true labels, predicted probabilities, predicted labels, and mpc values.
-        """
-
-        # retrieve different dataset components to calculate the metrics
-        x = dataset.get_observations()
-        y_true = dataset.get_true_labels()
-        y_pred = dataset.get_pseudo_labels()
-        predicted_prob = dataset.get_pseudo_probabilities()
-
-        # Start with a mask that selects all rows
-        mask = np.ones(len(x), dtype=bool)
-
-        for condition in path:
-            if condition == '*':
-                continue  # Skip the root node indicator
-
-            # Parse the condition string
-            column_name, operator, value_str = condition.split(' ')
-            column_index = features.index(column_name)  # Map feature name to index
-            try:
-                value = float(value_str)
-            except ValueError:
-                # If conversion fails, the string is not a number. Handle it appropriately.
-                value = value_str  # If it's supposed to be a string, leave it as string
-
-            # Apply the condition to update the mask
-            if operator == '>':
-                mask &= x[:, column_index] > value
-            elif operator == '<':
-                mask &= x[:, column_index] < value
-            elif operator == '>=':
-                mask &= x[:, column_index] >= value
-            elif operator == '<=':
-                mask &= x[:, column_index] <= value
-            elif operator == '==':
-                mask &= x[:, column_index] == value
-            elif operator == '!=':
-                mask &= x[:, column_index] != value
-            else:
-                raise ValueError(f"Unsupported operator '{operator}' in condition '{condition}'.")
-
-        # Filter the data according to the path mask
-        filtered_x = x[mask]
-        filtered_y_true = y_true[mask]
-        if predicted_prob is not None:
-            filtered_prob = predicted_prob[mask]
-        else:
-            filtered_prob = None
-
-        if y_pred is not None:
-            filtered_y_pred = y_pred[mask]
-        else:
-            filtered_y_pred = None
-
-        filtered_confidence_scores = confidence_scores[mask]
-
-        # filter once again according to the min_confidence_level if specified
-        if min_confidence_level is not None:
-            filtered_x = filtered_x[filtered_confidence_scores >= min_confidence_level]
-            filtered_y_true = filtered_y_true[filtered_confidence_scores >= min_confidence_level]
-            filtered_prob = filtered_prob[
-                filtered_confidence_scores >= min_confidence_level] if predicted_prob is not None else None
-            filtered_y_pred = filtered_y_pred[
-                filtered_confidence_scores >= min_confidence_level] if y_pred is not None else None
-            filtered_confidence_scores = filtered_confidence_scores[
-                filtered_confidence_scores >= min_confidence_level]
-
-        return filtered_x, filtered_y_true, filtered_prob, filtered_y_pred, filtered_confidence_scores
-
-    @staticmethod
     def calc_metrics_by_dr(dataset: MaskedDataset, confidence_scores: np.ndarray, metrics_list: list
                            ) -> Dict[int, Dict]:
         """
@@ -244,7 +162,7 @@ class MDRCalculator:
     @staticmethod
     def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, dataset: MaskedDataset,
                       features: list, confidence_scores: np.ndarray, min_samples_ratio: int,
-                      metrics_list: List) -> Dict[int, float]:
+                      metrics_list: List, explainer: Explainer) -> Dict[int, float]:
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles
         change across different confidence levels derived from predicted accuracies.
@@ -257,6 +175,7 @@ class MDRCalculator:
             confidence_scores (np.ndarray): Array of predicted confidence values used for thresholding profiles.
             min_samples_ratio (int): Minimum sample ratio to consider for including a profile.
             metrics_list (List): List of metrics to calculate.
+            explainer (Explainer): Explainer instance to explain uncertainty sources in uncertainty profiles.
 
         Returns:
             Dict[int, float]: A dictionary with declaration rates as keys and their corresponding minimum confidence levels as values.
@@ -287,8 +206,8 @@ class MDRCalculator:
                 # Calculate mean confidence and samples_ratio for all nodes to see if this node is eligible as a profile
                 for node in all_nodes:
                     # filter the data that belongs to this node, and filter according to min_confidence_level threshold
-                    _, _, _, _, filtered_confidence_scores = MDRCalculator._filter_by_profile(
-                        dataset, node.path, features=features, confidence_scores=confidence_scores, min_confidence_level=min_confidence_level)
+                    filtered_confidence_scores = confidence_scores[dataset.mask_by_profile(path=node.path)]
+                    filtered_confidence_scores = filtered_confidence_scores[filtered_confidence_scores >= min_confidence_level]
 
                     # calculate the samples_ratio (pop%) and mean_confidence_level of this node
                     if len(filtered_confidence_scores) > 0:
@@ -303,7 +222,8 @@ class MDRCalculator:
                                                                     min_confidence_level=min_confidence_level,
                                                                     features=features,
                                                                     confidence_scores=confidence_scores,
-                                                                    metrics_list=metrics_list)
+                                                                    metrics_list=metrics_list,
+                                                                    explainer=explainer)
                             profiles_current.append(deepcopy(node))
 
                 # If the last profiles are different from current profiles
@@ -325,7 +245,8 @@ class MDRCalculator:
 
     @staticmethod
     def __calc_metrics_in_profile(profile: Profile, dataset: MaskedDataset, min_confidence_level: float,
-                                  features: List, confidence_scores: np.ndarray, metrics_list: List) -> None:
+                                  features: List, confidence_scores: np.ndarray, metrics_list: List,
+                                  explainer: Explainer) -> None:
         """
         Calculates various metrics for different profiles and declaration rates based on provided datasets.
 
@@ -335,87 +256,67 @@ class MDRCalculator:
             features (List): The list of features to filter on.
             confidence_scores (np.ndarray): Array of predicted accuracy values used for thresholding profiles.
             metrics_list (List): List of metrics to calculate.
+            explainer (Explainer): Explainer instance.
 
         """
         # retrieve different dataset components to calculate the metrics
         total_number = len(dataset.get_true_labels())
 
-        x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(
-                                                                        dataset=dataset,
-                                                                        path=profile.path,
-                                                                        features=features,
-                                                                        confidence_scores=confidence_scores)
-        # calculate the metrics for this profile
+        # Filter dataset for the corresponding patient profile
+        filtered_dataset, confidence_scores = dataset.filter_by_profile(
+            path=profile.path, lists_to_filter=[confidence_scores])
+
+        # Get profile infos with sufficient confidence
         confidence_mask = confidence_scores >= min_confidence_level
-        metrics_dict = MDRCalculator._calculate_metrics(y_true=y_true[confidence_mask],
-                                                        y_pred=y_pred[confidence_mask],
-                                                        predicted_prob=pred_prob[confidence_mask],
+        y_true = filtered_dataset.get_true_labels()[confidence_mask]
+        pred_prob = filtered_dataset.get_pseudo_probabilities()[confidence_mask]
+        y_pred = filtered_dataset.get_pseudo_labels()[confidence_mask]
+
+        # calculate the metrics for this profile
+        metrics_dict = MDRCalculator._calculate_metrics(y_true=y_true,
+                                                        y_pred=y_pred,
+                                                        predicted_prob=pred_prob,
                                                         metrics_list=metrics_list)
         info_dict = {}
         # the remaining node population at the current dr compared to node population at dr = 100
-        info_dict['Node%'] = len(y_true[confidence_mask]) * 100 / len(y_true)
+        info_dict['Node%'] = len(y_true) * 100 / len(y_true)
         # the remaining node population at the current dr compared to the whole population at dr = 100
-        info_dict['Population%'] = len(y_true[confidence_mask]) * 100 / total_number
+        info_dict['Population%'] = len(y_true) * 100 / total_number
         # the mean confidence level for this profile at this dr
-        info_dict['Mean confidence level'] = float(np.mean(confidence_scores[confidence_mask])) * 100 if \
-            confidence_scores[confidence_mask].size > 0 else None
+        info_dict['Mean confidence level'] = float(np.mean(confidence_scores)) * 100 if \
+            confidence_scores.size > 0 else None
         # the positive class percentage in this profile at this dr
-        info_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
-            len(y_true[confidence_mask]) > 0 else None
+        info_dict['Positive%'] = np.sum(y_true) / len(y_true) * 100 if \
+            len(y_true) > 0 else None
+        # Uncertainty information
+        uncertainty_explanations = explainer(x_q=filtered_dataset.get_observations(), profile_path=profile.path)
+        info_dict['explanations'] = uncertainty_explanations
+
+        reference_dataset = explainer.reference_dataset
+        if reference_dataset is not None:
+            filtered_reference_dataset = reference_dataset.filter_by_profile(path=profile.path)
+            # calculate the metrics for this profile
+            ref_metrics_dict = MDRCalculator._calculate_metrics(
+                y_true=filtered_reference_dataset.get_true_labels(),
+                y_pred=filtered_reference_dataset.get_pseudo_labels(),
+                predicted_prob=filtered_reference_dataset.get_pseudo_probabilities(),
+                metrics_list=metrics_list)
+
+            def fmt(x):
+                return "" if x is None else f"{x:.2f}"
+
+            for metric in metrics_dict.keys():
+                metrics_dict[metric] = f"{fmt(metrics_dict[metric])} ({fmt(ref_metrics_dict[metric])})"
+
+            ref_percent = (len(filtered_reference_dataset.get_true_labels()) /
+                           len(reference_dataset.get_true_labels())) * 100
+            info_dict['Population%'] = f"{fmt(info_dict['Population%'])} ({fmt(ref_percent)})"
+
+            ref_pos_percent = (np.sum(filtered_reference_dataset.get_true_labels()) /
+                               len(filtered_reference_dataset.get_true_labels()) * 100) if (
+                    len(filtered_reference_dataset.get_true_labels()) > 0) else None
+            info_dict['Positive%'] = f"{fmt(info_dict['Positive%'])} ({fmt(ref_pos_percent)})"
+
         # update the calculated metrics in the profile
         profile.update_metrics_results(metrics_dict)
         profile.update_node_information(info_dict)
-
-    # @staticmethod
-    # def calc_metrics_by_profiles(profiles_manager, dataset: MaskedDataset, features: List,
-    #                              confidence_scores: np.ndarray, min_samples_ratio: int, metrics_list: List) -> None:
-    #     """
-    #     Calculates various metrics for different profiles and declaration rates based on provided datasets.
-    #
-    #     Args:
-    #         profiles_manager (ProfilesManager): Manager handling profiles.
-    #         dataset (MaskedDataset): the dataset to use.
-    #         features (List): The list of features to filter on.
-    #         confidence_scores (np.ndarray): Array of predicted accuracy values used for thresholding profiles.
-    #         min_samples_ratio (int): Minimum sample ratio to consider for including a profile.
-    #         metrics_list (List): List of metrics to calculate.
-    #
-    #     """
-    #     # retrieve different dataset components to calculate the metrics
-    #     all_y_true = dataset.get_true_labels()
-    #     all_confidence_scores = confidence_scores
-    #
-    #     dr_dict = profiles_manager.profiles_records.get(min_samples_ratio)
-    #
-    #     # go through all profiles, for each ratio and for each dr
-    #     if dr_dict is not None:
-    #         # for each dr and its profiles stored in the ratio
-    #         for dr, profiles in dr_dict.items():
-    #             # calculate the min_confidence level
-    #             min_confidence_level = MDRCalculator._get_min_confidence_score(dr, all_confidence_scores)
-    #
-    #             # go through each profile in the profile list
-    #             for profile in profiles:
-    #                 x, y_true, pred_prob, y_pred, confidence_scores = MDRCalculator._filter_by_profile(dataset,
-    #                                                                                                    profile.path,
-    #                                                                                                    features)
-    #                 # calculate the metrics for this profile
-    #                 confidence_mask = confidence_scores >= min_confidence_level
-    #                 metrics_dict = MDRCalculator._calculate_metrics(y_true=y_true[confidence_mask],
-    #                                                                 y_pred=y_pred[confidence_mask],
-    #                                                                 predicted_prob=pred_prob[confidence_mask],
-    #                                                                 metrics_list=metrics_list)
-    #                 info_dict = {}
-    #                 # the remaining node population at the current dr compared to node population at dr = 100
-    #                 info_dict['Node%'] = len(y_true[confidence_mask]) * 100 / len(y_true)
-    #                 # the remaining node population at the current dr compared to the whole population at dr = 100
-    #                 info_dict['Population%'] = len(y_true[confidence_mask]) * 100 / len(all_y_true)
-    #                 # the mean confidence level for this profile at this dr
-    #                 info_dict['Mean confidence level'] = np.mean(confidence_scores[confidence_mask]) * 100 if \
-    #                     confidence_scores[confidence_mask].size > 0 else None
-    #                 # the positive class percentage in this profile at this dr
-    #                 info_dict['Positive%'] = np.sum(y_true[confidence_mask]) / len(y_true[confidence_mask]) * 100 if \
-    #                     len(y_true[confidence_mask]) > 0 else None
-    #                 # update the calculated metrics in the profile
-    #                 profile.update_metrics_results(metrics_dict)
-    #                 profile.update_node_information(info_dict)

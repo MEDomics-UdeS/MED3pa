@@ -16,6 +16,7 @@ from MED3pa.med3pa.uncertainty import *
 from MED3pa.models.base import BaseModelManager
 from MED3pa.models.classification_metrics import *
 from MED3pa.models.concrete_regressors import *
+from MED3pa.uncertainty_explainer.explainer import Explainer
 
 
 class Med3paExperiment:
@@ -46,7 +47,8 @@ class Med3paExperiment:
             mdr_size: int | float = 0.5,
             models_metrics: Optional[List[str]] = None,
             mpc_strategy="minimum",
-            random_state: Optional[int] = None) -> Med3paResults:
+            random_state: Optional[int] = None,
+            explainer: bool|Explainer = False) -> Med3paResults:
 
         """
         Runs the MED3PA experiment on the testing set.
@@ -77,18 +79,22 @@ class Med3paExperiment:
             mdr_size (int | float): The size or proportion of data to use for MDR curves evaluation, by default 0.5.
             mpc_strategy (str): The strategy to use to aggregate IPC and APC predictions in the MPC model, by default "minimum".
             random_state (int): The random state to use to split the data and train the models, by default None.
+            explainer (bool | Explainer): If uncertainty sources need to be explained in each uncertainty profiles, by default False.
 
 
         Returns:
             Med3paResults: the results of the MED3PA experiment on the testing set.
         """
         # Verifications
-        pretrained_apc, metrics_list, models_metrics = Med3paExperiment._verify_parameters(
+        pretrained_apc, metrics_list, models_metrics, explainer = Med3paExperiment._verify_parameters(
             pretrained_ipc=pretrained_ipc,
             pretrained_apc=pretrained_apc,
             mode=mode,
             metrics_list=metrics_list,
-            models_metrics=models_metrics)
+            models_metrics=models_metrics,
+            explainer=explainer,
+            datasets_manager=datasets_manager,
+            base_model_manager=base_model_manager)
 
         results_testing, pc_model = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
                                                                  base_model_manager=base_model_manager,
@@ -111,7 +117,8 @@ class Med3paExperiment:
                                                                  mode=mode,
                                                                  mdr_size=mdr_size,
                                                                  mpc_strategy=mpc_strategy,
-                                                                 random_state=random_state)
+                                                                 random_state=random_state,
+                                                                 explainer=explainer)
 
         results = Med3paResults(results_testing)
         med3pa_params = {
@@ -157,7 +164,8 @@ class Med3paExperiment:
                     models_metrics: List[str],
                     mdr_size: int | float,
                     random_state: Optional[int],
-                    mpc_strategy: str) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel]:
+                    mpc_strategy: str,
+                    explainer: bool | Explainer) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel]:
         """
         Orchestrates the MED3PA experiment on one specific set of the dataset.
 
@@ -187,6 +195,7 @@ class Med3paExperiment:
             mdr_size (int or float): The sample size reserved to calculate the MDR curves, by default 50%.
             random_state (int, optional): The random state to use, by default None.
             mpc_strategy (str): The strategy to use to combine IPC and APC predictions in the MPC.
+            explainer (bool | Explainer):
 
         Returns:
             Med3paRecord: The results of the MED3PA experiment.
@@ -246,7 +255,8 @@ class Med3paExperiment:
             samples_ratio_min=samples_ratio_min,
             samples_ratio_max=samples_ratio_max,
             samples_ratio_step=samples_ratio_step,
-            metrics_list=metrics_list
+            metrics_list=metrics_list,
+            explainer=explainer
         )
 
         # Step 6: Evaluate models if required
@@ -269,9 +279,11 @@ class Med3paExperiment:
 
     @staticmethod
     def _verify_parameters(pretrained_ipc: Optional[str | IPCModel],
-                             pretrained_apc: Optional[APCModel | str],
-                             mode: str, metrics_list: Optional[List[str]], models_metrics: Optional[List[str]]
-                           ) -> Tuple[Optional[APCModel | str], List[str], List[str]]:
+                           pretrained_apc: Optional[APCModel | str],
+                           mode: str, metrics_list: Optional[List[str]], models_metrics: Optional[List[str]],
+                           explainer: bool|Explainer, datasets_manager: DatasetsManager,
+                           base_model_manager: BaseModelManager
+                           ) -> Tuple[Optional[APCModel | str], List[str], List[str], Explainer]:
         """
         Verifies the parameters passed to the experiment.
 
@@ -295,7 +307,17 @@ class Med3paExperiment:
         if not models_metrics:
             models_metrics = RegressionEvaluationMetrics.supported_metrics()
 
-        return pretrained_apc, metrics_list, models_metrics
+        if explainer is True:
+            explainer = Explainer()
+        if isinstance(explainer, Explainer) and not explainer.context_is_set():
+            reference_dataset = datasets_manager.get_dataset_by_type(dataset_type="training", return_instance=True)
+            f_model = base_model_manager.get_instance()
+            explainer.set_context(reference_dataset=reference_dataset, f_model=f_model)
+        if explainer is False:
+            explainer = Explainer(methods=[])
+
+
+        return pretrained_apc, metrics_list, models_metrics, explainer
 
     @staticmethod
     def _setup_dataset(datasets_manager: DatasetsManager,
@@ -312,15 +334,21 @@ class Med3paExperiment:
         """
         # retrieve different dataset components needed for the experiment
         features = datasets_manager.get_column_labels()
-        dataset = datasets_manager.get_dataset_by_type(dataset_type="testing", return_instance=True)
+        if datasets_manager.base_model_training_set is not None:
+            dataset_types = ["training", "testing"]
+        else:
+            datasets_manager = ["testing"]
 
-        # Initialize predict probabilities if not provided
-        if dataset.get_pseudo_probabilities() is None:
-            if base_model_manager is None:
-                raise ValueError("Either the base model or the predicted probabilities should be provided!")
-            predicted_probabilities = base_model_manager.predict_proba(dataset.get_observations())[:, 1]
-            threshold = base_model_manager.threshold
-            dataset.set_pseudo_probs_labels(predicted_probabilities, threshold)
+        for dataset_type in dataset_types:
+            dataset = datasets_manager.get_dataset_by_type(dataset_type=dataset_type, return_instance=True)
+
+            # Initialize predict probabilities if not provided
+            if dataset.get_pseudo_probabilities() is None:
+                if base_model_manager is None:
+                    raise ValueError("Either the base model or the predicted probabilities should be provided!")
+                predicted_probabilities = base_model_manager.predict_proba(dataset.get_observations())[:, 1]
+                threshold = base_model_manager.threshold
+                dataset.set_pseudo_probs_labels(predicted_probabilities, threshold)
         
         return dataset, features
 
@@ -465,14 +493,15 @@ class Med3paExperiment:
 
     @staticmethod
     def _calculate_profiles(results: Med3paRecord,
-                              dataset_mdr: MaskedDataset,
-                              features: List[str],
-                              tree: TreeRepresentation,
-                              confidence_model: IPCModel | APCModel | MPCModel,
-                              samples_ratio_min: int,
-                              samples_ratio_max: int,
-                              samples_ratio_step: int,
-                              metrics_list: List[str]):
+                            dataset_mdr: MaskedDataset,
+                            features: List[str],
+                            tree: TreeRepresentation,
+                            confidence_model: IPCModel | APCModel | MPCModel,
+                            samples_ratio_min: int,
+                            samples_ratio_max: int,
+                            samples_ratio_step: int,
+                            metrics_list: List[str],
+                            explainer: Explainer):
         """
         Calculates the profiles and their metrics.
 
@@ -502,7 +531,8 @@ class Med3paExperiment:
             # Calculate profiles and their metrics by declaration rate
             MDRCalculator.calc_profiles(profiles_manager=profiles_manager, tree=tree, dataset=dataset_mdr,
                                         features=features, confidence_scores=confidence_preds,
-                                        min_samples_ratio=samples_ratio, metrics_list=metrics_list)
+                                        min_samples_ratio=samples_ratio, metrics_list=metrics_list,
+                                        explainer=explainer)
             print("Results extracted for minimum_samples_ratio = ", samples_ratio)
         results.set_profiles_manager(deepcopy(profiles_manager))
 
