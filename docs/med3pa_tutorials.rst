@@ -52,7 +52,7 @@ The experiment outputs two structure one for the reference set and the other for
 .. code-block:: python
 
     from MED3pa.med3pa import Med3paExperiment
-    from MED3pa.med3pa.uncertainty import AbsoluteError
+    from MED3pa.med3pa.confidence import AbsoluteError
     from MED3pa.models.concrete_regressors import RandomForestRegressorModel
 
     # Define parameters for the experiment
@@ -69,7 +69,7 @@ The experiment outputs two structure one for the reference set and the other for
     results = Med3paExperiment.run(
                                         datasets_manager=datasets,
                                         base_model_manager=base_model_manager,
-                                        uncertainty_metric="absolute_error",
+                                        confidence_metric="absolute_error",
                                         ipc_type='RandomForestRegressor',
                                         ipc_params=ipc_params,
                                         apc_params=apc_params,
@@ -84,7 +84,7 @@ The experiment outputs two structure one for the reference set and the other for
     results2 = Med3paExperiment.run(
                                 datasets_manager=datasets2,
                                 base_model_manager=base_model_manager,
-                                uncertainty_metric="absolute_error",
+                                confidence_metric="absolute_error",
                                 ipc_type='RandomForestRegressor',
                                 ipc_params=ipc_params,
                                 apc_params=apc_params,
@@ -119,7 +119,7 @@ If you don't want to re-train new APC and IPC models in your experiment, you can
 .. code-block:: python
 
     from MED3pa.med3pa import Med3paExperiment
-    from MED3pa.med3pa.uncertainty import AbsoluteError
+    from MED3pa.med3pa.confidence import AbsoluteError
 
     # Define parameters for the experiment
     ipc_params = {'n_estimators': 100}
@@ -130,7 +130,7 @@ If you don't want to re-train new APC and IPC models in your experiment, you can
     results = Med3paExperiment.run(
                                     datasets_manager=datasets,
                                     base_model_manager=base_model_manager,
-                                    uncertainty_metric="absolute_error",
+                                    confidence_metric="absolute_error",
                                     ipc_type='RandomForestRegressor',
                                     pretrained_ipc='./med3pa_experiment_results_models/ipc_model.pkl',
                                     pretrained_apc='./med3pa_experiment_results_models/apc_model.pkl',
@@ -145,7 +145,7 @@ If you don't want to re-train new APC and IPC models in your experiment, you can
     results2 = Med3paExperiment.run(
                                     datasets_manager=datasets2,
                                     base_model_manager=base_model_manager,
-                                    uncertainty_metric="absolute_error",
+                                    confidence_metric="absolute_error",
                                     ipc_type='RandomForestRegressor',
                                     pretrained_ipc='./med3pa_experiment_results_models/ipc_model.pkl',
                                     pretrained_apc='./med3pa_experiment_results_models/apc_model.pkl',

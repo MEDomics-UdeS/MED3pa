@@ -50,6 +50,7 @@ class Med3paRecord:
         self.datasets: Dict[str, MaskedDataset] = {}
         self.experiment_config = {}
         self.tree = None
+        self.additional_trees: Dict[str, Dict[str, Any]] = {}
         self.ipc_scores = None
         self.apc_scores = None
         self.mpc_scores = None
@@ -93,6 +94,25 @@ class Med3paRecord:
         Sets the constructed tree.
         """
         self.tree = tree
+
+    def set_additional_tree(self, name: str, tree: TreeRepresentation, profiles_manager: ProfilesManager) -> None:
+        """
+        Sets an additional tree of profiles (e.g. the APC tree of the source error model, or the trees of the
+        covariate and outcome shifts), with its profiles. Saved and visualized alongside the APC tree.
+
+        Args:
+            name (str): Name of the tree (e.g. 'source_apc', 'covariate_shift', 'outcome_shift').
+            tree (TreeRepresentation): The tree.
+            profiles_manager (ProfilesManager): The profiles of the tree.
+        """
+        self.additional_trees[name] = {'tree': tree, 'profiles_manager': profiles_manager}
+
+    def get_additional_trees(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Additional trees of profiles, by name, each with its 'tree' and 'profiles_manager' (empty for records created
+        before the additional trees existed).
+        """
+        return getattr(self, 'additional_trees', {})
 
     def set_dataset(self, mode: str, dataset: MaskedDataset) -> None:
         """
@@ -139,6 +159,11 @@ class Med3paRecord:
         if self.tree is not None:
             tree_path = os.path.join(file_path, 'tree.json')
             self.tree.save_tree(tree_path)
+
+        for name, additional_tree in self.get_additional_trees().items():
+            additional_tree['tree'].save_tree(os.path.join(file_path, f'{name}_tree.json'))
+            with open(os.path.join(file_path, f'{name}_profiles.json'), 'w') as file:
+                json.dump(additional_tree['profiles_manager'].get_profiles(), file, default=to_serializable, indent=4)
 
     def save_to_dict(self) -> dict:
         """
@@ -188,6 +213,7 @@ class Med3paResults:
         self.test_record = test_record
         self.experiment_config = {}
         self.confidence_model = None
+        self.source_error_model = None
 
     def set_experiment_config(self, config: Dict[str, Any]) -> None:
         """
@@ -205,6 +231,16 @@ class Med3paResults:
             pc_model (IPCModel): The confidence model for confidence predictions.
         """
         self.confidence_model = pc_model
+
+    def set_source_error_model(self, source_error_model: Optional[IPCModel]) -> None:
+        """
+        Sets the source error model of the explainer (IPC model predicting the confidence on the reference
+        dataset), to reuse it in a later run with ``Med3paExperiment.run(pretrained_source_error_model=...)``.
+
+        Args:
+            source_error_model (IPCModel, optional): The source error model, None if the explainer uses none.
+        """
+        self.source_error_model = source_error_model
 
     def save(self, file_path: str, save_med3paResults: bool = True) -> None:
         """
@@ -233,7 +269,9 @@ class Med3paResults:
 
     def save_models(self, file_path: str, file_id: str = "") -> None:
         """
-        Saves the experiment confidence models as .pkl files, alongside the tree structure for the test set.
+        Saves the experiment confidence models as .pkl files, alongside the tree structure for the test set. The
+        explainer's source error model, if any, is saved as `{file_id}_source_error_IPCModel.pkl`, which can be
+        given to ``Med3paExperiment.run(pretrained_source_error_model=...)``.
         Args:
             file_path (str): The file path to save the pickled files.
             file_id (str): Optional identifier to append to the filenames.
@@ -242,6 +280,8 @@ class Med3paResults:
         os.makedirs(file_path, exist_ok=True)
 
         self.confidence_model.save_model(file_path=f"{file_path}/{file_id}_")
+        if self.source_error_model is not None:
+            self.source_error_model.save_model(file_path=f"{file_path}/{file_id}_source_error")
 
         if self.test_record.tree:
             tree_structure_path = os.path.join(file_path, f"{file_path}/{file_id}_tree.json")

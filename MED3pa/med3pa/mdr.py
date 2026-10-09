@@ -5,7 +5,7 @@ and to extract problematic profiles under specific declaration rates."""
 
 import numpy as np
 from copy import deepcopy
-from typing import Dict, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from MED3pa.datasets import MaskedDataset
 from MED3pa.med3pa.profiles import ProfilesManager, Profile
@@ -162,7 +162,8 @@ class MDRCalculator:
     @staticmethod
     def calc_profiles(profiles_manager: ProfilesManager, tree: TreeRepresentation, dataset: MaskedDataset,
                       features: list, confidence_scores: np.ndarray, min_samples_ratio: int,
-                      metrics_list: List, explainer: Explainer) -> Dict[int, float]:
+                      metrics_list: List, explainer: Explainer,
+                      explanations_cache: Optional[Dict[tuple, list]] = None) -> Dict[int, float]:
         """
         Calculates profiles for different declaration rates and minimum sample ratios. This method assesses how profiles
         change across different confidence levels derived from predicted accuracies.
@@ -176,12 +177,18 @@ class MDRCalculator:
             min_samples_ratio (int): Minimum sample ratio to consider for including a profile.
             metrics_list (List): List of metrics to calculate.
             explainer (Explainer): Explainer instance to explain uncertainty sources in uncertainty profiles.
+            explanations_cache (Optional[Dict[tuple, list]]): Explanations of the profiles already explained, by
+                profile path, filled here. The explainer is applied to all the samples of a profile, whatever the
+                declaration rate, so each profile is explained once (pass the same dict to the calls with other
+                min_samples_ratio values to share it).
 
         Returns:
             Dict[int, float]: A dictionary with declaration rates as keys and their corresponding minimum confidence levels as values.
         """
 
         # Initialization of different variables
+        if explanations_cache is None:
+            explanations_cache = {}
         all_nodes = tree.get_all_nodes()  # Retrieve all nodes from the tree
         last_profiles = all_nodes  # Initialize last profiles as all nodes
         lost_profiles_all = []  # Saves lost profiles
@@ -223,7 +230,8 @@ class MDRCalculator:
                                                                     features=features,
                                                                     confidence_scores=confidence_scores,
                                                                     metrics_list=metrics_list,
-                                                                    explainer=explainer)
+                                                                    explainer=explainer,
+                                                                    explanations_cache=explanations_cache)
                             profiles_current.append(deepcopy(node))
 
                 # If the last profiles are different from current profiles
@@ -246,7 +254,7 @@ class MDRCalculator:
     @staticmethod
     def __calc_metrics_in_profile(profile: Profile, dataset: MaskedDataset, min_confidence_level: float,
                                   features: List, confidence_scores: np.ndarray, metrics_list: List,
-                                  explainer: Explainer) -> None:
+                                  explainer: Explainer, explanations_cache: Dict[tuple, list]) -> None:
         """
         Calculates various metrics for different profiles and declaration rates based on provided datasets.
 
@@ -257,6 +265,7 @@ class MDRCalculator:
             confidence_scores (np.ndarray): Array of predicted accuracy values used for thresholding profiles.
             metrics_list (List): List of metrics to calculate.
             explainer (Explainer): Explainer instance.
+            explanations_cache (Dict[tuple, list]): Explanations of the profiles already explained, by profile path.
 
         """
         # retrieve different dataset components to calculate the metrics
@@ -288,9 +297,13 @@ class MDRCalculator:
         # the positive class percentage in this profile at this dr
         info_dict['Positive%'] = np.sum(y_true) / len(y_true) * 100 if \
             len(y_true) > 0 else None
-        # Uncertainty information
-        uncertainty_explanations = explainer(x_q=filtered_dataset.get_observations(), profile_path=profile.path)
-        info_dict['explanations'] = uncertainty_explanations
+        # Uncertainty information, on all the samples of the profile (the same for every declaration rate)
+        profile_key = tuple(profile.path)
+        if profile_key not in explanations_cache:
+            explanations_cache[profile_key] = explainer(x_q=filtered_dataset.get_observations(),
+                                                        profile_path=profile.path,
+                                                        y_q=filtered_dataset.get_true_labels())
+        info_dict['explanations'] = explanations_cache[profile_key]
 
         reference_dataset = explainer.reference_dataset
         if reference_dataset is not None:

@@ -4,6 +4,7 @@ It includes ``Med3paExperiment`` to manage experiments.
 """
 
 from checkpointer import checkpoint
+from copy import deepcopy
 from typing import Optional, Tuple, Union
 
 from MED3pa.datasets import DatasetsManager, MaskedDataset
@@ -12,7 +13,7 @@ from MED3pa.med3pa.models import APCModel, IPCModel, MPCModel
 from MED3pa.med3pa.profiles import ProfilesManager
 from MED3pa.med3pa.results import Med3paResults, Med3paRecord
 from MED3pa.med3pa.tree import TreeRepresentation
-from MED3pa.med3pa.uncertainty import *
+from MED3pa.med3pa.confidence import *
 from MED3pa.models.base import BaseModelManager
 from MED3pa.models.classification_metrics import *
 from MED3pa.models.concrete_regressors import *
@@ -28,7 +29,7 @@ class Med3paExperiment:
     @checkpoint(root_path="checkpoints", verbosity=False)
     def run(datasets_manager: DatasetsManager,
             base_model_manager: Optional[BaseModelManager] = None,
-            uncertainty_metric: str = 'absolute_error',
+            confidence_metric: str = 'absolute_error',
             ipc_type: str = 'RandomForestRegressor',
             ipc_params: Optional[Dict] = None,
             ipc_grid_params: Optional[Dict] = None,
@@ -48,7 +49,8 @@ class Med3paExperiment:
             models_metrics: Optional[List[str]] = None,
             mpc_strategy="minimum",
             random_state: Optional[int] = None,
-            explainer: bool|Explainer = False) -> Med3paResults:
+            explainer: bool|Explainer = False,
+            pretrained_source_error_model: Optional[IPCModel | str] = None) -> Med3paResults:
 
         """
         Runs the MED3PA experiment on the testing set.
@@ -57,7 +59,7 @@ class Med3paExperiment:
             datasets_manager (DatasetsManager): the datasets manager containing the dataset to use in the experiment.
             base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model,
                 by default None.
-            uncertainty_metric (str, optional): the uncertainty metric ysed to calculate uncertainty,
+            confidence_metric (str, optional): the confidence metric used to calculate the predictive confidence,
                 by default absolute_error.
             ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
             ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
@@ -80,6 +82,10 @@ class Med3paExperiment:
             mpc_strategy (str): The strategy to use to aggregate IPC and APC predictions in the MPC model, by default "minimum".
             random_state (int): The random state to use to split the data and train the models, by default None.
             explainer (bool | Explainer): If uncertainty sources need to be explained in each uncertainty profiles, by default False.
+            pretrained_source_error_model (IPCModel | str, optional): Source error model of the explainer (an IPC
+                model predicting the confidence on the reference dataset), as an IPCModel instance or a path to a
+                pretrained IPC model of type `ipc_type`, e.g. the `source_error_model` of a previous run's results.
+                By default None: it is trained on the reference dataset.
 
 
         Returns:
@@ -96,9 +102,10 @@ class Med3paExperiment:
             datasets_manager=datasets_manager,
             base_model_manager=base_model_manager)
 
-        results_testing, pc_model = Med3paExperiment._run_by_set(datasets_manager=datasets_manager,
+        results_testing, pc_model, source_error_model = Med3paExperiment._run_by_set(
+                                                                 datasets_manager=datasets_manager,
                                                                  base_model_manager=base_model_manager,
-                                                                 uncertainty_metric=uncertainty_metric,
+                                                                 confidence_metric=confidence_metric,
                                                                  ipc_type=ipc_type,
                                                                  ipc_params=ipc_params,
                                                                  ipc_grid_params=ipc_grid_params,
@@ -118,11 +125,12 @@ class Med3paExperiment:
                                                                  mdr_size=mdr_size,
                                                                  mpc_strategy=mpc_strategy,
                                                                  random_state=random_state,
-                                                                 explainer=explainer)
+                                                                 explainer=explainer,
+                                                                 pretrained_source_error_model=pretrained_source_error_model)
 
         results = Med3paResults(results_testing)
         med3pa_params = {
-            'uncertainty_metric': uncertainty_metric,
+            'confidence_metric': confidence_metric,
             'samples_ratio_min': samples_ratio_min,
             'samples_ratio_max': samples_ratio_max,
             'samples_ratio_step': samples_ratio_step,
@@ -131,6 +139,7 @@ class Med3paExperiment:
             'models_evaluation_metrics': models_metrics,
             'mode': mode,
             'pc_model': pc_model.get_info(),
+            'source_error_model': source_error_model.get_info() if source_error_model is not None else None,
         }
         experiment_config = {
             'experiment_name': "Med3paExperiment",
@@ -140,12 +149,13 @@ class Med3paExperiment:
         }
         results.set_experiment_config(experiment_config)
         results.set_model(pc_model)
+        results.set_source_error_model(source_error_model)
         return results
 
     @staticmethod
     def _run_by_set(datasets_manager: DatasetsManager,
                     base_model_manager: Optional[BaseModelManager],
-                    uncertainty_metric: str,
+                    confidence_metric: str,
                     ipc_type: str,
                     ipc_params: Optional[Dict],
                     ipc_grid_params: Optional[Dict],
@@ -165,7 +175,9 @@ class Med3paExperiment:
                     mdr_size: int | float,
                     random_state: Optional[int],
                     mpc_strategy: str,
-                    explainer: bool | Explainer) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel]:
+                    explainer: bool | Explainer,
+                    pretrained_source_error_model: Optional[IPCModel | str] = None
+                    ) -> Tuple[Med3paRecord, IPCModel | APCModel | MPCModel, Optional[IPCModel]]:
         """
         Orchestrates the MED3PA experiment on one specific set of the dataset.
 
@@ -173,7 +185,7 @@ class Med3paExperiment:
             datasets_manager (DatasetsManager): The datasets manager containing the dataset to use in the experiment.
             base_model_manager (BaseModelManager, optional): Instance of BaseModelManager to get the base model,
                 by default None.
-            uncertainty_metric (str, optional): The uncertainty metric used to calculate uncertainty,
+            confidence_metric (str, optional): The confidence metric used to calculate the predictive confidence,
                 by default absolute_error.
             ipc_type (str, optional): The regressor model to use for IPC, by default RandomForestRegressor.
             ipc_params (dict, optional): Parameters for initializing the IPC regressor model, by default None.
@@ -196,18 +208,21 @@ class Med3paExperiment:
             random_state (int, optional): The random state to use, by default None.
             mpc_strategy (str): The strategy to use to combine IPC and APC predictions in the MPC.
             explainer (bool | Explainer):
+            pretrained_source_error_model (IPCModel | str, optional): Source error model of the explainer, as an
+                IPCModel instance or a path to a pretrained IPC model, by default None (trained by the explainer).
 
         Returns:
             Med3paRecord: The results of the MED3PA experiment.
             IPCModel | APCModel | MPCModel : The trained or loaded models.
+            IPCModel | None: The source error model of the explainer, None if its methods do not use one.
         """
 
         # Step 1 : datasets and base model setting
         dataset, features = Med3paExperiment._setup_dataset(datasets_manager=datasets_manager,
                                                             base_model_manager=base_model_manager)
 
-        # Step 2 : Calculate uncertainty values
-        uncertainty_calc = UncertaintyCalculator(uncertainty_metric)
+        # Step 2 : Calculate confidence values
+        confidence_calc = ConfidenceCalculator(confidence_metric)
 
         # Step 3: Set up splits to evaluate the confidence models
         dataset_pc, dataset_mdr, dataset_evaluate = Med3paExperiment._setup_splits(
@@ -234,8 +249,17 @@ class Med3paExperiment:
             apc_cv=apc_cv,
             pretrained_apc=pretrained_apc,
             mpc_strategy=mpc_strategy,
-            uncertainty_calc=uncertainty_calc,
+            confidence_calc=confidence_calc,
         random_state=random_state)
+
+        # the explainer's error models are the IPC model and the same IPC class trained on the reference dataset
+        # (or the given pretrained source error model)
+        if isinstance(pretrained_source_error_model, str):
+            pretrained_source_error_model = IPCModel(model_name=ipc_type, params=ipc_params,
+                                                     pretrained_model=pretrained_source_error_model)
+            print("Loaded a pretrained source error model.")
+        explainer.set_error_model(error_model=IPC_model, confidence_calc=confidence_calc,
+                                  source_error_model=pretrained_source_error_model)
 
         results = Med3paRecord()
 
@@ -259,6 +283,21 @@ class Med3paExperiment:
             explainer=explainer
         )
 
+        # Step 5b: Additional trees of profiles: APC of the source error model, covariate and outcome shifts
+        Med3paExperiment._calculate_additional_trees(
+            results=results,
+            dataset_mdr=dataset_mdr,
+            features=features,
+            APC_model=APC_model,
+            confidence_model=confidence_model,
+            samples_ratio_min=samples_ratio_min,
+            samples_ratio_max=samples_ratio_max,
+            samples_ratio_step=samples_ratio_step,
+            metrics_list=metrics_list,
+            explainer=explainer,
+            random_state=random_state
+        )
+
         # Step 6: Evaluate models if required
         Med3paExperiment._evaluate_models(
             results=results,
@@ -266,16 +305,18 @@ class Med3paExperiment:
             APC_model=APC_model,
             MPC_model=MPC_model,
             dataset_evaluate=dataset_evaluate,
-            uncertainty_calc=uncertainty_calc,
+            confidence_calc=confidence_calc,
             evaluate_models=evaluate_models,
             models_metrics=models_metrics
         )
 
+        source_error_model = explainer.get_source_error_model()
+
         if mode == "ipc":
-            return results, IPC_model
+            return results, IPC_model, source_error_model
         elif mode == "apc":
-            return results, APC_model
-        return results, MPC_model
+            return results, APC_model, source_error_model
+        return results, MPC_model, source_error_model
 
     @staticmethod
     def _verify_parameters(pretrained_ipc: Optional[str | IPCModel],
@@ -310,7 +351,16 @@ class Med3paExperiment:
         if explainer is True:
             explainer = Explainer()
         if isinstance(explainer, Explainer) and not explainer.context_is_set():
-            reference_dataset = datasets_manager.get_dataset_by_type(dataset_type="training", return_instance=True)
+            # the reference (source) dataset of the explainers: the reference set, else the base model training set,
+            # on which the base model losses are optimistic (biased source error models and shift tests)
+            if datasets_manager.reference_set is not None:
+                reference_dataset = datasets_manager.get_dataset_by_type(dataset_type="reference", return_instance=True)
+            else:
+                if explainer.methods_count() > 0:
+                    print("Warning: no reference set in the DatasetsManager, the explainer uses the base model training "
+                          "set as reference; its shift tests are biased by the base model's in-sample losses. Set a "
+                          "held-out 'reference' dataset (same domain, not used to train the base model).")
+                reference_dataset = datasets_manager.get_dataset_by_type(dataset_type="training", return_instance=True)
             f_model = base_model_manager.get_instance()
             explainer.set_context(reference_dataset=reference_dataset, f_model=f_model)
         if explainer is False:
@@ -334,10 +384,10 @@ class Med3paExperiment:
         """
         # retrieve different dataset components needed for the experiment
         features = datasets_manager.get_column_labels()
-        if datasets_manager.base_model_training_set is not None:
-            dataset_types = ["training", "testing"]
-        else:
-            datasets_manager = ["testing"]
+        dataset_types = [dataset_type for dataset_type, dataset in (
+            ("training", datasets_manager.base_model_training_set), ("reference", datasets_manager.reference_set))
+                         if dataset is not None]
+        dataset_types.append("testing")  # last: the returned dataset
 
         for dataset_type in dataset_types:
             dataset = datasets_manager.get_dataset_by_type(dataset_type=dataset_type, return_instance=True)
@@ -407,7 +457,7 @@ class Med3paExperiment:
                        apc_cv: int,
                        pretrained_apc: Optional[APCModel | str],
                       mpc_strategy: str,
-                      uncertainty_calc: UncertaintyCalculator,
+                      confidence_calc: ConfidenceCalculator,
                       random_state: Optional[int] = None) -> Tuple[IPCModel, APCModel, MPCModel]:
         """
         Trains the IPC and APC models.
@@ -432,7 +482,7 @@ class Med3paExperiment:
         if not pretrained_ipc:
             IPC_model = IPCModel(model_name=ipc_type, params=ipc_params, pretrained_model=None,
                                  random_state=random_state)
-            uncertainty_ipc = uncertainty_calc.calculate_uncertainty(dataset_pc.get_observations(),
+            confidence_ipc = confidence_calc.calculate_confidence(dataset_pc.get_observations(),
                                                                              dataset_pc.get_pseudo_probabilities(),
                                                                              dataset_pc.get_true_labels())
             if ipc_type == 'EnsembleRandomForestRegressor':
@@ -443,17 +493,24 @@ class Med3paExperiment:
                                          1 / class_1_prop)
             else:
                 sample_weight = None
+            if ipc_type == 'BalancedEnsembleRandomForestRegressor':
+                # The BalancedEnsembleRandomForestRegressor computes its class and error weights from the labels
+                train_params = {'y_true': dataset_pc.get_true_labels(), 'y_pred': dataset_pc.get_pseudo_labels()}
+            else:
+                train_params = {}
 
             # Optimize IPC model if grid params were provided
             if ipc_grid_params is not None and len(dataset_pc.get_true_labels()) > 4:
                 # No optimization if 4 or less samples
                 IPC_model.optimize(param_grid=ipc_grid_params, cv=ipc_cv,
                                    x=dataset_pc.get_observations(),
-                                   confidence_score=uncertainty_ipc,
-                                   sample_weight=sample_weight)
+                                   confidence_score=confidence_ipc,
+                                   sample_weight=sample_weight,
+                                   **train_params)
                 print("IPC Model optimization complete.")
             else:
-                IPC_model.train(dataset_pc.get_observations(), uncertainty_ipc, sample_weight=sample_weight)
+                IPC_model.train(dataset_pc.get_observations(), confidence_ipc, sample_weight=sample_weight,
+                                **train_params)
                 print("IPC Model training complete.")
 
         elif isinstance(pretrained_ipc, str):
@@ -517,6 +574,8 @@ class Med3paExperiment:
             metrics_list (List[str]): List of metrics to calculate.
         """
         profiles_manager = ProfilesManager(features)
+        # the profiles are explained on dataset_mdr
+        explainer.set_target_dataset(target_dataset=dataset_mdr)
 
         # get confidence scores
         confidence_preds = confidence_model.predict(dataset_mdr.get_observations())
@@ -527,14 +586,146 @@ class Med3paExperiment:
                                                          metrics_list=metrics_list)
         results.set_metrics_by_dr(metrics_by_dr)
 
+        explanations_cache = {}  # each profile is explained once, for all the declaration rates and samples ratios
         for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
             # Calculate profiles and their metrics by declaration rate
             MDRCalculator.calc_profiles(profiles_manager=profiles_manager, tree=tree, dataset=dataset_mdr,
                                         features=features, confidence_scores=confidence_preds,
                                         min_samples_ratio=samples_ratio, metrics_list=metrics_list,
-                                        explainer=explainer)
+                                        explainer=explainer, explanations_cache=explanations_cache)
             print("Results extracted for minimum_samples_ratio = ", samples_ratio)
         results.set_profiles_manager(deepcopy(profiles_manager))
+
+    @staticmethod
+    def _calculate_additional_trees(results: Med3paRecord,
+                                    dataset_mdr: MaskedDataset,
+                                    features: List[str],
+                                    APC_model: APCModel,
+                                    confidence_model: IPCModel | APCModel | MPCModel,
+                                    samples_ratio_min: int,
+                                    samples_ratio_max: int,
+                                    samples_ratio_step: int,
+                                    metrics_list: List[str],
+                                    explainer: Explainer,
+                                    random_state: Optional[int]):
+        """
+        Calculates the additional trees of profiles, with the same decision tree parameters as the APC model, and
+        without explanations:
+
+        - 'source_apc': tree of the source error model's confidence (the IPC trained on the reference dataset by the
+          explainer), with its profiles on the reference dataset, compared with the same profiles in dataset_mdr:
+          the values are 'reference (dataset_mdr)', with the mean confidence level in dataset_mdr given by the
+          confidence model (the one of the APC tree);
+        - 'covariate_shift' and 'outcome_shift': trees of the per-patient covariate and outcome shifts of the
+          explainer's shift test (see ShiftExplainer.get_shift_values), with their profiles on dataset_mdr (and the
+          metrics of the same profiles in the reference dataset).
+
+        Each tree is only calculated when the explainer provides its values (e.g. a ShiftExplainer with the IPC model
+        as error model).
+
+        Args:
+            results (Med3paRecord): The results record.
+            dataset_mdr (MaskedDataset): The MDR dataset.
+            features (List[str]): The features of the dataset.
+            APC_model (APCModel): The APC model, whose decision tree parameters are reused.
+            confidence_model (IPCModel | APCModel | MPCModel): The confidence model, filtering the profiles of the
+                shift trees by declaration rate.
+            samples_ratio_min (int): Minimum sample ratio.
+            samples_ratio_max (int): Maximum sample ratio.
+            samples_ratio_step (int): Step size for sample ratio.
+            metrics_list (List[str]): List of metrics to calculate.
+            explainer (Explainer): The explainer of the experiment.
+            random_state (int, optional): The random state of the decision trees.
+        """
+        reference_dataset = explainer.reference_dataset
+        # name: (dataset of the profiles, values fitted by the tree, confidence scores, explainer of the metrics,
+        # label of the mean value in the node information, compare the mean confidence level with dataset_mdr)
+        trees = {}
+        source_error_model = explainer.get_source_error_model()
+        shift_values = explainer.get_shift_values(dataset_mdr.get_observations())
+        if (source_error_model is None or reference_dataset is None) and shift_values is None:
+            return
+        confidence_preds = confidence_model.predict(dataset_mdr.get_observations())
+
+        if source_error_model is not None and reference_dataset is not None:
+            source_confidence = source_error_model.predict(reference_dataset.get_observations())
+            # no explanation method, only the metrics of the same profiles in dataset_mdr
+            trees['source_apc'] = (reference_dataset, source_confidence, source_confidence,
+                                   Explainer(reference_dataset=dataset_mdr, methods=[]), None, True)
+
+        if shift_values is not None:
+            # no explanation method, only the metrics of the same profiles in the reference dataset
+            metrics_explainer = Explainer(reference_dataset=reference_dataset, methods=[])
+            for name, values in shift_values.items():
+                if values is not None:
+                    trees[name] = (dataset_mdr, values, confidence_preds, metrics_explainer,
+                                   f"Mean {name.replace('_', ' ')}", False)
+
+        for name, (dataset, values, confidence_scores, metrics_explainer, value_label,
+                   compare_confidence) in trees.items():
+            tree_model = APCModel(features=features, params=deepcopy(APC_model.params), random_state=random_state)
+            tree_model.train(dataset.get_observations(), values)
+            profiles_manager = ProfilesManager(features)
+            for samples_ratio in range(samples_ratio_min, samples_ratio_max + 1, samples_ratio_step):
+                MDRCalculator.calc_profiles(profiles_manager=profiles_manager, tree=tree_model.treeRepresentation,
+                                            dataset=dataset, features=features, confidence_scores=confidence_scores,
+                                            min_samples_ratio=samples_ratio, metrics_list=metrics_list,
+                                            explainer=metrics_explainer)
+            if value_label is not None:
+                Med3paExperiment._add_profiles_mean_value(profiles_manager=profiles_manager, dataset=dataset,
+                                                          values=values, value_label=value_label)
+            if compare_confidence:
+                Med3paExperiment._add_profiles_compared_confidence(profiles_manager=profiles_manager,
+                                                                   comparison_dataset=dataset_mdr,
+                                                                   comparison_confidence=confidence_preds)
+            results.set_additional_tree(name=name, tree=tree_model.treeRepresentation,
+                                        profiles_manager=deepcopy(profiles_manager))
+            print(f"Additional tree of profiles calculated: {name}")
+
+    @staticmethod
+    def _add_profiles_mean_value(profiles_manager: ProfilesManager, dataset: MaskedDataset, values: np.ndarray,
+                                 value_label: str):
+        """
+        Adds the mean of `values` over all the samples of each profile (whatever the declaration rate) to its node
+        information, under `value_label`.
+        """
+        mean_values = {}
+        for profiles_by_dr in profiles_manager.get_profiles().values():
+            for profiles in profiles_by_dr.values():
+                for profile in profiles:
+                    path = tuple(profile.path)
+                    if path not in mean_values:
+                        mask = dataset.mask_by_profile(path=profile.path)
+                        mean_values[path] = float(np.mean(values[mask])) if np.any(mask) else None
+                    if profile.node_information is not None:
+                        profile.node_information[value_label] = mean_values[path]
+
+    @staticmethod
+    def _add_profiles_compared_confidence(profiles_manager: ProfilesManager, comparison_dataset: MaskedDataset,
+                                          comparison_confidence: np.ndarray):
+        """
+        Replaces the mean confidence level of each profile by 'x (y)', with y the mean of `comparison_confidence`
+        (in %) over all the samples of the same profile in `comparison_dataset`, as the metrics compared with the
+        reference dataset in MDRCalculator.
+        """
+        def fmt(x):
+            return "" if x is None else f"{x:.2f}"
+
+        mean_confidences = {}
+        for profiles_by_dr in profiles_manager.get_profiles().values():
+            for profiles in profiles_by_dr.values():
+                for profile in profiles:
+                    info = profile.node_information
+                    # the same profile can be in several declaration rates: formatted once
+                    if info is None or isinstance(info.get('Mean confidence level'), str):
+                        continue
+                    path = tuple(profile.path)
+                    if path not in mean_confidences:
+                        mask = comparison_dataset.mask_by_profile(path=profile.path)
+                        mean_confidences[path] = float(np.mean(comparison_confidence[mask])) * 100 if np.any(
+                            mask) else None
+                    info['Mean confidence level'] = (f"{fmt(info.get('Mean confidence level'))} "
+                                                     f"({fmt(mean_confidences[path])})")
 
     @staticmethod
     def _evaluate_models(results: Med3paRecord,
@@ -542,7 +733,7 @@ class Med3paExperiment:
                          APC_model: APCModel,
                          MPC_model: MPCModel,
                          dataset_evaluate: Optional[MaskedDataset],
-                         uncertainty_calc: UncertaintyCalculator,
+                         confidence_calc: ConfidenceCalculator,
                          evaluate_models: bool,
                          models_metrics: List[str]):
         """
@@ -554,20 +745,20 @@ class Med3paExperiment:
             APC_model (APCModel): The trained or loaded APC model.
             MPC_model (MPCModel): The created MPC model.
             dataset_evaluate (MaskedDataset): The evaluation dataset.
-            uncertainty_calc (UncertaintyCalculator): The uncertainty calculator.
+            confidence_calc (ConfidenceCalculator): The confidence calculator.
             evaluate_models (bool): Whether to evaluate the models.
             models_metrics (List[str]): List of metrics for model evaluation.
         """
         if evaluate_models:
             if not isinstance(dataset_evaluate, MaskedDataset):
                 raise ValueError(f"Wrong data input to evaluate confidence models: {type(dataset_evaluate)}")
-            uncertainty_evaluate = uncertainty_calc.calculate_uncertainty(dataset_evaluate.get_observations(),
+            confidence_evaluate = confidence_calc.calculate_confidence(dataset_evaluate.get_observations(),
                                                                           dataset_evaluate.get_pseudo_probabilities(),
                                                                           dataset_evaluate.get_true_labels())
-            IPC_evaluation = IPC_model.evaluate(X=dataset_evaluate.get_observations(), y=uncertainty_evaluate,
+            IPC_evaluation = IPC_model.evaluate(X=dataset_evaluate.get_observations(), y=confidence_evaluate,
                                                 eval_metrics=models_metrics)
-            APC_evaluation = APC_model.evaluate(X=dataset_evaluate.get_observations(), y=uncertainty_evaluate,
+            APC_evaluation = APC_model.evaluate(X=dataset_evaluate.get_observations(), y=confidence_evaluate,
                                                 eval_metrics=models_metrics)
-            MPC_evaluation = MPC_model.evaluate(X=dataset_evaluate.get_observations(), y=uncertainty_evaluate,
+            MPC_evaluation = MPC_model.evaluate(X=dataset_evaluate.get_observations(), y=confidence_evaluate,
                                                 eval_metrics=models_metrics)
             results.set_models_evaluation(IPC_evaluation, APC_evaluation, MPC_evaluation)

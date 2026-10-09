@@ -81,7 +81,7 @@ from __future__ import annotations
 import hashlib
 import math
 from dataclasses import asdict, dataclass, field
-from typing import Any, Callable, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -93,6 +93,11 @@ from sklearn.linear_model import LogisticRegression
 
 from MED3pa.datasets import MaskedDataset
 from MED3pa.uncertainty_explainer.abstract_methods import CovariateConceptShiftDetector
+from MED3pa.uncertainty_explainer.error_models import fit_confidence_model
+
+if TYPE_CHECKING:  # MED3pa.med3pa imports the explainer: runtime import would be circular
+    from MED3pa.med3pa.models import IPCModel
+    from MED3pa.med3pa.confidence import ConfidenceCalculator
 
 # ---------------------------------------------------------------------------
 # Result container
@@ -300,6 +305,7 @@ _NUM_OMEGA = 2000
 _NUM_LAMBDA = 500
 _OMEGA_MAX = 100.0
 _LAMBDA_RANGE = (-5.0, 5.0)
+_ONESTEP_NORMALIZATIONS = ("pooled", "separate")
 
 
 # ---------------------------------------------------------------------------
@@ -340,6 +346,35 @@ def _fit_density_model(template, X_src: np.ndarray, X_tgt: np.ndarray):
     clf = CalibratedClassifierCV(template, cv=3)
     clf.fit(X_pool, d_pool)
     return clf
+
+
+class _ConfidenceLossModel:
+    """Error model predicting the loss ``1 - confidence`` from a MED3pa confidence model (e.g. an ``IPCModel``),
+    whose ``predict`` returns the confidence score of the confidence metric (1 for a perfect prediction).
+
+    With `f_model` and `confidence_calc`, and a confidence model supporting it (``debiasing_available``, e.g. a
+    BalancedEnsembleRandomForestRegressor IPC model), the loss is ``1 - predict_debiased``: the actual expected
+    confidence, without the prior shift of the class balancing, from the confidence of the predictions of `f_model` if
+    y = 0 and if y = 1. The shift tests are defined on the actual loss: the balanced confidence would bias them."""
+
+    def __init__(self, confidence_model, f_model: Any = None, confidence_calc: Any = None):
+        self.confidence_model = confidence_model
+        self.f_model = f_model
+        self.confidence_calc = confidence_calc
+
+    @property
+    def debiased(self) -> bool:
+        return (self.f_model is not None and self.confidence_calc is not None
+                and hasattr(self.confidence_model, "debiasing_available")
+                and self.confidence_model.debiasing_available())
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        if not self.debiased:
+            return 1.0 - np.asarray(self.confidence_model.predict(X), dtype=float)
+        p = self.f_model.predict_proba(X)[:, 1]
+        c0 = self.confidence_calc.calculate_confidence(X, p, np.zeros_like(p))
+        c1 = self.confidence_calc.calculate_confidence(X, p, np.ones_like(p))
+        return 1.0 - np.asarray(self.confidence_model.predict_debiased(X, c0, c1), dtype=float)
 
 
 def _hash_split(X: np.ndarray, train_fraction: float, seed: Optional[int]) -> np.ndarray:
@@ -403,6 +438,19 @@ class AggregateShiftTester:
         When an error model must be fit internally, use
         ``LogisticRegression(penalty=None)`` (True) or the same
         ``RandomForestClassifier`` ``DetectorTestExplainer`` uses (False).
+    error_models_predict_loss : bool, default False
+        When True, the error models are regressors of the conditional loss
+        itself: ``error_model.predict(X)`` returns Z_d(x) = E_d[ℓ(Y,f(X))|X=x]
+        directly, instead of ``predict_proba(X)[:, 1]`` returning μ_d(x) =
+        P_d(Y=1|X=x) (from which Z_d is computed). ``loss_func`` (or
+        ``ml_mdl``) must then be given, and must be the loss the error models
+        were trained to predict.
+    error_model_factory : callable(X, y, loss) -> fitted model, optional
+        Used when ``error_models_predict_loss=True`` and an error model must
+        be fit internally (missing source/target error model, or the
+        feature-filtered source error model): returns a model fitted on the
+        covariates `X` to predict the realized loss `loss` (`y` are the
+        labels, e.g. for class weights).
     density_classifier : sklearn estimator instance or class, optional
         Unfitted estimator for the source-vs-target density-ratio
         classifier, used when ``density_model`` is not given. Defaults to
@@ -465,7 +513,16 @@ class AggregateShiftTester:
         τ — minimum shift magnitude to detect.
     prevalence : float, default 0.0
         Minimum detected-subgroup prevalence (in both domains, on train
-        data) required to keep a candidate covariate-shift detector.
+        data) required to keep a candidate covariate-shift detector, and
+        (on the target test data) to use the outcome-shift detections.
+    min_detected_samples : int, default 1
+        Minimum number of detected test samples in each domain behind an
+        estimate: covariate-shift detectors detecting fewer source or target
+        test samples are skipped, outcome-shift detections with fewer target
+        test samples are discarded, and the one-step outcome estimate (whose
+        correction is computed on the detected source samples) is discarded
+        with fewer detected source test samples. With the default 1, only the
+        detections without any sample in a domain are discarded.
     significance_level : float, default 0.05
     n_bootstrap : int, default 10000
         Number of Gaussian multiplier bootstrap draws.
@@ -486,6 +543,33 @@ class AggregateShiftTester:
     random_state : int or None, default 42
         Used for the internally-fit density classifier (when
         ``density_classifier`` is a class) and for the bootstrap RNG.
+    onestep_normalization : {"pooled", "separate"}, default "pooled"
+        How the one-step outcome-shift estimate combines the target residuals
+        r = ℓ - Z0 and the source corrections c = -(ℓ - Z0)·π on the detected
+        subgroup h (k_t / k_s detected target / source test samples out of
+        n_t / n_s):
+
+        * ``"pooled"``: the mean over the concatenated detected samples,
+          (Σ_s c + Σ_t r) / (k_s + k_t), exactly as
+          ``_test_cond_outcome_aggregate`` in jjfeng/shift. With a source
+          error model bias β and a true shift θ, it estimates
+          (n_t·θ + (n_t - n_s)·β) / (n_s + n_t): the bias only cancels when
+          n_s = n_t, and θ is then halved.
+        * ``"separate"``: each term normalized by its own domain,
+          Σ_t r / k_t + Σ_s c / Σ_s π (sums over the detected samples), an
+          estimate of E_t[ℓ - Z0 | h] whatever n_s / n_t: the correction is the
+          π-weighted (self-normalized) mean of the source residuals in h, i.e.
+          the source error model bias on the target distribution of h. The
+          bootstrap then centers the source and target terms around their own
+          means.
+
+        The same applies to the covariate-shift test, whose one-step estimate
+        is E_t[Z0 | h] - E_s[ℓ | h] + a correction of the source error model
+        bias: ``"pooled"`` uses the mean of π·(ℓ - Z0) over the detected source
+        samples, ``"separate"`` the self-normalized Σ_s π·(ℓ - Z0) / Σ_s π,
+        which is also robust to a miscalibrated scale of the density ratio.
+        With both, detectors selecting no source or no target test sample are
+        skipped (their estimate would only contain one domain's term).
 
     Notes
     -----
@@ -508,6 +592,8 @@ class AggregateShiftTester:
         ml_mdl=None,
         loss_func: Optional[Callable] = None,
         is_oracle: bool = False,
+        error_models_predict_loss: bool = False,
+        error_model_factory: Optional[Callable] = None,
         density_classifier=None,
         density_model=None,
         outcome_detector=None,
@@ -535,9 +621,18 @@ class AggregateShiftTester:
         do_clipping: bool = False,
         random_state: Optional[int] = 42,
         clip_density: Optional[float] = None,
+        onestep_normalization: str = "pooled",
+        min_detected_samples: int = 1,
     ):
+        if onestep_normalization not in _ONESTEP_NORMALIZATIONS:
+            raise ValueError(f"onestep_normalization must be one of {_ONESTEP_NORMALIZATIONS}, "
+                             f"got {onestep_normalization!r}.")
+        self.onestep_normalization = onestep_normalization
+        self.min_detected_samples = max(int(min_detected_samples), 1)
         self.feature_names = feature_names
         self.is_oracle = is_oracle
+        self.error_models_predict_loss = error_models_predict_loss
+        self._error_model_factory = error_model_factory
         self.tolerance = tolerance
         self.prevalence = prevalence
         self.significance_level = significance_level
@@ -568,20 +663,23 @@ class AggregateShiftTester:
         self._src_train = self._parse_data(source_train_data, "source_train_data")
         self._tgt_train = self._parse_data(target_train_data, "target_train_data")
 
-        # ---- error models (never refit if given; the target one is only
-        # needed by explain_outcome_shift, so it is resolved lazily there) ----
-        self.source_error_model = self._resolve_error_model(source_error_model, self._src_train, "source")
-        self.target_error_model = target_error_model
-
         # ---- loss function ℓ(y, f(X)), signature loss_func(X, y) ----
         self.ml_mdl = ml_mdl
         if loss_func is not None:
             self._loss_func = loss_func
         elif ml_mdl is not None:
             self._loss_func = lambda X, y: _cross_entropy_loss(y, ml_mdl.predict_proba(X)[:, 1])
+        elif error_models_predict_loss:
+            raise ValueError("error_models_predict_loss=True requires `loss_func` or `ml_mdl`: the loss the error "
+                             "models predict cannot be derived from them.")
         else:
             # Self-referential default: model being explained == source_error_model
             self._loss_func = lambda X, y: _cross_entropy_loss(y, self.source_error_model.predict_proba(X)[:, 1])
+
+        # ---- error models (never refit if given; the target one is only
+        # needed by explain_outcome_shift, so it is resolved lazily there) ----
+        self.source_error_model = self._resolve_error_model(source_error_model, self._src_train, "source")
+        self.target_error_model = target_error_model
 
         # ---- domain ratio + density ratio model (Section C.1) ----
         # domain_ratio_train (the odds-scaling factor) always comes from the
@@ -643,7 +741,7 @@ class AggregateShiftTester:
         else:
             X_src_tr, y_src_tr = self._src_train
             self.source_error_model_filter = self._fit_default_error_model(
-                X_src_tr[:, self.correlated_features], y_src_tr
+                X_src_tr[:, self.correlated_features], y_src_tr, X_mdl=X_src_tr
             )
 
         if density_model_filter is not None:
@@ -704,10 +802,24 @@ class AggregateShiftTester:
         X_tr, y_tr = train_data
         return self._fit_default_error_model(X_tr, y_tr)
 
-    def _fit_default_error_model(self, X_tr: np.ndarray, y_tr: np.ndarray):
-        """Fit an outcome model with ``_fit_outcome_model``'s recipe. Also
-        used to fit the covariate test's filtered source outcome model."""
-        return _fit_outcome_model(X_tr, y_tr, is_oracle=self.is_oracle)
+    def _fit_default_error_model(self, X_tr: np.ndarray, y_tr: np.ndarray, X_mdl: Optional[np.ndarray] = None):
+        """Fit an error model on `X_tr`: an outcome model with ``_fit_outcome_model``'s recipe, or, with
+        ``error_models_predict_loss``, ``error_model_factory``'s regressor of the realized loss (computed on the
+        full features `X_mdl`, which default to `X_tr`). Also used to fit the covariate test's filtered source
+        outcome model."""
+        if not self.error_models_predict_loss:
+            return _fit_outcome_model(X_tr, y_tr, is_oracle=self.is_oracle)
+        if self._error_model_factory is None:
+            raise ValueError("An error model must be fitted, which requires `error_model_factory` when "
+                             "error_models_predict_loss=True.")
+        loss = self._loss_func(X_tr if X_mdl is None else X_mdl, y_tr)
+        return self._error_model_factory(X_tr, y_tr, loss)
+
+    def _error_model_output(self, error_model, X: np.ndarray) -> np.ndarray:
+        """Output of an error model: Z_d(x) with ``error_models_predict_loss``, else μ_d(x)."""
+        if self.error_models_predict_loss:
+            return error_model.predict(X)
+        return error_model.predict_proba(X)[:, 1]
 
     def _compute_correlated_features(self) -> Tuple[np.ndarray, list]:
         """Features correlated with the realized source-train loss, for the
@@ -763,7 +875,12 @@ class AggregateShiftTester:
         the full feature set — mirroring ``DataLoader``'s X vs mdl_X split
         in ``estimate_datashifter.py`` (``subset_X`` "keeps mdl_X features
         constant"). Pass the same array for both when no filtering applies.
+
+        With ``error_models_predict_loss``, the error model predicts Z_d(x)
+        directly from `X_outcome`.
         """
+        if self.error_models_predict_loss:
+            return np.asarray(error_model.predict(X_outcome), dtype=float)
         mu = error_model.predict_proba(X_outcome)[:, 1]
         loss1 = self._loss_func(X_mdl, np.ones(len(X_mdl)))
         loss0 = self._loss_func(X_mdl, np.zeros(len(X_mdl)))
@@ -810,16 +927,19 @@ class AggregateShiftTester:
 
                 detected_src = scores_src[lam_idx]
                 prevalence_source = float((detected_src > 0).mean())
-                # NOTE: intentionally not guarded against prevalence_source==0
-                # (yields nan, matching DetectorTestExplainer's literal
-                # `mean(detected_residual)/weighted_prevalence_source`, which
-                # has no such guard either when --prevalence=0).
+                # nan when prevalence_source == 0, as DetectorTestExplainer's literal
+                # `mean(detected_residual)/weighted_prevalence_source`
                 norm_detected_residual = float(np.clip(detected_src, 0, None).mean() / prevalence_source)
 
                 detected_tgt = (self.residual_sign * Z0_tgt_tr - lam) * (pi_tgt_tr * omega - 1.0) - self.tolerance
                 prevalence_target = float((detected_tgt > 0).mean())
 
-                if prevalence_source >= self.prevalence and prevalence_target >= self.prevalence:
+                # Unlike DetectorTestExplainer, candidates detecting no source sample (nan residual) are dropped:
+                # with prevalence=0 they pass its prevalence filter, and sorted() does not move nan keys to the end,
+                # so they could fill the top max_detectors_cov (the ω grid starts with them), leaving detectors that
+                # detect nothing (estimate 0, p-value 1). It does not change the result when they are not kept.
+                if (prevalence_source > 0 and prevalence_source >= self.prevalence
+                        and prevalence_target >= self.prevalence):
                     candidates.append((norm_detected_residual, omega, lam))
 
         candidates.sort(key=lambda c: -c[0])
@@ -851,8 +971,11 @@ class AggregateShiftTester:
         return float(np.max(estims)) if estims else 0.0
 
     def _bootstrap_pvalue(
-        self, ics: List[np.ndarray], masks: List[np.ndarray], estim: float, rng: np.random.Generator
+        self, ics: List[np.ndarray], masks: List[np.ndarray], estim: float, rng: np.random.Generator,
+        groups: Optional[np.ndarray] = None,
     ) -> float:
+        """`groups` (a label per entry, e.g. 0 for source and 1 for target) centers each group of the masked
+        entries around its own mean instead of their pooled mean."""
         if not ics:
             return 1.0
         n = len(ics[0])
@@ -862,6 +985,10 @@ class AggregateShiftTester:
             if mask.sum() == 0:
                 continue
             centered = ic[mask] - ic[mask].mean()
+            if groups is not None:
+                for group in np.unique(groups[mask]):
+                    in_group = groups[mask] == group
+                    centered[in_group] = ic[mask][in_group] - ic[mask][in_group].mean()
             draws.append((multipliers[mask].T @ centered) / mask.sum())
         if not draws:
             return 1.0
@@ -902,6 +1029,10 @@ class AggregateShiftTester:
             )
 
         detection_target = self._outcome_detector.predict(X_tgt) > 0
+        if detection_target.mean() <= self.prevalence or detection_target.sum() < self.min_detected_samples:
+            # as _test_cond_outcome_aggregate: detections below the minimum prevalence are discarded (and here
+            # the detections with too few target test samples)
+            detection_target = np.zeros(n_tgt, dtype=bool)
         detected_residual_target = self.residual_sign * (target_loss - Z0_tgt) - self.tolerance
 
         plugin_ic = np.concatenate([np.zeros(n_src), detected_residual_target])
@@ -913,10 +1044,24 @@ class AggregateShiftTester:
             detection_source = self._outcome_detector.predict(X_src) > 0
             with np.errstate(divide="ignore", invalid="ignore"):
                 correction_source = -self.residual_sign * (source_loss - Z0_src) * pi_src
-            onestep_ic = np.concatenate([correction_source, detected_residual_target])
             onestep_mask = np.concatenate([detection_source, detection_target])
+            if detection_source.sum() < self.min_detected_samples:
+                # too few detected source samples for the correction: no one-step estimate
+                onestep_mask = np.zeros(n_src + n_tgt, dtype=bool)
+            groups = None
+            if self.onestep_normalization == "separate" and detection_target.any():
+                # scaled so that the masked mean over the K detected samples is
+                # Σ_t r / k_t + Σ_s c / Σ_s π (sums over the detected samples)
+                n_detected, k_t = onestep_mask.sum(), detection_target.sum()
+                source_mass = float(np.sum(pi_src[detection_source]))
+                source_scale = n_detected / source_mass if source_mass > 0 else 0.0
+                onestep_ic = np.concatenate([correction_source * source_scale,
+                                             detected_residual_target * n_detected / k_t])
+                groups = np.concatenate([np.zeros(n_src, dtype=int), np.ones(n_tgt, dtype=int)])
+            else:
+                onestep_ic = np.concatenate([correction_source, detected_residual_target])
             onestep_estim = self._max_masked_mean([onestep_ic], [onestep_mask])
-            pval_onestep = self._bootstrap_pvalue([onestep_ic], [onestep_mask], onestep_estim, rng)
+            pval_onestep = self._bootstrap_pvalue([onestep_ic], [onestep_mask], onestep_estim, rng, groups=groups)
         else:
             onestep_estim = None
             pval_onestep = None
@@ -932,6 +1077,7 @@ class AggregateShiftTester:
                 "h_detected_fraction_target": float(detection_target.mean()),
                 "Z0_mean_tgt": float(Z0_tgt.mean()),
                 "pvalue_plugin": pval_plugin,
+                "onestep_normalization": self.onestep_normalization,
             },
         )
 
@@ -972,20 +1118,33 @@ class AggregateShiftTester:
                 source_mask = score_src > 0
                 target_mask = score_tgt > 0
                 n_detect_src, n_detect_tgt = int(source_mask.sum()), int(target_mask.sum())
-                if n_detect_src + n_detect_tgt == 0:
+                if min(n_detect_src, n_detect_tgt) < self.min_detected_samples:
+                    # too few samples in a domain (none: the estimate would only contain the other domain's term)
                     continue
                 n_detectors_used += 1
-                dp_tgt = n_detect_tgt / (n_detect_src + n_detect_tgt)
+                n_detected = n_detect_src + n_detect_tgt
+                dp_tgt = n_detect_tgt / n_detected
                 dp_src = 1.0 - dp_tgt
 
                 plugin_ic = np.concatenate([
                     (-self.residual_sign * source_loss - self.tolerance) / dp_src,
                     (self.residual_sign * Z0_tgt) / dp_tgt,
                 ])
-                onestep_ic = np.concatenate([
-                    (-self.residual_sign * (source_loss - (source_loss - Z0_src) * pi_src) - self.tolerance) / dp_src,
-                    (self.residual_sign * Z0_tgt) / dp_tgt,
-                ])
+                if self.onestep_normalization == "separate":
+                    # masked mean: E_t[Z0|h] - E_s[ℓ|h] + Σ_s π (ℓ - Z0) / Σ_s π (sums over the detected samples)
+                    source_mass = float(np.sum(pi_src[source_mask]))
+                    correction_scale = n_detected / source_mass if source_mass > 0 else 0.0
+                    onestep_ic = np.concatenate([
+                        (-self.residual_sign * source_loss - self.tolerance) / dp_src
+                        + self.residual_sign * (source_loss - Z0_src) * pi_src * correction_scale,
+                        (self.residual_sign * Z0_tgt) / dp_tgt,
+                    ])
+                else:
+                    onestep_ic = np.concatenate([
+                        (-self.residual_sign * (source_loss - (source_loss - Z0_src) * pi_src) - self.tolerance)
+                        / dp_src,
+                        (self.residual_sign * Z0_tgt) / dp_tgt,
+                    ])
                 detect_mask = np.concatenate([source_mask, target_mask])
 
                 plugin_ics.append(plugin_ic)
@@ -993,10 +1152,14 @@ class AggregateShiftTester:
                 onestep_ics.append(onestep_ic)
                 onestep_masks.append(detect_mask)
 
+        # source / target entries of the influence arrays, centered separately by the bootstrap
+        groups = np.concatenate([np.zeros(n_src, dtype=int), np.ones(n_tgt, dtype=int)])
         plugin_estim = self._max_masked_mean(plugin_ics, plugin_masks)
         onestep_estim = self._max_masked_mean(onestep_ics, onestep_masks)
-        pval_plugin = self._bootstrap_pvalue(plugin_ics, plugin_masks, plugin_estim, rng)
-        pval_onestep = self._bootstrap_pvalue(onestep_ics, onestep_masks, onestep_estim, rng)
+        pval_plugin = self._bootstrap_pvalue(plugin_ics, plugin_masks, plugin_estim, rng, groups=groups)
+        pval_onestep = self._bootstrap_pvalue(
+            onestep_ics, onestep_masks, onestep_estim, rng,
+            groups=groups if self.onestep_normalization == "separate" else None)
 
         return ShiftTestResult(
             shift_type="covariate",
@@ -1010,6 +1173,7 @@ class AggregateShiftTester:
                 "pi_src_mean": float(pi_src.mean()),
                 "pi_tgt_mean": float(pi_tgt.mean()),
                 "pvalue_plugin": pval_plugin,
+                "onestep_normalization": self.onestep_normalization,
             },
         )
 
@@ -1199,7 +1363,9 @@ class AggregateShiftTester:
         Δφ_j(x) = φ_1,j(x) - φ_0,j(x). Because SHAP values are additive
         (Σ_j φ_j(x) ≈ model's prediction), Σ_j Δφ_j(x) ≈ μ_1(x) - μ_0(x)
         exactly — i.e. an honest, additive decomposition of *why* the two
-        models disagree at each point, feature by feature.
+        models disagree at each point, feature by feature. With
+        ``error_models_predict_loss``, the explained predictions are the
+        conditional losses Z_1(x) and Z_0(x) instead.
 
         Parameters
         ----------
@@ -1220,8 +1386,8 @@ class AggregateShiftTester:
         background = self._subsample(X_pool, background_samples)
         X_sample = self._subsample(X_pool, max_samples)
 
-        explainer_0 = shap.Explainer(lambda X: self.source_error_model.predict_proba(X)[:, 1], background)
-        explainer_1 = shap.Explainer(lambda X: self.target_error_model.predict_proba(X)[:, 1], background)
+        explainer_0 = shap.Explainer(lambda X: self._error_model_output(self.source_error_model, X), background)
+        explainer_1 = shap.Explainer(lambda X: self._error_model_output(self.target_error_model, X), background)
         delta = explainer_1(X_sample).values - explainer_0(X_sample).values
 
         return pd.DataFrame({
@@ -1262,6 +1428,15 @@ class ShiftExplainer(CovariateConceptShiftDetector):
     error model is only used by the outcome-shift attribution (``compute_attributions=True``), so it is only fitted
     when needed.
 
+    When an error model is set with ``set_error_model`` (in MED3pa experiments, the IPC model trained in
+    ``Med3paExperiment._train_models``), the error models predict the loss ``1 - confidence`` of the confidence
+    metric directly, and that loss replaces ``loss_func``:
+
+    * the **target error model** is the given IPC model, as is (never refit);
+    * the **source error model** is the one given to ``set_error_model`` (e.g. from a previous run), else a new
+      instance of the same IPC class, with the same regressor and parameters, trained to predict the confidence on
+      the train part of the reference dataset. ``get_source_error_model`` returns it, to reuse it later.
+
     Args:
         target_dataset (MaskedDataset): The whole target dataset, used to fit the global target models. Set by
             ``Explainer.set_target_dataset`` in MED3pa experiments. Its true labels are only needed for the target
@@ -1269,9 +1444,11 @@ class ShiftExplainer(CovariateConceptShiftDetector):
         density_model_scope (str): ``"global"`` (default) or ``"profile"``, see above.
         train_fraction (float): Fraction of each domain used to fit the models and detectors.
         min_samples_size (int): Minimum number of samples required in each train/test part of each domain of the
-            profile.
+            profile, and detected by the shift tests in each domain of the test part (``min_detected_samples`` of
+            :class:`AggregateShiftTester`).
         significance_level, tolerance, prevalence, n_bootstrap, one_sided_test, test_greater:
-            See :class:`AggregateShiftTester`.
+            See :class:`AggregateShiftTester`. ``prevalence`` defaults to 0.05 here (0 in AggregateShiftTester, as
+            jjfeng/shift's default): detectors selecting less than 5% of a domain are unstable.
         compute_attributions (bool): Also return SHAP-based per-feature attributions of each shift (requires
             ``shap``).
         loss_func (Callable): Per-sample loss ``loss_func(X, y)`` of the model being explained.
@@ -1281,24 +1458,34 @@ class ShiftExplainer(CovariateConceptShiftDetector):
             ``independence_test``). ``density_classifier`` and ``is_oracle`` are also used for the global models.
             With ``filter_independent_features=True``, the filtered source outcome and density models are fitted
             per profile.
+        onestep_normalization (str): ``"separate"`` (default) or ``"pooled"`` (jjfeng/shift's estimator), how the
+            one-step outcome-shift estimate combines the source and target terms, see :class:`AggregateShiftTester`.
+            ``"pooled"`` is biased when the profile's source and target test sizes differ.
+        debias_error_models (bool): With an error model supporting it (e.g. a BalancedEnsembleRandomForestRegressor
+            IPC model), use its debiased predictions (the actual expected confidence, without the prior shift of its
+            class balancing) as source and target error models. Default True.
         reference_dataset (MaskedDataset): The reference (source) dataset.
         f_model (Any): The model being explained, with a ``predict_proba`` method.
     """
     uses_target_labels = True
     # fitted lazily from the reference/target datasets and settings, which are already in the checkpoint key
-    _cache_exclude = ("_global_models",)
+    _cache_exclude = ("_global_models", "_fitted_source_error_model")
     __density_model_scopes = ("global", "profile")
 
     def __init__(self, *,
                  target_dataset: Optional[MaskedDataset] = None, density_model_scope: str = "global",
                  train_fraction: float = 0.5, min_samples_size: int = 20, significance_level: float = 0.05,
-                 tolerance: float = 0.0, prevalence: float = 0.0, n_bootstrap: int = 10000,
+                 tolerance: float = 0.0, prevalence: float = 0.05, n_bootstrap: int = 10000,
                  one_sided_test: bool = True, test_greater: bool = True, compute_attributions: bool = False,
                  loss_func: Optional[Callable] = None, random_state: Optional[int] = 42,
-                 tester_kwargs: Optional[dict] = None,
+                 tester_kwargs: Optional[dict] = None, onestep_normalization: str = "separate",
+                 debias_error_models: bool = True,
                  reference_dataset: Optional[MaskedDataset] = None, f_model: Optional[Any] = None):
         if not 0.0 < train_fraction < 1.0:
             raise ValueError("train_fraction must be between 0 and 1 (exclusive).")
+        if onestep_normalization not in _ONESTEP_NORMALIZATIONS:
+            raise ValueError(f"onestep_normalization must be one of {_ONESTEP_NORMALIZATIONS}, "
+                             f"got {onestep_normalization!r}.")
         if density_model_scope not in self.__density_model_scopes:
             raise ValueError(f"density_model_scope must be one of {self.__density_model_scopes}, "
                              f"got {density_model_scope!r}.")
@@ -1318,15 +1505,118 @@ class ShiftExplainer(CovariateConceptShiftDetector):
         self.__loss_func = loss_func
         self.__random_state = random_state
         self.__tester_kwargs = tester_kwargs if tester_kwargs is not None else {}
+        self.__onestep_normalization = onestep_normalization
+        self.__debias_error_models = debias_error_models
+        self._error_model = None
+        self._confidence_calc = None
+        self._source_error_model = None
+        self._fitted_source_error_model = None
         self._global_models = {}
 
     def set_context(self, reference_dataset: MaskedDataset, f_model: Any):
         super().set_context(reference_dataset=reference_dataset, f_model=f_model)
+        self._fitted_source_error_model = None
         self._global_models = {}
 
     def set_target_dataset(self, target_dataset: MaskedDataset):
         self._target_dataset = target_dataset
         self._global_models = {}
+
+    def set_error_model(self, error_model: IPCModel, confidence_calc: ConfidenceCalculator,
+                        source_error_model: Optional[IPCModel] = None):
+        """
+        Sets the trained IPC model used as the target error model. The source error model is `source_error_model`
+        when given (e.g. the one of a previous run, see ``get_source_error_model``), else a new instance of the
+        same class trained on the reference dataset. Both predict the confidence given by `confidence_calc`, so
+        the loss of the tests becomes ``1 - confidence`` (it replaces ``loss_func``).
+        """
+        if self.__loss_func is not None:
+            print("ShiftExplainer: loss_func is ignored, the loss is 1 - confidence of the error model's "
+                  "confidence metric.")
+        self._error_model = error_model
+        self._confidence_calc = confidence_calc
+        self._source_error_model = source_error_model
+        self._fitted_source_error_model = None
+        self._global_models = {}
+
+    def get_source_error_model(self) -> Optional[IPCModel]:
+        """
+        Source error model (predicting the confidence on the reference dataset) used with the error model set by
+        ``set_error_model``: the given one, else the one trained on the train part of the reference dataset
+        (trained here if it was not already). None when no error model is set.
+        """
+        if self._error_model is None:
+            return None
+        if self._source_error_model is not None:
+            return self._source_error_model
+        if self._fitted_source_error_model is None:
+            x_p = self._reference_dataset.get_observations()
+            y_p = self._reference_dataset.get_true_labels()
+            p_train = self.__split(x_p)
+            loss_p = self.__get_loss_func()(x_p[p_train], y_p[p_train])
+            self._fitted_source_error_model = self.__fit_error_model(x_p[p_train], y_p[p_train],
+                                                                     loss_p).confidence_model
+        return self._fitted_source_error_model
+
+    def get_density_ratio(self, x: np.ndarray, clip: float = 1e-3) -> Optional[np.ndarray]:
+        """
+        Global density ratio p_target(x) / p_reference(x) of the observations `x`, from the global density model
+        (fitted on the train parts of the whole reference and target datasets). None when the density model is fitted
+        per profile (density_model_scope="profile") or when the target dataset is not set.
+
+        Args:
+            x (np.ndarray): Observations.
+            clip (float): The predicted target probabilities are clipped to [clip, 1 - clip].
+        """
+        if self.__density_model_scope != "global" or self._target_dataset is None:
+            return None
+        global_models = self.__get_global_models()
+        proba = np.clip(global_models["density_model"].predict_proba(np.asarray(x, dtype=float))[:, 1], clip, 1 - clip)
+        return proba / (1 - proba) * global_models["density_train_ratio"]
+
+    def get_shift_values(self, x: np.ndarray) -> Optional[Dict[str, Optional[np.ndarray]]]:
+        """
+        Per-patient shift values of the target observations `x`, from the global models (with the error model set
+        by ``set_error_model``, debiased when ``debias_error_models``), e.g. to fit a tree of the shifted profiles:
+
+        * ``"outcome_shift"``: Z1(x) - Z0(x), the expected loss predicted by the target error model minus the one
+          predicted by the source error model;
+        * ``"covariate_shift"``: (1 - 1/π(x)) (Z0(x) - E_s[Z0]), with π(x) = p_target(x) / p_reference(x) the
+          global density ratio and E_s[Z0] the mean source expected loss on the reference dataset. Its mean over the
+          target dataset is the covariate-shift term E_t[Z0] - E_s[Z0] (as E_t[1/π] = 1): it is positive where the
+          target is over-represented with a higher expected loss (or under-represented with a lower one). None when
+          the density model is fitted per profile (``density_model_scope="profile"``).
+
+        Returns None when no error model is set or the target dataset is not set.
+
+        Args:
+            x (np.ndarray): Observations of the target dataset.
+        """
+        if self._error_model is None or self._target_dataset is None:
+            return None
+        global_models = self.__get_global_models()
+        x = np.asarray(x, dtype=float)
+        source_error_model = global_models["source_error_model"]
+        z0 = np.asarray(source_error_model.predict(x), dtype=float)
+        z1 = np.asarray(global_models["target_error_model"].predict(x), dtype=float)
+        shift_values = {"outcome_shift": z1 - z0, "covariate_shift": None}
+
+        density_ratio = self.get_density_ratio(x)
+        if density_ratio is not None:
+            z0_source_mean = float(np.mean(source_error_model.predict(
+                np.asarray(self._reference_dataset.get_observations(), dtype=float))))
+            shift_values["covariate_shift"] = (1.0 - 1.0 / density_ratio) * (z0 - z0_source_mean)
+        return shift_values
+
+    def get_source_error_model_training_mask(self, x: np.ndarray) -> Optional[np.ndarray]:
+        """
+        Rows of `x` (observations of the reference dataset) used to train the source error model fitted by
+        ``get_source_error_model``: the train part of the split. None when the source error model was given (its
+        training data is unknown) or when no error model is set.
+        """
+        if self._error_model is None or self._source_error_model is not None:
+            return None
+        return self.__split(x)
 
     @property
     def target_dataset(self) -> Optional[MaskedDataset]:
@@ -1369,7 +1659,9 @@ class ShiftExplainer(CovariateConceptShiftDetector):
             target_train_data=(x_q[q_train], y_q[q_train] if y_q is not None else None),
             feature_names=self._reference_dataset.features,
             ml_mdl=self._f_model,
-            loss_func=self.__loss_func,
+            loss_func=self.__get_loss_func(),
+            error_models_predict_loss=self._error_model is not None,
+            error_model_factory=self.__fit_error_model if self._error_model is not None else None,
             tolerance=self.__tolerance,
             prevalence=self.__prevalence,
             significance_level=self.__significance_level,
@@ -1377,6 +1669,8 @@ class ShiftExplainer(CovariateConceptShiftDetector):
             one_sided_test=self.__one_sided_test,
             test_greater=self.__test_greater,
             random_state=self.__random_state,
+            onestep_normalization=self.__onestep_normalization,
+            min_detected_samples=self.__min_samples_size,
             **self.__tester_kwargs,
         )
         covariate_result, outcome_result = tester(
@@ -1400,12 +1694,32 @@ class ShiftExplainer(CovariateConceptShiftDetector):
     def __split(self, x: np.ndarray) -> np.ndarray:
         return _hash_split(x, self.__train_fraction, self.__random_state)
 
+    def __get_loss_func(self) -> Optional[Callable]:
+        """Loss of the tests: ``1 - confidence`` of the error model's confidence metric when an error model is set,
+        else ``loss_func``."""
+        if self._error_model is None:
+            return self.__loss_func
+        f_model, confidence_calc = self._f_model, self._confidence_calc
+        return lambda X, y: 1.0 - confidence_calc.calculate_confidence(X, f_model.predict_proba(X)[:, 1], y)
+
+    def __fit_error_model(self, x: np.ndarray, y: np.ndarray, loss: np.ndarray) -> _ConfidenceLossModel:
+        """New instance of the error model's class, with the same regressor and parameters, trained to predict the
+        confidence ``1 - loss`` on `x` (with the same sample weights as in ``Med3paExperiment._train_models``)."""
+        return self.__loss_model(fit_confidence_model(self._error_model, self._f_model, x, y, 1.0 - loss))
+
+    def __loss_model(self, confidence_model: Any) -> _ConfidenceLossModel:
+        """Loss model of a confidence model, debiased when ``debias_error_models`` and supported."""
+        if self.__debias_error_models:
+            return _ConfidenceLossModel(confidence_model, f_model=self._f_model, confidence_calc=self._confidence_calc)
+        return _ConfidenceLossModel(confidence_model)
+
     def __get_global_models(self) -> dict:
         """Fit (once) the global models on the train parts of the whole reference and target datasets."""
         if self._global_models:
             return self._global_models
 
-        if self._target_dataset is None and (self.__density_model_scope == "global" or self.__compute_attributions):
+        fit_target_error_model = self.__compute_attributions and self._error_model is None
+        if self._target_dataset is None and (self.__density_model_scope == "global" or fit_target_error_model):
             raise ValueError("ShiftExplainer needs the whole target dataset to fit the global models: pass "
                              "target_dataset=... or call set_target_dataset(...) (Explainer.set_target_dataset).")
         is_oracle = self.__tester_kwargs.get("is_oracle", False)
@@ -1414,10 +1728,16 @@ class ShiftExplainer(CovariateConceptShiftDetector):
         x_p = self._reference_dataset.get_observations()
         y_p = self._reference_dataset.get_true_labels()
         p_train = self.__split(x_p)
-        if len(np.unique(y_p[p_train])) < 2:
-            raise ValueError("The train part of the reference dataset contains a single class: the source error "
-                             "model cannot be fitted.")
-        global_models = {"source_error_model": _fit_outcome_model(x_p[p_train], y_p[p_train], is_oracle=is_oracle)}
+        if self._error_model is not None:
+            # source: given, or same IPC class trained on the reference dataset; target: the trained IPC model
+            global_models = {"source_error_model": self.__loss_model(self.get_source_error_model()),
+                             "target_error_model": self.__loss_model(self._error_model)}
+        else:
+            if len(np.unique(y_p[p_train])) < 2:
+                raise ValueError("The train part of the reference dataset contains a single class: the source "
+                                 "error model cannot be fitted.")
+            global_models = {"source_error_model": _fit_outcome_model(x_p[p_train], y_p[p_train],
+                                                                      is_oracle=is_oracle)}
 
         if self._target_dataset is not None:
             x_q = self._target_dataset.get_observations()
@@ -1426,7 +1746,9 @@ class ShiftExplainer(CovariateConceptShiftDetector):
                 template = _make_density_template(self.__tester_kwargs.get("density_classifier"),
                                                   self.__random_state)
                 global_models["density_model"] = _fit_density_model(template, x_p[p_train], x_q[q_train])
-            if self.__compute_attributions:
+                # n_source_train / n_target_train: turns the classifier odds into p_target(x) / p_source(x)
+                global_models["density_train_ratio"] = float(p_train.sum() / q_train.sum())
+            if fit_target_error_model:
                 y_q = self._target_dataset.get_true_labels()
                 global_models["target_error_model"] = _fit_outcome_model(x_q[q_train], y_q[q_train],
                                                                          is_oracle=is_oracle)

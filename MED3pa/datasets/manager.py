@@ -1,6 +1,7 @@
 """
 The manager.py module manages the different datasets needed for machine learning workflows, particularly for ``+tron`` and ``Med3pa`` methods.
-It includes the ``DatasetsManager`` class that contains the training and testing datasets for a specific ML task.
+It includes the ``DatasetsManager`` class that contains the training, reference and testing datasets for a specific ML
+task.
 """
 
 import numpy as np
@@ -16,12 +17,15 @@ class DatasetsManager:
     Manages various datasets for execution of med3pa methods.
 
     This manager is responsible for loading and holding different sets of data, including training and testing
-    datasets (or new encountered data).
+    datasets (or new encountered data), and optionally a reference dataset: data from the same domain as the training
+    set but not used to train the base model, used as the source domain by the uncertainty explainers (the base model
+    losses on its own training data are optimistic).
     """
 
     def __init__(self):
         """Initializes the DatasetsManager with empty datasets."""
         self.base_model_training_set = None
+        self.reference_set = None
         self.testing_set = None
         self.column_labels = None
 
@@ -30,7 +34,7 @@ class DatasetsManager:
         Loads and sets the specified dataset from a file.
 
         Args:
-            dataset_type (str): The type of dataset to set ('training', 'testing').
+            dataset_type (str): The type of dataset to set ('training', 'reference', 'testing').
             file (str): The file path to the data.
             target_column_name (str): The name of the target column in the dataset.
 
@@ -52,6 +56,7 @@ class DatasetsManager:
 
         mapping = {
             'training': 'base_model_training_set',
+            'reference': 'reference_set',
             'testing': 'testing_set',
         }
 
@@ -67,7 +72,7 @@ class DatasetsManager:
         Sets the specified dataset using numpy arrays for observations and true labels.
 
         Args:
-            dataset_type (str): The type of dataset to set ('training', 'testing').
+            dataset_type (str): The type of dataset to set ('training', 'reference', 'testing').
             observations: The feature vectors of the dataset.
             true_labels: The true labels of the dataset.
             column_labels (list, optional): The list of column labels for the dataset. Defaults to None.
@@ -99,6 +104,7 @@ class DatasetsManager:
 
         mapping = {
             'training': 'base_model_training_set',
+            'reference': 'reference_set',
             'testing': 'testing_set',
         }
 
@@ -124,6 +130,7 @@ class DatasetsManager:
 
         for dataset in (
                 self.base_model_training_set,
+                self.reference_set,
                 self.testing_set,
         ):
             if dataset is not None:
@@ -152,12 +159,14 @@ class DatasetsManager:
         if show_details:
             datasets_info = {
                 'training_set': self.base_model_training_set.get_info() if self.base_model_training_set else 'Not set',
+                'reference_set': self.reference_set.get_info() if self.reference_set else 'Not set',
                 'testing_set': self.testing_set.get_info() if self.testing_set else 'Not set',
                 'column_labels': self.column_labels if self.column_labels else 'Not set'
             }
         else:
             datasets_info = {
                 'training_set': 'Set' if self.base_model_training_set else 'Not set',
+                'reference_set': 'Set' if self.reference_set else 'Not set',
                 'testing_set': 'Set' if self.testing_set else 'Not set',
                 'column_labels': 'Set' if self.column_labels else 'Not set'
             }
@@ -169,6 +178,7 @@ class DatasetsManager:
         """
         info = self.get_info()
         print(f"training_set: {info['training_set']}")
+        print(f"reference_set: {info['reference_set']}")
         print(f"testing_set: {info['testing_set']}")
         print(f"column_labels: {info['column_labels']}")
 
@@ -177,6 +187,7 @@ class DatasetsManager:
         Resets all datasets in the manager.
         """
         self.base_model_training_set = None
+        self.reference_set = None
         self.testing_set = None
         self.column_labels = None
 
@@ -185,7 +196,7 @@ class DatasetsManager:
         Helper method to get a dataset by type.
 
         Args:
-            dataset_type (str): The type of dataset to retrieve ('training', 'testing').
+            dataset_type (str): The type of dataset to retrieve ('training', 'reference', 'testing').
             return_instance (bool): If True, returns the MaskedDataset instance; otherwise, returns the observations and
              true labels. Defaults to False.
 
@@ -197,6 +208,8 @@ class DatasetsManager:
         """
         if dataset_type == 'training':
             return self.__get_base_model_training_data(return_instance=return_instance)
+        elif dataset_type == 'reference':
+            return self.__get_reference_data(return_instance=return_instance)
         elif dataset_type == 'testing':
             return self.__get_testing_data(return_instance=return_instance)
         else:
@@ -207,7 +220,7 @@ class DatasetsManager:
         Saves the specified dataset to a CSV file.
 
         Args:
-            dataset_type (str): The type of dataset to save ('training', 'testing').
+            dataset_type (str): The type of dataset to save ('training', 'reference', 'testing').
             file_path (str): The file path to save the dataset to.
         
         Raises:
@@ -238,6 +251,26 @@ class DatasetsManager:
             return self.base_model_training_set.get_observations(), self.base_model_training_set.get_true_labels()
         else:
             raise ValueError("Base model training set not initialized.")
+
+    def __get_reference_data(self, return_instance: bool = False) -> Union[tuple, MaskedDataset]:
+        """
+        Retrieves the reference dataset.
+
+        Args:
+            return_instance (bool, optional): If True, returns the MaskedDataset instance; otherwise, returns the observations and true labels. Defaults to False.
+
+        Returns:
+            Union[tuple, MaskedDataset]: The observations and true labels if return_instance is False, otherwise the MaskedDataset instance.
+
+        Raises:
+            ValueError: If the reference set is not initialized.
+        """
+        if self.reference_set is not None:
+            if return_instance:
+                return self.reference_set
+            return self.reference_set.get_observations(), self.reference_set.get_true_labels()
+        else:
+            raise ValueError("Reference set not initialized.")
 
     def __get_testing_data(self, return_instance: bool = False) -> Union[tuple, MaskedDataset]:
         """

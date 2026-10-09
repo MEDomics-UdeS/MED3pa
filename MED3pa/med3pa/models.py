@@ -1,6 +1,6 @@
 """Defines the models used within the MED3pa framework. It includes classes for Individualized Predictive Confidence
-(IPC) models that predict uncertainty at an individual level, where the regressor type can be specified by the user.
-Additionally, it includes Aggregated Predictive Confidence (APC) models that predict uncertainty for groups of
+(IPC) models that predict confidence at an individual level, where the regressor type can be specified by the user.
+Additionally, it includes Aggregated Predictive Confidence (APC) models that predict confidence for groups of
 similar data points, and Mixed Predictive Confidence (MPC) models that combine the predictions from IPC and APC
 models.
 """
@@ -15,18 +15,20 @@ from typing import Any, Dict, List, Optional
 
 from MED3pa.med3pa.tree import TreeRepresentation
 from MED3pa.models.concrete_regressors import (DecisionTreeRegressorModel, RandomForestRegressorModel,
-                                               EnsembleRandomForestRegressorModel)
+                                               EnsembleRandomForestRegressorModel,
+                                               BalancedEnsembleRandomForestRegressorModel)
 from MED3pa.models.data_strategies import ToDataframesStrategy
 from MED3pa.models.regression_metrics import RegressionEvaluationMetrics
 from MED3pa.models import rfr_params, dtr_params
 
 
-class AbstractUncertaintyEstimator:
+class AbstractConfidenceEstimator:
     default_params = {}  # {'random_state': 54288}
 
     supported_regressors_mapping = {
         'RandomForestRegressor': RandomForestRegressorModel,
         'EnsembleRandomForestRegressor': EnsembleRandomForestRegressorModel,
+        'BalancedEnsembleRandomForestRegressor': BalancedEnsembleRandomForestRegressorModel,
         'DecisionTreeRegressor': DecisionTreeRegressorModel
     }
 
@@ -38,6 +40,10 @@ class AbstractUncertaintyEstimator:
         'EnsembleRandomForestRegressor': {
             'params': rfr_params.rfr_params,
             'grid_params': rfr_params.rfr_gridsearch_params
+        },
+        'BalancedEnsembleRandomForestRegressor': {
+            'params': rfr_params.rfr_params,
+            'grid_params': rfr_params.rfr_gridsearch_params
         }
     }
 
@@ -46,7 +52,7 @@ class AbstractUncertaintyEstimator:
                  pretrained_model: Optional[str] = None,
                  random_state: Optional[int] = None):
         """
-        Initializes the AbstractUncertaintyEstimator class instance.
+        Initializes the AbstractConfidenceEstimator class instance.
 
         Args:
             model_name (str): Name of the model.
@@ -94,7 +100,7 @@ class AbstractUncertaintyEstimator:
 
     def get_info(self) -> Dict[str, Any]:
         """
-        Returns information about the AbstractUncertaintyEstimator instance.
+        Returns information about the AbstractConfidenceEstimator instance.
 
         Returns:
             Dict[str, Any]: A dictionary containing the model name, parameters, whether the model was optimized, and other relevant details.
@@ -136,7 +142,7 @@ class AbstractUncertaintyEstimator:
         self.pretrained = True
 
 
-class IPCModel(AbstractUncertaintyEstimator):
+class IPCModel(AbstractConfidenceEstimator):
     """
     IPCModel class used to predict the Individualized predicted confidence. ie, the base model confidence for each data
     point.
@@ -167,7 +173,7 @@ class IPCModel(AbstractUncertaintyEstimator):
         Returns:
             list: A list of supported regression model names.
         """
-        return list(AbstractUncertaintyEstimator.supported_regressors_mapping)
+        return list(AbstractConfidenceEstimator.supported_regressors_mapping)
 
     @classmethod
     def supported_models_params(cls) -> Dict[str, Dict[str, Any]]:
@@ -178,12 +184,13 @@ class IPCModel(AbstractUncertaintyEstimator):
             Dict[str, Dict[str, Any]]: A dictionary with model names as keys and another dictionary as value containing 
                                     'params' and 'grid_search_params' for each model.
         """
-        return AbstractUncertaintyEstimator.supported_regressors_params
+        return AbstractConfidenceEstimator.supported_regressors_params
 
     def optimize(self, param_grid: dict, cv: int, x: np.ndarray, confidence_score: np.ndarray,
-                 sample_weight: np.ndarray = None) -> None:
+                 sample_weight: np.ndarray = None, **params) -> None:
         """
-        Optimizes the model parameters using GridSearchCV.
+        Optimizes the model parameters using GridSearchCV, or the model's own optimization for a
+        BalancedEnsembleRandomForestRegressor.
 
         Args:
             param_grid (Dict[str, Any]): The parameter grid to explore.
@@ -191,7 +198,18 @@ class IPCModel(AbstractUncertaintyEstimator):
             confidence_score (np.ndarray): The confidence scores to train the IPCModel.
             x (np.ndarray): Training data.
             sample_weight (Optional[np.ndarray]): Weights for the training samples.
+            **params: Additional training parameters of the model (e.g. y_true and y_pred of a
+                BalancedEnsembleRandomForestRegressor).
         """
+        if isinstance(self.model, BalancedEnsembleRandomForestRegressorModel):
+            # optimizes and trains with the class and error balancing
+            self.model.train(x, confidence_score, sample_weight=sample_weight, param_grid=param_grid, cv=cv,
+                             **params)
+            self.params.update(self.model.best_params_)
+            self.grid_search_params = param_grid
+            self.optimized = True
+            return
+
         if sample_weight is None:
             sample_weight = np.full(x.shape[0], 1)
 
@@ -226,8 +244,45 @@ class IPCModel(AbstractUncertaintyEstimator):
         """
         return self.model.predict(x)
 
+    def debiasing_available(self) -> bool:
+        """Whether ``predict_debiased`` can be used (e.g. BalancedEnsembleRandomForestRegressor with weights constant
+        within each true class)."""
+        return hasattr(self.model, 'debiasing_available') and self.model.debiasing_available()
 
-class APCModel(AbstractUncertaintyEstimator):
+    def predict_debiased(self, x: np.ndarray, c0: np.ndarray, c1: np.ndarray) -> np.ndarray:
+        """
+        Predicts the actual expected confidence E[c | x], without the prior shift of the class balancing of the
+        regressor (see BalancedEnsembleRandomForestRegressorModel.predict_debiased).
+
+        Args:
+            x (np.ndarray): Feature matrix.
+            c0 (np.ndarray): Confidence of the base model prediction of each observation if its label is 0.
+            c1 (np.ndarray): Confidence of the base model prediction of each observation if its label is 1.
+
+        Returns:
+            np.ndarray: The expected confidence.
+        """
+        if not self.debiasing_available():
+            raise NotImplementedError(f"{self.model_name} does not support debiased predictions.")
+        return self.model.predict_debiased(x, c0, c1)
+
+    def predict_uncertainty(self, x: np.ndarray) -> Dict[str, np.ndarray]:
+        """
+        Predicts the confidence scores with their aleatoric and epistemic uncertainty, for models supporting it (e.g.
+        BalancedEnsembleRandomForestRegressor).
+
+        Args:
+            x (np.ndarray): Feature matrix for which to predict the confidence scores.
+
+        Returns:
+            Dict[str, np.ndarray]: 'mean', 'aleatoric', 'epistemic' and 'total' (variances).
+        """
+        if not hasattr(self.model, 'predict_uncertainty'):
+            raise NotImplementedError(f"{self.model_name} does not estimate the uncertainty of its predictions.")
+        return self.model.predict_uncertainty(x)
+
+
+class APCModel(AbstractConfidenceEstimator):
     """
     APCModel class used to predict the Aggregated predicted confidence. ie, the base model confidence for a group of
     similar data points.

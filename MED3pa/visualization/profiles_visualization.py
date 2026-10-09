@@ -11,6 +11,7 @@ from jinja2 import Environment, FileSystemLoader
 from typing import Any, List, Optional
 
 from MED3pa.med3pa import Profile
+from MED3pa.med3pa.profiles import ProfilesManager
 from MED3pa.med3pa.results import Med3paResults
 
 
@@ -20,9 +21,13 @@ _save_template_folder = None
 
 def visualize_tree(result: Med3paResults, filename: str = 'profiles', dr: int = 100, samp_ratio: int = 0,
                    data_set: str = 'test', metrics_list: List | None = None, profile_depth: int = 4,
-                   open_results: bool = True, port: int = 8000, scaler: Optional[Any] = None) -> None:
+                   open_results: bool = True, port: int = 8000, scaler: Optional[Any] = None,
+                   additional_trees: bool = True) -> None:
     """
     Vizualization method for the profiles obtained from the MED3pa method.
+
+    The additional trees of the results (e.g. 'source_apc', 'covariate_shift' and 'outcome_shift', see
+    Med3paExperiment._calculate_additional_trees) are saved alongside, in '{filename}_{tree name}.html'.
 
     Args:
         result (Med3paResults): The results of the experiment to visualize.
@@ -37,6 +42,7 @@ def visualize_tree(result: Med3paResults, filename: str = 'profiles', dr: int = 
         open_results (bool): Whether to open the results of the experiment in the web browser. Defaults to True.
         port (int): The local port used to host the python server to open the web browser. Defaults to port 8000.
         scaler (Any): To unscale variables, if applicable.
+        additional_trees (bool): Whether to also save the additional trees of the results. Defaults to True.
     """
     result_copy = deepcopy(result)
     # Set folder path for the template
@@ -48,17 +54,22 @@ def visualize_tree(result: Med3paResults, filename: str = 'profiles', dr: int = 
     if metrics_list is None:
         metrics_list = ['Specificity', 'Sensitivity', 'BalancedAccuracy', 'Auc']
 
-    rendered_html = _generate_tree_html(result=result_copy, samp_ratio=samp_ratio, dr=dr, data_set=data_set,
-                                        metrics_list=metrics_list,
-                                        max_depth=profile_depth, scaler=scaler)
+    trees = {filename: result_copy.test_record.profiles_manager}
+    if additional_trees:
+        for name, additional_tree in result_copy.test_record.get_additional_trees().items():
+            trees[f"{filename}_{name}"] = additional_tree['profiles_manager']
 
-    # Save the template with the HTML file
+    # Save the template with the HTML files
     template_path = os.path.join(os.path.dirname(__file__), _template_folder)
     shutil.copytree(template_path, _save_template_folder, dirs_exist_ok=True)
-    # Save the HTML file
-    with open(filename + '.html', 'w') as f:
-        f.write(rendered_html)
-    print(f"Tree visualization generated: '{filename}.html'")
+    for tree_filename, profiles_manager in trees.items():
+        rendered_html = _generate_tree_html(profiles_manager=profiles_manager, samp_ratio=samp_ratio, dr=dr,
+                                            data_set=data_set, metrics_list=metrics_list,
+                                            max_depth=profile_depth, scaler=scaler)
+        # Save the HTML file
+        with open(tree_filename + '.html', 'w') as f:
+            f.write(rendered_html)
+        print(f"Tree visualization generated: '{tree_filename}.html'")
 
     if open_results:  # Open html results file in web browser
         import http.server
@@ -88,14 +99,14 @@ def visualize_tree(result: Med3paResults, filename: str = 'profiles', dr: int = 
               f"3. Open the following URL in your browser: http://localhost:{port}/{filename}.html")
 
 
-def _generate_tree_html(result: Med3paResults, samp_ratio: int, dr: int, data_set: str,
+def _generate_tree_html(profiles_manager: ProfilesManager, samp_ratio: int, dr: int, data_set: str,
                         metrics_list: Optional[List] = None, max_depth: Optional[int] = None,
                         scaler: Optional[Any] = None) -> str:
     """
     Generates the tree visualization HTML.
 
     Args:
-        result (Med3paResults): The results of the experiment to visualize.
+        profiles_manager (ProfilesManager): The profiles of the tree to visualize.
         samp_ratio (int): The minimum samples ratio in each profile (in percentage).
         dr (int): Declaration rate of predictions for the visualization.
         data_set (str): The name of the data set to visualize. Defaults to 'test', options are 'train', 'valid', 'test'.
@@ -114,7 +125,8 @@ def _generate_tree_html(result: Med3paResults, samp_ratio: int, dr: int, data_se
     template = env.get_template('tree.html')
 
     # Read profiles for the specified data_set
-    profiles_to_visualize = deepcopy(_read_tree_section(result=result, samp_ratio=samp_ratio, dr=dr, data_set=data_set))
+    profiles_to_visualize = deepcopy(_read_tree_section(profiles_manager=profiles_manager, samp_ratio=samp_ratio,
+                                                        dr=dr, data_set=data_set))
 
     if scaler:
         feature_columns = scaler.get_feature_names_out()
@@ -253,12 +265,12 @@ def _format_feature_resumer(feature, mean, std, mean_ref, std_ref):
     return f"{feature}: {mean:.4f} ± {std:.4f}  ({mean_ref:.4f} ± {std_ref:.4f})"
 
 
-def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set:str = "test") -> List:
+def _read_tree_section(profiles_manager: ProfilesManager, samp_ratio: int, dr: int, data_set:str = "test") -> List:
     """
     Generates the tree visualization HTML.
 
     Args:
-        result (Med3paResults): The results of the experiment to visualize.
+        profiles_manager (ProfilesManager): The profiles of the tree to visualize.
         dr (int): Declaration rate of predictions for the visualization.
         samp_ratio (int): The minimum samples ratio in each profile (in percentage).
         data_set (str): The name of the data set to visualize. Defaults to 'test', options are 'train', 'valid', 'test'.
@@ -266,7 +278,7 @@ def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set
     Returns:
         List: The profiles to visualize in the HTML file.
     """
-    profiles_to_visualize = result.test_record.profiles_manager.profiles_records[samp_ratio][dr]
+    profiles_to_visualize = profiles_manager.profiles_records[samp_ratio][dr]
 
     # Round condition values
     for profile in profiles_to_visualize:
@@ -275,7 +287,8 @@ def _read_tree_section(result: Med3paResults, samp_ratio: int, dr: int, data_set
         profile.update_path(path=path)
 
     if dr != 100:  # Get results of DR = 100% to compare each metrics
-        original_profiles = _read_tree_section(result=result, samp_ratio=samp_ratio, dr=100, data_set=data_set)
+        original_profiles = _read_tree_section(profiles_manager=profiles_manager, samp_ratio=samp_ratio, dr=100,
+                                               data_set=data_set)
         for profile in profiles_to_visualize:
             original_profile_metrics = original_profiles[profile.node_id - 1].metrics
             for metric_name, original_metric_value in original_profile_metrics.items():

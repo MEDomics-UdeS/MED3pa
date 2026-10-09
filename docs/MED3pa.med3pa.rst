@@ -43,10 +43,10 @@ this subpackage includes the following classes:
 
    <div style="margin-bottom: 30px;"></div>
 
-uncertainty module
+confidence module
 -------------------
 
-.. automodule:: MED3pa.med3pa.uncertainty
+.. automodule:: MED3pa.med3pa.confidence
    :members:
    :undoc-members:
    :show-inheritance:
